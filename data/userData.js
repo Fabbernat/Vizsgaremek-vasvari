@@ -1,12 +1,12 @@
-import db from "./db";
+import db from "./db.js";
 
 db.prepare(
   `
-    CREATE IF NOT EXISTS users(
-    id INTEGER PRIMARY KEY AUTOINCREMENT
-    username STRING
-    email STRING
-    password STRING
+    CREATE TABLE IF NOT EXISTS users(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT,
+    email TEXT,
+    password TEXT
     )
 `
 ).run();
@@ -28,7 +28,7 @@ export const createUser = (username, email, password) =>
 export const editUser = (id, username, email, password) =>
   db
     .prepare(
-      `UPDATE users SET (username = ?, email = ?, password = ?) WHERE id = ?`
+      `UPDATE users SET username = ?, email = ?, password = ? WHERE id = ?`
     )
     .run(username, email, password, id);
 

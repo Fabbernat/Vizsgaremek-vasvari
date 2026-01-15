@@ -1,12 +1,12 @@
-import db from "./db";
+import db from "./db.js";
 
 db.prepare(
   `
-    CREATE IF NOT EXISTS owners(
-    id INTEGER PRIMARY KEY AUTOINCREMENT
-    username STRING
-    email STRING
-    password STRING
+    CREATE TABLE IF NOT EXISTS owners(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT,
+    email TEXT,
+    password TEXT,
     FOREIGN KEY(username) REFERENCES restaurants(ownerid)
     )
 `
@@ -29,7 +29,7 @@ export const createOwner = (username, email, password) =>
 export const editOwner = (id, username, email, password) =>
   db
     .prepare(
-      `UPDATE owners SET (username = ?, email = ?, password = ?) WHERE id = ?`
+      `UPDATE owners SET username = ?, email = ?, password = ? WHERE id = ?`
     )
     .run(username, email, password, id);
 
