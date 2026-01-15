@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MyApp.Maui.Views.SchoolClassesPage"  
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:models="clr-namespace:MyApp.Shared.Models;assembly=MyApp.Shared"
+             xmlns:vm="clr-namespace:MyApp.Shared.ViewModels;assembly=MyApp.Shared"
+             x:DataType="vm:SchoolClassViewModel">
+    <Grid Padding="16" RowDefinitions="Auto,*">
+        <!-- Fejléc / akciók -->
+        <HorizontalStackLayout Spacing="12">
+            <Label Text="Osztályok" FontSize="24" VerticalOptions="Center" />
+            <Button Text="Kijelölt törlése"
+                    Command="{Binding DeleteSelectedCommand}" />
+        </HorizontalStackLayout>
+
+        <!-- Lista -->
+        <CollectionView Grid.Row="1"
+                        ItemsSource="{Binding Classes}"
+                        SelectionMode="Single"
+                        SelectedItem="{Binding SelectedClass, Mode=TwoWay}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:SchoolClass">
+                    <Grid Padding="8" ColumnDefinitions="*,Auto">
+                        <!-- Osztály neve -->
+                        <Label Text="{Binding Name}" FontSize="18" />
+                        <!-- például diákok száma jobbra -->
+                        <Label Grid.Column="1"
+                               Text="{Binding StudentCount}"
+                               Opacity="0.7" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>
