@@ -5,7 +5,7 @@ db.prepare(`
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT,
     ownerid INTEGER,
-    FOREIGN KEY(ownerid) REFERENCE owners(id)
+    FOREIGN KEY(ownerid) REFERENCES owners(id)
     )
 `);
 
