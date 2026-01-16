@@ -5,3 +5,7 @@ app.use(express.json());
 app.get('/', (req, res) => res.send('Hello World'));
 app.listen(3000, () => console.log('Server running'));
 console.log("The backend has started succesfully...🥀");
+
+app.get("/health", (req, res) => {
+  res.json({ status: "ok" });
+});
