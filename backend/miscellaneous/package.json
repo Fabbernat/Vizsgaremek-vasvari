@@ -1,0 +1,9 @@
+{
+  "name": "courses-project",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "csv-parser": "^3.2.0",
+    "express": "^4.22.1"
+  }
+}
