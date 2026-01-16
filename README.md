@@ -4,4 +4,6 @@
 
 Újabb nevén Royal Delivery
 
-vue frontend
+Vue.js frontend
+Node.js + Express backend
+SQLite adatbázis
