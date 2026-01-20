@@ -1,13 +1,14 @@
 import db from "./db.js";
 
 db.prepare(`
-    CREATE TABLE IF NOT EXISTS meals,
+    CREATE TABLE IF NOT EXISTS meals(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT,
     price INTEGER,
     categoryid INTEGER,
     type TEXT,
     FOREIGN KEY (categoryid) REFERENCES categories(id)
+)
 `);
 
 // Get all meals

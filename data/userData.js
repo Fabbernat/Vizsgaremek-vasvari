@@ -8,7 +8,7 @@ db.prepare(
     email TEXT,
     password TEXT
     )
-`
+`,
 ).run();
 
 // Get all users
@@ -25,10 +25,10 @@ export const createUser = (username, email, password) =>
     .run(username, email, password);
 
 // Update user
-export const editUser = (id, username, email, password) =>
+export const updateUser = (id, username, email, password) =>
   db
     .prepare(
-      `UPDATE users SET username = ?, email = ?, password = ? WHERE id = ?`
+      `UPDATE users SET username = ?, email = ?, password = ? WHERE id = ?`,
     )
     .run(username, email, password, id);
 
