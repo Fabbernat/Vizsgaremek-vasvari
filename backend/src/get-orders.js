@@ -1,9 +1,11 @@
-import db from 'db.js';
-import frontend from 'frontend.js';
+import db from "./db-connection.js";
+import frontend from "./frontend-connection.js";
 
 class Orders {
-    public void sendOrdersFromDbToFrontend() {
-        const orders = db.getOrders();
-        frontend.displayOrders(orders);
-    }
+  sendOrdersFromDbToFrontend() {
+    const orders = db.getOrders();
+    frontend.displayOrders(orders);
+  }
 }
+
+export default Orders;
