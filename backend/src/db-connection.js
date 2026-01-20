@@ -1,4 +1,6 @@
-export const db = {
+import { getFirestore } from "firebase/firestore";
+
+const localdb = {
     getOrders: function() {
         // Simulated database orders retrieval
         return [
@@ -7,3 +9,8 @@ export const db = {
         ];
     }
 };
+
+const firedb = getFirestore(app);
+
+export const db = localdb; // Ki lehet cserélni `firedb`-re, ha kész a Firestore 
+export {app};
