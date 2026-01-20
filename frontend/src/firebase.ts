@@ -21,8 +21,16 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 
 console.log("🔥 Firebase initialized:", app.options.projectId);
+
+import { getFirestore, collection, getDocs } from "firebase/firestore";
 function testFireStore(): void {
   console.log("🔥 testFireStore function called");
+  try {
+    const db = getFirestore(app);
+    const querySnapshot = getDocs(collection(db, "orders"))
+  } catch (e) {
+    console.error("Firestore hiba:", e);
+  }
 }
 
 export { app, analytics };
