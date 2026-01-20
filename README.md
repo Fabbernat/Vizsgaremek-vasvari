@@ -11,4 +11,4 @@ Vue.js frontend
 Node.js + Express backend
 SQLite adatbázis
 
-[Hosztolt link](https://unpartible-saliently-elena.ngrok-free.dev)
+[Hosztolt backend link](https://unpartible-saliently-elena.ngrok-free.dev)
