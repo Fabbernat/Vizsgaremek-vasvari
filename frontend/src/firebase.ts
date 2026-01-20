@@ -20,22 +20,9 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 
-console.log("Firebase initialized", app);
-
-import { getFirestore, collection, addDoc } from "firebase/firestore";
-
-const db = getFirestore(app);
-
-export async function testFirestore() {
-  try {
-    await addDoc(collection(db, "test"), {
-      message: "Firebase works",
-      createdAt: new Date()
-    });
-    console.log("Firestore write successful");
-  } catch (e) {
-    console.error("Firestore error", e);
-  }
+console.log("🔥 Firebase initialized:", app.options.projectId);
+function testFireStore(): void {
+  console.log("🔥 testFireStore function called");
 }
 
-export { db };
+export { app, analytics };
