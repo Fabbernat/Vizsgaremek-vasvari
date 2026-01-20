@@ -29,6 +29,6 @@ namespace MyApp.Shared.Models
             PhoneNumber = phoneNumber;
         }
 
-        public override string ToString() => $"{Name} (gyermek: {ChildName}) – Tel: {PhoneNumber}";
+        public override string ToString() => $"{Name} (gyermek: {ChildName}) - Tel: {PhoneNumber}";
     }
 }
