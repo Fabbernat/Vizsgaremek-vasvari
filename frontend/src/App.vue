@@ -1,4 +1,38 @@
+<script setup>
+  // Kepek
+import pizza from './assets/pizza-margherita.jpg'
+import hamburger from './assets/hamburger.jpg'
+import salad from './assets/caesar-salad.jpg'
+
+  // Routing
+import { ref, computed } from 'vue'
+import Home from './Home.vue'
+import About from './About.vue'
+import NotFound from './NotFound.vue'
+
+const routes = {
+  '/': Home,
+  '/about': About
+}
+
+const currentPath = ref(window.location.hash)
+
+window.addEventListener('hashchange', () => {
+  currentPath.value = window.location.hash
+})
+
+const currentView = computed(() => {
+  return routes[currentPath.value.slice(1) || '/'] || NotFound
+})
+</script>
+
 <template>
+  <component :is="currentView" />
+  <nav class="nav-bar nav-links" style="text-align: center; margin: 1rem 0;">
+  <a href="#/">Home</a> |
+  <a href="#/about">About</a> |
+  <a href="#/non-existent-path">Broken Link</a>
+  </nav>
   <div class="app">
     <nav class="navbar">
       <div class="logo">Royal Delivery</div>
@@ -16,6 +50,7 @@
 
     <main class="menu">
       <div class="card">
+        <img :src="pizza" alt="Pizza Margherita" width="220px"/>
         <div class="card-header">
           <h2>Pizza Margherita</h2>
           <span class="price">2 490 Ft</span>
@@ -25,6 +60,7 @@
       </div>
 
       <div class="card">
+        <img :src="hamburger" alt="Hamburger" width="220px"/>
         <div class="card-header">
           <h2>Hamburger</h2>
           <span class="price">2 990 Ft</span>
@@ -34,6 +70,7 @@
       </div>
 
       <div class="card">
+        <img :src="salad" alt="Caesar saláta" width="220px"/>
         <div class="card-header">
           <h2>Caesar saláta</h2>
           <span class="price">2 290 Ft</span>
