@@ -24,16 +24,25 @@ window.addEventListener('hashchange', () => {
 const currentView = computed(() => {
   return routes[currentPath.value.slice(1) || '/'] || NotFound
 })
+
+// A Home-hoz tartozó UI-t feltételesen rendereljük csak akkor, ha az aktuális útvonal `/`.
+const isHome = computed(() => {
+  return (currentPath.value.slice(1) || '/') === '/'
+})
 </script>
 
 <template>
-  <component :is="currentView" />
   <nav class="nav-bar nav-links" style="text-align: center; margin: 1rem 0;">
   <a href="#/">Home</a> |
   <a href="#/about">About</a> |
   <a href="#/non-existent-path">Broken Link</a>
   </nav>
-  <div class="app">
+
+   <!-- Aktuális oldal (Home / About / 404 szöveg) -->
+  <component :is="currentView" />
+
+  <!-- HOME CONTENT CSAK HOME ESETÉN -->
+    <div v-if="isHome" class="app">
     <nav class="navbar">
       <div class="logo">Royal Delivery</div>
       <div class="nav-items">
