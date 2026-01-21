@@ -32,6 +32,7 @@ const isHome = computed(() => {
 </script>
 
 <template>
+    <!-- NAVBAR + LINKEK MINDIG -->
   <nav class="nav-bar nav-links" style="text-align: center; margin: 1rem 0;">
   <a href="#/">Home</a> |
   <a href="#/about">About</a> |
