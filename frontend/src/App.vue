@@ -10,6 +10,30 @@ import Home from './Home.vue'
 import About from './About.vue'
 import NotFound from './NotFound.vue'
 
+const products = [
+  {
+    name: 'Pizza Margherita',
+    price: 2490,
+    img: pizza,
+    description: 'Paradicsomszósz, mozzarella, bazsalikom',
+    isSecondary: false
+  },
+  {
+    name: 'Hamburger',
+    price: 2990,
+    img: hamburger,
+    description: 'Marhahús, sajt, saláta, szósz',
+    isSecondary: false
+  },
+  {
+    name: 'Caesar saláta',
+    price: 2290,
+    img: salad,
+    description: 'Csirkemell, parmezán, öntet',
+    isSecondary: true
+  }
+]
+
 const routes = {
   '/': Home,
   '/about': About
@@ -29,6 +53,11 @@ const currentView = computed(() => {
 const isHome = computed(() => {
   return (currentPath.value.slice(1) || '/') === '/'
 })
+
+function addToCart(product) {
+  alert(`Kosárba tettél egy ${product.name}-t!`)
+}
+
 </script>
 
 <template>
@@ -52,35 +81,24 @@ const isHome = computed(() => {
     </header>
 
     <main class="menu">
-      <div class="card">
-        <img :src="pizza" alt="Pizza Margherita" width="220px" />
-        <div class="card-header">
-          <h2>Pizza Margherita</h2>
-          <span class="price">2 490 Ft</span>
-        </div>
-        <p>Paradicsomszósz, mozzarella, bazsalikom</p>
-        <div class="action">Kosárba teszem</div>
-      </div>
+      <main class="menu">
+  <div class="card" v-for="product in products" :key="product.name">
+    <img :src="product.img" :alt="product.name" width="220px" />
+    <div class="card-header">
+      <h2>{{ product.name }}</h2>
+      <span class="price">{{ product.price.toLocaleString('hu-HU') }} Ft</span>
+    </div>
+    <p>{{ product.description }}</p>
+    <div
+      class="action"
+      :class="{ secondary: product.isSecondary }"
+      @click="addToCart(product)"
+    >
+      Kosárba teszem
+    </div>
+  </div>
+</main>
 
-      <div class="card">
-        <img :src="hamburger" alt="Hamburger" width="220px" />
-        <div class="card-header">
-          <h2>Hamburger</h2>
-          <span class="price">2 990 Ft</span>
-        </div>
-        <p>Marhahús, sajt, saláta, szósz</p>
-        <div class="action">Kosárba teszem</div>
-      </div>
-
-      <div class="card">
-        <img :src="salad" alt="Caesar saláta" width="220px" />
-        <div class="card-header">
-          <h2>Caesar saláta</h2>
-          <span class="price">2 290 Ft</span>
-        </div>
-        <p>Csirkemell, parmezán, öntet</p>
-        <div class="action secondary">Kosárba teszem</div>
-      </div>
     </main>
   </div>
 
