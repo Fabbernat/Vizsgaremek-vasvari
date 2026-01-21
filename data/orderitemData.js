@@ -6,8 +6,8 @@ db.prepare(`
     mealid INTEGER,
     orderid INTEGER,
     amount INTEGER,
-    FOREIGN KEY(mealid) REFERENCES meals(id)
-    FOREIGN KEY(orderid) REFERENCES order(id)
+    FOREIGN KEY(mealid) REFERENCES meals(id),
+    FOREIGN KEY(orderid) REFERENCES "orders"(id)
     )
 `);
 

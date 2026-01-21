@@ -1,13 +1,15 @@
 import db from "./db.js";
 
-db.prepare(`
+db.prepare(
+  `
     CREATE TABLE IF NOT EXISTS restaurants(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT,
     ownerid INTEGER,
     FOREIGN KEY(ownerid) REFERENCES owners(id)
     )
-`);
+`,
+).run();
 
 // Get all restaurants
 export const getRestaurants = () =>
@@ -20,13 +22,13 @@ export const getRestaurantById = (id) =>
 // Create restaurant
 export const createRestaurant = (name, ownerid) =>
   db
-    .prepare(`INSERT INTO restaurants name, ownerid VALUES (?, ?)`)
+    .prepare(`INSERT INTO (restaurants name, ownerid) VALUES (?, ?)`)
     .run(name, ownerid);
 
 // Update restaurant
 export const updateRestaurant = (id, name, ownerid) =>
   db
-    .prepare(`UPDATE restaurants SET (name = ?, ownerid = ?) WHERE id = ?`)
+    .prepare(`UPDATE restaurants SET name = ?, ownerid = ? WHERE id = ?`)
     .run(name, ownerid, id);
 
 // Delete restaurant

@@ -6,8 +6,7 @@ db.prepare(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT,
     email TEXT,
-    password TEXT,
-    FOREIGN KEY(username) REFERENCES restaurants(ownerid)
+    password TEXT
     )
 `,
 ).run();
