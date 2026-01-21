@@ -1,4 +1,38 @@
-<template>
+<script setup>
+import pizza from './assets/pizza-margherita.jpg'
+import hamburger from './assets/hamburger.jpg'
+import salad from './assets/caesar-salad.jpg'
+
+const products = [
+  {
+    name: 'Pizza Margherita',
+    price: 2490,
+    img: pizza,
+    description: 'Paradicsomszósz, mozzarella, bazsalikom',
+    isSecondary: false
+  },
+  {
+    name: 'Hamburger',
+    price: 2990,
+    img: hamburger,
+    description: 'Marhahús, sajt, saláta, szósz',
+    isSecondary: false
+  },
+  {
+    name: 'Caesar saláta',
+    price: 2290,
+    img: salad,
+    description: 'Csirkemell, parmezán, öntet',
+    isSecondary: true
+  }
+]
+
+function addToCart(product) {
+  alert(`Kosárba tettél egy ${product.name}-t!`)
+}
+</script>
+
+<template>  
   <div class="center">
     <h1>🍕 Royal Delivery</h1>
     <p>
@@ -8,4 +42,5 @@
       Rendelj gyorsan és egyszerűen a széles választékunkból👌
     </p>
   </div>
+
 </template>

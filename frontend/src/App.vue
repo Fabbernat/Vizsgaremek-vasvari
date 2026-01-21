@@ -81,24 +81,21 @@ function addToCart(product) {
     </header>
 
     <main class="menu">
-      <main class="menu">
-  <div class="card" v-for="product in products" :key="product.name">
-    <img :src="product.img" :alt="product.name" width="220px" />
-    <div class="card-header">
-      <h2>{{ product.name }}</h2>
-      <span class="price">{{ product.price.toLocaleString('hu-HU') }} Ft</span>
-    </div>
-    <p>{{ product.description }}</p>
-    <div
-      class="action"
-      :class="{ secondary: product.isSecondary }"
-      @click="addToCart(product)"
-    >
+      <div class="card" v-for="product in products" :key="product.name">
+        <img :src="product.img" :alt="product.name" width="220px" />
+        <div class="card-header">
+          <h2>{{ product.name }}</h2>
+          <span class="price">{{ product.price.toLocaleString('hu-HU') }} Ft</span>
+        </div>
+        <p>{{ product.description }}</p>
+        <div
+          class="action"
+          :class="{ secondary: product.isSecondary }"
+          @click="addToCart(product)"
+        >
       Kosárba teszem
     </div>
-  </div>
-</main>
-
+      </div>
     </main>
   </div>
 
