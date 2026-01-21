@@ -1,4 +1,4 @@
-[Követelményspecifikáció - Google Docs](https://docs.google.com/document/d/1tTPFeNGFQoAREoPDqRaQL0v3-o-OPWzRQ847onGc3uE/edit?usp=sharing){:target="_blank" rel="noopener"}
+[Követelményspecifikáció - Google Docs](https://docs.google.com/document/d/1tTPFeNGFQoAREoPDqRaQL0v3-o-OPWzRQ847onGc3uE/edit?usp=sharing)
 
 [Részletes követelményleírás](https://docs.google.com/document/d/1zPlSvUvIQpHnXcfmNSJ8LxzYlk4Uv5YCd-s_0WlF-PM/edit?usp=sharing)
 
