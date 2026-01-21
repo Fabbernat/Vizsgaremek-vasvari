@@ -1,10 +1,10 @@
 <script setup>
-  // Kepek
+// Kepek
 import pizza from './assets/pizza-margherita.jpg'
 import hamburger from './assets/hamburger.jpg'
 import salad from './assets/caesar-salad.jpg'
 
-  // Routing
+// Routing
 import { ref, computed } from 'vue'
 import Home from './Home.vue'
 import About from './About.vue'
@@ -32,18 +32,11 @@ const isHome = computed(() => {
 </script>
 
 <template>
-    <!-- NAVBAR + LINKEK MINDIG -->
-  <nav class="nav-bar nav-links" style="text-align: center; margin: 1rem 0;">
-  <a href="#/">Home</a> |
-  <a href="#/about">About</a> |
-  <a href="#/non-existent-path">Broken Link</a>
-  </nav>
-
-   <!-- Aktuális oldal (Home / About / 404 szöveg) -->
+  <!-- Aktuális oldal (Home / About / 404 szöveg) -->
   <component :is="currentView" />
 
   <!-- HOME CONTENT CSAK HOME ESETÉN -->
-    <div v-if="isHome" class="app">
+  <div v-if="isHome" class="app">
     <nav class="navbar">
       <div class="logo">Royal Delivery</div>
       <div class="nav-items">
@@ -60,7 +53,7 @@ const isHome = computed(() => {
 
     <main class="menu">
       <div class="card">
-        <img :src="pizza" alt="Pizza Margherita" width="220px"/>
+        <img :src="pizza" alt="Pizza Margherita" width="220px" />
         <div class="card-header">
           <h2>Pizza Margherita</h2>
           <span class="price">2 490 Ft</span>
@@ -70,7 +63,7 @@ const isHome = computed(() => {
       </div>
 
       <div class="card">
-        <img :src="hamburger" alt="Hamburger" width="220px"/>
+        <img :src="hamburger" alt="Hamburger" width="220px" />
         <div class="card-header">
           <h2>Hamburger</h2>
           <span class="price">2 990 Ft</span>
@@ -80,7 +73,7 @@ const isHome = computed(() => {
       </div>
 
       <div class="card">
-        <img :src="salad" alt="Caesar saláta" width="220px"/>
+        <img :src="salad" alt="Caesar saláta" width="220px" />
         <div class="card-header">
           <h2>Caesar saláta</h2>
           <span class="price">2 290 Ft</span>
@@ -90,6 +83,12 @@ const isHome = computed(() => {
       </div>
     </main>
   </div>
+
+  <!-- NAVBAR + LINKEK MINDIG -->
+  <nav class="nav-bar nav-links">
+    <a href="#/">Főoldal</a> |
+    <a href="#/about">Rólunk</a>
+  </nav>
 </template>
 
 <style>
@@ -97,6 +96,7 @@ body {
   margin: 0;
   font-family: "Segoe UI", system-ui, sans-serif;
   background-color: #f4f6f8;
+  padding-bottom: 60px;
 }
 
 .app {
@@ -110,7 +110,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
 .logo {
@@ -124,6 +124,32 @@ body {
   cursor: pointer;
   color: #333;
 }
+
+/* NAV-BAR */
+.nav-bar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  background-color: #ffffff;
+  padding: 0.75rem 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+
+  z-index: 1000;
+  text-align: center;
+}
+
+.nav-bar a {
+  color: #333;
+  text-decoration: none;
+  font-weight: 600;
+  margin: 0 0.5rem;
+}
+
+.nav-bar a:hover {
+  color: #ff9800;
+}
+
 
 /* HERO */
 .hero {
@@ -151,7 +177,7 @@ body {
   background-color: #ffffff;
   padding: 1.5rem;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
 }
