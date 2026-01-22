@@ -1,5 +1,71 @@
+<script setup>
+// Kepek
+import pizza from './assets/pizza-margherita.jpg'
+import hamburger from './assets/hamburger.jpg'
+import salad from './assets/caesar-salad.jpg'
+
+// Routing
+import { ref, computed } from 'vue'
+import Home from './Home.vue'
+import About from './About.vue'
+import NotFound from './NotFound.vue'
+
+const products = [
+  {
+    name: 'Pizza Margherita',
+    price: 2490,
+    img: pizza,
+    description: 'Paradicsomszósz, mozzarella, bazsalikom',
+    isSecondary: false
+  },
+  {
+    name: 'Hamburger',
+    price: 2990,
+    img: hamburger,
+    description: 'Marhahús, sajt, saláta, szósz',
+    isSecondary: false
+  },
+  {
+    name: 'Caesar saláta',
+    price: 2290,
+    img: salad,
+    description: 'Csirkemell, parmezán, öntet',
+    isSecondary: true
+  }
+]
+
+const routes = {
+  '/': Home,
+  '/about': About
+}
+
+const currentPath = ref(window.location.hash)
+
+window.addEventListener('hashchange', () => {
+  currentPath.value = window.location.hash
+})
+
+const currentView = computed(() => {
+  return routes[currentPath.value.slice(1) || '/'] || NotFound
+})
+
+// A Home-hoz tartozó UI-t feltételesen rendereljük csak akkor, ha az aktuális útvonal `/`.
+const isHome = computed(() => {
+  return (currentPath.value.slice(1) || '/') === '/'
+})
+
+function addToCart(product) {
+  alert(`Kosárba tettél egy ${product.name}-t!`)
+}
+
+</script>
+
 <template>
-  <div class="app">
+  <!-- Aktuális oldal (Home / About / 404 szöveg) -->
+  <component :is="currentView" />
+
+  <!-- HOME CONTENT CSAK HOME ESETÉN -->
+  <div v-if="isHome" class="app">
     <nav class="navbar">
       <div class="logo">Royal Delivery</div>
       <div class="nav-items">
@@ -15,34 +81,29 @@
     </header>
 
     <main class="menu">
-      <div class="card">
+      <div class="card" v-for="product in products" :key="product.name">
+        <img :src="product.img" :alt="product.name" width="220px" />
         <div class="card-header">
-          <h2>Pizza Margherita</h2>
-          <span class="price">2 490 Ft</span>
+          <h2>{{ product.name }}</h2>
+          <span class="price">{{ product.price.toLocaleString('hu-HU') }} Ft</span>
         </div>
-        <p>Paradicsomszósz, mozzarella, bazsalikom</p>
-        <div class="action">Kosárba teszem</div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <h2>Hamburger</h2>
-          <span class="price">2 990 Ft</span>
-        </div>
-        <p>Marhahús, sajt, saláta, szósz</p>
-        <div class="action">Kosárba teszem</div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <h2>Caesar saláta</h2>
-          <span class="price">2 290 Ft</span>
-        </div>
-        <p>Csirkemell, parmezán, öntet</p>
-        <div class="action secondary">Kosárba teszem</div>
+        <p>{{ product.description }}</p>
+        <div
+          class="action"
+          :class="{ secondary: product.isSecondary }"
+          @click="addToCart(product)"
+        >
+      Kosárba teszem
+    </div>
       </div>
     </main>
   </div>
+
+  <!-- NAVBAR + LINKEK MINDIG -->
+  <nav class="nav-bar nav-links">
+    <a href="#/">Főoldal</a> |
+    <a href="#/about">Rólunk</a>
+  </nav>
 </template>
 
 <style>
@@ -50,6 +111,7 @@ body {
   margin: 0;
   font-family: "Segoe UI", system-ui, sans-serif;
   background-color: #f4f6f8;
+  padding-bottom: 60px;
 }
 
 .app {
@@ -63,7 +125,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
 .logo {
@@ -77,6 +139,32 @@ body {
   cursor: pointer;
   color: #333;
 }
+
+/* NAV-BAR */
+.nav-bar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  background-color: #ffffff;
+  padding: 0.75rem 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+
+  z-index: 1000;
+  text-align: center;
+}
+
+.nav-bar a {
+  color: #333;
+  text-decoration: none;
+  font-weight: 600;
+  margin: 0 0.5rem;
+}
+
+.nav-bar a:hover {
+  color: #ff9800;
+}
+
 
 /* HERO */
 .hero {
@@ -104,7 +192,7 @@ body {
   background-color: #ffffff;
   padding: 1.5rem;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
 }
