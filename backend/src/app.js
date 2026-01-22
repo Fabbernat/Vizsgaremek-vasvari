@@ -1,4 +1,4 @@
-import { healthCheck } from './src/controllers/health.controller';
+import { healthCheck } from './controllers/health.controller';
 
 const express = require('express');
 const port = process.env.PORT || 3000;
