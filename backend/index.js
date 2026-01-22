@@ -1,4 +1,4 @@
-// src/index.js
+// index.js
 import express, { json } from 'express';
 const app = express();
 app.use(json());
