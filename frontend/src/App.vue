@@ -10,6 +10,14 @@ import Home from './Home.vue'
 import About from './About.vue'
 import NotFound from './NotFound.vue'
 
+
+const cartCount = ref(0)
+function addToCart() {
+  cartCount.value++
+}
+function openCart() {
+  alert('Kosár megnyitása (később fejleszthető)')
+}
 const products = [
   {
     name: 'Pizza Margherita',
@@ -70,8 +78,22 @@ function addToCart(product) {
       <div class="logo">Royal Delivery</div>
       <div class="nav-items">
         <span>Étlap</span>
-        <span>Kosár</span>
+        <div class="cart-container">
+          <!-- Bevásárlókocsi ikon + piros badge -->
+          <div class="cart-icon" @click="openCart">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24" height="24"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path d="M7 18c-1.104 0-2 .896-2 2s.896 2 2 2 2-.896 2-2-.896-2-2-2zm10 0c-1.104 0-2 .896-2 2s.896 2 2 2 2-.896 2-2-.896-2-2-2zm-12.826-3l1.602-6h12.353l1.163 4.908a.999.999 0 0 1-.962 1.182h-13.156z"/>
+            </svg>
+            <span v-if="cartCount > 0" class="cart-badge">{{ cartCount }}</span>
+            <svg src="./assets/shopping-cart.webp"></svg>
+          </div>
         <span>Profil</span>
+      </div>
       </div>
     </nav>
 
@@ -93,7 +115,7 @@ function addToCart(product) {
           :class="{ secondary: product.isSecondary }"
           @click="addToCart(product)"
         >
-      Kosárba teszem
+      <button @click="addToCart">Kosárba teszem</button>
     </div>
       </div>
     </main>
@@ -235,5 +257,35 @@ body {
 
 .action.secondary:hover {
   background-color: #449d48;
+}
+</style>
+
+<style scoped>
+.cart-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.cart-icon {
+  position: relative;
+  cursor: pointer;
+  color: #333;
+}
+
+.cart-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: red;
+  color: white;
+  font-size: 12px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
 }
 </style>
