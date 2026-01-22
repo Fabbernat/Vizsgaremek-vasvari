@@ -1,4 +1,4 @@
-// src/index.js
+// index.js
 import express, { json } from 'express';
 const app = express();
 app.use(json());
@@ -45,5 +45,14 @@ app.post('/orders', (req, res) => {
   orders.push(order);
   res.json(order);
 });
+
+app.post('/api/products', (req, res) => {
+  const { name, price } = req.body;
+  const newProduct = { id: foods.length + 1, name, price };
+  foods.push(newProduct);
+  res.status(201).json(newProduct);
+});
+
+export default app;
 
 app.listen(3000, () => console.log("Backend fut a 3000-es porton"));
