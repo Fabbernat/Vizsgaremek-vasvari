@@ -1,7 +1,14 @@
+<script>
+  import "./styles/app.css"
+</script>
+
 <template>
   <div class="app">
+    <img src="./images/Royal_Delivery_Logo.png" alt="Logo" class="floating-logo-img">
+
     <nav class="navbar">
-      <div class="logo">Royal Delivery</div>
+      <div class="logo-text">Royal Delivery</div>
+      
       <div class="nav-items">
         <span>Étlap</span>
         <span>Kosár</span>
@@ -11,7 +18,7 @@
 
     <header class="hero">
       <h1>Mit ennél ma?</h1>
-      <p>Rendelj gyorsan és egyszerűen kedvenc ételeid közül</p>
+      <h2>Rendelj gyorsan és egyszerűen kedvenc ételeid közül</h2>
     </header>
 
     <main class="menu">
@@ -44,108 +51,3 @@
     </main>
   </div>
 </template>
-
-<style>
-body {
-  margin: 0;
-  font-family: "Segoe UI", system-ui, sans-serif;
-  background-color: #f4f6f8;
-}
-
-.app {
-  min-height: 100vh;
-}
-
-/* NAVBAR */
-.navbar {
-  background-color: #ffffff;
-  padding: 1rem 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-}
-
-.logo {
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: #ff9800;
-}
-
-.nav-items span {
-  margin-left: 1.5rem;
-  cursor: pointer;
-  color: #333;
-}
-
-/* HERO */
-.hero {
-  padding: 3rem 2rem;
-  text-align: center;
-}
-
-.hero h1 {
-  margin-bottom: 0.5rem;
-  font-size: 2.2rem;
-}
-
-/* MENU GRID */
-.menu {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
-  padding: 2rem;
-  max-width: 1200px;
-  margin: auto;
-}
-
-/* CARD */
-.card {
-  background-color: #ffffff;
-  padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  display: flex;
-  flex-direction: column;
-}
-
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.price {
-  font-weight: bold;
-  color: #444;
-}
-
-.card p {
-  margin: 1rem 0;
-  color: #555;
-}
-
-/* ACTION */
-.action {
-  margin-top: auto;
-  padding: 0.75rem;
-  text-align: center;
-  border-radius: 8px;
-  background-color: #ff9800;
-  color: white;
-  cursor: pointer;
-  font-weight: 600;
-}
-
-.action:hover {
-  background-color: #e68900;
-}
-
-.action.secondary {
-  background-color: #4caf50;
-}
-
-.action.secondary:hover {
-  background-color: #449d48;
-}
-</style>

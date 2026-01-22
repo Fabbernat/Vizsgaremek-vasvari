@@ -1,0 +1,142 @@
+body {
+  margin: 0;
+  font-family: "Segoe UI", system-ui, sans-serif;
+  background-color: #121212;
+}
+
+.app {
+  min-height: 100vh;
+}
+
+/* NAVBAR */
+.navbar {
+  background-color: #1E1E1E;
+  height: 70px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
+  position: relative;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  margin-top: 2vw;
+}
+
+.logo-text {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #FF9500;
+  text-transform: uppercase;
+}
+
+.logo-floating img {
+  height: 100px;
+  transition: transform 0.3s ease;
+}
+
+.floating-logo-img {
+  position:fixed;
+  top: 5px;
+  left: 120px;
+  height: 120px;
+  z-index: 1000;
+  filter: drop-shadow(0 5px 15px rgba(0,0,0,0.5));
+}
+
+.nav-items span {
+  margin-left: 1.5rem;
+  cursor: pointer;
+  color: #A0A0A0;
+  font-weight: 500;
+}
+
+/* HERO */
+.hero {
+  padding: 3rem 2rem;
+  text-align: center;
+  color: #FFFFFF;
+}
+
+.hero h1 {
+  margin-bottom: 0.5rem;
+  font-size: 2.2rem;
+  font-weight: bold;
+}
+
+/* MENU GRID */
+.menu {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: auto;
+  color: #A0A0A0;
+}
+
+/* CARD */
+.card {
+  background-color: #1E1E1E;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #c5c5c5;
+}
+
+.price {
+  font-weight: bold;
+  color: #FFFFFF;
+}
+
+.card h2 {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.card p {
+  margin: 1rem 0;
+  color: #A0A0A0;
+}
+
+/* ACTION */
+.action {
+  margin-top: auto;
+  padding: 0.75rem;
+  text-align: center;
+  border-radius: 8px;
+  background-color: #30364F;
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* Button Hover */
+.action:hover {
+  background-color: #515c87;
+  transition: all 0.2s ease-out;
+  box-shadow: 0px 0px 10px #9aaeff;
+  transform: scale(1.05);
+}
+
+.action:not(:hover) {
+  background-color: #30364F;
+  transition: all 0.2s ease-out;
+  transform: scale(1);
+}
+
+
+.action.secondary {
+  background-color: #4caf50;
+}
+
+.action.secondary:hover {
+  background-color: #449d48;
+  box-shadow: 0px 0px 10px #449d48;
+}
