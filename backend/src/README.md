@@ -3,8 +3,13 @@ backend/
 │  ├─ app.js              ← alkalmazás belépési pont
 │  ├─ server.js           ← szerver indítás
 │  │
+│  ├─ db/
+│  │  ├─ database.js        ← SQLite kapcsolat
+│  │  └─ migrate.js         ← táblák létrehozása
+│  │
 │  ├─ routes/
 │  │  └─ product.routes.js    ← REST végpontok (URL-ek)
+│  │  └─ products.js        ← REST endpointok
 │  │
 │  ├─ controllers/
 │  │  └─ product.controller.js ← üzleti logika

@@ -1,11 +1,18 @@
 import { healthCheck } from './controllers/health.controller';
 
 const express = require('express');
+const cors = require('cors')
+const productRoutes = require('./routes/product.routes')
+
 const port = process.env.PORT || 3000;
 export const app = express();
 
+app.use(cors())
+app.use(express.json())
 // Statikus fájlok (képek)
 app.use('/images', express.static('public/images'))
+
+app.use('/api/products', productRoutes)
 
 // Termékek betöltése a JSON fájlból
 const fs = require('fs')
@@ -30,3 +37,5 @@ app.listen(port, () => {
 console.log("The backend has started succesfully...🥀");
 
 healthCheck(); // health controller létrehozása a kettővel ezelőtti commitban
+
+module.exports = app
