@@ -1,3 +1,7 @@
+<script>
+  import "./styles/app.css"
+</script>
+
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 
@@ -6,6 +10,7 @@ import pizza from './assets/pizza-margherita.jpg'
 import hamburger from './assets/hamburger.jpg'
 import salad from './assets/caesar-salad.jpg'
 import shoppingCartIcon from './assets/shopping-cart.webp'
+import royalDeliveryLogo from './assets/royal-delivery-logo.png'
 
 // Oldal komponensek
 import Home from './Home.vue'
@@ -74,8 +79,9 @@ const isHome = computed(() => (currentPath.value.slice(1) || '/') === '/')
 
   <!-- HOME tartalom -->
   <div v-if="isHome" class="app">
+    <img :src="royalDeliveryLogo" alt="Royal Delivery Logo" width="120" style="display: block; margin: 1rem auto;" />
     <nav class="navbar">
-      <div class="logo">Royal Delivery</div>
+      <div class="logo-text">Royal Delivery</div>
       <div class="nav-items">
         <span>Étlap</span>
         <div class="cart-container">
@@ -97,7 +103,7 @@ const isHome = computed(() => (currentPath.value.slice(1) || '/') === '/')
 
     <header class="hero">
       <h1>Mit ennél ma?</h1>
-      <p>Rendelj gyorsan és egyszerűen kedvenc ételeid közül</p>
+      <h2>Rendelj gyorsan és egyszerűen kedvenc ételeid közül</h2>
     </header>
 
     <main class="menu">
@@ -126,133 +132,3 @@ const isHome = computed(() => (currentPath.value.slice(1) || '/') === '/')
     <a href="#/about">Rólunk</a>
   </nav>
 </template>
-
-<style>
-body {
-  margin: 0;
-  font-family: "Segoe UI", system-ui, sans-serif;
-  background-color: #f4f6f8;
-  padding-bottom: 60px;
-}
-.app {
-  min-height: 100vh;
-}
-.navbar {
-  background-color: #fff;
-  padding: 1rem 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-}
-.logo {
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: #ff9800;
-}
-.nav-items span {
-  margin-left: 1.5rem;
-  cursor: pointer;
-  color: #333;
-}
-.cart-container {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-.cart-icon {
-  position: relative;
-  cursor: pointer;
-  color: #333;
-}
-.cart-badge {
-  position: absolute;
-  top: -8px;
-  right: -8px;
-  background-color: red;
-  color: white;
-  font-size: 12px;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: bold;
-}
-.hero {
-  padding: 3rem 2rem;
-  text-align: center;
-}
-.hero h1 {
-  margin-bottom: 0.5rem;
-  font-size: 2.2rem;
-}
-.menu {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
-  padding: 2rem;
-  max-width: 1200px;
-  margin: auto;
-}
-.card {
-  background-color: #fff;
-  padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  display: flex;
-  flex-direction: column;
-  cursor: pointer;
-}
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.price {
-  font-weight: bold;
-  color: #444;
-}
-.card p {
-  margin: 1rem 0;
-  color: #555;
-}
-.action {
-  margin-top: auto;
-  padding: 0.75rem;
-  text-align: center;
-  border-radius: 8px;
-  background-color: #ff9800;
-  color: white;
-  font-weight: 600;
-  user-select: none;
-}
-.action:hover {
-  background-color: #e68900;
-}
-.action.secondary {
-  background-color: #4caf50;
-}
-.action.secondary:hover {
-  background-color: #449d48;
-}
-.nav-bar {
-  position: fixed;
-  top: 0;
-  z-index: 1000;
-  background-color: #fff;
-  padding: 0.75rem 1rem;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  text-align: center;
-}
-.nav-bar a {
-  color: #333;
-  text-decoration: none;
-  font-weight: 600;
-  margin: 0 0.5rem;
-}
-.nav-bar a:hover {
-  color: #ff9800;
-}
-</style>
