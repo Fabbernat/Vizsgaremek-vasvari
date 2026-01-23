@@ -70,18 +70,18 @@ const currentView = computed(() => {
 const isHome = computed(() => (currentPath.value.slice(1) || '/') === '/')
 </script>
 
-<template>
+<template  style="color: white;">
   <!-- Aktuális oldal komponense -->
-  <component
+  <component style="color: white;"
   :is="currentView"
   :cart="cart"
 />
 
   <!-- HOME tartalom -->
-  <div v-if="isHome" class="app">
+    <div v-if="isHome" class="app bg-white text-black">
     <img :src="royalDeliveryLogo" alt="Royal Delivery Logo" width="120" style="display: block; margin: 1rem auto;" />
-    <nav class="navbar">
-      <div class="logo-text">Royal Delivery</div>
+    <nav class="navbar bg-white text-black">
+      <div class="logo-text flex items-center text-black font-semibold">Royal Delivery</div>
       <div class="nav-items">
         <span>Étlap</span>
         <div class="cart-container">
