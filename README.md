@@ -1,7 +1,15 @@
+[Követelményspecifikáció - Google Docs](https://docs.google.com/document/d/1tTPFeNGFQoAREoPDqRaQL0v3-o-OPWzRQ847onGc3uE/edit?usp=sharing)
+
+[Részletes követelményleírás](https://docs.google.com/document/d/1zPlSvUvIQpHnXcfmNSJ8LxzYlk4Uv5YCd-s_0WlF-PM/edit?usp=sharing)
+
+[Hosztolt backend link](https://unpartible-saliently-elena.ngrok-free.dev)
+
 # plaza-app-nalhi-gurban-fabian
 
 ## Ételrendelő app
 
 Újabb nevén Royal Delivery
 
-vue frontend
+Vue.js frontend
+Node.js + Express backend
+SQLite adatbázis

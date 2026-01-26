@@ -6,10 +6,9 @@ db.prepare(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT,
     email TEXT,
-    password TEXT,
-    FOREIGN KEY(username) REFERENCES restaurants(ownerid)
+    password TEXT
     )
-`
+`,
 ).run();
 
 // Get all owners
@@ -26,10 +25,10 @@ export const createOwner = (username, email, password) =>
     .run(username, email, password);
 
 // Update owner
-export const editOwner = (id, username, email, password) =>
+export const updateOwner = (id, username, email, password) =>
   db
     .prepare(
-      `UPDATE owners SET username = ?, email = ?, password = ? WHERE id = ?`
+      `UPDATE owners SET username = ?, email = ?, password = ? WHERE id = ?`,
     )
     .run(username, email, password, id);
 

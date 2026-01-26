@@ -1,7 +1,7 @@
 import db from "./db.js";
 
 db.prepare(`
-    CREATE TABLE IF NOT EXISTS meals (
+    CREATE TABLE IF NOT EXISTS meals(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT,
     price INTEGER,
@@ -21,14 +21,14 @@ export const getMealById = (id) =>
 // Create meal
 export const createMeal = (name, price, categoryid, type) =>
   db
-  .prepare(`INSERT INTO meals (name, price, categoryid, type) VALUES(?,?,?,?)`)
+    .prepare(`INSERT INTO meals name,price,categoryid,type VALUES(?,?,?,?)`)
     .run(name, price, categoryid, type);
 
 // Update meal
 export const updateMeal = (id, name, price, categoryid, type) =>
   db
     .prepare(
-    `UPDATE meals SET name = ?, price = ?, categoryid = ?, type = ? WHERE id = ?`
+      `UPDATE meals SET (name = ?, price = ?, categoryid = ?, type = ?) WHERE id = ?`
     )
     .run(name, price, categoryid, type, id);
 
