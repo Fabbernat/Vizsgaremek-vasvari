@@ -1,0 +1,38 @@
+﻿<Window x:Class="MyApp.Desktop.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"        
+        xmlns:local="clr-namespace:MyApp.Desktop"
+        xmlns:mainviewmodel="clr-namespace:MyApp.Desktop.ViewModels"
+        xmlns:viewmodel="clr-namespace:MyApp.Shared.ViewModels;assembly=MyApp.Shared"
+        xmlns:view="clr-namespace:MyApp.Desktop.Views"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Window.DataContext>
+        <mainviewmodel:MainWindowViewModel />
+    </Window.DataContext>
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type viewmodel:ControlPanelViewModel}">
+            <view:ControlPanelView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewmodel:StudentViewModel}">
+            <view:StudentView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewmodel:SchoolClassViewModel}">
+            <view:SchoolClassView />
+        </DataTemplate>
+    </Window.Resources>
+    <StackPanel>
+        <DockPanel>
+            <Menu>
+                <MenuItem Header="Főmenüpont">
+                    <MenuItem Header="Vezérlőpult" Command="{Binding ShowControlPanalViewCommand}"></MenuItem>
+                    <MenuItem Header="Diákok" Command="{Binding ShowStudentViewCommand}" ></MenuItem>
+                    <MenuItem Header="Osztályok" Command="{Binding ShowSchoolClassViewCommand}"></MenuItem>
+                </MenuItem>
+            </Menu>
+        </DockPanel>
+        <ContentControl Content="{Binding CurrentView}" />
+    </StackPanel>
+</Window>
