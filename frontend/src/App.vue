@@ -9,7 +9,7 @@ import { ref, computed, onMounted } from 'vue'
 import pizza from './assets/pizza-margherita.jpg'
 import hamburger from './assets/hamburger.jpg'
 import salad from './assets/caesar-salad.jpg'
-import shoppingCartIcon from './assets/shopping-cart.webp'
+import shoppingCartIcon from './assets/white-cart.png'
 import royalDeliveryLogo from './assets/royal-delivery-logo.png'
 
 // Oldal komponensek
@@ -68,6 +68,8 @@ const currentView = computed(() => {
 
 // Csak home oldalon jelenik meg a menü
 const isHome = computed(() => (currentPath.value.slice(1) || '/') === '/')
+const isNav = computed(() => (currentPath.value.slice(1) || '/') === '/' || 1==1)
+
 </script>
 
 <template  style="color: white;">
@@ -82,22 +84,14 @@ const isHome = computed(() => (currentPath.value.slice(1) || '/') === '/')
     <img :src="royalDeliveryLogo" alt="Royal Delivery Logo" width="120" style="display: block; margin: 1rem auto;" />
     <nav class="navbar bg-white text-black">
       <div class="logo-text flex items-center text-black font-semibold">Royal Delivery</div>
-      <div class="nav-items">
-        <span>Étlap</span>
-        <div class="cart-container">
-          <div class="cart-icon" @click="openCart">
-
-            <!-- Prebuilt SVG icon -->
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M7 18c-1.104 0-2 .896-2 2s.896 2 2 2 2-.896 2-2-.896-2-2-2zm10 0c-1.104 0-2 .896-2 2s.896 2 2 2 2-.896 2-2-.896-2-2-2zm-12.826-3l1.602-6h12.353l1.163 4.908a.999.999 0 0 1-.962 1.182h-13.156z"/>
-            </svg>
-            
-              <!-- Cart image -->
-            <img :src="shoppingCartIcon" alt="Shopping Cart" width="24" height="24" />
-            <span v-if="cartCount > 0" class="cart-badge">{{ cartCount }}</span>
-          </div>
+        <div class="nav-items">
+          <span>Étlap</span>
           <span>Profil</span>
+        <div class="cart-icon" @click="openCart">
+        <img :src="shoppingCartIcon" alt="Shopping Cart" width="24" height="24" />
+        <span v-if="cartCount > 0" class="cart-badge">{{ cartCount }}</span>
         </div>
+
       </div>
     </nav>
 
@@ -126,7 +120,7 @@ const isHome = computed(() => (currentPath.value.slice(1) || '/') === '/')
   </div>
 
   <!-- Állandó navigáció -->
-  <nav class="nav-bar nav-links">
+  <nav  v-if="isNav" class="nav-bar nav-links">
     <a href="#/">Főoldal</a> |
     <a href="#/cart">Kosár</a> |
     <a href="#/about">Rólunk</a>

@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue'
+import "@/styles/cart.css"
 
 const props = defineProps({
   cart: {
@@ -52,60 +53,3 @@ const formatFt = (value) =>
     </table>
   </div>
 </template>
-
-<style scoped>
-.cart-view {
-  max-width: 720px;
-  margin: 2rem auto;
-  padding: 2rem;
-  background: #000000;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-}
-
-h1 {
-  margin-bottom: 1rem;
-}
-
-.empty {
-  text-align: center;
-  color: #777;
-}
-
-.cart-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.cart-table th {
-  background: #270303;
-  font-weight: 600;
-  padding: 12px;
-}
-
-.cart-table td {
-  padding: 12px;
-  border-bottom: 1px solid #031335;
-}
-
-.cart-table tr:last-child td {
-  border-bottom: none;
-}
-
-.right {
-  text-align: right;
-}
-
-tfoot td {
-  padding-top: 16px;
-}
-
-.total-label {
-  font-weight: 600;
-}
-
-.total {
-  font-size: 1.2rem;
-  font-weight: 700;
-}
-</style>
