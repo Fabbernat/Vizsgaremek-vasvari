@@ -50,7 +50,8 @@ const products = [
 const routes = {
   '/': Home, 
   '/about': About, 
-  '/cart': Cart
+  '/cart': Cart,
+  '/*': NotFound
 }
 
 const currentPath = ref(window.location.hash || '#/')
@@ -68,7 +69,7 @@ const currentView = computed(() => {
 
 // Csak home oldalon jelenik meg a menü
 const isHome = computed(() => (currentPath.value.slice(1) || '/') === '/')
-const isNav = computed(() => (currentPath.value.slice(1) || '/') === '/' || 1==1)
+
 
 </script>
 
@@ -118,11 +119,4 @@ const isNav = computed(() => (currentPath.value.slice(1) || '/') === '/' || 1==1
       </div>
     </main>
   </div>
-
-  <!-- Állandó navigáció -->
-  <nav  v-if="isNav" class="nav-bar nav-links">
-    <a href="#/">Főoldal</a> |
-    <a href="#/cart">Kosár</a> |
-    <a href="#/about">Rólunk</a>
-  </nav>
 </template>

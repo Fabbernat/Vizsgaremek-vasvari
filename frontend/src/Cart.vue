@@ -46,7 +46,7 @@ const formatFt = (value) =>
 
       <tfoot>
         <tr>
-          <td colspan="3" class="total-label">Összesen</td>
+          <td colspan="3" class="total-label">Összesen:</td>
           <td class="right total">{{ formatFt(total) }}</td>
         </tr>
       </tfoot>
