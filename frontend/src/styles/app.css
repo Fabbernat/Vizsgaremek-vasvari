@@ -30,7 +30,15 @@ body {
   gap: 20px;
   cursor: pointer;
   color: #fff;
-  font-weight: bold;
+}
+
+.nav-items :hover {
+  text-decoration: underline !important;
+  transition: all 0.3s;
+}
+
+.nav-items :not(:hover) {
+  transition: all 0.3s;
 }
 
 .cart-icon {
@@ -38,6 +46,10 @@ body {
   align-items: center;
   position: relative;
   cursor: pointer;
+}
+
+.cart-icon :hover {
+ transform: scale(1.1) !important;
 }
 
 .cart-badge {

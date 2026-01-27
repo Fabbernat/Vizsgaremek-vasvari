@@ -2,13 +2,16 @@
   max-width: 720px;
   margin: 2rem auto;
   padding: 2rem;
-  background: #000000;
+  background: #37353E;
+  background: linear-gradient(360deg,#37353E 0%, #44444E 100%);
   border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  border: solid 5px #274AB3;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
 h1 {
   margin-bottom: 1rem;
+  font-weight: bold;
 }
 
 .empty {
@@ -22,14 +25,21 @@ h1 {
 }
 
 .cart-table th {
-  background: #270303;
   font-weight: 600;
   padding: 12px;
+  text-align: center;
+}
+
+.cart-table>thead {
+  border-radius: 15px;
+  background: #274AB3;
+  background: linear-gradient(360deg,#274AB3 0%, #305CDE 100%);
 }
 
 .cart-table td {
   padding: 12px;
-  border-bottom: 1px solid #031335;
+  border-bottom: 2px solid #777;
+  text-align: center;
 }
 
 .cart-table tr:last-child td {
@@ -46,6 +56,8 @@ tfoot td {
 
 .total-label {
   font-weight: 600;
+  text-align: left !important;
+  font-size: 1.2rem;
 }
 
 .total {
