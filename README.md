@@ -4,6 +4,8 @@
 
 [Részletes követelményleírás - Google Docs jogosultsággal (szerkeszthető)](https://docs.google.com/document/d/1zPlSvUvIQpHnXcfmNSJ8LxzYlk4Uv5YCd-s_0WlF-PM/edit?usp=sharing)
 
+[Desktop app](https://github.com/fabbernatvasvari/RoyalDelivery-desktop/)
+
 [Hosztolt backend link](https://unpartible-saliently-elena.ngrok-free.dev)
 
 # plaza-app-nalhi-gurban-fabian
