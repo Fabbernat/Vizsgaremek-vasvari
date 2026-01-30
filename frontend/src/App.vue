@@ -42,9 +42,9 @@ function openCart() {
 }
 
 const products = [
-  { name: 'Pizza Margherita', price: 2490, img: pizza, description: 'Paradicsomszósz, mozzarella, bazsalikom', isSecondary: false },
-  { name: 'Hamburger', price: 2990, img: hamburger, description: 'Marhahús, sajt, saláta, szósz', isSecondary: false },
-  { name: 'Caesar saláta', price: 2290, img: salad, description: 'Csirkemell, parmezán, öntet', isSecondary: true }
+  { name: 'Pizza Margherita', price: 2490, img: pizza, description: 'Paradicsomszósz, mozzarella, bazsalikom' },
+  { name: 'Hamburger', price: 2990, img: hamburger, description: 'Marhahús, sajt, saláta, szósz' },
+  { name: 'Caesar saláta', price: 2290, img: salad, description: 'Csirkemell, parmezán, öntet' }
 ]
 
 const routes = {
@@ -111,7 +111,6 @@ const isHome = computed(() => (currentPath.value.slice(1) || '/') === '/')
         <p>{{ product.description }}</p>
         <div
           class="action"
-          :class="{ secondary: product.isSecondary }"
           @click="() => addToCart(product)"
         >
           Kosárba teszem
