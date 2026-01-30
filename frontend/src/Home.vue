@@ -8,23 +8,17 @@
         name: 'Pizza Margherita',
         price: 2490,
         img: pizza,
-        description: 'Paradicsomszósz, mozzarella, bazsalikom',
-        isSecondary: false
-    },
+        description: 'Paradicsomszósz, mozzarella, bazsalikom'    },
     {
         name: 'Hamburger',
         price: 2990,
         img: hamburger,
-        description: 'Marhahús, sajt, saláta, szósz',
-        isSecondary: false
-    },
+        description: 'Marhahús, sajt, saláta, szósz'    },
     {
         name: 'Caesar saláta',
         price: 2290,
         img: salad,
-        description: 'Csirkemell, parmezán, öntet',
-        isSecondary: true
-    }
+        description: 'Csirkemell, parmezán, öntet'    }
     ]
 
     function addToCart(product) {
