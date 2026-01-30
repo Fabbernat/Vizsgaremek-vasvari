@@ -86,6 +86,7 @@ const isSite = computed(() => true)
 </script>
 
 <template  style="color: white;">
+  <Navbar v-if="showNavbar" />
   <!-- Aktuális oldal komponense -->
   <component style="color: white;"
   :is="currentView"
