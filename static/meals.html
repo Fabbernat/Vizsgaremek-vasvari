@@ -22,6 +22,14 @@
 
     <main>
         <h3> Ez az ételek oldal</h3>
+        <ul>
+            @foreach (var meal in meals) {
+                <li>{{ meal.Name }}</li>
+                <li>{{ meal.Description }}</li>
+                <li>{{ meal.Image }}</li>
+                <button>Kosárba tesz</button>
+            }
+        </ul>
         <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio dolor placeat atque officiis saepe, reiciendis ut velit molestias explicabo natus ipsam fuga voluptatibus? Culpa aperiam consectetur perspiciatis, nam velit ipsum.</p>
     </main>
 
