@@ -13,7 +13,7 @@
                 <li><a href="restaurants.html">Éttermek</a></li>
                 <li><a href="meals.html">Ételek</a></li>
                 <li><a href="cart.html">Kosár</a></li>
-                <li><a href="profile.html">Fiók</a></li>
+                <li><a href="auth.html">{{ isLoggedIn ? "Fiók" : "Bejelentkezés" }}</a></li>
             </ul>
         </nav>
     <header>
@@ -21,7 +21,20 @@
     </header>
 
     <main>
-        <h3> Ez a profil oldal</h3>
+        @if (isLoggedIn) {
+            <h3> Ez a profil oldal</h3>
+            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio dolor placeat atque officiis saepe, reiciendis ut velit molestias explicabo natus ipsam fuga voluptatibus? Culpa aperiam consectetur perspiciatis, nam velit ipsum.</p>
+        } @else {
+            <h3> Ez a bejelentkezés oldal</h3>
+            <form method="post" action="Login.Vue">
+                <label for="username">Felhasználónév:</label>
+                <input type="text" id="username" name="username" required><br><br>
+                <label for="password">Jelszó:</label>
+                <input type="password" id="password" name="password" required><br><br>
+                <button type="submit">Bejelentkezés</button>
+            </form>
+            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio dolor placeat atque officiis saepe, reiciendis ut velit molestias explicabo natus ipsam fuga voluptatibus? Culpa aperiam consectetur perspiciatis, nam velit ipsum.</p>
+        }
         <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio dolor placeat atque officiis saepe, reiciendis ut velit molestias explicabo natus ipsam fuga voluptatibus? Culpa aperiam consectetur perspiciatis, nam velit ipsum.</p>
     </main>
 
