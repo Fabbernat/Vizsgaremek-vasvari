@@ -1,3 +1,7 @@
+<script>
+    let currentView = "login";
+</script>
+
 <!DOCTYPE html>
 <html lang="hu">
 <head>
@@ -23,8 +27,7 @@
     <main>
         @if (isLoggedIn) {
             <h3> Ez a profil oldal</h3>
-            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio dolor placeat atque officiis saepe, reiciendis ut velit molestias explicabo natus ipsam fuga voluptatibus? Culpa aperiam consectetur perspiciatis, nam velit ipsum.</p>
-        } @else {
+        } @else if (currentView === "login") {
             <h3> Ez a bejelentkezés oldal</h3>
             <form method="post" action="Login.Vue">
                 <label for="username">Felhasználónév:</label>
@@ -33,8 +36,24 @@
                 <input type="password" id="password" name="password" required><br><br>
                 <button type="submit">Bejelentkezés</button>
             </form>
-            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio dolor placeat atque officiis saepe, reiciendis ut velit molestias explicabo natus ipsam fuga voluptatibus? Culpa aperiam consectetur perspiciatis, nam velit ipsum.</p>
-        }
+            <div>
+                <p>Még nincs fiókod? <a href="#" @click="currentView = 'register'">Regisztráció</a></p>
+            </div>
+        } @else if (currentView === "register") {
+            <h3> Ez a regisztráció oldal</h3>
+            <form method="post" action="Register.Vue">
+                <label for="username">Felhasználónév:</label>
+                <input type="text" id="username" name="username" required><br><br>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required><br><br>
+                <label for="password">Jelszó:</label>
+                <input type="password" id="password" name="password" required><br><br>
+                <button type="submit">Regisztráció</button>
+            </form>
+            <div>
+                <p>Már van fiókod? <a href="#" @click="currentView = 'login'">Bejelentkezés</a></p>
+            </div>
+            }
         <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio dolor placeat atque officiis saepe, reiciendis ut velit molestias explicabo natus ipsam fuga voluptatibus? Culpa aperiam consectetur perspiciatis, nam velit ipsum.</p>
     </main>
 

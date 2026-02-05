@@ -35,3 +35,12 @@ header, main, footer {
 .navbar li {
     float: right;
 }
+
+form {
+    background-color: rgb(153, 149, 149);
+    padding: 20px;
+}
+
+div {
+    background-color: rgb(201, 152, 107);
+}
