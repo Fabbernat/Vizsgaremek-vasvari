@@ -22,5 +22,5 @@ import NavBar from './components/NavBar.vue'
 </template>
 
 <style>
-@import "@/assets/style.css";
+@import "./assets/style.css";
 </style>
