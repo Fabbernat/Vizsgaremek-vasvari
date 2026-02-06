@@ -23,8 +23,11 @@
     <main>
         <h3> Ez a kosár</h3>
         <div class="cart">
-            
+            @foreach (var item in cartItems) {
+                <p>{{ item.name }} - {{ item.price }} Ft</p>
+            }
         </div>
+        <a href="order.html">Megrendelés</a>
         <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio dolor placeat atque officiis saepe, reiciendis ut velit molestias explicabo natus ipsam fuga voluptatibus? Culpa aperiam consectetur perspiciatis, nam velit ipsum.</p>
     </main>
 
