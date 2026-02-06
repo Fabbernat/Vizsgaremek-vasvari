@@ -1,1 +1,1 @@
-let isLoggedIn = false;
+let isLoggedIn = false; // yes, only this single line
