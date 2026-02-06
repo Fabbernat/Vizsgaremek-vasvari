@@ -13,30 +13,37 @@ const auth = useAuthStore()
     <h3>Ez a bejelentkezés oldal</h3>
 
     <form @submit.prevent="auth.login()">
-      <input placeholder="Felhasználónév" />
-      <input type="password" placeholder="Jelszó" />
-      <button>Bejelentkezés</button>
+      <label for="username">Felhasználónév:</label>
+      <input id="username" placeholder="Felhasználónév" />
+      <label for="password">Jelszó:</label>
+      <input id="password" type="password" placeholder="Jelszó" />
+      <input type="submit" value="Bejelentkezés" />
     </form>
-
-    <p>
-      Még nincs fiókod?
-      <a href="#" @click.prevent="auth.switchToRegister()">Regisztráció</a>
-    </p>
+    <div>
+      <p>
+        Még nincs fiókod?
+        <a href="#" @click.prevent="auth.switchToRegister()">Regisztráció</a>
+      </p>
+    </div>
   </div>
 
   <div v-else>
     <h3>Ez a regisztráció oldal</h3>
 
     <form>
-      <input placeholder="Felhasználónév" />
-      <input type="email" placeholder="Email" />
-      <input type="password" placeholder="Jelszó" />
-      <button>Regisztráció</button>
+      <label for="username">Felhasználónév:</label>
+      <input id="username" placeholder="Felhasználónév" />
+      <label for="email">Email:</label>
+      <input id="email" type="email" placeholder="Email" />
+      <label for="password">Jelszó:</label>
+      <input id="password" type="password" placeholder="Jelszó" />
+      <input type="submit" value="Regisztráció" />
     </form>
-
-    <p>
-      Már van fiókod?
-      <a href="#" @click.prevent="auth.switchToLogin()">Bejelentkezés</a>
-    </p>
+    <div>
+      <p>
+        Már van fiókod?
+        <a href="#" @click.prevent="auth.switchToLogin()">Bejelentkezés</a>
+      </p>
+    </div>
   </div>
 </template>

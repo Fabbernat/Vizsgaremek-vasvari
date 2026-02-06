@@ -11,6 +11,5 @@ const cart = useCartStore()
       {{ item.name }} – {{ item.price }} Ft
     </p>
   </div>
-
   <RouterLink to="/order">Megrendelés</RouterLink>
 </template>

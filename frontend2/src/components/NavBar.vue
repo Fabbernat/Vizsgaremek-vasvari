@@ -6,14 +6,6 @@ const auth = useAuthStore()
 <template>
   <nav class="navbar">
     <ul>
-        
-        <!-- dummy router amíg a rendes nem működik -->
-        <li><a href="index.html">Főoldal</a></li>
-        <li><a href="restaurants.html">Éttermek</a></li>
-        <li><a href="meals.html">Ételek</a></li>
-        <li><a href="cart.html">Kosár</a></li>
-        <li><a href="auth.html">{{ auth.isLoggedIn ? "Fiók" : "Bejelentkezés" }}</a></li>
-
         <!-- rendes routerlinkek -->
       <li><RouterLink to="/">Főoldal</RouterLink></li>
       <li><RouterLink to="/restaurants">Éttermek</RouterLink></li>
