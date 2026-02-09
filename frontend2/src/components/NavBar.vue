@@ -10,22 +10,22 @@ console.log('Local Storage Items:', localStorageItems);
 
 <template>
   <nav class="navbar">
-    <ul>
+    <ul id="royal-delivery-logo">
         <!-- rendes routerlinkek -->
         <li>
           <RouterLink to="/auth">
             {{ auth.isLoggedIn
-              ? 'Fiók 👤'
+              ? 'Fiók 👥👤'
               : auth.currentView === 'login'
                 ? 'Bejelentkezés 🔐🤰'
-                : 'Regisztráció👨‍👨‍👦‍👦'
+                : 'Regisztráció 👨‍👨‍👧‍👧👨‍👨‍👦‍👦'
             }}
           </RouterLink>
         </li>
         <li><RouterLink to="/cart">🛒</RouterLink></li>
-        <li><RouterLink to="/meals">Ételek .|.</RouterLink></li>
+        <li><RouterLink to="/meals">Ételek ˙|˙</RouterLink></li>
         <li><RouterLink to="/restaurants">Éttermek °|°</RouterLink></li>
-      <li><RouterLink to="/">🍕</RouterLink></li>
+      <li><RouterLink to="/"><img id="royal-delivery-logo" src="/src/assets/royal-delivery-logo.png" alt="Logo" class="logo"></RouterLink></li>
     </ul>
   </nav>
 </template>

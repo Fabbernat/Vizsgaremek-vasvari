@@ -36,6 +36,19 @@ header, main, footer {
     float: right;
 }
 
+#royal-delivery-logo {
+    margin: 0px;
+    padding: 0px;
+}
+
+#royal-delivery-logo img {
+    width: 100%;
+    aspect-ratio: 2 / 1;     /* A képek kb. kétszer olyan szélesek, mint magasak */
+    object-fit: cover;       /* nyújtás helyett levágjuk a kilógó részeket */
+    display: block;
+    border-radius: 12px;
+}
+
 form {
     background-color: rgb(153, 149, 149);
     padding: 20px;
