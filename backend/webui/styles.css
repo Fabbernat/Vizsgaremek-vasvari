@@ -33,6 +33,7 @@ nav a {
 
 nav a:hover {
   color: #1a73e8; /* Google blue */
+  cursor: pointer;
 }
 
 /* ===== HEADER ===== */
