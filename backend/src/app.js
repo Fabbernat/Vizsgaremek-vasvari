@@ -1,7 +1,7 @@
 import { healthCheck } from './controllers/health.controller.js';
+import express from 'express';
+import cors from 'cors';
 
-const express = require('express');
-const cors = require('cors')
 const productRoutes = require('./routes/product.routes')
 
 const port = process.env.PORT || 3000;
