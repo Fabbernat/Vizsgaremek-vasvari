@@ -26,16 +26,16 @@ app.use(express.static(path.join(__dirname, '../webui')));
 
 // Admin, dashboard, api-docs oldalak
 app.get('/admin-panel', (req, res) => {
-  res.sendFile(path.join(__dirname, '../webui', 'admin-panel.html'));
+  res.sendFile(path.join(__dirname, '../webui/admin-panel.html'));
 });
 app.get('/dashboard', (req, res) => {
-  res.sendFile(path.join(__dirname, '../webui', 'dashboard.html'));
+  res.sendFile(path.join(__dirname, '../webui/dashboard.html'));
 });
 app.get('/api-docs', (req, res) => {
-  res.sendFile(path.join(__dirname, '../webui', 'api-docs.html'));
+  res.sendFile(path.join(__dirname, '../webui/api-docs.html'));
 });
-app.get('/health-monitor', (req, res) => {
-  res.sendFile(path.join(__dirname, '../webui', 'health.html'));
+app.get('/health', (req, res) => {
+  res.sendFile(path.join(__dirname, '../webui/health.html'));
 });
 
 export default app;
