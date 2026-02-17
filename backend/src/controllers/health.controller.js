@@ -1,7 +1,3 @@
-import app from '../app.js';
-
 export function healthCheck() {
-    app.get('/health', (req, res) => {
-        res.json({ status: "ok" });
-    });
+    // TODO later: implement health check logic, e.g. check database connection, etc.
 }

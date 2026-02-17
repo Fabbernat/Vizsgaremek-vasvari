@@ -53,6 +53,6 @@ app.post('/api/products', (req, res) => {
   res.status(201).json(newProduct);
 });
 
-export default app;
-
 app.listen(3000, () => console.log("Backend fut a 3000-es porton"));
+
+export default app;

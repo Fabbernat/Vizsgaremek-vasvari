@@ -1,6 +1,7 @@
 {
   "dependencies": {
-    "better-sqlite3": "^12.6.2"
+    "better-sqlite3": "^12.6.2",
+    "express": "^5.2.1"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.23",

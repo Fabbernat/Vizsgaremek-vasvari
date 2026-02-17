@@ -1,4 +1,4 @@
-import { healthCheck } from './controllers/health.controller';
+import { healthCheck } from './controllers/health.controller.js';
 
 const express = require('express');
 const cors = require('cors')
@@ -39,3 +39,5 @@ console.log("The backend has started succesfully...🥀");
 healthCheck(); // health controller létrehozása a kettővel ezelőtti commitban
 
 module.exports = app
+
+export default app;
