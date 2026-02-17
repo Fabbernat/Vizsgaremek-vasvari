@@ -1,43 +1,40 @@
-import { healthCheck } from './controllers/health.controller.js';
 import express from 'express';
 import cors from 'cors';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-const productRoutes = require('./routes/product.routes')
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-const port = process.env.PORT || 3000;
-export const app = express();
+const app = express();
 
-app.use(cors())
-app.use(express.json())
-// Statikus fájlok (képek)
-app.use('/images', express.static('public/images'))
+app.use(cors());
+app.use(express.json());
 
-app.use('/api/products', productRoutes)
+// Statikus fájlok kiszolgálása
+app.use(express.static(path.join(__dirname, 'public')));
 
-// Termékek betöltése a JSON fájlból
-const fs = require('fs')
-const path = require('path')
-const productsFilePath = path.join('data', 'products.json')
-
-app.get('/api/products', (req, res) => {
-  fs.readFile(productsFilePath, 'utf8', (err, data) => {
-    if (err) {
-      res.status(500).json({ error: 'Nem sikerült betölteni a termékeket' })
-      return
-    }
-    const products = JSON.parse(data)
-    res.json(products)
-  })
-})
-
-app.listen(port, () => {
-  console.log(`Backend fut a http://localhost:${port}`)
+// Health API
+app.get('/health', (req, res) => {
+  res.json({
+    status: 'OK',
+    system: 'Royal Delivery backend',
+    time: new Date()
+  });
 });
 
-console.log("The backend has started succesfully...🥀");
-
-healthCheck(); // health controller létrehozása a kettővel ezelőtti commitban
-
-module.exports = app
+// Admin, dashboard, api-docs oldalak
+app.get('/admin-panel', (req, res) => {
+  res.sendFile(path.join(__dirname, '../webui', 'admin-panel.html'));
+});
+app.get('/dashboard', (req, res) => {
+  res.sendFile(path.join(__dirname, '../webui', 'dashboard.html'));
+});
+app.get('/api-docs', (req, res) => {
+  res.sendFile(path.join(__dirname, '../webui', 'api-docs.html'));
+});
+app.get('/health-monitor', (req, res) => {
+  res.sendFile(path.join(__dirname, '../webui', 'health.html'));
+});
 
 export default app;
