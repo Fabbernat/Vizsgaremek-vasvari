@@ -12,16 +12,17 @@ app.use(cors());
 app.use(express.json());
 
 // Statikus fájlok kiszolgálása
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '../webui')));
 
 // Health API
-app.get('/health', (req, res) => {
+// Ez most annyira nem kell, mert van egy health.html oldalunk, de azért hagyom itt kommentben, hátha kell még
+/*app.get('/health', (req, res) => {
   res.json({
     status: 'OK',
     system: 'Royal Delivery backend',
     time: new Date()
   });
-});
+});*/
 
 // Admin, dashboard, api-docs oldalak
 app.get('/admin-panel', (req, res) => {
