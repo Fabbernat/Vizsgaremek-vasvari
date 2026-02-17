@@ -17,8 +17,8 @@ body {
 
 /* ===== NAVBAR ===== */
 nav {
-  background: white;
-  border-bottom: 1px solid #e0e0e0;
+  background: rgb(163, 91, 103);
+  border-bottom: 5px solid #e0e0e0;
   padding: 12px 24px;
   display: flex;
   gap: 20px;
@@ -26,7 +26,7 @@ nav {
 
 nav a {
   text-decoration: none;
-  color: #5f6368;
+  color: #f5f7fa;
   font-weight: 500;
   transition: 0.2s;
 }
@@ -75,4 +75,9 @@ footer {
   padding: 16px;
   color: #5f6368;
   font-size: 14px;
+}
+
+.active {
+  color: #ffae00;
+  font-weight: 600;
 }
