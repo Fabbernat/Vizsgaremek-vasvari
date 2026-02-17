@@ -1,0 +1,77 @@
+/* Alap reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Betű és háttér */
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f5f7fa;
+  color: #202124;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== NAVBAR ===== */
+nav {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 24px;
+  display: flex;
+  gap: 20px;
+}
+
+nav a {
+  text-decoration: none;
+  color: #5f6368;
+  font-weight: 500;
+  transition: 0.2s;
+}
+
+nav a:hover {
+  color: #1a73e8; /* Google blue */
+}
+
+/* ===== HEADER ===== */
+header {
+  background: white;
+  padding: 40px 24px 20px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+header h1 {
+  font-size: 28px;
+  font-weight: 500;
+}
+
+/* ===== MAIN CONTENT ===== */
+main {
+  flex: 1;
+  padding: 40px 24px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+main p {
+  background: white;
+  padding: 24px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  font-size: 18px;
+  max-width: 600px;
+  width: 100%;
+}
+
+/* ===== FOOTER ===== */
+footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  text-align: center;
+  padding: 16px;
+  color: #5f6368;
+  font-size: 14px;
+}
