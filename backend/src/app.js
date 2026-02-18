@@ -38,4 +38,15 @@ app.get('/health', (req, res) => {
   res.sendFile(path.join(__dirname, '../webui/health.html'));
 });
 
+// Dashboard statok API
+app.get('/api/stats', (req, res) => {
+  res.json({
+    orders: 128,
+    users: 42,
+    restaurants: 16,
+    couriers: 9,
+    time: new Date()
+  });
+});
+
 export default app;
