@@ -1,3 +1,5 @@
+console.log("dashboard.js betöltve");
+
 async function loadStats() {
     const res = await fetch('/api/stats');
     const data = await res.json();
