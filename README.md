@@ -1,4 +1,4 @@
-# Git tudorial
+# Git tutorial
 ## ha írtál valami kódot és szeretnéd felpusholni:
 ### A) opció: gombokkal 
 `commit` gomb, majd `push` gomb - (a commit üzenetet meg kell adni)
@@ -31,7 +31,18 @@ A) "Repository is not initialized"
   1. nyomd meg a "initialize repository" gombot.
   2. lehet hogy lesz egy "add" gomb, azt meg kell nyomni
   3. ezután megnyomni a `commit` gombot, majd `push` gombot
+B) "Fatal, unable to push, refspec failed"
+Nem sikerült pusholni, valszeg mert nem a tiéd a repó xd. De a viccet féretéve, valszeg egy 
+```git remote add [`origin`, vagy ami a lokális repo neve, de általában `origin`] git@github.com:vizsgaremek-2025-2026-nappali-2-14b/royal-delivery-app-nalhi-gurban-fabian.git``` - (a repó url-je)
+vagy rossz branchen vagy
+`git switch [jó branch neve]`
+vagy 
+`git checkout [jó branch neve]`
+ha egyik sem, akkor a
+`git push --set-upstream origin main`, vagy a `--force` kapcsoló (`git push -u origin main --force` segíthet. Érdemes amúgy **mindig** az -u és a -force kapcsolókat használni, mert kevesebb errort kapunk.
 
+Aztán lehet még hiba az, hogy a remote olyan munkát tartalmaz, ami nálunk lokálisan még nincs meg, ekkor a 
+`git fetch -a` és a `git pull -a` parancsok lehúzzák a távoli kódot.
 
 [Dokumentáció - Drive link (jogosultsággal szerkeszthető)](https://drive.google.com/drive/folders/1aNDvjjkcXUT5B-rJQAADJJ4zBr0tpsjz?usp=sharing)
 
