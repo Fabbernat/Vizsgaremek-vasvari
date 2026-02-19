@@ -31,7 +31,9 @@ A) "Repository is not initialized"
   1. nyomd meg a "initialize repository" gombot.
   2. lehet hogy lesz egy "add" gomb, azt meg kell nyomni
   3. ezután megnyomni a `commit` gombot, majd `push` gombot
+     
 B) "Fatal, unable to push, refspec failed"
+
 Nem sikerült pusholni, valszeg mert nem a tiéd a repó xd. De a viccet féretéve, valszeg egy 
 ```git remote add [`origin`, vagy ami a lokális repo neve, de általában `origin`] git@github.com:vizsgaremek-2025-2026-nappali-2-14b/royal-delivery-app-nalhi-gurban-fabian.git``` - (a repó url-je)
 vagy rossz branchen vagy
