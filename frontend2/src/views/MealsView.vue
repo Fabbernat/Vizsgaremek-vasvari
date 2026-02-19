@@ -12,7 +12,7 @@ const store = useMealsStore()
     <li v-for="meal in store.meals" :key="meal.name">
     <li>{{ meal.name }}</li>
     <li>{{ meal.description }}</li>
-    <li>{{ meal.price }}</li>
+    <li>{{ meal.price }} Ft</li>
     <button @click="cart.add({ name: meal.name, price: meal.price })">
       Kosárba tesz
     </button>
