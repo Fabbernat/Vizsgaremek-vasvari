@@ -35,12 +35,19 @@ A) "Repository is not initialized"
 B) "Fatal, unable to push, refspec failed"
 
 Nem sikerült pusholni, valszeg mert nem a tiéd a repó xd. De a viccet féretéve, valszeg egy 
+
 ```git remote add [`origin`, vagy ami a lokális repo neve, de általában `origin`] git@github.com:vizsgaremek-2025-2026-nappali-2-14b/royal-delivery-app-nalhi-gurban-fabian.git``` - (a repó url-je)
+
 vagy rossz branchen vagy
+
 `git switch [jó branch neve]`
+
 vagy 
+
 `git checkout [jó branch neve]`
+
 ha egyik sem, akkor a
+
 `git push --set-upstream origin main`, vagy a `--force` kapcsoló (`git push -u origin main --force` segíthet. Érdemes amúgy **mindig** az -u és a -force kapcsolókat használni, mert kevesebb errort kapunk.
 
 Aztán lehet még hiba az, hogy a remote olyan munkát tartalmaz, ami nálunk lokálisan még nincs meg, ekkor a 
