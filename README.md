@@ -44,6 +44,9 @@ ha egyik sem, akkor a
 Aztán lehet még hiba az, hogy a remote olyan munkát tartalmaz, ami nálunk lokálisan még nincs meg, ekkor a 
 `git fetch -a` és a `git pull -a` parancsok lehúzzák a távoli kódot.
 
+Ezen kívül én még agyba-főbe szoktam használgatni a `git branch -a -v` és a `git remote -v` parancsot, amik csak arra szolgálnak, hogy megtudd éppen milyen brancheken és milyen repókban van, szóval a projekt állapotát adják válaszul a parancsok.
+
+
 [Dokumentáció - Drive link (jogosultsággal szerkeszthető)](https://drive.google.com/drive/folders/1aNDvjjkcXUT5B-rJQAADJJ4zBr0tpsjz?usp=sharing)
 
 [Követelményspecifikáció - Google Docs (jogosultsággal szerkeszthető)](https://docs.google.com/document/d/1tTPFeNGFQoAREoPDqRaQL0v3-o-OPWzRQ847onGc3uE/edit?usp=sharing)
