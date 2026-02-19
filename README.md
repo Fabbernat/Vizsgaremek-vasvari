@@ -16,6 +16,7 @@ git branch -M main
 git remote add origin git@github.com:fabbernatvasvari/pelda2.git
 git push -u origin main
 ```
+vagy ugyanezekkel a gombokkal VSCode-ban.
 
 Első alkalommal, nemüres mappából:
 ```powershell
@@ -23,6 +24,7 @@ git remote add origin git@github.com:fabbernatvasvari/pelda2.git
 git branch -M main
 git push -u origin main
 ```
+vagy ugyanezekkel a gombokkal VSCode-ban.
 
 ### Gyakori hibák: 
 A) "Repository is not initialized"
@@ -55,6 +57,7 @@ Aztán lehet még hiba az, hogy a remote olyan munkát tartalmaz, ami nálunk lo
 
 Ezen kívül én még agyba-főbe szoktam használgatni a `git branch -a -v` és a `git remote -v` parancsot, amik csak arra szolgálnak, hogy megtudd éppen milyen brancheken és milyen repókban van, szóval a projekt állapotát adják válaszul a parancsok.
 
+Ezek a parancsok mind VSCode-ban is elérhetőek, csak ki kell őket keresni 🥀😘
 
 [Dokumentáció - Drive link (jogosultsággal szerkeszthető)](https://drive.google.com/drive/folders/1aNDvjjkcXUT5B-rJQAADJJ4zBr0tpsjz?usp=sharing)
 
