@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 
 const restaurants = [
-  { name: 'Király Risztró', description: 'Finom és friss ételek várnak minden látogatót!', image: 'src/assets/pizza-margherita.jpg', meals: [
+  { name: 'Király Bisztró', description: 'Finom és friss ételek várnak minden látogatót!', image: 'src/assets/pizza-margherita.jpg', meals: [
     { name: 'Margherita Pizza', description: 'Friss paradicsom, mozzarella és bazsalikom', price: 1500 },
     { name: 'Caesar Saláta', description: 'Ropogós saláta csirkével és krutonnal', price: 1200 },
     { name: 'Spaghetti Carbonara', description: 'Klasszikus olasz tészta szalonnával és tojással', price: 1300 }

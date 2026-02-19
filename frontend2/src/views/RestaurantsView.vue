@@ -12,7 +12,14 @@ const store = useRestaurantsStore()
       <strong>{{ restaurant.name }}</strong><br />
       {{ restaurant.description }}<br />
       {{ restaurant.image }}<br />
+      
       <button v-on:click="store.showRestaurant(restaurant)">Kiválasztás</button>
+      <!-- {{ onShowRestaurantShow: }}
+        <li v-for="meals in store.meals" :key="meal.name">
+            <strong>{{ meals.name }}</strong>
+            {{ meals.description }}<br/>
+            {{ meals.image }}<br/> 
+        </li>-->
     </li>
   </ul>
 </template>
