@@ -8,6 +8,19 @@
 
 [Hosztolt backend link](https://unpartible-saliently-elena.ngrok-free.dev)
 
+React projekt generátor parancs:
+```powershell
+npm create vite@latest my-app -- --template react-ts
+```
+Vue projekt generátor parancs:
+```powershell
+npm create vite@latest my-app -- --template vue-ts
+```
+vagy csak egyszerűen (ugyanazt csinálja)
+```powershell
+npm create vue@latest
+```
+
 # plaza-app-nalhi-gurban-fabian
 
 ## Ételrendelő app
