@@ -23,9 +23,9 @@ console.log('Local Storage Items:', localStorageItems);
           </RouterLink>
         </li>
         <li><RouterLink to="/cart">🛒</RouterLink></li>
-        <li><RouterLink to="/meals">Ételek ˙|˙</RouterLink></li>
-        <li><RouterLink to="/restaurants">Éttermek °|°</RouterLink></li>
-      <li><RouterLink to="/"><img id="royal-delivery-logo" src="/src/assets/royal-delivery-logo.png" alt="Logo" class="logo"></RouterLink></li>
+        <li><RouterLink to="/meals">Ételek</RouterLink></li>
+        <li><RouterLink to="/restaurants">Éttermek</RouterLink></li>
+      <li><RouterLink to="/"><img id="royal-delivery-logo" src="/src/assets/royal-delivery-logo-v1.png" alt="Logo" class="logo"></RouterLink></li>
     </ul>
   </nav>
 </template>

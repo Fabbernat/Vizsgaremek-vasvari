@@ -14,9 +14,9 @@ const auth = useAuthStore()
 
     <form @submit.prevent="auth.login()">
       <label for="username">Felhasználónév:</label>
-      <input id="username" placeholder="Felhasználónév" />
+      <input id="username" placeholder="Felhasználónév" required title="A felhasználónév megadása kötelező"/>
       <label for="password">Jelszó:</label>
-      <input id="password" type="password" placeholder="Jelszó" />
+      <input id="password" type="password" placeholder="Jelszó" required title="A jelszó megadása kötelező"/>
       <input type="submit" value="Bejelentkezés" />
     </form>
     <div>
@@ -32,11 +32,11 @@ const auth = useAuthStore()
 
     <form>
       <label for="username">Felhasználónév:</label>
-      <input id="username" placeholder="Felhasználónév" />
+      <input id="username" placeholder="Felhasználónév" required title="A felhasználónév megadása kötelező"/>
       <label for="email">Email:</label>
-      <input id="email" type="email" placeholder="Email" />
+      <input id="email" type="email" placeholder="Email" required title="Az email megadása kötelező"/>
       <label for="password">Jelszó:</label>
-      <input id="password" type="password" placeholder="Jelszó" />
+      <input id="password" type="password" placeholder="Jelszó" required title="A jelszó megadása kötelező"/>
       <input type="submit" value="Regisztráció" />
     </form>
     <div>

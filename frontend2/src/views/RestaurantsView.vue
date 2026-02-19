@@ -1,6 +1,8 @@
 <script setup lang="ts">
 const restaurants = [
-  { name: 'Király Risztró', description: 'Finom és friss ételek várnak minden látogatot!', image: '/src/assets/royal-delivery-logo.png' }
+  { name: 'Király Risztró', description: 'Finom és friss ételek várnak minden látogatót!', image: 'src/assets/pizza-margherita.jpg' },
+  { name: 'Pizza Mester', description: 'A legjobb pizzák a városban, friss alapanyagokból!', image: 'src/assets/hamburger.jpg' },
+  { name: 'Sushi Szamuráj', description: 'Autentikus japán sushi, amit imádni fogsz!', image: 'src/assets/caesar-salad.jpg' }
 ]
 </script>
 
