@@ -1,54 +1,25 @@
-import { useState } from 'react'
+import { useState, type SetStateAction } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import { CurrentView } from './CurrentView';
+import {meals} from './stores/meals';
+import {restaurants} from './stores/restaurants';
+import {orders} from './stores/orders';
+import {users} from './stores/users';
 
-
-function CurrentView() {
-  const store = /*useMealsStore()*/ { state: { item: [] } };
-  const [isVisible, setIsVisible] = useState(true); // boolean
-  
-
-  return (
-    <>
-      {isVisible && (
-        <div  className='currentView'>
-          {store.state.item.length}
-          <ul>
-            {store.state.item.map(() => (
-              <li /*key={meal.name}>
-                <div>{meal.name}</div>
-                <div>{meal.description}</div>
-                <div>{meal.price} Ft</div*/>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-      <button onClick={() => setIsVisible(!isVisible)}>
-        Bezárás
-      </button>
-      <div className='add'>
-        <input/>
-        <button>Hozzáadás</button>
-        <div className="list">
-          {item}
-        </div>
-      </div>
-    </>
-  );
-}
+const items = meals;
 
 function App() {
-  const [item, setItem] = useState(0)
+  const [item, setItem] = useState([])
   const [restaurants, setRestaurants] = useState({}); // object
-  const [meals, setMeals] = useState([]); // array
   const  [oders, setOrders] = useState(null); // null
   const [users, setUsers] = useState(undefined); // undefined
 
-  const handleChange = (event) => {
-    setItem(event.target.value);
+  const handleChange = (event: { target: { value: SetStateAction<number>; }; }) => {
+
   };
+
   return (
     <div className="App">
       <nav className='no-bullets'>
@@ -68,7 +39,7 @@ function App() {
         </ul>
       </nav>
 
-      <CurrentView item={item} />
+      <CurrentView item={items} />
 
       <div>
         <a href="https://vite.dev" target="_blank">
@@ -80,9 +51,6 @@ function App() {
       </div>
       <h1 className="text-5xl font-bold text-red-500">Vite + React</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
