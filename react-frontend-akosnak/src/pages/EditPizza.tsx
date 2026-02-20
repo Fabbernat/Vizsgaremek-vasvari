@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import type { Pizza } from "../types/Pizza";
+import apiClient, { baseURL } from "../store/store";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 
@@ -16,7 +17,6 @@ const EditPizza = () => {
   useEffect(() => {
     apiClient
       .get(`/pizzak/${id}`)
-      .then((res) => setPizza(res.data))
       .catch(() => toast.error("A pizzák betöltése sikertelen volt"));
   }, [id]);
 

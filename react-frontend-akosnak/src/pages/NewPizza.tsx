@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { Pizza } from "../types/Pizza";
+import apiClient, { baseURL } from "../store/store";
 import { toast } from "react-toastify";
 
 const NewPizza = () => {

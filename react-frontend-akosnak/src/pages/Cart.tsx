@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
+import apiClient, { baseURL } from "../store/store";
 import type { Pizza } from "../types/Pizza";
 import { Button, Table } from "react-bootstrap";
 import { FaTrash } from "react-icons/fa";
@@ -10,7 +11,6 @@ const Cart = () => {
   useEffect(() => {
     apiClient
       .get("/pizzak")
-      .then((response) => setPizzak(response.data))
       .catch(() => toast.error("A pizzák betöltése sikertelen volt"));
   }, []);
 

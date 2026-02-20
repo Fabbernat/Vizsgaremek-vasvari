@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import apiClient, { baseURL } from "../store/store";
 import type { Pizza } from "../types/Pizza";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -15,7 +16,6 @@ const AllPizza = () => {
   useEffect(() => {
     apiClient
       .get("/pizzak")
-      .then((response) => setPizzak(response.data))
       .catch(() => toast.error("A pizzák betöltése sikertelen volt"));
   }, []);
 
