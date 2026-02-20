@@ -5,9 +5,14 @@ export interface CartItem {
   price: number
 }
 
+const items: CartItem[] = []
+
 export const useCartStore = defineStore('cart', {
   state: () => ({
-    items: [] as CartItem[]
+    items: [
+
+    ] as CartItem[],
+    totalPrice: items.reduce((total, item) => total + item.price, 0)
   }),
   actions: {
     add(item: CartItem) {
