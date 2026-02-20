@@ -26,7 +26,7 @@ createRoot(document.getElementById("root")!).render(
         /orders/{id}
         /users
         /users/{id}  */}
-        <Route path="/" element={<AllPizza />} />
+        <Route path="/" element={<div>Hello</div>} />
         <Route path="/pizza/:id" element={<OnePizza />} />
         <Route path="/edit-pizza/:id" element={<EditPizza />} />
         <Route path="/new-pizza" element={<NewPizza />} />

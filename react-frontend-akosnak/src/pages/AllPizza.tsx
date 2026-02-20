@@ -4,7 +4,8 @@ import type { Pizza } from "../types/Pizza";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
-
+import goodFood from "./good-food.jpg";
+  
 const AllPizza = () => {
   const navigate = useNavigate();
 
@@ -14,32 +15,35 @@ const AllPizza = () => {
   ); // csak ID-kat tárolok
 
   useEffect(() => {
-    apiClient
-      .get("/pizzak")
-      .catch(() => toast.error("A pizzák betöltése sikertelen volt"));
-  }, []);
+  setPizzak([
+    { id: 1, nev: "Teszt", leiras: "Teszt leírás", imageUrl: "" }
+  ] as any);
+}, []);
 
   useEffect(() => {
     localStorage.setItem("kosar", JSON.stringify(kosar));
   }, [kosar]);
 
-  const generateCard = (p: Pizza) => {
+  const generateCard = (pizza: Pizza) => {
     return (
       <Col>
         <Card style={{ width: "18rem" }}>
-          <Card.Img variant="top" src={`${baseURL}/kepek/${p.imageUrl}`} />
+          <Card.Img
+            variant="top"
+            src={pizza.imageUrl ? pizza.imageUrl : goodFood}
+          />
           <Card.Body>
-            <Card.Title>{p.nev}</Card.Title>
-            <Card.Text>{p.leiras}</Card.Text>
+            <Card.Title>{pizza.nev}</Card.Title>
+            <Card.Text>{pizza.leiras}</Card.Text>
             <Button
-              onClick={() => navigate(`/pizza/${p.id}`)}
+              onClick={() => navigate(`/pizza/${pizza.id}`)}
               variant="primary"
             >
               Megtekintés
             </Button>
             <Button
               onClick={() => {
-                setKosar([...kosar, Number(p.id)]);
+                setKosar([...kosar, Number(pizza.id)]);
                 toast.success("Sikeresen a kosárba tetted a terméket!");
               }}
               variant="success"
@@ -55,7 +59,11 @@ const AllPizza = () => {
   return (
     <Container>
       <Row xs={"auto"} md={"auto"} className="g-4">
-        {pizzak.map((i) => generateCard(i))}
+        {pizzak.map((i) => (
+          <Col key={i.id}>
+            {generateCard(i)}
+          </Col>
+        ))}
       </Row>
     </Container>
   );

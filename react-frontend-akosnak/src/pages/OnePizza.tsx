@@ -4,6 +4,7 @@ import type { Pizza } from "../types/Pizza";
 import { toast } from "react-toastify";
 import apiClient, { baseURL } from "../store/store";
 import { Button, Col, Container, Row } from "react-bootstrap";
+import goodFood from "./good-food.jpg";
 
 const OnePizza = () => {
   const { id } = useParams();
@@ -47,7 +48,7 @@ const OnePizza = () => {
             </Button>
           </Col>
           <Col sm={4}>
-            <img width={200} src={`${baseURL}/kepek/${pizza.imageUrl}`} />
+            <img width={200} src={pizza.imageUrl ? pizza.imageUrl : goodFood} />
           </Col>
         </Row>
       ) : (
