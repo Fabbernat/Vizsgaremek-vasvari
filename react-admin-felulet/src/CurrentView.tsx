@@ -35,11 +35,11 @@ export function CurrentView({ item: items }: CurrentViewProps) {
         </div>
       </div>
       <div className='modify'>
-        <input />
+        <input type='text' placeholder='Keresés'/>
         <button>Módosítás</button>
       </div>
       <div className='delete'>
-        <input />
+        <input type='text' placeholder='Keresés'/>
         <button>Törlés</button>
       </div>
        <div className="delete">
