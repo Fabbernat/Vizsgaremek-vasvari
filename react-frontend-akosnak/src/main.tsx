@@ -9,31 +9,35 @@ import EditPizza from "./pages/EditPizza";
 import NotFoundPage from "./pages/errors/NotFoundPage";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Cart from "./pages/Cart";
+import MyNavbar from "./router/Navbar";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <BrowserRouter>
-      <Routes>
+  <BrowserRouter>
 
+    <MyNavbar />
 
-        {/* ezeket ki kell cserélni a sajátokra.
-        Ezek a végpontok kellenek:
-        /restauants
-        /restauants/{id}
-        /meals
-        /meals/{id}
-        /orders
-        /orders/{id}
-        /users
-        /users/{id}  */}
-        <Route path="/" element={<div>Hello</div>} />
-        <Route path="/pizza/:id" element={<OnePizza />} />
-        <Route path="/edit-pizza/:id" element={<EditPizza />} />
-        <Route path="/new-pizza" element={<NewPizza />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
-    </BrowserRouter>
-    <ToastContainer theme="colored" />
-  </StrictMode>
+    <Routes>
+      <Route path="/" element={<div>Hello</div>} />
+
+      <Route path="/restaurants" element={<div>Restaurants</div>} />
+      <Route path="/restaurants/:id" element={<div>One Restaurant</div>} />
+
+      <Route path="/meals" element={<div>Meals</div>} />
+      <Route path="/meals/:id" element={<div>One Meal</div>} />
+
+      <Route path="/orders" element={<div>Orders</div>} />
+      <Route path="/orders/:id" element={<div>One Order</div>} />
+
+      <Route path="/users" element={<div>Users</div>} />
+      <Route path="/users/:id" element={<div>One User</div>} />
+
+      <Route path="*" element={<NotFoundPage />} />
+    </Routes>
+
+  </BrowserRouter>
+
+  <ToastContainer theme="colored" />
+</StrictMode>
 );

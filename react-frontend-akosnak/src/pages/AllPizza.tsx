@@ -1,67 +1,37 @@
 import { useEffect, useState } from "react";
-import apiClient, { baseURL } from "../store/store";
-import type { Pizza } from "../types/Pizza";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
-import { Button, Card, Col, Container, Row } from "react-bootstrap";
-import goodFood from "./good-food.jpg";
-  
+import { Card, Col, Container, Row, Button } from "react-bootstrap";
+
+type Pizza = {
+  id: number;
+  nev: string;
+  leiras: string;
+};
+
 const AllPizza = () => {
-  const navigate = useNavigate();
+  const [pizzak, setPizzak] = useState<Pizza[]>([]);
 
-  const [pizzak, setPizzak] = useState<Array<Pizza>>([]);
-  const [kosar, setKosar] = useState<Array<number>>(
-    JSON.parse(localStorage.getItem("kosar") ?? "[]")
-  ); // csak ID-kat tárolok
-
+  // 🔥 STATIKUS ADAT — így biztos megjelenik
   useEffect(() => {
-  setPizzak([
-    { id: 1, nev: "Teszt", leiras: "Teszt leírás", imageUrl: "" }
-  ] as any);
-}, []);
-
-  useEffect(() => {
-    localStorage.setItem("kosar", JSON.stringify(kosar));
-  }, [kosar]);
-
-  const generateCard = (pizza: Pizza) => {
-    return (
-      <Col>
-        <Card style={{ width: "18rem" }}>
-          <Card.Img
-            variant="top"
-            src={pizza.imageUrl ? pizza.imageUrl : goodFood}
-          />
-          <Card.Body>
-            <Card.Title>{pizza.nev}</Card.Title>
-            <Card.Text>{pizza.leiras}</Card.Text>
-            <Button
-              onClick={() => navigate(`/pizza/${pizza.id}`)}
-              variant="primary"
-            >
-              Megtekintés
-            </Button>
-            <Button
-              onClick={() => {
-                setKosar([...kosar, Number(pizza.id)]);
-                toast.success("Sikeresen a kosárba tetted a terméket!");
-              }}
-              variant="success"
-            >
-              Kosárba
-            </Button>
-          </Card.Body>
-        </Card>
-      </Col>
-    );
-  };
+    setPizzak([
+      { id: 1, nev: "Margherita", leiras: "Paradicsomos" },
+      { id: 2, nev: "Sonkás", leiras: "Sonka + sajt" },
+    ]);
+  }, []);
 
   return (
     <Container>
-      <Row xs={"auto"} md={"auto"} className="g-4">
-        {pizzak.map((i) => (
-          <Col key={i.id}>
-            {generateCard(i)}
+      <h1>Ételek</h1>
+
+      <Row>
+        {pizzak.map((p) => (
+          <Col key={p.id}>
+            <Card style={{ width: "18rem" }}>
+              <Card.Body>
+                <Card.Title>{p.nev}</Card.Title>
+                <Card.Text>{p.leiras}</Card.Text>
+                <Button>Megtekintés</Button>
+              </Card.Body>
+            </Card>
           </Col>
         ))}
       </Row>
