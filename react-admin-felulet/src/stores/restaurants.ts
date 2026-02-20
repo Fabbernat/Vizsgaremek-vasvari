@@ -20,7 +20,7 @@ const restaurants = [
 ];
 
 
-export const useRestaurantsStore = useState('restaurants', {
+export const useRestaurantsStore = useState( {
   state: () => ({
     restaurants: restaurants,
     selectedRestaurant: null as { name: string; description: string; image: string; meals: any[]; } | null,
@@ -32,7 +32,6 @@ export const useRestaurantsStore = useState('restaurants', {
         showRestaurant(restaurant: {
          name: string; description: string; image: string;  meals: any[];
         }) {
-          this.selectedRestaurant = restaurant;
           return restaurant.meals;
         }
     }

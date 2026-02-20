@@ -14,7 +14,7 @@ const meals = [
 
 ];
 
-export const useMealsStore = useState('meals', {
+export const useMealsStore = useState({
     state: () => ({
         meals: meals
     }),
