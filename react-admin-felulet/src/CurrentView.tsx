@@ -19,19 +19,7 @@ export function CurrentView({ item: items }: CurrentViewProps) {
 
   return (
     <>
-      {isVisible && (
-        <div className='currentView'>
-          Current Itemek darabszáma: {items.length} elem
-          <ul>
-            {store.state.item.map((item, index) => (
-              <li key={index}>{item}</li>
-            ))}
-          </ul>
-        </div>
-      )}
-      <button onClick={() => setIsVisible(!isVisible)}>
-        Bezárás
-      </button>
+      {isVisible}
       <div className='add'>
         <input />
         <button>Hozzáadás</button>
@@ -46,6 +34,22 @@ export function CurrentView({ item: items }: CurrentViewProps) {
           ))}
         </div>
       </div>
+      <div className='modify'>
+        <input />
+        <button>Módosítás</button>
+      </div>
+      <div className='delete'>
+        <input />
+        <button>Törlés</button>
+      </div>
+       <div className="delete">
+        <fieldset>
+          <legend>Válassz egy elemet a törléshez:</legend>
+           for item in items:
+             {<select name="" id=""></select>}
+        </fieldset>
+        <input type="submit" value="Törlés" />
+       </div>
     </>
   );
 }
