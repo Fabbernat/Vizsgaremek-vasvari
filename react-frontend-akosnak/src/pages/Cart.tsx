@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import apiClient from "../api/apiClient";
 import type { Pizza } from "../types/Pizza";
 import { Button, Table } from "react-bootstrap";
 import { FaTrash } from "react-icons/fa";

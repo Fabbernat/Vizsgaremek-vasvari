@@ -14,6 +14,18 @@ createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
       <Routes>
+
+
+        {/* ezeket ki kell cserélni a sajátokra.
+        Ezek a végpontok kellenek:
+        /restauants
+        /restauants/{id}
+        /meals
+        /meals/{id}
+        /orders
+        /orders/{id}
+        /users
+        /users/{id}  */}
         <Route path="/" element={<AllPizza />} />
         <Route path="/pizza/:id" element={<OnePizza />} />
         <Route path="/edit-pizza/:id" element={<EditPizza />} />
