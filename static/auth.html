@@ -1,0 +1,67 @@
+<script>
+    let currentView = "login";
+</script>
+
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Royal Delivery</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+            <ul>
+                <li><a href="index.html">Főoldal</a></li>
+                <li><a href="restaurants.html">Éttermek</a></li>
+                <li><a href="meals.html">Ételek</a></li>
+                <li><a href="cart.html">Kosár</a></li>
+                <li><a href="auth.html">{{ isLoggedIn ? "Fiók" : currentView === "login" ? "Bejelentkezés" : "Regisztráció" }}</a></li>
+            </ul>
+        </nav>
+    <header>
+        <h1 class="horizontally-centered">Royal Delivery</h1>
+    </header>
+
+    <main>
+        @if (isLoggedIn) {
+            <h3> Ez a profil oldal</h3>
+        } @else if (currentView === "login") {
+            <h3> Ez a bejelentkezés oldal</h3>
+            <form method="post" action="Login.Vue">
+                <label for="username">Felhasználónév:</label>
+                <input type="text" id="username" name="username" required><br><br>
+                <label for="password">Jelszó:</label>
+                <input type="password" id="password" name="password" required><br><br>
+                <button type="submit">Bejelentkezés</button>
+            </form>
+            <div>
+                <p>Még nincs fiókod? <a href="#" @click="currentView = 'register'">Regisztráció</a></p>
+            </div>
+        } @else if (currentView === "register") {
+            <h3> Ez a regisztráció oldal</h3>
+            <form method="post" action="Register.Vue">
+                <label for="username">Felhasználónév:</label>
+                <input type="text" id="username" name="username" required><br><br>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required><br><br>
+                <label for="password">Jelszó:</label>
+                <input type="password" id="password" name="password" required><br><br>
+                <button type="submit">Regisztráció</button>
+            </form>
+            <div>
+                <p>Már van fiókod? <a href="#" @click="currentView = 'login'">Bejelentkezés</a></p>
+            </div>
+            }
+        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio dolor placeat atque officiis saepe, reiciendis ut velit molestias explicabo natus ipsam fuga voluptatibus? Culpa aperiam consectetur perspiciatis, nam velit ipsum.</p>
+    </main>
+
+    <footer id="contact">
+        <h2>Kapcsolat</h2>
+        <p>Email: <a href="mailto:info@royaldelivery.com">info@royaldelivery.com</a></p>
+        <p>Telefon: +36 123 4567</p>
+        <p>Cím: 1234 Budapest, Király utca 1.</p>
+    </footer>
+</body>
+</html>

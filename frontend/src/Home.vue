@@ -36,5 +36,11 @@
         Rendelj gyorsan és egyszerűen a széles választékunkból👌
         </p>
     </div>
+    <header class="hero">
+    <h1>Mit ennél ma?</h1>
+  </header>
 
+  <main class="menu">
+    <!-- termékek -->
+  </main>
     </template>

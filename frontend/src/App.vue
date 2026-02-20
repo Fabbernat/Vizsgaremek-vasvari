@@ -1,5 +1,5 @@
 <script>
-  import "./styles/app.css"
+import "./styles/app.css"
 </script>
 
 <script setup>
@@ -11,6 +11,7 @@ import hamburger from './assets/hamburger.jpg'
 import salad from './assets/caesar-salad.jpg'
 import shoppingCartIcon from './assets/white-cart.png'
 import royalDeliveryLogo from './assets/royal-delivery-logo.png'
+import profileUserAccount from './assets/profile-user-account.svg'
 
 // Oldal komponensek
 import Home from './Home.vue'
@@ -18,8 +19,15 @@ import About from './About.vue'
 import NotFound from './NotFound.vue'
 import Cart from './Cart.vue'
 
+
 const cartCount = ref(0)
 const cart = ref([])
+
+
+const showNavbar = computed(() => {
+  const path = currentPath.value.slice(1) || '/'
+  return path !== '/login' && path !== '/404'
+})
 
 function addToCart(product) {
   const existing = cart.value.find(p => p.name === product.name)
@@ -48,8 +56,8 @@ const products = [
 ]
 
 const routes = {
-  '/': Home, 
-  '/about': About, 
+  '/': Home,
+  '/about': About,
   '/cart': Cart,
   '/*': NotFound
 }
@@ -67,35 +75,48 @@ const currentView = computed(() => {
   return routes[path] || NotFound
 })
 
-// Csak home oldalon jelenik meg a menü
-const isHome = computed(() => (currentPath.value.slice(1) || '/') === '/')
+// Csak bizonyos oldalakon jelenik meg a menü
+const isHome = computed(() => {
+  const path = currentPath.value.slice(1) || '/'
+  return path === '/'
+})
+
+const isNavigation = computed(() => {
+  const path = currentPath.value.slice(1) || '/'
+  return path === '/' || path === '/cart'
+})
+
+// Ha MINDEN oldalon kell navbar (kivéve pl. 404)
+const isSite = computed(() => true)
 
 
 </script>
 
-<template  style="color: white;">
-  <!-- Aktuális oldal komponense -->
-  <component style="color: white;"
-  :is="currentView"
-  :cart="cart"
-/>
+<template style="color: white;">
+  <Navbar v-if="showNavbar" />
 
-  <!-- HOME tartalom -->
-    <div v-if="isHome" class="app bg-white text-black">
+
+  <div v-if="isHome" class="app bg-white text-black">
     <img :src="royalDeliveryLogo" alt="Royal Delivery Logo" width="120" style="display: block; margin: 1rem auto;" />
     <nav class="navbar bg-white text-black">
       <div class="logo-text flex items-center text-black font-semibold">Royal Delivery</div>
-        <div class="nav-items">
-          <span>Étlap</span>
-          <span>Profil</span>
-        <div class="cart-icon" @click="openCart">
-        <img :src="shoppingCartIcon" alt="Shopping Cart" width="24" height="24" />
-        <span v-if="cartCount > 0" class="cart-badge">{{ cartCount }}</span>
-        </div>
+      <!-- Aktuális oldal komponense -->
+      <component style="color: white;" :is="currentView" :cart="cart" />
+      <div class="nav-items">
+        <span>Étlap</span>
+        <span>Profil</span>
+        <span><img :src="profileUserAccount" alt="Profile User Account" width="24" height="24" /></span>
+        <span>
+          <div class="cart-icon" @click="openCart" :is="currentView" :cart="cart">
+            <img :src="shoppingCartIcon" alt="Shopping Cart" width="24" height="24" />
+            <span v-if="cartCount > 0" class="cart-badge">{{ cartCount }}</span>
+          </div>
+        </span>
 
       </div>
     </nav>
 
+    <!-- HOME tartalom -->
     <header class="hero">
       <h1>Mit ennél ma?</h1>
       <h2>Rendelj gyorsan és egyszerűen kedvenc ételeid közül</h2>
@@ -109,10 +130,7 @@ const isHome = computed(() => (currentPath.value.slice(1) || '/') === '/')
           <span class="price">{{ product.price.toLocaleString('hu-HU') }} Ft</span>
         </div>
         <p>{{ product.description }}</p>
-        <div
-          class="action"
-          @click="() => addToCart(product)"
-        >
+        <div class="action" @click="() => addToCart(product)">
           Kosárba teszem
         </div>
       </div>

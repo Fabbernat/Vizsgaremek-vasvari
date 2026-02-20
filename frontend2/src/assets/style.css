@@ -1,0 +1,63 @@
+body {
+    margin: 0px;
+}
+
+header, main, footer {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+
+.horizontally-centered {
+    text-align: center;
+}
+
+.navbar ul {
+    list-style-type: none;
+    background-color: hsl(0, 0%, 25%);
+    padding: 0px;
+    margin: 0px;
+    overflow: hidden;
+}
+
+.navbar a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    padding: 15px;
+    text-align: center;
+}
+
+.navbar a:hover {
+    background-color: hsl(0, 0%, 10%);
+}
+
+.navbar li {
+    float: right;
+}
+
+#royal-delivery-logo {
+    margin: 0px;
+    padding: 0px;
+}
+
+#royal-delivery-logo img {
+    width: 100%;
+    aspect-ratio: 2 / 1;     /* A képek kb. kétszer olyan szélesek, mint magasak */
+    object-fit: cover;       /* nyújtás helyett levágjuk a kilógó részeket */
+    display: block;
+    border-radius: 12px;
+}
+
+form {
+    background-color: rgb(153, 149, 149);
+    padding: 20px;
+}
+
+div {
+    background-color: rgb(201, 152, 107);
+}
+
+.cart{
+    background-color: rgb(119, 119, 119);
+}
