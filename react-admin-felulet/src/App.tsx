@@ -8,6 +8,22 @@ function App() {
 
   return (
     <>
+    <nav className='no-bullets'>
+      <ul>
+        <li>
+          <a href="/restaurants">Éttermek</a>
+        </li>
+        <li>
+          <a href="/meals">Ételek</a>
+        </li>
+        <li>
+          <a href="/orders">Rendelések</a>
+        </li>
+        <li>
+          <a href="/users">Felhasználók</a>
+        </li>
+      </ul>
+    </nav>
       <div>
         <a href="https://vite.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
@@ -16,7 +32,7 @@ function App() {
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
-      <h1>Vite + React</h1>
+      <h1  className="text-5xl font-bold text-red-500">Vite + React</h1>
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
