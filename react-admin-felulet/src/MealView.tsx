@@ -20,7 +20,8 @@ export function MealView({ meal: meals }: Meal) {
           {meals.map((item, index) => (
             <ul>
 
-              <li key={index}>{item.name} </li><br />
+              <li key={index}>{item.id} </li><br />
+              <li> {item.name} </li><br />
               <li> {item.description} </li><br />
               <li> {item.price} Ft</li>
             </ul>

@@ -1,17 +1,47 @@
 import './ModernStyle.css'
-import type { Meal } from './MealView';
 
 export type Restaurant = {
   restaurant: {
     id: number;
     name: string;
     description: string;
-    meals: Meal[];
   }[]
 };
 
-export function RestaurantView({ restaurant }: { restaurant: any }) {
+export function RestaurantView({ restaurant: restaurants }: Restaurant) {
+
   return (
-    <div>Restaurants</div>
+    <>
+      <div className='add'>
+        <input />
+        <button>Hozzáadás</button>
+        <div className="list grid">
+          {restaurants.map((item, index) => (
+            <ul>
+
+              <li key={index}>{item.id} </li><br />
+              <li> {item.name} </li><br />
+              <li> {item.description} </li><br />
+            </ul>
+          ))}
+        </div>
+      </div>
+      <div className='modify'>
+        <input type='text' placeholder='Keresés'/>
+        <button>Módosítás</button>
+      </div>
+      <div className='delete'>
+        <input type='text' placeholder='Keresés'/>
+        <button>Törlés</button>
+      </div>
+       <div className="delete">
+        <fieldset>
+          <legend>Válassz egy elemet a törléshez:</legend>
+           for item in items:
+             {<select name="" id=""></select>}
+        </fieldset>
+        <input type="submit" value="Törlés" />
+       </div>
+    </>
   );
 }

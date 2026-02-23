@@ -18,8 +18,8 @@ export function OrderView({ order: orders }: Order) {
         <div className="list grid">
           {orders.map((item, index) => (
             <ul>
-
-              <li key={index}>{item.username} </li><br />
+              <li key={index}>{item.id} </li><br />
+              <li> {item.username} </li><br />
               <li> {item.date} </li>
             </ul>
           ))}
