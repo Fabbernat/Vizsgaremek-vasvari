@@ -1,6 +1,4 @@
-import { useState, type SetStateAction } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useState, type MouseEvent, type SetStateAction } from 'react'
 
 // stílusok
 import './App.css'
@@ -13,49 +11,54 @@ import { OrderView } from './OrderView'
 import { UserView } from './UserView'
 
 // modellek
-import {meals} from './stores/meals';
-import {restaurants} from './stores/restaurants';
-import {orders} from './stores/orders';
-import {users} from './stores/users';
+import { meals } from './stores/meals';
+import { restaurants } from './stores/restaurants';
+import { orders } from './stores/orders';
+import { users } from './stores/users';
 
 const thisMeals = meals;
+const thisRestaurants = restaurants;
+const thisOrders = orders;
+const thisUsers = users;
+
+type ViewType = 'meals' | 'restaurants' | 'orders' | 'users';
 
 function App() {
-  const [item, setItem] = useState([])
+  // A single string to track the active view with type safety
+const [activeView, setActiveView] = useState<ViewType>('meals');
+
+  const [item, setItem] = useState([]) // array
   const [restaurants, setRestaurants] = useState({}); // object
-  const  [oders, setOrders] = useState(null); // null
+  const [oders, setOrders] = useState(null); // null
   const [users, setUsers] = useState(undefined); // undefined
   const [isMealVisible, setIsMealVisible] = useState(false); // boolean
+  const [isRestaurantVisible, setIsRestaurantVisible] = useState(false); // boolean
+  const [isOrderVisible, setIsOrderVisible] = useState(false); // boolean
+  const [isUserVisible, setIsUserVisible] = useState(false); // boolean
 
-  const handleChange = (event: { target: { value: SetStateAction<number>; }; }) => {
-
+  const handleSwitch = (e: MouseEvent<HTMLAnchorElement>, view: ViewType) => {
+    e.preventDefault(); 
+    setActiveView(view);
   };
+
 
   return (
     <div className="App">
       <nav>
-        <ul  className='no-bullets'>
-          <li>
-            <a href="/restaurants">Éttermek</a>
-          </li>
-          <li>
-            <a href="/meals">Ételek</a>
-          </li>
-          <li>
-            <a href="/orders">Rendelések</a>
-          </li>
-          <li>
-            <a href="/users">Felhasználók</a>
-          </li>
+        <ul className='no-bullets'>
+          <li><a href="#" onClick={(e) => handleSwitch(e, 'restaurants')}>Éttermek</a></li>
+          <li><a href="#" onClick={(e) => handleSwitch(e, 'meals')}>Ételek</a></li>
+          <li><a href="#" onClick={(e) => handleSwitch(e, 'orders')}>Rendelések</a></li>
+          <li><a href="#" onClick={(e) => handleSwitch(e, 'users')}>Felhasználók</a></li>
         </ul>
       </nav>
 
 
       // ezt kéne jól kitalálni, hogy hogyan lehetne megjeleníteni a különböző típusú adatokat egy közös komponensben
-      <MealView meal={thisMeals} />
-      <RestaurantView restaurant={restaurants} />
-      <OrderView order={oders} />
-      <UserView user={users} />
+      {activeView === 'meals' && <MealView meal={thisMeals} />}
+      {activeView === 'restaurants' && <RestaurantView restaurant={thisRestaurants} />}
+      {activeView === 'orders' && <OrderView order={thisOrders} />}
+      {activeView === 'users' && <UserView user={thisUsers} />}
     </div>
   )
 }

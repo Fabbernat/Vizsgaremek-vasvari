@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import './ModernStyle.css'
 
 type CurrentViewProps = {
@@ -11,11 +10,6 @@ type CurrentViewProps = {
 };
 
 export function MealView({ meal: meals }: CurrentViewProps) {
-  let currentItemType = meals;
-
-
-  const store = /*useMealsStore()*/ { state: { item: [] } };
-
 
   return (
     <>
