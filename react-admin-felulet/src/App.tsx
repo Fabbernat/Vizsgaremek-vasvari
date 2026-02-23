@@ -2,7 +2,7 @@ import { useState, type MouseEvent, type SetStateAction } from 'react'
 
 // stílusok
 import './App.css'
-import './ModernStyle.css'
+
 
 // view-k
 import { MealView } from './MealView';

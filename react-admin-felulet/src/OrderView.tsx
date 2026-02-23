@@ -1,4 +1,4 @@
-import './ModernStyle.css'
+
 
 export type Order = {
   order: {
