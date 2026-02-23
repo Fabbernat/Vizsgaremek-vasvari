@@ -15,7 +15,7 @@ export function RestaurantView({ restaurant: restaurants }: Restaurant) {
       <div className='add'>
         <input />
         <button>Hozzáadás</button>
-        <div className="list grid">
+        <div className="list grid-cards">
           {restaurants.map((item, index) => (
             <ul>
 

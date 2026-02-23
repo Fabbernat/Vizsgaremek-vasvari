@@ -16,7 +16,7 @@ export function UserView({ user: users }: { user: User }) {
       <div className='add'>
         <input />
         <button>Hozzáadás</button>
-        <div className="list grid">
+        <div className="list grid-cards">
           {users.map((item, index) => (
             <ul>
               

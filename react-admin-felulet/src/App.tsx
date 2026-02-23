@@ -43,23 +43,33 @@ const [activeView, setActiveView] = useState<ViewType>('meals');
 
 
   return (
-    <div className="App">
-      <nav>
-        <ul className='no-bullets'>
-          <li><a href="#" onClick={(e) => handleSwitch(e, 'restaurants')}>Éttermek</a></li>
-          <li><a href="#" onClick={(e) => handleSwitch(e, 'meals')}>Ételek</a></li>
-          <li><a href="#" onClick={(e) => handleSwitch(e, 'orders')}>Rendelések</a></li>
-          <li><a href="#" onClick={(e) => handleSwitch(e, 'users')}>Felhasználók</a></li>
-        </ul>
-      </nav>
+    <>
+    <div className="grid-layout">
+        <nav>
+          <ul className='no-bullets'>
+            <li><a href="#" onClick={(e) => handleSwitch(e, 'restaurants')}>Éttermek</a></li>
+            <li><a href="#" onClick={(e) => handleSwitch(e, 'meals')}>Ételek</a></li>
+            <li><a href="#" onClick={(e) => handleSwitch(e, 'orders')}>Rendelések</a></li>
+            <li><a href="#" onClick={(e) => handleSwitch(e, 'users')}>Felhasználók</a></li>
+          </ul>
+        </nav>
 
+        <header>Header</header>
+        
+        <aside>Sidebar</aside>
 
-      // ezt kéne jól kitalálni, hogy hogyan lehetne megjeleníteni a különböző típusú adatokat egy közös komponensben
-      {activeView === 'meals' && <MealView meal={thisMeals} />}
-      {activeView === 'restaurants' && <RestaurantView restaurant={thisRestaurants} />}
-      {activeView === 'orders' && <OrderView order={thisOrders} />}
-      {activeView === 'users' && <UserView user={thisUsers} />}
-    </div>
+        <main className='currentView'>
+          {/* ezt kéne jól kitalálni, hogy hogyan lehetne megjeleníteni a különböző típusú adatokat egy közös komponensben */}
+          {activeView === 'meals' && <MealView meal={thisMeals} />}
+          {activeView === 'restaurants' && <RestaurantView restaurant={thisRestaurants} />}
+          {activeView === 'orders' && <OrderView order={thisOrders} />}
+          {activeView === 'users' && <UserView user={thisUsers} />}
+        </main>
+
+        <footer>Footer</footer>
+
+      </div>
+    </>
   )
 }
 

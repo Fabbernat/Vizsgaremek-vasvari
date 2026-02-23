@@ -15,7 +15,7 @@ export function OrderView({ order: orders }: Order) {
       <div className='add'>
         <input />
         <button>Hozzáadás</button>
-        <div className="list grid">
+        <div className="list grid-cards">
           {orders.map((item, index) => (
             <ul>
               <li key={index}>{item.id} </li><br />
