@@ -1,38 +1,31 @@
-import { useState } from 'react';
 
-type CurrentViewProps = {
-  item: {
+
+export type Restaurant = {
+  restaurant: {
     id: number;
     name: string;
     description: string;
-    price: number;
   }[]
 };
 
-export function CurrentView({ item: items }: CurrentViewProps) {
-  let currentItemType = items;
-
-
-  const store = /*useMealsStore()*/ { state: { item: [] } };
-  const [isVisible, setIsVisible] = useState(true); // boolean
-
+export function RestaurantView({ restaurant: restaurants }: Restaurant) {
 
   return (
     <>
-      {isVisible}
-      <div className='add'>
-        <input />
-        <button>Hozzáadás</button>
-        <div className="list">
-          {items.map((item, index) => (
+    <h1>Éttermek listája</h1>
+        <div className="list grid-cards">
+          {restaurants.map((item, index) => (
             <ul>
 
-              <li key={index}>{item.name} </li><br />
+              <li key={index}>{item.id} </li><br />
+              <li> {item.name} </li><br />
               <li> {item.description} </li><br />
-              <li> {item.price} Ft</li>
             </ul>
           ))}
         </div>
+      <div className='add'>
+        <input />
+        <button>Hozzáadás</button>
       </div>
       <div className='modify'>
         <input type='text' placeholder='Keresés'/>
