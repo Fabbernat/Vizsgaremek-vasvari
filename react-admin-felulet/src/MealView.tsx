@@ -2,7 +2,7 @@ import { useState } from 'react';
 import './ModernStyle.css'
 
 type CurrentViewProps = {
-  item: {
+  meal: {
     id: number;
     name: string;
     description: string;
@@ -10,22 +10,20 @@ type CurrentViewProps = {
   }[]
 };
 
-export function CurrentView({ item: items }: CurrentViewProps) {
-  let currentItemType = items;
+export function MealView({ meal: meals }: CurrentViewProps) {
+  let currentItemType = meals;
 
 
   const store = /*useMealsStore()*/ { state: { item: [] } };
-  const [isVisible, setIsVisible] = useState(true); // boolean
 
 
   return (
     <>
-      {isVisible}
       <div className='add'>
         <input />
         <button>Hozzáadás</button>
         <div className="list grid">
-          {items.map((item, index) => (
+          {meals.map((item, index) => (
             <ul>
 
               <li key={index}>{item.name} </li><br />
