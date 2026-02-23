@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import './ModernStyle.css'
 
 type CurrentViewProps = {
   item: {
@@ -23,7 +24,7 @@ export function CurrentView({ item: items }: CurrentViewProps) {
       <div className='add'>
         <input />
         <button>Hozzáadás</button>
-        <div className="list">
+        <div className="list grid">
           {items.map((item, index) => (
             <ul>
 

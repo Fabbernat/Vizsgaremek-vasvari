@@ -23,8 +23,8 @@ function App() {
 
   return (
     <div className="App">
-      <nav className='no-bullets'>
-        <ul>
+      <nav>
+        <ul  className='no-bullets'>
           <li>
             <a href="/restaurants">Éttermek</a>
           </li>
@@ -40,25 +40,9 @@ function App() {
         </ul>
       </nav>
 
-      <CurrentView item={items} />
 
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1 className="text-5xl font-bold text-red-500">Vite + React</h1>
-      <div className="card">
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      // ezt kéne jól kitalálni, hogy hogyan lehetne megjeleníteni a különböző típusú adatokat egy közös komponensben
+      <CurrentView item={items} />
     </div>
   )
 }
