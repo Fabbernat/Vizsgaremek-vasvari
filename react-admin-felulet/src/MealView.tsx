@@ -1,6 +1,6 @@
 import './ModernStyle.css'
 
-type CurrentViewProps = {
+export type Meal = {
   meal: {
     id: number;
     name: string;
@@ -9,7 +9,7 @@ type CurrentViewProps = {
   }[]
 };
 
-export function MealView({ meal: meals }: CurrentViewProps) {
+export function MealView({ meal: meals }: Meal) {
 
   return (
     <>
