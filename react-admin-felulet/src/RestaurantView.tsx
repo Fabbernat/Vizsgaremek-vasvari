@@ -12,9 +12,7 @@ export function RestaurantView({ restaurant: restaurants }: Restaurant) {
 
   return (
     <>
-      <div className='add'>
-        <input />
-        <button>Hozzáadás</button>
+    <h1>Éttermek listája</h1>
         <div className="list grid-cards">
           {restaurants.map((item, index) => (
             <ul>
@@ -25,6 +23,9 @@ export function RestaurantView({ restaurant: restaurants }: Restaurant) {
             </ul>
           ))}
         </div>
+      <div className='add'>
+        <input />
+        <button>Hozzáadás</button>
       </div>
       <div className='modify'>
         <input type='text' placeholder='Keresés'/>

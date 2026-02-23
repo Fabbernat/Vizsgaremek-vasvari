@@ -13,19 +13,19 @@ export function MealView({ meal: meals }: Meal) {
 
   return (
     <>
-      <div className='add'>
-        <input />
-        <button>Hozzáadás</button>
-        <div className="list grid-cards">
+    <h1>Ételek listája</h1>
+    <div className="list grid-cards">
           {meals.map((item, index) => (
             <ul>
-
               <li key={index}>{item.id} </li><br />
               <li> {item.name} </li><br />
               <li> {item.description} </li><br />
               <li> {item.price} Ft</li>
             </ul>
           ))}
+      <div className='add'>
+        <input />
+        <button>Hozzáadás</button>
         </div>
       </div>
       <div className='modify'>

@@ -12,9 +12,7 @@ export function OrderView({ order: orders }: Order) {
  
      return (
     <>
-      <div className='add'>
-        <input />
-        <button>Hozzáadás</button>
+    <h1>Rendelések listája</h1>
         <div className="list grid-cards">
           {orders.map((item, index) => (
             <ul>
@@ -24,6 +22,9 @@ export function OrderView({ order: orders }: Order) {
             </ul>
           ))}
         </div>
+      <div className='add'>
+        <input />
+        <button>Hozzáadás</button>
       </div>
       <div className='modify'>
         <input type='text' placeholder='Keresés'/>
