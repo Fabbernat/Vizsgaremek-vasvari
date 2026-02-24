@@ -1,3 +1,4 @@
+import { useState, type SetStateAction } from "react";
 import { meals } from "./stores/meals";
 
 export type User = {
@@ -11,14 +12,33 @@ export type User = {
 ;
 
 export function UserView({ user: users }: { user: User }) {
+
+  const [searchedItem, setSearchedItem] = useState('');
+  
+    const handleChange = (event: { target: { value: SetStateAction<string>; }; }) => {
+      setSearchedItem(event.target.value);
+    };
+    
  return (
  <>
      <h1>Felhasználók listája</h1>
- <div className="search-container">
-      <label htmlFor="search" className='search'>Keresés:
-      <input type='text' placeholder='Keresés'/>
-      </label>
-    </div>
+
+     <div className="search-container">
+        <div>
+
+        <label htmlFor="search" className='search'>Keresés:
+          <input type='text' id="search" placeholder='Keresés' value={searchedItem} onChange={handleChange} />
+        <button>Keresés</button>
+        </label>
+        </div>
+        
+          {searchedItem !== "" ? 
+          <div>
+            <p>Nincs találat a következőre: {searchedItem}</p>
+          </div>: null}
+      </div>
+
+ 
             <div className="list grid-cards">
 
  {users.map((user, index) => (

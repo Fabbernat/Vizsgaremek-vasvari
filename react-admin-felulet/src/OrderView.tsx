@@ -1,3 +1,4 @@
+import { useState, type SetStateAction } from "react";
 
 
 export type Order = {
@@ -10,14 +11,31 @@ export type Order = {
 
 export function OrderView({ order: orders }: Order) {
 
+  const [searchedItem, setSearchedItem] = useState('');
+  
+    const handleChange = (event: { target: { value: SetStateAction<string>; }; }) => {
+      setSearchedItem(event.target.value);
+    };
+    
   return (
     <>
       <h1>Rendelések listája</h1>
+
       <div className="search-container">
+        <div>
+
         <label htmlFor="search" className='search'>Keresés:
-          <input type='text' placeholder='Keresés' />
+          <input type='text' id="search" placeholder='Keresés' value={searchedItem} onChange={handleChange} />
+        <button>Keresés</button>
         </label>
+        </div>
+          {searchedItem !== "" ? 
+          <div>
+            <p>Nincs találat a következőre: {searchedItem}</p>
+          </div>: null}
       </div>
+
+     
       <div className="list grid-cards">
         {orders.map((order, index) => (
           <div>  <ul>

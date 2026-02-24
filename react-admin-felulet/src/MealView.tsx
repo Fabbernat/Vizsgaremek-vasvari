@@ -21,6 +21,7 @@ export function MealView({ meal: meals }: Meal) {
   return (
     <>
       <h1>Ételek listája</h1>
+      
       <div className="search-container">
         <div>
 
@@ -34,6 +35,7 @@ export function MealView({ meal: meals }: Meal) {
             <p>Nincs találat a következőre: {searchedItem}</p>
           </div>: null}
       </div>
+
       <div className="list grid-cards">
         {meals.map((meal, index) => (
           <div>
