@@ -6,28 +6,24 @@ namespace MyApp.Desktop.ViewModels
 {
     public partial class MainWindowViewModel : ObservableObject
     {
-        private readonly StudentViewModel _studentViewModel= new StudentViewModel();
+        private readonly RestaurantViewModel _restaurantViewModel= new RestaurantViewModel();
         private readonly SchoolClassViewModel _schoolClassViewModel = new SchoolClassViewModel();
-        private readonly ControlPanelViewModel _controlPanelViewModel = new ControlPanelViewModel();
+        private readonly UserViewModel _userViewModel = new UserViewModel();
+        
 
         [ObservableProperty]
         public object _currentView = new object();
 
-        public MainWindowViewModel()
+        [RelayCommand]
+        private void ShowRestaurantView()
         {
-            _currentView = _controlPanelViewModel;
+            CurrentView = _restaurantViewModel;
         }
 
         [RelayCommand]
-        private void ShowControlPanalView()
+        private void ShowUserView()
         {
-            CurrentView = _controlPanelViewModel;
-        }
-
-        [RelayCommand]
-        private void ShowStudentView()
-        {
-            CurrentView = _studentViewModel;
+            CurrentView = _userViewModel;
         }
 
         [RelayCommand]

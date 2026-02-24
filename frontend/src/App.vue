@@ -111,7 +111,6 @@ const isHome = computed(() => (currentPath.value.slice(1) || '/') === '/')
         <p>{{ product.description }}</p>
         <div
           class="action"
-          :class="{ secondary: product.isSecondary }"
           @click="() => addToCart(product)"
         >
           Kosárba teszem

@@ -18,38 +18,42 @@ const formatFt = (value) =>
 </script>
 
 <template>
-  <div class="cart-view">
-    <h1>Kosár tartalma</h1>
+  <div class="cart-page-wrapper">
+    <div class="cart-view">
+      <h1>Kosár tartalma</h1>
 
-    <p v-if="cart.length === 0" class="empty">
-      🛒 A kosár üres.
-    </p>
+      <p v-if="cart.length === 0" class="empty">
+        <span class="cart-icon">🛒</span> A kosár üres.
+      </p>
 
-    <table v-else class="cart-table">
-      <thead>
-        <tr>
-          <th>Termék</th>
-          <th>Mennyiség</th>
-          <th class="right">Egységár</th>
-          <th class="right">Részösszeg</th>
-        </tr>
-      </thead>
+      <div v-else class="table-container">
+        <table class="cart-table">
+          <thead>
+            <tr>
+              <th>Termék</th>
+              <th>Mennyiség</th>
+              <th class="right">Egységár</th>
+              <th class="right">Részösszeg</th>
+            </tr>
+          </thead>
 
-      <tbody>
-        <tr v-for="item in cart" :key="item.name">
-          <td>{{ item.name }}</td>
-          <td>{{ item.qty }} db</td>
-          <td class="right">{{ formatFt(item.price) }}</td>
-          <td class="right">{{ formatFt(item.price * item.qty) }}</td>
-        </tr>
-      </tbody>
+          <tbody>
+            <tr v-for="item in cart" :key="item.name">
+              <td>{{ item.name }}</td>
+              <td>{{ item.qty }} db</td>
+              <td class="right">{{ formatFt(item.price) }}</td>
+              <td class="right">{{ formatFt(item.price * item.qty) }}</td>
+            </tr>
+          </tbody>
 
-      <tfoot>
-        <tr>
-          <td colspan="3" class="total-label">Összesen:</td>
-          <td class="right total">{{ formatFt(total) }}</td>
-        </tr>
-      </tfoot>
-    </table>
+          <tfoot>
+            <tr>
+              <td colspan="3" class="total-label">Összesen:</td>
+              <td class="right total">{{ formatFt(total) }}</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
   </div>
 </template>

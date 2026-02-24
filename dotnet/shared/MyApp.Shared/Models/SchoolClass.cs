@@ -23,9 +23,7 @@
         public int StudentCount { get; set; }
         
         // Üres konstruktor
-        public SchoolClass()
-        {
-        }
+        public SchoolClass() {}
 
         // Paraméteres konstruktor
         public SchoolClass(int grade, string section, int studentCount)
