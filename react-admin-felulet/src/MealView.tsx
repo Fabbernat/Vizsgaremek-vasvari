@@ -14,35 +14,44 @@ export function MealView({ meal: meals }: Meal) {
   return (
     <>
     <h1>Ételek listája</h1>
+    <div className="search-container">
+      <label htmlFor="search" className='search'>Keresés:
+      <input type='text' placeholder='Keresés'/>
+      </label>
+    </div>
     <div className="list grid-cards">
           {meals.map((item, index) => (
+            <div>
             <ul>
               <li key={index}>{item.id} </li><br />
               <li> {item.name} </li><br />
               <li> {item.description} </li><br />
               <li> {item.price} Ft</li>
             </ul>
-          ))}
-      <div className='add'>
-        <input />
-        <button>Hozzáadás</button>
-        </div>
-      </div>
-      <div className='modify'>
-        <input type='text' placeholder='Keresés'/>
+              <div className='modify'>
         <button>Módosítás</button>
       </div>
       <div className='delete'>
-        <input type='text' placeholder='Keresés'/>
         <button>Törlés</button>
       </div>
+      </div>
+          ))}
+      <div className='add'>
+        <h1>Új étel hozzáadása</h1>
+        {meals.map((item, index) => (
+          <div>
+            <ul>
+              <input placeholder={item.name} />
+              <input placeholder={item.description} />
+              <input placeholder={item.price.toString()} />
+            </ul>
+            </div>))}
+        <button>Hozzáadás</button>
+        </div>
+      </div>
+      
        <div className="delete">
-        <fieldset>
-          <legend>Válassz egy elemet a törléshez:</legend>
-           for item in items:
-             {<select name="" id=""></select>}
-        </fieldset>
-        <input type="submit" value="Törlés" />
+          <button>Összes törlése</button>
        </div>
     </>
   );

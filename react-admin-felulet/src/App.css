@@ -174,17 +174,18 @@
     grid-template-columns: 200px 1fr;
     grid-template-rows: auto 1fr auto;
     grid-template-areas:
-      "nav nav"
-      "header header"
-      "sidebar main"
-      "footer footer";
-    min-height: 100vh;
+      "nav nav nav nav"
+      "header header header header"
+      "sidebar main main main"
+      "footer footer footer footer";
+    min-height: 20vh;
   }
 
   nav {
     grid-area: nav;
     z-index: 1;
   }
+
   header {
     grid-area: header;
   }
@@ -199,4 +200,18 @@
 
   footer {
     grid-area: footer;
+  }
+
+  .search-container {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+  }
+
+  .search {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
   }
