@@ -1,3 +1,4 @@
+import { useState, type SetStateAction } from "react";
 
 
 export type Meal = {
@@ -11,13 +12,27 @@ export type Meal = {
 
 export function MealView({ meal: meals }: Meal) {
 
+  const [searchedItem, setSearchedItem] = useState('');
+
+  const handleChange = (event: { target: { value: SetStateAction<string>; }; }) => {
+    setSearchedItem(event.target.value);
+  };
+
   return (
     <>
       <h1>Ételek listája</h1>
       <div className="search-container">
+        <div>
+
         <label htmlFor="search" className='search'>Keresés:
-          <input type='text' placeholder='Keresés' />
+          <input type='text' id="search" placeholder='Keresés' value={searchedItem} onChange={handleChange} />
+        <button>Keresés</button>
         </label>
+        </div>
+          {searchedItem !== "" ? 
+          <div>
+            <p>Nincs találat a következőre: {searchedItem}</p>
+          </div>: null}
       </div>
       <div className="list grid-cards">
         {meals.map((meal, index) => (
