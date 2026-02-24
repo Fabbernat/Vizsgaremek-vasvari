@@ -176,7 +176,7 @@
     grid-template-areas:
       "nav nav nav nav"
       "header header header header"
-      "sidebar main main main"
+      "main main main sidebar"
       "footer footer footer footer";
     min-height: 20vh;
   }
@@ -184,6 +184,10 @@
   nav {
     grid-area: nav;
     z-index: 1;
+    background-color:#1e293b;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 12px;
+    border-radius: 20px;
   }
 
   header {
@@ -222,7 +226,7 @@
   }
 
   li > p {
-    font-size: x-small;
+    font-size: small;
     font-weight: 500;
     color: white;
   }

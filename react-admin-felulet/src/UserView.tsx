@@ -40,13 +40,15 @@ export function UserView({ user: users }: { user: User }) {
       </div>
       
       <div className='add'>
-              <h1>Új étel hozzáadása</h1>
-              {meals.length > 0 && (
+              <h1>Új felhasználó hozzáadása</h1>
+              {users.length > 0 && (
         <div>
           <ul>
-            <input placeholder={meals[0].name} />
-            <input placeholder={meals[0].description} />
-            <input placeholder={meals[0].price.toString()} />
+            <input placeholder={users[0].username} />
+            <input placeholder={users[0].firstName} />
+            <input placeholder={users[0].lastName} />
+            <input placeholder={users[0].email} />
+            <input placeholder={users[0].address} />
           </ul>
         </div>
       )}

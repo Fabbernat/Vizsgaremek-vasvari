@@ -35,7 +35,7 @@ export function RestaurantView({ restaurant: restaurants }: Restaurant) {
           </div>
         ))}
       <div className='add'>
-        <h1>Új étel hozzáadása</h1>
+        <h1>Új étterem hozzáadása</h1>
         {restaurants.length > 0 && (
           <div>
             <ul>

@@ -35,15 +35,15 @@ function App() {
 
   return (
     <>
+    <nav>
+      <ul className='no-bullets'>
+        <li><a href="#" onClick={(e) => handleSwitch(e, 'restaurants')}>Éttermek</a></li>
+        <li><a href="#" onClick={(e) => handleSwitch(e, 'meals')}>Ételek</a></li>
+        <li><a href="#" onClick={(e) => handleSwitch(e, 'orders')}>Rendelések</a></li>
+        <li><a href="#" onClick={(e) => handleSwitch(e, 'users')}>Felhasználók</a></li>
+      </ul>
+    </nav>
     <div className="grid-layout">
-        <nav>
-          <ul className='no-bullets'>
-            <li><a href="#" onClick={(e) => handleSwitch(e, 'restaurants')}>Éttermek</a></li>
-            <li><a href="#" onClick={(e) => handleSwitch(e, 'meals')}>Ételek</a></li>
-            <li><a href="#" onClick={(e) => handleSwitch(e, 'orders')}>Rendelések</a></li>
-            <li><a href="#" onClick={(e) => handleSwitch(e, 'users')}>Felhasználók</a></li>
-          </ul>
-        </nav>
 
         <header>Header</header>
         

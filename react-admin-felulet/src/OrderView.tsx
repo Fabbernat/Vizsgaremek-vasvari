@@ -34,9 +34,17 @@ export function OrderView({ order: orders }: Order) {
           </div>
         ))}
         <div className='add'>
-          <input />
-          <button>Hozzáadás</button>
-        </div>
+        <h1>Új rendelés hozzáadása</h1>
+        {orders.length > 0 && (
+          <div>
+            <ul>
+              <input placeholder={orders[0].username} />
+              <input placeholder={orders[0].date} />
+            </ul>
+          </div>
+        )}
+        <button>Hozzáadás</button>
+      </div>
       </div>
         
         <div className="delete">
