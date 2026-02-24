@@ -12,37 +12,46 @@ export function RestaurantView({ restaurant: restaurants }: Restaurant) {
 
   return (
     <>
-    <h1>Éttermek listája</h1>
-        <div className="list grid-cards">
-          {restaurants.map((item, index) => (
+      <h1>Éttermek listája</h1>
+      <div className="search-container">
+        <label htmlFor="search" className='search'>Keresés:
+          <input type='text' placeholder='Keresés' />
+        </label>
+      </div>
+      <div className="list grid-cards">
+        {restaurants.map((restaurant, index) => (
+          <div>
             <ul>
-
-              <li key={index}>{item.id} </li><br />
-              <li> {item.name} </li><br />
-              <li> {item.description} </li><br />
+              <li key={index}>{restaurant.id} </li><br />
+              <strong>   <li> {restaurant.name} </li><br /></strong>
+              <li> {restaurant.description} </li><br />
             </ul>
-          ))}
-        </div>
+            <div className='modify'>
+              <button>Módosítás</button>
+            </div>
+            <div className='delete'>
+              <button>Törlés</button>
+            </div>
+          </div>
+        ))}
       <div className='add'>
-        <input />
+        <h1>Új étel hozzáadása</h1>
+        {restaurants.length > 0 && (
+          <div>
+            <ul>
+              <input placeholder={restaurants[0].name} />
+              <input placeholder={restaurants[0].description} />
+            </ul>
+          </div>
+        )}
         <button>Hozzáadás</button>
       </div>
-      <div className='modify'>
-        <input type='text' placeholder='Keresés'/>
-        <button>Módosítás</button>
+    </div >
+
+
+      <div className="delete">
+        <button>Összes törlése</button>
       </div>
-      <div className='delete'>
-        <input type='text' placeholder='Keresés'/>
-        <button>Törlés</button>
-      </div>
-       <div className="delete">
-        <fieldset>
-          <legend>Válassz egy elemet a törléshez:</legend>
-           for item in items:
-             {<select name="" id=""></select>}
-        </fieldset>
-        <input type="submit" value="Törlés" />
-       </div>
     </>
   );
 }

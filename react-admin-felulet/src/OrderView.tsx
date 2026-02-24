@@ -9,39 +9,39 @@ export type Order = {
 };
 
 export function OrderView({ order: orders }: Order) {
- 
-     return (
+
+  return (
     <>
-    <h1>Rendelések listája</h1>
-        <div className="list grid-cards">
-          {orders.map((item, index) => (
-            <ul>
-              <li key={index}>{item.id} </li><br />
-              <li> {item.username} </li><br />
-              <li> {item.date} </li>
-            </ul>
-          ))}
+      <h1>Rendelések listája</h1>
+      <div className="search-container">
+        <label htmlFor="search" className='search'>Keresés:
+          <input type='text' placeholder='Keresés' />
+        </label>
+      </div>
+      <div className="list grid-cards">
+        {orders.map((order, index) => (
+          <div>  <ul>
+            <li key={index}>{order.id} </li><br />
+            <li><p>Rendelő neve:</p> {order.username} </li><br />
+            <li><p>Rendelés dátuma: </p> {order.date} </li>
+          </ul>
+            <div className='modify'>
+              <button>Módosítás</button>
+            </div>
+            <div className='delete'>
+              <button>Törlés</button>
+            </div>
+          </div>
+        ))}
+        <div className='add'>
+          <input />
+          <button>Hozzáadás</button>
         </div>
-      <div className='add'>
-        <input />
-        <button>Hozzáadás</button>
       </div>
-      <div className='modify'>
-        <input type='text' placeholder='Keresés'/>
-        <button>Módosítás</button>
+        
+        <div className="delete">
+        <button>Összes törlése</button>
       </div>
-      <div className='delete'>
-        <input type='text' placeholder='Keresés'/>
-        <button>Törlés</button>
-      </div>
-       <div className="delete">
-        <fieldset>
-          <legend>Válassz egy elemet a törléshez:</legend>
-           for item in items:
-             {<select name="" id=""></select>}
-        </fieldset>
-        <input type="submit" value="Törlés" />
-       </div>
-    </>
-  );
+      </>
+      );
 }

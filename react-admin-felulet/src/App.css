@@ -215,3 +215,14 @@
     gap: 10px;
     justify-content: center;
   }
+
+  strong {
+    font-size: xx-small;
+    font-weight: 6000;
+  }
+
+  li > p {
+    font-size: x-small;
+    font-weight: 500;
+    color: white;
+  }

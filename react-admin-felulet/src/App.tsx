@@ -16,26 +16,17 @@ import { restaurants } from './stores/restaurants';
 import { orders } from './stores/orders';
 import { users } from './stores/users';
 
-const thisMeals = meals;
-const thisRestaurants = restaurants;
-const thisOrders = orders;
-const thisUsers = users;
 
 type ViewType = 'meals' | 'restaurants' | 'orders' | 'users';
 
 function App() {
   // A single string to track the active view with type safety
-const [activeView, setActiveView] = useState<ViewType>('meals');
-
-  const [item, setItem] = useState([]) // array
-  const [restaurants, setRestaurants] = useState({}); // object
-  const [oders, setOrders] = useState(null); // null
-  const [users, setUsers] = useState(undefined); // undefined
-  const [isMealVisible, setIsMealVisible] = useState(false); // boolean
-  const [isRestaurantVisible, setIsRestaurantVisible] = useState(false); // boolean
-  const [isOrderVisible, setIsOrderVisible] = useState(false); // boolean
-  const [isUserVisible, setIsUserVisible] = useState(false); // boolean
-
+  const [activeView, setActiveView] = useState<ViewType>('meals');
+  const [thisMeals, setThisMeals] = useState(meals);
+  const [thisRestaurants, setThisRestaurants] = useState(restaurants);
+  const [thisOrders, setThisOrders] = useState(orders);
+  const [thisUsers, setThisUsers] = useState(users);
+  
   const handleSwitch = (e: MouseEvent<HTMLAnchorElement>, view: ViewType) => {
     e.preventDefault(); 
     setActiveView(view);
