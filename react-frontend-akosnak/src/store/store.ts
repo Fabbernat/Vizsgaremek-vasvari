@@ -1,6 +1,6 @@
 import type { Pizza } from "../types/Pizza";
 
-export const baseURL = null;
+export const baseURL = "http://localhost:3000/api";
 
 const apiClient = {
     get: function (url: string) {
