@@ -1,41 +1,52 @@
-import { healthCheck } from './controllers/health.controller';
+import express from 'express';
+import cors from 'cors';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-const express = require('express');
-const cors = require('cors')
-const productRoutes = require('./routes/product.routes')
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-const port = process.env.PORT || 3000;
-export const app = express();
+const app = express();
 
-app.use(cors())
-app.use(express.json())
-// Statikus fájlok (képek)
-app.use('/images', express.static('public/images'))
+app.use(cors());
+app.use(express.json());
 
-app.use('/api/products', productRoutes)
+// Statikus fájlok kiszolgálása
+app.use(express.static(path.join(__dirname, '../webui')));
 
-// Termékek betöltése a JSON fájlból
-const fs = require('fs')
-const path = require('path')
-const productsFilePath = path.join('data', 'products.json')
+// Health API
+// Ez most annyira nem kell, mert van egy health.html oldalunk, de azért hagyom itt kommentben, hátha kell még
+/*app.get('/health', (req, res) => {
+  res.json({
+    status: 'OK',
+    system: 'Royal Delivery backend',
+    time: new Date()
+  });
+});*/
 
-app.get('/api/products', (req, res) => {
-  fs.readFile(productsFilePath, 'utf8', (err, data) => {
-    if (err) {
-      res.status(500).json({ error: 'Nem sikerült betölteni a termékeket' })
-      return
-    }
-    const products = JSON.parse(data)
-    res.json(products)
-  })
-})
-
-app.listen(port, () => {
-  console.log(`Backend fut a http://localhost:${port}`)
+// Admin, dashboard, api-docs oldalak
+app.get('/admin-panel', (req, res) => {
+  res.sendFile(path.join(__dirname, '../webui/admin-panel.html'));
+});
+app.get('/dashboard', (req, res) => {
+  res.sendFile(path.join(__dirname, '../webui/dashboard.html'));
+});
+app.get('/api-docs', (req, res) => {
+  res.sendFile(path.join(__dirname, '../webui/api-docs.html'));
+});
+app.get('/health', (req, res) => {
+  res.sendFile(path.join(__dirname, '../webui/health.html'));
 });
 
-console.log("The backend has started succesfully...🥀");
+// Dashboard statok API
+app.get('/api/stats', (req, res) => {
+  res.json({
+    orders: 128,
+    users: 42,
+    restaurants: 16,
+    couriers: 9,
+    time: new Date()
+  });
+});
 
-healthCheck(); // health controller létrehozása a kettővel ezelőtti commitban
-
-module.exports = app
+export default app;

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Royal Delivery</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <ul>
+            <li><a href="index.html">Főoldal</a></li>
+            <li><a href="restaurants.html">Éttermek</a></li>
+            <li><a href="meals.html">Ételek</a></li>
+            <li><a href="cart.html">Kosár</a></li>
+            <li><a href="auth.html">{{ isLoggedIn ? "Fiók" : "Bejelentkezés" }}</a></li>
+        </ul>
+    </nav>
+    <header>
+        <h1 class="horizontally-centered">Royal Delivery</h1>
+    </header>
+
+    <main>
+        <h3> Ez a megrendelés oldal</h3>
+        <button onclick="history.back()">Vissza</button>
+        <button onclick="history.forward()">Előre</button>
+        <div class="order">
+            <form action="#" method="post">
+                <h4>Számlázási adatok</h4>
+                <input type="text" name="fullname" placeholder="Gipsz Jakab" required><br><br>
+                <input type="email" name="email" placeholder="gipszjakab@gmail.com" required><br><br>
+                <input type="tel" name="phone" placeholder="+36 30 1234567"><br><br>
+                
+                <legend>
+                    <h5>Cím</h5>
+                    <label for="postcode">Irányítószám:</label><br>
+                    <input type="text" name="postcode" placeholder="Irányítószám" required><br><br>
+                    <label for="settlement ">Település:</label><br>
+                    <input type="text" name="settlement" placeholder="Szeged" required><br><br>
+                    <label for="name-of-place">Közterület neve:</label><br>
+                    <input type="text" name="name-of-place" placeholder="Rákóczi" required><br><br>
+                    <label for="type-of-place">Közterület jellege:</label><br>
+                    <input type="text" name="type-of-place" placeholder="utca" required><br><br>
+                    <label for="house-number">Házszám:</label><br>
+                    <input type="text" name="house-number" placeholder="453." required><br><br>
+                    <label for="additional-info">Emelet, lakás, ajtó, stb.:</label><br>
+                    <input type="text" name="additional-info" placeholder="1. emelet, 2. ajtó"><br><br>
+                </legend>
+
+                <legend>
+                    <h5>Bankkártya adatok</h5>
+                    <label for="card-number">Kártyaszám:</label><br>
+                    <input type="text" name="card-number" placeholder="1234 5678 9012 3456" required><br><br>
+                    <label for="expiry-date">Lejárati dátum:</label><br>
+                    <input type="text" name="expiry-date" placeholder="MM/YY" required><br><br>
+                    <label for="cvv">CVV/CVC:</label><br>
+                    <input type="text" name="cvv" placeholder="123" required><br><br>
+            </form>
+        </div>
+        <a href="checkout.html">Tovább a fizetéshez</a>
+        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio dolor placeat atque officiis saepe,
+            reiciendis ut velit molestias explicabo natus ipsam fuga voluptatibus? Culpa aperiam consectetur
+            perspiciatis, nam velit ipsum.</p>
+    </main>
+
+    <footer id="contact">
+        <h2>Kapcsolat</h2>
+        <p>Email: <a href="mailto:info@royaldelivery.com">info@royaldelivery.com</a></p>
+        <p>Telefon: +36 123 4567</p>
+        <p>Cím: 1234 Budapest, Király utca 1.</p>
+    </footer>
+</body>
+
+</html>

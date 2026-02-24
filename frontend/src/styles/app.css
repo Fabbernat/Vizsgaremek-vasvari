@@ -1,8 +1,9 @@
 body {
   margin: 0;
   font-family: "Segoe UI", system-ui, sans-serif;
-  background: #EFDCAB;
-  background: linear-gradient(360deg,#EFDCAB 0%, #F2F6D0 100%);
+  background: #222831;
+  background: linear-gradient(360deg,#222831 0%, #393E46 100%);
+  color: #FFFFFF;
 }
 
 .app {

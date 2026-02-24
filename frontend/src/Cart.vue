@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from 'vue'
-import "@/styles/cart.css"
+import "./styles/cart.css"
 
 const props = defineProps({
   cart: {

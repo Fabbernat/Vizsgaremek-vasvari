@@ -6,9 +6,8 @@ db.exec(`
     name TEXT NOT NULL,
     price INTEGER NOT NULL,
     imageUrl TEXT,
-    description TEXT,
-    isSecondary INTEGER NOT NULL
+    description TEXT
   );
 `);
 
-console.log('✅ Migration finished');
+console.log('Migration finished');
