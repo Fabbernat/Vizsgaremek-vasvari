@@ -52,8 +52,8 @@ export function MealView({ meal: meals }: MealViewProps) {
         {(
           <div>
             <div className="list grid-cards">
-              {mealsList.map((meal, index) => (
-                <div key={index}>
+              {mealsList.map((meal) => (
+                <div key={meal.id}>
                   <ul style={{padding: '12px'}}>
                     <li>{meal.id} </li><br />
                     <strong> <li> {meal.name} </li><br /></strong>
