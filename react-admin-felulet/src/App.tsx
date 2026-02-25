@@ -1,4 +1,4 @@
-import { useState, type MouseEvent, type SetStateAction } from 'react'
+import { useState, type MouseEvent } from 'react'
 
 // stílusok
 import './App.css'

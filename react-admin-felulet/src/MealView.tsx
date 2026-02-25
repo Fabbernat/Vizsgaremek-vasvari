@@ -1,4 +1,4 @@
-import { useState, type SetStateAction } from "react";
+import { useState } from "react";
 
 
 export type MealItem = {
@@ -9,10 +9,10 @@ export type MealItem = {
 };
 
 type MealViewProps = {
-  meal: MealItem[];
+  meals: MealItem[];
 };
 
-export function MealView({ meal: meals }: MealViewProps) {
+export function MealView({ meals }: MealViewProps) {
 
   const [searchedItem, setSearchedItem] = useState('');
   const [mealsList, setMealsList] = useState(meals);
