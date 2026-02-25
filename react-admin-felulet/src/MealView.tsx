@@ -28,9 +28,10 @@ export function MealView({ meal: meals }: MealViewProps) {
     setHasMealsListChanged(true); // Jelzés, hogy a lista megváltozott
   }
 
-  const deleteMeal = (meal: MealItem) =>{
-
-  }
+  const deleteMeal = (mealName: MealItem) =>{
+      setMealsList(mealsList.filter((meal) => meal !== mealName))
+      };
+  
 
   return (
     <>
