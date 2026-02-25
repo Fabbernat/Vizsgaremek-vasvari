@@ -49,7 +49,7 @@ function App() {
         
         <main className='currentView'>
           {/* ezt kéne jól kitalálni, hogy hogyan lehetne megjeleníteni a különböző típusú adatokat egy közös komponensben */}
-          {activeView === 'meals' && <MealView meal={thisMeals} />}
+          {activeView === 'meals' && <MealView meals={thisMeals} />}
           {activeView === 'restaurants' && <RestaurantView restaurant={thisRestaurants} />}
           {activeView === 'orders' && <OrderView order={thisOrders} />}
           {activeView === 'users' && <UserView user={thisUsers} />}

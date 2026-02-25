@@ -28,10 +28,10 @@ export function MealView({ meals }: MealViewProps) {
     setHasMealsListChanged(true); // Jelzés, hogy a lista megváltozott
   }
 
-  const deleteMeal = (mealName: MealItem) =>{
-      setMealsList(mealsList.filter((meal) => meal !== mealName))
+  const deleteMeal = (id: number) => {
+    setMealsList(prev => prev.filter(meal => meal.id !== id));
   };
-  
+
   const deleteAll = () => {
     setMealsList([]);
   }
@@ -55,26 +55,26 @@ export function MealView({ meals }: MealViewProps) {
       </div>
 
 
-      {(
-        <div className="list grid-cards">
-          {mealsList.map((meal) => (
-            <div key={meal.id}  style={{ padding: '12px' }} className="currentView">
-                <h1>{meal.name} </h1>
-              <ul >
-                <li>Id: {meal.id} </li>
-                <li>Leírás: {meal.description} </li>
-                <li>Ár: {meal.price} Ft</li>
-              </ul>
-              <div className='modify'>
-                <button>Módosítás</button>
-              </div>
-              <div className='delete'>
-                <button onClick={() => deleteMeal(meal)}>Törlés</button>
-              </div>
+
+      <div className="list grid-cards">
+        {mealsList.map((meal) => (
+          <div key={meal.id} style={{ padding: '12px' }} className="currentView">
+            <h1>{meal.name} </h1>
+            <ul >
+              <li>Id: {meal.id} </li>
+              <li>Leírás: {meal.description} </li>
+              <li>Ár: {meal.price} Ft</li>
+            </ul>
+            <div className='modify'>
+              <button>Módosítás</button>
             </div>
-          ))}
-        </div>
-      )}
+            <div className='delete'>
+              <button onClick={() => deleteMeal(meal.id)}>Törlés</button>
+            </div>
+          </div>
+        ))}
+      </div>
+
 
       <div>
         <aside className='add'>
