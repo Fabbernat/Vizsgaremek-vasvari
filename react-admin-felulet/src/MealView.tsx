@@ -30,8 +30,11 @@ export function MealView({ meal: meals }: MealViewProps) {
 
   const deleteMeal = (mealName: MealItem) =>{
       setMealsList(mealsList.filter((meal) => meal !== mealName))
-      };
+  };
   
+  const deleteAll = () => {
+    setMealsList([]);
+  }
 
   return (
     <>
@@ -89,7 +92,7 @@ export function MealView({ meal: meals }: MealViewProps) {
         </aside>
 
         <div className="delete">
-          <button>Összes törlése</button>
+          <button onClick={deleteAll}>Összes törlése</button>
         </div>
       </div>
     </>
