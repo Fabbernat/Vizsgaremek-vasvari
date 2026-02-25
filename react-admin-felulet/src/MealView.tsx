@@ -45,12 +45,9 @@ export function MealView({ meal: meals }: MealViewProps) {
             <p>Nincs találat a következőre: {searchedItem}</p>
           </div>: null}
       </div>
-
-      <div className="list grid-cards">
         
         
         {(
-          <div>
             <div className="list grid-cards">
               {mealsList.map((meal) => (
                 <div key={meal.id}>
@@ -69,9 +66,7 @@ export function MealView({ meal: meals }: MealViewProps) {
                 </div>
               ))}
             </div>
-          </div>
         )}
-      </div>
 
         <div>
       <aside className='add'>
