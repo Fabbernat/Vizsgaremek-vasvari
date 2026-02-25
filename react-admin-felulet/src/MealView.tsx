@@ -45,22 +45,7 @@ export function MealView({ meal: meals }: Meal) {
       </div>
 
       <div className="list grid-cards">
-        {meals.map((meal, index) => (
-          <div>
-            <ul>
-              <li key={index}>{meal.id} </li><br />
-              <strong> <li> {meal.name} </li><br /></strong>
-              <li> {meal.description} </li><br />
-              <li> {meal.price} Ft</li>
-            </ul>
-            <div className='modify'>
-              <button>Módosítás</button>
-            </div>
-            <div className='delete'>
-              <button>Törlés</button>
-            </div>
-          </div>
-        ))}
+        
         <div className='add'>
           <h1>Új étel hozzáadása</h1>
           {meals.length > 0 && (
@@ -86,6 +71,12 @@ export function MealView({ meal: meals }: Meal) {
                     <li> {meal.description} </li><br />
                     <li> {meal.price} Ft</li>
                   </ul>
+                  <div className='modify'>
+              <button>Módosítás</button>
+            </div>
+            <div className='delete'>
+              <button>Törlés</button>
+            </div>
                 </div>
               ))}
             </div>
