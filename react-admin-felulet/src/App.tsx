@@ -47,8 +47,6 @@ function App() {
 
         <header>Header</header>
         
-        <aside>Sidebar</aside>
-
         <main className='currentView'>
           {/* ezt kéne jól kitalálni, hogy hogyan lehetne megjeleníteni a különböző típusú adatokat egy közös komponensben */}
           {activeView === 'meals' && <MealView meal={thisMeals} />}

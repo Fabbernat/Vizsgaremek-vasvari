@@ -46,25 +46,13 @@ export function MealView({ meal: meals }: Meal) {
 
       <div className="list grid-cards">
         
-        <div className='add'>
-          <h1>Új étel hozzáadása</h1>
-          {meals.length > 0 && (
-            <div>
-              <ul>
-                <input placeholder={meals[0].name} />
-                <input placeholder={meals[0].description} />
-                <input placeholder={meals[0].price.toString()} />
-              </ul>
-            </div>
-          )}
-          <button type="button" onClick={() => addMeal({ name: "Új étel", description: "Új leírás", price: 1000 })} value="Hozzáadás">Hozzáadás</button>
-        </div>
+        
         {(
           <div>
             <div className="list grid-cards">
               {mealsList.map((meal, index) => (
                 <div key={index}>
-                  <ul>
+                  <ul style={{padding: '12px'}}>
                     <li>{meal.id} </li><br />
                     <strong> <li> {meal.name} </li><br /></strong>
                     <li> {meal.description} </li><br />
@@ -83,6 +71,20 @@ export function MealView({ meal: meals }: Meal) {
         )}
       </div>
 
+      <aside className='add'>
+          <h1>Új étel hozzáadása</h1>
+          {meals.length > 0 && (
+            <div>
+              <ul>
+                <input placeholder={meals[0].name} />
+                <input placeholder={meals[0].description} />
+                <input placeholder={meals[0].price.toString()} />
+              </ul>
+            </div>
+          )}
+          <button type="button" onClick={() => addMeal({ name: "Új étel", description: "Új leírás", price: 1000 })} value="Hozzáadás">Hozzáadás</button>
+        </aside>
+      
       <div className="delete">
         <button>Összes törlése</button>
       </div>
