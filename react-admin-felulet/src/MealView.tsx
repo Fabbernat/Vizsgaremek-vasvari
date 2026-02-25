@@ -28,6 +28,10 @@ export function MealView({ meal: meals }: MealViewProps) {
     setHasMealsListChanged(true); // Jelzés, hogy a lista megváltozott
   }
 
+  const deleteMeal = (meal: MealItem) =>{
+
+  }
+
   return (
     <>
       <h1>Ételek listája</h1>
@@ -50,18 +54,18 @@ export function MealView({ meal: meals }: MealViewProps) {
       {(
         <div className="list grid-cards">
           {mealsList.map((meal) => (
-            <div key={meal.id}>
-              <ul style={{ padding: '12px' }}>
-                <li>{meal.id} </li>
-                <strong> <li> {meal.name} </li></strong>
-                <li> {meal.description} </li>
-                <li> {meal.price} Ft</li>
+            <div key={meal.id}  style={{ padding: '12px' }} className="currentView">
+                <h1>{meal.name} </h1>
+              <ul >
+                <li>Id: {meal.id} </li>
+                <li>Leírás: {meal.description} </li>
+                <li>Ár: {meal.price} Ft</li>
               </ul>
               <div className='modify'>
                 <button>Módosítás</button>
               </div>
               <div className='delete'>
-                <button>Törlés</button>
+                <button onClick={() => deleteMeal(meal)}>Törlés</button>
               </div>
             </div>
           ))}
