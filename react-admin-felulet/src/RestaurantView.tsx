@@ -40,9 +40,9 @@ export function RestaurantView({ restaurant: restaurants }: Restaurant) {
         {restaurants.map((restaurant, index) => (
           <div>
             <ul>
-              <li key={index}>{restaurant.id} </li><br />
-              <strong>   <li> {restaurant.name} </li><br /></strong>
-              <li> {restaurant.description} </li><br />
+              <li key={index}>{restaurant.id} </li>
+              <strong>   <li> {restaurant.name} </li></strong>
+              <li> {restaurant.description} </li>
             </ul>
             <div className='modify'>
               <button>Módosítás</button>

@@ -52,9 +52,9 @@ export function MealView({ meal: meals }: MealViewProps) {
           {mealsList.map((meal) => (
             <div key={meal.id}>
               <ul style={{ padding: '12px' }}>
-                <li>{meal.id} </li><br />
-                <strong> <li> {meal.name} </li><br /></strong>
-                <li> {meal.description} </li><br />
+                <li>{meal.id} </li>
+                <strong> <li> {meal.name} </li></strong>
+                <li> {meal.description} </li>
                 <li> {meal.price} Ft</li>
               </ul>
               <div className='modify'>

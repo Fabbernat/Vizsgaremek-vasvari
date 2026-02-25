@@ -39,8 +39,8 @@ export function OrderView({ order: orders }: Order) {
       <div className="list grid-cards">
         {orders.map((order, index) => (
           <div>  <ul>
-            <li key={index}>{order.id} </li><br />
-            <li><p>Rendelő neve:</p> {order.username} </li><br />
+            <li key={index}>{order.id} </li>
+            <li><p>Rendelő neve:</p> {order.username} </li>
             <li><p>Rendelés dátuma: </p> {order.date} </li>
           </ul>
             <div className='modify'>

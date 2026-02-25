@@ -43,10 +43,10 @@ export function UserView({ user: users }: { user: User }) {
 
         {users.map((user, index) => (
           <div key={index}>    <ul>
-            <li key={index}>{user.id} </li><br />
-            <li> {user.username} </li><br />
-            <li> {user.firstName} {user.lastName}</li><br />
-            <li> {user.email} </li><br />
+            <li key={index}>{user.id} </li>
+            <li> {user.username} </li>
+            <li> {user.firstName} {user.lastName}</li>
+            <li> {user.email} </li>
             <li> {user.address}</li>
           </ul>
             <div className='modify'>
