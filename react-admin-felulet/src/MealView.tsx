@@ -73,11 +73,11 @@ export function MealView({ meal: meals }: MealViewProps) {
           <h1>Új étel hozzáadása</h1>
           {meals.length > 0 && (
             <div>
-              <ul>
+              <div>
                 <input placeholder={meals[0].name} />
                 <input placeholder={meals[0].description} />
                 <input placeholder={meals[0].price.toString()} />
-              </ul>
+              </div>
             </div>
           )}
           <button type="button" onClick={() => addMeal({ name: "Új étel", description: "Új leírás", price: 1000 })} value="Hozzáadás">Hozzáadás</button>

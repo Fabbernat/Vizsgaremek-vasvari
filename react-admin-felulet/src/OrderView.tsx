@@ -55,10 +55,10 @@ export function OrderView({ order: orders }: Order) {
           <h1>Új rendelés hozzáadása</h1>
           {orders.length > 0 && (
             <div>
-              <ul>
+              <div>
                 <input placeholder={orders[0].username} />
                 <input placeholder={orders[0].date} />
-              </ul>
+              </div>
             </div>
           )}
           <button>Hozzáadás</button>

@@ -56,10 +56,10 @@ export function RestaurantView({ restaurant: restaurants }: Restaurant) {
           <h1>Új étterem hozzáadása</h1>
           {restaurants.length > 0 && (
             <div>
-              <ul>
+              <div>
                 <input placeholder={restaurants[0].name} />
                 <input placeholder={restaurants[0].description} />
-              </ul>
+              </div>
             </div>
           )}
           <button>Hozzáadás</button>

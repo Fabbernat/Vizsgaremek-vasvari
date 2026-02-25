@@ -63,13 +63,13 @@ export function UserView({ user: users }: { user: User }) {
         <h1>Új felhasználó hozzáadása</h1>
         {users.length > 0 && (
           <div>
-            <ul>
+            <div>
               <input placeholder={users[0].username} />
               <input placeholder={users[0].firstName} />
               <input placeholder={users[0].lastName} />
               <input placeholder={users[0].email} />
               <input placeholder={users[0].address} />
-            </ul>
+            </div>
           </div>
         )}
       </div>
