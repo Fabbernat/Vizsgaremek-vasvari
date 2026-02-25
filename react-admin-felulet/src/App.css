@@ -106,6 +106,7 @@
 
   /* ===== Add Section ===== */
   .add {
+    min-width: 320px;
     margin-top: 30px;
     padding: 28px;
     background: rgba(255, 255, 255, 0.04);
@@ -174,17 +175,21 @@
     grid-template-columns: 200px 1fr;
     grid-template-rows: auto 1fr auto;
     grid-template-areas:
-      "nav nav"
-      "header header"
-      "sidebar main"
-      "footer footer";
-    min-height: 100vh;
+      "nav nav nav nav"
+      "header header header header"
+      "main main main sidebar"
+      "footer footer footer footer";
+    min-height: 20vh;
   }
 
   nav {
     grid-area: nav;
-    z-index: 1;
+    background-color:#1e293b;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 12px;
+    border-radius: 20px;
   }
+
   header {
     grid-area: header;
   }
@@ -199,4 +204,42 @@
 
   footer {
     grid-area: footer;
+  }
+
+  .search-container {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #search {
+    padding: 10px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+    outline: none;
+    transition: 0.25s;
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .search {
+    margin-top: 20px;
+    gap: 10px;
+    justify-content: center;
+  }
+
+  strong {
+    font-size: xx-small;
+    font-weight: 6000;
+  }
+
+  li > p {
+    font-size: small;
+    font-weight: 500;
+    color: white;
   }

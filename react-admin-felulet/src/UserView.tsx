@@ -1,3 +1,6 @@
+import { useState, type SetStateAction } from "react";
+import { meals } from "./stores/meals";
+
 export type User = {
   id: number;
   username: string;
@@ -5,48 +8,76 @@ export type User = {
   lastName: string;
   email: string;
   address: string;
-  }[]
-;
-
-function render(users: User) {
- return   users.map((item, index) => (
-            <ul>
-              <li key={index}>{item.id} </li><br />
-              <li> {item.username} </li><br />
-              <li> {item.firstName} {item.lastName}</li><br />
-              <li> {item.email} </li><br />
-              <li> {item.address}</li>
-            </ul>
-))}
-
+}[]
+  ;
 
 export function UserView({ user: users }: { user: User }) {
+
+  const [searchedItem, setSearchedItem] = useState('');
+
+  const handleChange = (event: { target: { value: SetStateAction<string>; }; }) => {
+    setSearchedItem(event.target.value);
+  };
+
   return (
     <>
-    <h1>Felhasználók listája</h1>
-        <div className="list grid-cards">
-          {render(users)? <div className="list grid-cards">{render(users)}</div> : <p>Nincsenek felhasználók</p>}
+      <h1>Felhasználók listája</h1>
+
+      <div className="search-container">
+        <div>
+
+          <label htmlFor="search" className='search'>Keresés:
+            <input type='text' id="search" placeholder='Keresés' value={searchedItem} onChange={handleChange} />
+            <button>Keresés</button>
+          </label>
         </div>
+
+        {searchedItem !== "" ?
+          <div>
+            <p>Nincs találat a következőre: {searchedItem}</p>
+          </div> : null}
+      </div>
+
+
+      <div className="list grid-cards">
+
+        {users.map((user, index) => (
+          <div key={index}>    <ul>
+            <li key={index}>{user.id} </li>
+            <li> {user.username} </li>
+            <li> {user.firstName} {user.lastName}</li>
+            <li> {user.email} </li>
+            <li> {user.address}</li>
+          </ul>
+            <div className='modify'>
+              <button>Módosítás</button>
+            </div>
+            <div className='delete'>
+              <button>Törlés</button>
+            </div>
+          </div>
+        ))}
+      </div>
+
       <div className='add'>
-        <input placeholder="" />
-        <button>Hozzáadás</button>
+        <h1>Új felhasználó hozzáadása</h1>
+        {users.length > 0 && (
+          <div>
+            <ul>
+              <input placeholder={users[0].username} />
+              <input placeholder={users[0].firstName} />
+              <input placeholder={users[0].lastName} />
+              <input placeholder={users[0].email} />
+              <input placeholder={users[0].address} />
+            </ul>
+          </div>
+        )}
       </div>
-      <div className='modify'>
-        <input type='text' placeholder='Keresés'/>
-        <button>Módosítás</button>
+
+      <div className="delete">
+        <button>Összes törlése</button>
       </div>
-      <div className='delete'>
-        <input type='text' placeholder='Keresés'/>
-        <button>Törlés</button>
-      </div>
-       <div className="delete">
-        <fieldset>
-          <legend>Válassz egy elemet a törléshez:</legend>
-           for item in items:
-             {<select name="" id=""></select>}
-        </fieldset>
-        <input type="submit" value="Törlés" />
-       </div>
     </>
-  );
-}
+  )
+};
+

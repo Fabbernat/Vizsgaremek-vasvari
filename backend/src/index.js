@@ -8,7 +8,7 @@ let restaurants = [
   { id: 1, name: "Pizzéria" },
   { id: 2, name: "Sushi Bár" }
 ];
-let foods = [
+let meals = [
   { id: 1, restaurantId: 1, name: "Margherita", price: 1200 },
   { id: 2, restaurantId: 2, name: "Sushi Menü", price: 3500 }
 ];
@@ -34,9 +34,9 @@ app.get('/restaurants', (req, res) => {
   res.json(restaurants);
 });
 
-app.get('/foods/:restaurantId', (req, res) => {
+app.get('/meals/:restaurantId', (req, res) => {
   const id = parseInt(req.params.restaurantId);
-  res.json(foods.filter(f => f.restaurantId === id));
+  res.json(meals.filter(f => f.restaurantId === id));
 });
 
 app.post('/orders', (req, res) => {
@@ -48,8 +48,8 @@ app.post('/orders', (req, res) => {
 
 app.post('/api/products', (req, res) => {
   const { name, price } = req.body;
-  const newProduct = { id: foods.length + 1, name, price };
-  foods.push(newProduct);
+  const newProduct = { id: meals.length + 1, name, price };
+  meals.push(newProduct);
   res.status(201).json(newProduct);
 });
 
