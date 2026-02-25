@@ -59,9 +59,8 @@ export function MealView({ meal: meals }: Meal) {
           )}
           <button type="button" onClick={() => addMeal({ name: "Új étel", description: "Új leírás", price: 1000 })} value="Hozzáadás">Hozzáadás</button>
         </div>
-        {hasMealsListChanged && (
+        {(
           <div>
-            <h2>Frissített ételek listája:</h2>
             <div className="list grid-cards">
               {mealsList.map((meal, index) => (
                 <div key={index}>
