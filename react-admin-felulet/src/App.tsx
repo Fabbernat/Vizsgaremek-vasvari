@@ -27,20 +27,16 @@ function App() {
   const [thisOrders, setThisOrders] = useState(orders);
   const [thisUsers, setThisUsers] = useState(users);
   
-  const handleSwitch = (e: MouseEvent<HTMLAnchorElement>, view: ViewType) => {
-    e.preventDefault(); 
-    setActiveView(view);
-  };
 
 
   return (
     <>
     <nav>
       <ul className='no-bullets'>
-        <li><a href="#" onClick={(e) => handleSwitch(e, 'restaurants')}>Éttermek</a></li>
-        <li><a href="#" onClick={(e) => handleSwitch(e, 'meals')}>Ételek</a></li>
-        <li><a href="#" onClick={(e) => handleSwitch(e, 'orders')}>Rendelések</a></li>
-        <li><a href="#" onClick={(e) => handleSwitch(e, 'users')}>Felhasználók</a></li>
+        <li><button onClick={(e) => setActiveView('restaurants')}>Éttermek</button></li>
+        <li><button onClick={() => setActiveView('meals')}>Ételek</button></li>
+        <li><button onClick={(e) => setActiveView('orders')}>Rendelések</button></li>
+        <li><button onClick={(e) => setActiveView('users')}>Felhasználók</button></li>
       </ul>
     </nav>
     <div className="grid-layout">

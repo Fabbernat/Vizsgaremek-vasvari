@@ -16,16 +16,13 @@ export function MealView({ meals }: MealViewProps) {
 
   const [searchedItem, setSearchedItem] = useState('');
   const [mealsList, setMealsList] = useState(meals);
-  const [hasMealsListChanged, setHasMealsListChanged] = useState(false);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchedItem(event.target.value);
   };
 
   const addMeal = (newMeal: { name: string; description: string; price: number }) => {
-    const newMealsList = [...mealsList, { id: mealsList.length + 1, ...newMeal }]; // Az új étel hozzáadása a listához
-    setMealsList(prev => [...prev, { id: prev.length + 1, ...newMeal }]);
-    setHasMealsListChanged(true); // Jelzés, hogy a lista megváltozott
+    setMealsList(prev => [...prev, { id: prev.length + 1, ...newMeal }]); // Az új étel hozzáadása a listához
   }
 
   const deleteMeal = (id: number) => {
