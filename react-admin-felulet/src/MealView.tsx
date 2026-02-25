@@ -1,22 +1,24 @@
 import { useState, type SetStateAction } from "react";
 
 
-export type Meal = {
-  meal: {
-    id: number;
-    name: string;
-    description: string;
-    price: number;
-  }[]
+export type MealItem = {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
 };
 
-export function MealView({ meal: meals }: Meal) {
+type MealViewProps = {
+  meal: MealItem[];
+};
+
+export function MealView({ meal: meals }: MealViewProps) {
 
   const [searchedItem, setSearchedItem] = useState('');
   const [mealsList, setMealsList] = useState(meals);
   const [hasMealsListChanged, setHasMealsListChanged] = useState(false);
   
-  const handleChange = (event: { target: { value: SetStateAction<string>; }; }) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchedItem(event.target.value);
   };
 
@@ -71,6 +73,7 @@ export function MealView({ meal: meals }: Meal) {
         )}
       </div>
 
+        <div>
       <aside className='add'>
           <h1>Új étel hozzáadása</h1>
           {meals.length > 0 && (
@@ -87,6 +90,7 @@ export function MealView({ meal: meals }: Meal) {
       
       <div className="delete">
         <button>Összes törlése</button>
+      </div>
       </div>
     </>
   );
