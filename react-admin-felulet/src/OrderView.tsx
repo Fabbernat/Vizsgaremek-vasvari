@@ -12,11 +12,11 @@ export type Order = {
 export function OrderView({ order: orders }: Order) {
 
   const [searchedItem, setSearchedItem] = useState('');
-  
-    const handleChange = (event: { target: { value: SetStateAction<string>; }; }) => {
-      setSearchedItem(event.target.value);
-    };
-    
+
+  const handleChange = (event: { target: { value: SetStateAction<string>; }; }) => {
+    setSearchedItem(event.target.value);
+  };
+
   return (
     <>
       <h1>Rendelések listája</h1>
@@ -24,18 +24,18 @@ export function OrderView({ order: orders }: Order) {
       <div className="search-container">
         <div>
 
-        <label htmlFor="search" className='search'>Keresés:
-          <input type='text' id="search" placeholder='Keresés' value={searchedItem} onChange={handleChange} />
-        <button>Keresés</button>
-        </label>
+          <label htmlFor="search" className='search'>Keresés:
+            <input type='text' id="search" placeholder='Keresés' value={searchedItem} onChange={handleChange} />
+            <button>Keresés</button>
+          </label>
         </div>
-          {searchedItem !== "" ? 
+        {searchedItem !== "" ?
           <div>
             <p>Nincs találat a következőre: {searchedItem}</p>
-          </div>: null}
+          </div> : null}
       </div>
 
-     
+
       <div className="list grid-cards">
         {orders.map((order, index) => (
           <div>  <ul>
@@ -52,22 +52,22 @@ export function OrderView({ order: orders }: Order) {
           </div>
         ))}
         <div className='add'>
-        <h1>Új rendelés hozzáadása</h1>
-        {orders.length > 0 && (
-          <div>
-            <ul>
-              <input placeholder={orders[0].username} />
-              <input placeholder={orders[0].date} />
-            </ul>
-          </div>
-        )}
-        <button>Hozzáadás</button>
+          <h1>Új rendelés hozzáadása</h1>
+          {orders.length > 0 && (
+            <div>
+              <ul>
+                <input placeholder={orders[0].username} />
+                <input placeholder={orders[0].date} />
+              </ul>
+            </div>
+          )}
+          <button>Hozzáadás</button>
+        </div>
       </div>
-      </div>
-        
-        <div className="delete">
+
+      <div className="delete">
         <button>Összes törlése</button>
       </div>
-      </>
-      );
+    </>
+  );
 }

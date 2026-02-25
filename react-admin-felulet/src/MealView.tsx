@@ -17,7 +17,7 @@ export function MealView({ meal: meals }: MealViewProps) {
   const [searchedItem, setSearchedItem] = useState('');
   const [mealsList, setMealsList] = useState(meals);
   const [hasMealsListChanged, setHasMealsListChanged] = useState(false);
-  
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchedItem(event.target.value);
   };
@@ -31,45 +31,45 @@ export function MealView({ meal: meals }: MealViewProps) {
   return (
     <>
       <h1>Ételek listája</h1>
-      
+
       <div className="search-container">
         <div>
 
-        <label htmlFor="search" className='search'>Keresés:
-          <input type='text' id="search" placeholder='Keresés' value={searchedItem} onChange={handleChange} />
-        <button>Keresés</button>
-        </label>
+          <label htmlFor="search" className='search'>Keresés:
+            <input type='text' id="search" placeholder='Keresés' value={searchedItem} onChange={handleChange} />
+            <button>Keresés</button>
+          </label>
         </div>
-          {searchedItem !== "" ? 
+        {searchedItem !== "" ?
           <div>
             <p>Nincs találat a következőre: {searchedItem}</p>
-          </div>: null}
+          </div> : null}
       </div>
-        
-        
-        {(
-            <div className="list grid-cards">
-              {mealsList.map((meal) => (
-                <div key={meal.id}>
-                  <ul style={{padding: '12px'}}>
-                    <li>{meal.id} </li><br />
-                    <strong> <li> {meal.name} </li><br /></strong>
-                    <li> {meal.description} </li><br />
-                    <li> {meal.price} Ft</li>
-                  </ul>
-                  <div className='modify'>
-              <button>Módosítás</button>
-            </div>
-            <div className='delete'>
-              <button>Törlés</button>
-            </div>
-                </div>
-              ))}
-            </div>
-        )}
 
-        <div>
-      <aside className='add'>
+
+      {(
+        <div className="list grid-cards">
+          {mealsList.map((meal) => (
+            <div key={meal.id}>
+              <ul style={{ padding: '12px' }}>
+                <li>{meal.id} </li><br />
+                <strong> <li> {meal.name} </li><br /></strong>
+                <li> {meal.description} </li><br />
+                <li> {meal.price} Ft</li>
+              </ul>
+              <div className='modify'>
+                <button>Módosítás</button>
+              </div>
+              <div className='delete'>
+                <button>Törlés</button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      <div>
+        <aside className='add'>
           <h1>Új étel hozzáadása</h1>
           {meals.length > 0 && (
             <div>
@@ -82,10 +82,10 @@ export function MealView({ meal: meals }: MealViewProps) {
           )}
           <button type="button" onClick={() => addMeal({ name: "Új étel", description: "Új leírás", price: 1000 })} value="Hozzáadás">Hozzáadás</button>
         </aside>
-      
-      <div className="delete">
-        <button>Összes törlése</button>
-      </div>
+
+        <div className="delete">
+          <button>Összes törlése</button>
+        </div>
       </div>
     </>
   );

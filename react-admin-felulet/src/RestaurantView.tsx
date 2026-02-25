@@ -12,11 +12,11 @@ export type Restaurant = {
 export function RestaurantView({ restaurant: restaurants }: Restaurant) {
 
   const [searchedItem, setSearchedItem] = useState('');
-  
-    const handleChange = (event: { target: { value: SetStateAction<string>; }; }) => {
-      setSearchedItem(event.target.value);
-    };
-    
+
+  const handleChange = (event: { target: { value: SetStateAction<string>; }; }) => {
+    setSearchedItem(event.target.value);
+  };
+
   return (
     <>
       <h1>Éttermek listája</h1>
@@ -24,18 +24,18 @@ export function RestaurantView({ restaurant: restaurants }: Restaurant) {
       <div className="search-container">
         <div>
 
-        <label htmlFor="search" className='search'>Keresés:
-          <input type='text' id="search" placeholder='Keresés' value={searchedItem} onChange={handleChange} />
-        <button>Keresés</button>
-        </label>
+          <label htmlFor="search" className='search'>Keresés:
+            <input type='text' id="search" placeholder='Keresés' value={searchedItem} onChange={handleChange} />
+            <button>Keresés</button>
+          </label>
         </div>
-          {searchedItem !== "" ? 
+        {searchedItem !== "" ?
           <div>
             <p>Nincs találat a következőre: {searchedItem}</p>
-          </div>: null}
+          </div> : null}
       </div>
 
-      
+
       <div className="list grid-cards">
         {restaurants.map((restaurant, index) => (
           <div>
@@ -52,19 +52,19 @@ export function RestaurantView({ restaurant: restaurants }: Restaurant) {
             </div>
           </div>
         ))}
-      <div className='add'>
-        <h1>Új étterem hozzáadása</h1>
-        {restaurants.length > 0 && (
-          <div>
-            <ul>
-              <input placeholder={restaurants[0].name} />
-              <input placeholder={restaurants[0].description} />
-            </ul>
-          </div>
-        )}
-        <button>Hozzáadás</button>
-      </div>
-    </div >
+        <div className='add'>
+          <h1>Új étterem hozzáadása</h1>
+          {restaurants.length > 0 && (
+            <div>
+              <ul>
+                <input placeholder={restaurants[0].name} />
+                <input placeholder={restaurants[0].description} />
+              </ul>
+            </div>
+          )}
+          <button>Hozzáadás</button>
+        </div>
+      </div >
 
 
       <div className="delete">
