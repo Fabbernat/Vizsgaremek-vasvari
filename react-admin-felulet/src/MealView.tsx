@@ -13,10 +13,18 @@ export type Meal = {
 export function MealView({ meal: meals }: Meal) {
 
   const [searchedItem, setSearchedItem] = useState('');
-
+  const [mealsList, setMealsList] = useState(meals);
+  const [hasMealsListChanged, setHasMealsListChanged] = useState(false);
+  
   const handleChange = (event: { target: { value: SetStateAction<string>; }; }) => {
     setSearchedItem(event.target.value);
   };
+
+  const addMeal = (newMeal: { name: string; description: string; price: number }) => {
+    const newMealsList = [...mealsList, { id: mealsList.length + 1, ...newMeal }]; // Az új étel hozzáadása a listához
+    setMealsList(newMealsList);
+    setHasMealsListChanged(true); // Jelzés, hogy a lista megváltozott
+  }
 
   return (
     <>
@@ -64,8 +72,25 @@ export function MealView({ meal: meals }: Meal) {
               </ul>
             </div>
           )}
-          <button>Hozzáadás</button>
+          <button type="button" onClick={() => addMeal({ name: "Új étel", description: "Új leírás", price: 1000 })} value="Hozzáadás">Hozzáadás</button>
         </div>
+        {hasMealsListChanged && (
+          <div>
+            <h2>Frissített ételek listája:</h2>
+            <div className="list grid-cards">
+              {mealsList.map((meal, index) => (
+                <div key={index}>
+                  <ul>
+                    <li>{meal.id} </li><br />
+                    <strong> <li> {meal.name} </li><br /></strong>
+                    <li> {meal.description} </li><br />
+                    <li> {meal.price} Ft</li>
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="delete">
