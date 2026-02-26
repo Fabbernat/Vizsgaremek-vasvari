@@ -1,5 +1,3 @@
-import { useState, type MouseEvent } from 'react'
-
 // stílusok
 import './App.css'
 
@@ -17,6 +15,7 @@ import { orders } from './stores/orders';
 import { users } from './stores/users';
 import { CatFact } from './CatFact';
 import { usePersistedState } from './hooks/usePersistedState';
+import {exportJSON, exportCSV} from './utils/export.ts';
 
 
 type ViewType = 'meals' | 'restaurants' | 'orders' | 'users' | 'dashboard';
@@ -30,14 +29,6 @@ function App() {
   const [thisUsers, setThisUsers] = usePersistedState("users", users);
   
 const revenue = orders.reduce((sum) => sum, 0);
-
-  function exportJSON(mealsList: any, arg1: string): void {
-    throw new Error('Function not implemented.');
-  }
-
-  function exportCSV(mealsList: any, arg1: string): void {
-    throw new Error('Function not implemented.');
-  }
 
   return (
     <>
