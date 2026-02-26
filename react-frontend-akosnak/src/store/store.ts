@@ -1,10 +1,10 @@
-import type { Pizza } from "../types/Pizza";
+import type { Restaurant } from "../types/Restaurant";
 
-export const baseURL = null;
+export const baseURL = "http://localhost:3000";
 
 const apiClient = {
     get: function (url: string) {
-        return Promise.resolve({ data: null as Pizza[] | Pizza | null });
+        return Promise.resolve({ data: null as Restaurant[] | Restaurant | null });
     },
     post: function (url: string, data: any) {
         return Promise.resolve();
