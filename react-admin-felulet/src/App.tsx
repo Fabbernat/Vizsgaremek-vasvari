@@ -34,7 +34,7 @@ function App() {
     <nav>
       <ul className='no-bullets'>
         <li><button onClick={(e) => setActiveView('restaurants')}>Éttermek</button></li>
-        <li><button onClick={() => setActiveView('meals')}>Ételek</button></li>
+        <li><button onClick={(e) => setActiveView('meals')}>Ételek</button></li>
         <li><button onClick={(e) => setActiveView('orders')}>Rendelések</button></li>
         <li><button onClick={(e) => setActiveView('users')}>Felhasználók</button></li>
       </ul>
