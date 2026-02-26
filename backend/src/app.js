@@ -16,15 +16,9 @@ app.use(express.json());
 // Statikus fájlok kiszolgálása
 app.use(express.static(path.join(__dirname, '../webui')));
 
-// Health API
-// Ez most annyira nem kell, mert van egy health.html oldalunk, de azért hagyom itt kommentben, hátha kell még
-/*app.get('/health', (req, res) => {
-  res.json({
-    status: 'OK',
-    system: 'Royal Delivery backend',
-    time: new Date()
-  });
-});*/
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../webui/index.html'))
+})
 
 // Admin, dashboard, api-docs oldalak
 app.get('/admin-panel', (req, res) => {
