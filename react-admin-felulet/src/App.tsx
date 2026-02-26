@@ -29,7 +29,7 @@ function App() {
   const [thisOrders, setThisOrders] = usePersistedState("orders", orders);
   const [thisUsers, setThisUsers] = usePersistedState("users", users);
   
-
+const revenue = orders.reduce((sum) => sum, 0);
 
   function exportJSON(mealsList: any, arg1: string): void {
     throw new Error('Function not implemented.');
@@ -70,6 +70,10 @@ function App() {
           <button onClick={() => exportCSV(meals, "meals")}>
             Export CSV
           </button>
+
+          <div>
+            
+          </div>
         </div>
 
         <footer>{ <CatFact />}</footer>
