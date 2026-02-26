@@ -34,7 +34,8 @@ export function MealView({ meals }: MealViewProps) {
   }
 
   function handleSearch(event: React.MouseEvent<HTMLButtonElement>): void {
-    setMealsList(prev => prev.filter(meal => meal.name.toLowerCase().includes(searchedItem.toLowerCase())));
+    const tempMealsForSearch = meals;
+    setMealsList(tempMealsForSearch => tempMealsForSearch.filter(meal => meal.name.toLowerCase().includes(searchedItem.toLowerCase())));
   }
 
   return (
@@ -44,10 +45,11 @@ export function MealView({ meals }: MealViewProps) {
       <div className="search-container">
         <div>
 
-          <label htmlFor="search" className='search'>Keresés:
-            <input type='text' id="search" placeholder='Keresés' value={searchedItem} onChange={handleChange} />
-          </label>
+          <label htmlFor="search" className='search'>Keresés:<br/>
+            <input type='text' id="search" placeholder='Étel neve vagy leírása...' value={searchedItem} onChange={handleChange} />
             <button onClick={handleSearch}>🔍 Keresés</button>
+            <button onClick={() => setMealsList(meals)}>Lista frissítése</button>
+          </label>
         </div>
         {searchedItem !== "" ?
           <div>
