@@ -16,17 +16,18 @@ import { restaurants } from './stores/restaurants';
 import { orders } from './stores/orders';
 import { users } from './stores/users';
 import { CatFact } from './CatFact';
+import { usePersistedState } from './hooks/usePersistedState';
 
 
 type ViewType = 'meals' | 'restaurants' | 'orders' | 'users' | 'dashboard';
 
 function App() {
   // A single string to track the active view with type safety
-  const [activeView, setActiveView] = useState<ViewType>('meals');
-  const [thisMeals, setThisMeals] = useState(meals);
-  const [thisRestaurants, setThisRestaurants] = useState(restaurants);
-  const [thisOrders, setThisOrders] = useState(orders);
-  const [thisUsers, setThisUsers] = useState(users);
+  const [activeView, setActiveView] = usePersistedState<ViewType>("activeView", "meals"); // meals a default view
+  const [thisMeals, setThisMeals] = usePersistedState("meals", meals);
+  const [thisRestaurants, setThisRestaurants] = usePersistedState("restaurants", restaurants);
+  const [thisOrders, setThisOrders] = usePersistedState("orders", orders);
+  const [thisUsers, setThisUsers] = usePersistedState("users", users);
   
 
 
