@@ -18,7 +18,7 @@ import { users } from './stores/users';
 import { CatFact } from './CatFact';
 
 
-type ViewType = 'meals' | 'restaurants' | 'orders' | 'users';
+type ViewType = 'meals' | 'restaurants' | 'orders' | 'users' | 'dashboard';
 
 function App() {
   // A single string to track the active view with type safety
@@ -30,6 +30,14 @@ function App() {
   
 
 
+  function exportJSON(mealsList: any, arg1: string): void {
+    throw new Error('Function not implemented.');
+  }
+
+  function exportCSV(mealsList: any, arg1: string): void {
+    throw new Error('Function not implemented.');
+  }
+
   return (
     <>
     <nav>
@@ -38,6 +46,7 @@ function App() {
         <li><button onClick={(e) => setActiveView('meals')}>Ételek</button></li>
         <li><button onClick={(e) => setActiveView('orders')}>Rendelések</button></li>
         <li><button onClick={(e) => setActiveView('users')}>Felhasználók</button></li>
+        <li><button onClick={() => setActiveView('dashboard')}>Dashboard</button></li>
       </ul>
     </nav>
     <div className="grid-layout">
@@ -51,6 +60,16 @@ function App() {
           {activeView === 'orders' && <OrderView order={thisOrders} />}
           {activeView === 'users' && <UserView user={thisUsers} />}
         </main>
+
+        <div className='experimental-features'>
+          <button onClick={() => exportJSON(meals, "meals")}>
+            Export JSON
+          </button>
+
+          <button onClick={() => exportCSV(meals, "meals")}>
+            Export CSV
+          </button>
+        </div>
 
         <footer>{ <CatFact />}</footer>
 
