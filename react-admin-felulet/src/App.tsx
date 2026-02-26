@@ -15,6 +15,7 @@ import { meals } from './stores/meals';
 import { restaurants } from './stores/restaurants';
 import { orders } from './stores/orders';
 import { users } from './stores/users';
+import { CatFact } from './CatFact';
 
 
 type ViewType = 'meals' | 'restaurants' | 'orders' | 'users';
@@ -41,7 +42,7 @@ function App() {
     </nav>
     <div className="grid-layout">
 
-        <header>Header</header>
+        <header>👑</header>
         
         <main className='currentView'>
           {/* ezt kéne jól kitalálni, hogy hogyan lehetne megjeleníteni a különböző típusú adatokat egy közös komponensben */}
@@ -51,7 +52,7 @@ function App() {
           {activeView === 'users' && <UserView user={thisUsers} />}
         </main>
 
-        <footer>Footer</footer>
+        <footer>{ <CatFact />}</footer>
 
       </div>
     </>
