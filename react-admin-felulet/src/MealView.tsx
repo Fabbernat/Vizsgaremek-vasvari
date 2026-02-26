@@ -33,6 +33,10 @@ export function MealView({ meals }: MealViewProps) {
     setMealsList([]);
   }
 
+  function handleSearch(event: React.MouseEvent<HTMLButtonElement>): void {
+    setMealsList(prev => prev.filter(meal => meal.name.toLowerCase().includes(searchedItem.toLowerCase())));
+  }
+
   return (
     <>
       <h1>Ételek listája</h1>
@@ -42,8 +46,8 @@ export function MealView({ meals }: MealViewProps) {
 
           <label htmlFor="search" className='search'>Keresés:
             <input type='text' id="search" placeholder='Keresés' value={searchedItem} onChange={handleChange} />
-            <button>Keresés</button>
           </label>
+            <button onClick={handleSearch}>🔍 Keresés</button>
         </div>
         {searchedItem !== "" ?
           <div>
