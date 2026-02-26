@@ -1,46 +1,48 @@
 <!DOCTYPE html>
 <html lang="hu">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
     <nav>
-                <a href="/">Főoldal👑</a>
+        <a href="/">Főoldal👑</a>
 
         <a href="/admin-panel">Admin panel</a>
         <a href="/api-docs">API dokumentáció</a>
-        <a  class="active" href="/dashboard">Dashboard</a>
+        <a class="active" href="/dashboard">Dashboard</a>
         <a href="/health">Health monitor</a>
     </nav>
-   <header>
+    <header>
         <h1>Royal Delivery Dashboard</h1>
     </header>
     <main>
-    <div class="cards">
-        <div class="card">
-            <h3>📦 Rendelések</h3>
-            <p class="value" id="orders">...</p>
-        </div>
+        <div class="cards">
+            <div class="card">
+                <h3>📦 Rendelések</h3>
+                <p class="value" id="orders">...</p>
+            </div>
 
-        <div class="card">
-            <h3>👥 Felhasználók</h3>
-            <p class="value" id="users">...</p>
-        </div>
+            <div class="card">
+                <h3>👥 Felhasználók</h3>
+                <p class="value" id="users">...</p>
+            </div>
 
-        <div class="card">
-            <h3>🍔 Éttermek</h3>
-            <p class="value" id="restaurants">...</p>
-        </div>
+            <div class="card">
+                <h3>🍔 Éttermek</h3>
+                <p class="value" id="restaurants">...</p>
+            </div>
 
-        <div class="card">
-            <h3>🚚 Futárok</h3>
-            <p class="value" id="couriers">...</p>
+            <div class="card">
+                <h3>🚚 Futárok</h3>
+                <p class="value" id="couriers">...</p>
+            </div>
         </div>
-    </div>
-</main>
+    </main>
 
 
     <footer>
@@ -48,4 +50,5 @@
     </footer>
     <script defer src="/dashboard.js"></script>
 </body>
+
 </html>
