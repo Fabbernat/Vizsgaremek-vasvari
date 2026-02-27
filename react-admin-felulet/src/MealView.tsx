@@ -10,6 +10,7 @@ export type MealItem = {
 
 type MealViewProps = {
   meals: MealItem[];
+  setMeals: React.Dispatch<React.SetStateAction<MealItem[]>>;
 };
 
 export function MealView({ meals }: MealViewProps) {

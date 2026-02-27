@@ -7,8 +7,11 @@ export type User = {
   lastName: string;
   email: string;
   address: string;
-}[]
-  ;
+}[];
+
+type UserViewProps = {
+  user: User;
+};
 
 export function UserView({ user: users }: { user: User }) {
 
