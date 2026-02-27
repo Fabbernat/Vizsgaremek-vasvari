@@ -16,9 +16,11 @@ import { users } from './stores/users';
 import { CatFact } from './CatFact';
 import { usePersistedState } from './hooks/usePersistedState';
 import {exportJSON, exportCSV} from './utils/export.ts';
+import { DashboardView } from './DashboardView.tsx';
+import { CarreersView } from './CarreersView.tsx';
 
 
-type ViewType = 'meals' | 'restaurants' | 'orders' | 'users' | 'dashboard';
+type ViewType = 'meals' | 'restaurants' | 'orders' | 'users' | 'dashboard' | 'carreers';
 
 function App() {
   // A single string to track the active view with type safety
@@ -27,6 +29,7 @@ function App() {
   const [thisRestaurants] = usePersistedState("restaurants", restaurants);
   const [thisOrders] = usePersistedState("orders", orders);
   const [thisUsers] = usePersistedState("users", users);
+  const [thisCarreers] = usePersistedState("carreers", []);
   
 const revenue = orders.reduce((sum) => sum, 0);
 
@@ -39,6 +42,7 @@ const revenue = orders.reduce((sum) => sum, 0);
         <li><button onClick={() => setActiveView('orders')}>Rendelések</button></li>
         <li><button onClick={() => setActiveView('users')}>Felhasználók</button></li>
         <li><button onClick={() => setActiveView('dashboard')}>Dashboard</button></li>
+        <li><button onClick={() => setActiveView('carreers')}>Karrier</button></li>
       </ul>
     </nav>
     <div className="grid-layout">
@@ -51,15 +55,17 @@ const revenue = orders.reduce((sum) => sum, 0);
           {activeView === 'restaurants' && <RestaurantView restaurant={thisRestaurants} />}
           {activeView === 'orders' && <OrderView order={thisOrders} />}
           {activeView === 'users' && <UserView user={thisUsers} />}
+          {activeView === 'dashboard' && <DashboardView meals={thisMeals} restaurants={thisRestaurants} orders={thisOrders} users={thisUsers} />}
+          {activeView === 'carreers' && <CarreersView carreers={thisCarreers} />}
         </main>
 
-        <div className='experimental-features'>
+        <div className='experimental-features '>
           <button onClick={() => exportJSON(meals, "meals")}>
-            Export JSON
+            JSON  Exportálás
           </button>
 
           <button onClick={() => exportCSV(meals, "meals")}>
-            Export CSV
+             CSV Exportálás
           </button>
 
           <div>

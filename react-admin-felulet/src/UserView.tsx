@@ -1,5 +1,4 @@
 import { useState, type SetStateAction } from "react";
-import { meals } from "./stores/meals";
 
 export type User = {
   id: number;
