@@ -25,11 +25,10 @@ type ViewType = 'meals' | 'restaurants' | 'orders' | 'users' | 'dashboard' | 'ca
 function App() {
   // A single string to track the active view with type safety
   const [activeView, setActiveView] = usePersistedState<ViewType>("activeView", "meals"); // meals a default view
-  const [thisMeals] = usePersistedState("meals", meals);
-  const [thisRestaurants] = usePersistedState("restaurants", restaurants);
-  const [thisOrders] = usePersistedState("orders", orders);
-  const [thisUsers] = usePersistedState("users", users);
-  const [thisCarreers] = usePersistedState("carreers", []);
+  const [thisMeals, setThisMeals] = usePersistedState("meals", meals);  const [thisRestaurants] = usePersistedState("restaurants", restaurants);
+  const [thisOrders, setThisOrders] = usePersistedState("orders", orders);
+  const [thisUsers, setThisUsers] = usePersistedState("users", users);
+  const [thisCarreers, setThisCarreers] = usePersistedState("carreers", []);
   
 const revenue = orders.reduce((sum) => sum, 0);
 
@@ -51,7 +50,7 @@ const revenue = orders.reduce((sum) => sum, 0);
         
         <main className='currentView'>
           {/* ezt kéne jól kitalálni, hogy hogyan lehetne megjeleníteni a különböző típusú adatokat egy közös komponensben */}
-          {activeView === 'meals' && <MealView meals={thisMeals} />}
+          {activeView === 'meals' &&   <MealView meals={thisMeals} setMeals={setThisMeals} />}
           {activeView === 'restaurants' && <RestaurantView restaurant={thisRestaurants} />}
           {activeView === 'orders' && <OrderView order={thisOrders} />}
           {activeView === 'users' && <UserView user={thisUsers} />}
