@@ -54,7 +54,7 @@ app.get('/api', (req, res) => {
   }
 });
 
-const dbPath = path.join(__dirname, '../data/database.sqlite'); // `royal-delivery-nalhi-gurban-fabian\data\database.sqlite` a helye
+const dbPath = path.join(__dirname, '../data/database.sqlite');
 try {
     const db = new Database(dbPath);
     console.log('Adatbázis sikeresen megnyitva:', dbPath);
