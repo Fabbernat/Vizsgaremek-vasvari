@@ -23,10 +23,10 @@ type ViewType = 'meals' | 'restaurants' | 'orders' | 'users' | 'dashboard';
 function App() {
   // A single string to track the active view with type safety
   const [activeView, setActiveView] = usePersistedState<ViewType>("activeView", "meals"); // meals a default view
-  const [thisMeals, setThisMeals] = usePersistedState("meals", meals);
-  const [thisRestaurants, setThisRestaurants] = usePersistedState("restaurants", restaurants);
-  const [thisOrders, setThisOrders] = usePersistedState("orders", orders);
-  const [thisUsers, setThisUsers] = usePersistedState("users", users);
+  const [thisMeals] = usePersistedState("meals", meals);
+  const [thisRestaurants] = usePersistedState("restaurants", restaurants);
+  const [thisOrders] = usePersistedState("orders", orders);
+  const [thisUsers] = usePersistedState("users", users);
   
 const revenue = orders.reduce((sum) => sum, 0);
 
@@ -34,10 +34,10 @@ const revenue = orders.reduce((sum) => sum, 0);
     <>
     <nav>
       <ul className='no-bullets'>
-        <li><button onClick={(e) => setActiveView('restaurants')}>Éttermek</button></li>
-        <li><button onClick={(e) => setActiveView('meals')}>Ételek</button></li>
-        <li><button onClick={(e) => setActiveView('orders')}>Rendelések</button></li>
-        <li><button onClick={(e) => setActiveView('users')}>Felhasználók</button></li>
+        <li><button onClick={() => setActiveView('restaurants')}>Éttermek</button></li>
+        <li><button onClick={() => setActiveView('meals')}>Ételek</button></li>
+        <li><button onClick={() => setActiveView('orders')}>Rendelések</button></li>
+        <li><button onClick={() => setActiveView('users')}>Felhasználók</button></li>
         <li><button onClick={() => setActiveView('dashboard')}>Dashboard</button></li>
       </ul>
     </nav>
