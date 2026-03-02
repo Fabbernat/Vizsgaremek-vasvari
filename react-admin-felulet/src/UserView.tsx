@@ -1,5 +1,4 @@
 import { useState, type SetStateAction } from "react";
-import { meals } from "./stores/meals";
 
 export type User = {
   id: number;
@@ -8,8 +7,11 @@ export type User = {
   lastName: string;
   email: string;
   address: string;
-}[]
-  ;
+}[];
+
+type UserViewProps = {
+  user: User;
+};
 
 export function UserView({ user: users }: { user: User }) {
 
