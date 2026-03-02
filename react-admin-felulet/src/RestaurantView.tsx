@@ -1,7 +1,7 @@
-import { useState, type SetStateAction } from "react";
+import React, { useState, type SetStateAction } from "react";
 
 
-export type Restaurant = {
+export type RestaurantItem = {
   restaurant: {
     id: number;
     name: string;
@@ -9,7 +9,12 @@ export type Restaurant = {
   }[]
 };
 
-export function RestaurantView({ restaurant: restaurants }: Restaurant) {
+type RestaurantViewProps = {
+  restaurants: RestaurantItem[];
+  setRestaurants: React.Dispatch<React.SetStateAction<RestaurantItem[]>>
+}
+
+export function RestaurantView({ restaurant: restaurants }: RestaurantItem) {
 
   const [searchedItem, setSearchedItem] = useState('');
 
