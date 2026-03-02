@@ -1,3 +1,5 @@
+import { useState, type MouseEvent } from 'react'
+
 // stílusok
 import './App.css'
 
@@ -14,6 +16,17 @@ import { restaurants } from './stores/restaurants';
 import { orders } from './stores/orders';
 import { users } from './stores/users';
 import { CatFact } from './CatFact';
+
+
+type ViewType = 'meals' | 'restaurants' | 'orders' | 'users';
+
+function App() {
+  // A single string to track the active view with type safety
+  const [activeView, setActiveView] = useState<ViewType>('meals');
+  const [thisMeals, setThisMeals] = useState(meals);
+  const [thisRestaurants, setThisRestaurants] = useState(restaurants);
+  const [thisOrders, setThisOrders] = useState(orders);
+  const [thisUsers, setThisUsers] = useState(users);
 import { usePersistedState } from './hooks/usePersistedState';
 import {exportJSON, exportCSV} from './utils/export.ts';
 import { DashboardView } from './DashboardView.tsx';
@@ -30,12 +43,16 @@ function App() {
   const [thisUsers, setThisUsers] = usePersistedState("users", users);
   const [thisCarreers, setThisCarreers] = usePersistedState("carreers", []);
   
-const revenue = orders.reduce((sum) => sum, 0);
+
 
   return (
     <>
     <nav>
       <ul className='no-bullets'>
+        <li><button onClick={(e) => setActiveView('restaurants')}>Éttermek</button></li>
+        <li><button onClick={(e) => setActiveView('meals')}>Ételek</button></li>
+        <li><button onClick={(e) => setActiveView('orders')}>Rendelések</button></li>
+        <li><button onClick={(e) => setActiveView('users')}>Felhasználók</button></li>
         <li><button onClick={() => setActiveView('restaurants')}>Éttermek</button></li>
         <li><button onClick={() => setActiveView('meals')}>Ételek</button></li>
         <li><button onClick={() => setActiveView('orders')}>Rendelések</button></li>
