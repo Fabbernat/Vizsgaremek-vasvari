@@ -1,6 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import path from 'path';
+import Database from 'better-sqlite3';
+
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -14,15 +16,9 @@ app.use(express.json());
 // Statikus fájlok kiszolgálása
 app.use(express.static(path.join(__dirname, '../webui')));
 
-// Health API
-// Ez most annyira nem kell, mert van egy health.html oldalunk, de azért hagyom itt kommentben, hátha kell még
-/*app.get('/health', (req, res) => {
-  res.json({
-    status: 'OK',
-    system: 'Royal Delivery backend',
-    time: new Date()
-  });
-});*/
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../webui/index.html'))
+})
 
 // Admin, dashboard, api-docs oldalak
 app.get('/admin-panel', (req, res) => {
@@ -48,5 +44,28 @@ app.get('/api/stats', (req, res) => {
     time: new Date()
   });
 });
+
+app.get('/api', (req, res) => {
+  try {
+    const data = fetchDataFromDatabase();
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+const dbPath = path.join(__dirname, '../data/database.sqlite');
+try {
+    const db = new Database(dbPath);
+    console.log('Adatbázis sikeresen megnyitva:', dbPath);
+} catch (err) {
+  console.error('Hiba az adatbázis létrehozásakor:', err);
+}
+
+function fetchDataFromDatabase() {
+  const stmt = db.prepare("SELECT * FROM restaurants");
+  const rows = stmt.all();
+  return rows;
+}
 
 export default app;
