@@ -1,26 +1,26 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import type { Pizza } from "../types/Pizza";
+import type { Restaurant } from "../types/Restaurant";
 import { toast } from "react-toastify";
 import apiClient, { baseURL } from "../store/store";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import goodFood from "./good-food.jpg";
 
-const OnePizza = () => {
+const OneRestaurant = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const [pizza, setPizza] = useState<Pizza>();
+  const [restaurant, setRestaurant] = useState<Restaurant>();
 
   useEffect(() => {
     apiClient
-      .get(`/pizzak/${id}`)
+      .get(`/restaurants/${id}`)
       .catch(() => toast.error("A pizzák betöltése sikertelen volt"));
   }, [id]);
 
-  const deletePizza = () => {
+  const deleteRestaurant = () => {
     apiClient
-      .delete(`/pizzak/${id}`)
+      .delete(`/restaurants/${id}`)
       .then(() => {
         toast.success("Sikeres törlés!");
         navigate("/"); // kezdőlapra irányítás
@@ -28,27 +28,23 @@ const OnePizza = () => {
       .catch(() => toast.error("Sikertelen törlés!"));
   };
 
-  const editPizza = () => {
-    navigate(`/edit-pizza/${id}`);
+  const editRestaurant = () => {
+    navigate(`/edit-restaurant/${id}`);
   };
 
   return (
     <Container>
-      {pizza ? (
+      {restaurant ? (
         <Row>
           <Col sm={8}>
-            <h1>{pizza.nev}</h1>
-            <h2>{pizza.leiras}</h2>
+            <h1>{restaurant.nev}</h1>
 
-            <Button variant="warning" onClick={editPizza}>
+            <Button variant="warning" onClick={editRestaurant}>
               Szerkesztés
             </Button>
-            <Button variant="danger" onClick={deletePizza}>
+            <Button variant="danger" onClick={deleteRestaurant}>
               Törlés
             </Button>
-          </Col>
-          <Col sm={4}>
-            <img width={200} src={pizza.imageUrl ? pizza.imageUrl : goodFood} />
           </Col>
         </Row>
       ) : (
@@ -58,4 +54,4 @@ const OnePizza = () => {
   );
 };
 
-export default OnePizza;
+export default OneRestaurant;
