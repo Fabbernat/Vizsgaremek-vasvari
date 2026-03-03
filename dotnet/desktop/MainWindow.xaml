@@ -13,22 +13,22 @@
         <mainviewmodel:MainWindowViewModel />
     </Window.DataContext>
     <Window.Resources>
-        <DataTemplate DataType="{x:Type viewmodel:ControlPanelViewModel}">
-            <view:ControlPanelView />
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type viewmodel:StudentViewModel}">
-            <view:StudentView />
+        <DataTemplate DataType="{x:Type viewmodel:RestaurantViewModel}">
+            <view:RestaurantView />
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewmodel:SchoolClassViewModel}">
             <view:SchoolClassView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewmodel:UserViewModel}">
+            <view:UserView />
         </DataTemplate>
     </Window.Resources>
     <StackPanel>
         <DockPanel>
             <Menu>
                 <MenuItem Header="Főmenüpont">
-                    <MenuItem Header="Vezérlőpult" Command="{Binding ShowControlPanalViewCommand}"></MenuItem>
-                    <MenuItem Header="Diákok" Command="{Binding ShowStudentViewCommand}" ></MenuItem>
+                    <MenuItem Header="Restaurants" Command="{Binding ShowRestaurantViewCommand}"></MenuItem>
+                    <MenuItem Header="Users" Command="{Binding ShowUserViewCommand}" ></MenuItem>
                     <MenuItem Header="Osztályok" Command="{Binding ShowSchoolClassViewCommand}"></MenuItem>
                 </MenuItem>
             </Menu>
