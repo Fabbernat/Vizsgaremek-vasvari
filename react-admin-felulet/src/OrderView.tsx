@@ -2,14 +2,14 @@ import { useState, type SetStateAction } from "react";
 
 
 export type Order = {
-  order: {
+  orders: {
     id: number;
     username: string;
     date: string;
   }[]
 };
 
-export function OrderView({ order: orders }: Order) {
+export function OrderView({ orders: orders }: Order) {
 
   const [searchedItem, setSearchedItem] = useState('');
 

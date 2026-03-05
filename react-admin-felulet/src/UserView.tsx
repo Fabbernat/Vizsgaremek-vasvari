@@ -11,7 +11,7 @@ export type User = {
 }[]
   ;
 
-export function UserView({ user: users }: { user: User }) {
+export function UserView({ users: users }: { users: User }) {
 
   const [searchedItem, setSearchedItem] = useState('');
 

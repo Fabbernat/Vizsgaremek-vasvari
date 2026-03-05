@@ -2,14 +2,14 @@ import { useState, type SetStateAction } from "react";
 
 
 export type Restaurant = {
-  restaurant: {
+  restaurants: {
     id: number;
     name: string;
     description: string;
   }[]
 };
 
-export function RestaurantView({ restaurant: restaurants }: Restaurant) {
+export function RestaurantView({ restaurants: restaurants }: Restaurant) {
 
   const [searchedItem, setSearchedItem] = useState('');
 
