@@ -1,4 +1,5 @@
 import { useState, type SetStateAction } from "react";
+import { exportCSV, exportJSON } from "./utils/export";
 
 
 export type Restaurant = {
@@ -52,7 +53,7 @@ export function RestaurantView({ restaurants: restaurants }: Restaurant) {
             </div>
           </div>
         ))}
-        <div className='add'>
+        <aside className='add'>
           <h1>Új étterem hozzáadása</h1>
           {restaurants.length > 0 && (
             <div>
@@ -63,10 +64,15 @@ export function RestaurantView({ restaurants: restaurants }: Restaurant) {
             </div>
           )}
           <button>Hozzáadás</button>
-        </div>
+        </aside>
       </div >
+      <button onClick={() => exportJSON(restaurants, "restaurants")}>
+        Export JSON
+      </button>
 
-
+      <button onClick={() => exportCSV(restaurants, "restaurants")}>
+        Export CSV
+      </button>
       <div className="delete">
         <button>Összes törlése</button>
       </div>

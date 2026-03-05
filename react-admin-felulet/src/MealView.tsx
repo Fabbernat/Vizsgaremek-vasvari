@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { exportCSV, exportJSON } from "./utils/export";
 
 
 export type MealItem = {
@@ -45,7 +46,7 @@ export function MealView({ meals }: MealViewProps) {
       <div className="search-container">
         <div>
 
-          <label htmlFor="search" className='search'>Keresés:<br/>
+          <label htmlFor="search" className='search'>Keresés:<br />
             <input type='text' id="search" placeholder='Étel neve vagy leírása...' value={searchedItem} onChange={handleChange} />
             <button onClick={handleSearch}>🔍 Keresés</button>
             <button onClick={() => setMealsList(meals)}>Lista frissítése</button>
@@ -93,7 +94,13 @@ export function MealView({ meals }: MealViewProps) {
           )}
           <button type="button" onClick={() => addMeal({ name: "Új étel", description: "Új leírás", price: 1000 })} value="Hozzáadás">Hozzáadás</button>
         </aside>
+        <button onClick={() => exportJSON(mealsList, "meals")}>
+          Export JSON
+        </button>
 
+        <button onClick={() => exportCSV(mealsList, "meals")}>
+          Export CSV
+        </button>
         <div className="delete">
           <button onClick={deleteAll}>Összes törlése</button>
         </div>
