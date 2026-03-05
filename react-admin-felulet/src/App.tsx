@@ -17,10 +17,10 @@ import { orders } from './stores/orders';
 import { users } from './stores/users';
 import { applicants } from './stores/applicants';
 import { CatFact } from './CatFact';
-import { ApplicantView } from './ApplicantView';
+import { DashboardView } from './DashboardView';
 
 
-type ViewType = 'meals' | 'restaurants' | 'orders' | 'users' | 'applicants';
+type ViewType = 'meals' | 'restaurants' | 'orders' | 'users' | 'applicants' | 'dashboard';
 
 function App() {
   // A single string to track the active view with type safety
@@ -30,7 +30,6 @@ function App() {
   const [thisOrders, setThisOrders] = useState(orders);
   const [thisUsers, setThisUsers] = useState(users);
   const [thisApplicants, setThisApplicants] = useState(applicants);
-  
 
 
   return (
@@ -41,7 +40,7 @@ function App() {
         <li><button onClick={(e) => setActiveView('meals')}>Ételek</button></li>
         <li><button onClick={(e) => setActiveView('orders')}>Rendelések</button></li>
         <li><button onClick={(e) => setActiveView('users')}>Felhasználók</button></li>
-        <li><button onClick={(e) => setActiveView('applicants')}>Állásjelentkezők</button></li>
+        <li><button onClick={() => setActiveView('dashboard')}>Dashboard</button></li>
       </ul>
     </nav>
     <div className="grid-layout">
@@ -54,8 +53,15 @@ function App() {
           {activeView === 'restaurants' && <RestaurantView restaurants={thisRestaurants} />}
           {activeView === 'orders' && <OrderView orders={thisOrders} />}
           {activeView === 'users' && <UserView users={thisUsers} />}
-          {activeView === 'applicants' && <ApplicantView applicants={thisApplicants} />}
-        </main>
+          {activeView === 'applicants' && (
+            <DashboardView
+              meals={thisMeals}
+              restaurants={thisRestaurants}
+              orders={thisOrders}
+              users={thisUsers}
+            />
+          )}     
+          </main>
 
         <footer>{ <CatFact />}</footer>
 
