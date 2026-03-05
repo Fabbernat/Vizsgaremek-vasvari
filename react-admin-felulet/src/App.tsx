@@ -38,6 +38,7 @@ function App() {
         <li><button onClick={(e) => setActiveView('meals')}>Ételek</button></li>
         <li><button onClick={(e) => setActiveView('orders')}>Rendelések</button></li>
         <li><button onClick={(e) => setActiveView('users')}>Felhasználók</button></li>
+        <li><button onClick={(e) => setActiveView('applicants')}>Állásjelentkezők</button></li>
       </ul>
     </nav>
     <div className="grid-layout">
