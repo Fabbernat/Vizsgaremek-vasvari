@@ -53,7 +53,7 @@ function App() {
           {activeView === 'restaurants' && <RestaurantView restaurants={thisRestaurants} />}
           {activeView === 'orders' && <OrderView orders={thisOrders} />}
           {activeView === 'users' && <UserView users={thisUsers} />}
-          {activeView === 'applicants' && (
+          {activeView === 'dashboard' && (
             <DashboardView meals={thisMeals} restaurants={thisRestaurants} orders={thisOrders} users={thisUsers} applicants={thisApplicants} />
           )}     
           </main>
