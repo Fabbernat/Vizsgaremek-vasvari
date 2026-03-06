@@ -4,7 +4,7 @@ import type { restaurants } from "./stores/restaurants";
 import type { orders } from "./stores/orders";
 import type{ users } from "./stores/users";
 import type { MealItem } from "./MealView";
-import type { Restaurant } from "./RestaurantView";
+import type { RestaurantItem } from "./RestaurantView";
 import type { Order } from "./OrderView";
 import type { User } from "./UserView";
 

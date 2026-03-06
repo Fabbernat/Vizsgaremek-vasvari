@@ -26,6 +26,10 @@ export function MealView({ meals }: MealViewProps) {
     setMealsList(prev => [...prev, { id: prev.length + 1, ...newMeal }]); // Az új étel hozzáadása a listához
   }
 
+  const modifyMeal = (id: number, newMeal: { name: string; description: string; price: number }) => {
+    setMealsList(prev => prev.map(meal => meal.id === id ? { ...meal, ...newMeal } : meal));
+  }
+
   const deleteMeal = (id: number) => {
     setMealsList(prev => prev.filter(meal => meal.id !== id));
   };
@@ -70,7 +74,10 @@ export function MealView({ meals }: MealViewProps) {
               <li>Ár: {meal.price} Ft</li>
             </ul>
             <div className='modify'>
-              <button>Módosítás</button>
+              const name = <input type="text" placeholder={meal.name} />
+              const description = <input type="text" placeholder={meal.description} />
+              const price = <input type="text" placeholder={meal.price.toString()} />
+              <button onClick={() => modifyMeal(meal.id, new MealItem(name, description, price)}>Módosítás</button>
             </div>
             <div className='delete'>
               <button onClick={() => deleteMeal(meal.id)}>Törlés</button>
