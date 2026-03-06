@@ -13,10 +13,10 @@ type MealViewProps = {
 };
 
 export function MealView({ meals }: MealViewProps) {
-
   const [searchedItem, setSearchedItem] = useState("");
   const [mealsList, setMealsList] = useState<MealItem[]>(meals);
 
+  const [editingId, setEditingId] = useState<number | null>(null);
   const [editMeal, setEditMeal] = useState({
     name: "",
     description: "",
@@ -30,8 +30,29 @@ export function MealView({ meals }: MealViewProps) {
   const addMeal = (newMeal: { name: string; description: string; price: number }) => {
     setMealsList(prev => [
       ...prev,
-      { id: prev.length + 1, ...newMeal }
+      {
+        id: Math.max(0, ...prev.map(meal => meal.id)) + 1,
+        ...newMeal
+      }
     ]);
+  };
+
+  const startEditing = (meal: MealItem) => {
+    setEditingId(meal.id);
+    setEditMeal({
+      name: meal.name,
+      description: meal.description,
+      price: meal.price
+    });
+  };
+
+  const cancelEditing = () => {
+    setEditingId(null);
+    setEditMeal({
+      name: "",
+      description: "",
+      price: 0
+    });
   };
 
   const modifyMeal = (
@@ -43,14 +64,21 @@ export function MealView({ meals }: MealViewProps) {
         meal.id === id ? { ...meal, ...newMeal } : meal
       )
     );
+
+    cancelEditing();
   };
 
   const deleteMeal = (id: number) => {
     setMealsList(prev => prev.filter(meal => meal.id !== id));
+
+    if (editingId === id) {
+      cancelEditing();
+    }
   };
 
   const deleteAll = () => {
     setMealsList([]);
+    cancelEditing();
   };
 
   function handleSearch() {
@@ -107,39 +135,45 @@ export function MealView({ meals }: MealViewProps) {
             </ul>
 
             <div className="modify">
-              <input
-                type="text"
-                placeholder={meal.name}
-                value={editMeal.name}
-                onChange={(e) =>
-                  setEditMeal({ ...editMeal, name: e.target.value })
-                }
-              />
+              {editingId === meal.id ? (
+                <>
+                  <input
+                    type="text"
+                    value={editMeal.name}
+                    onChange={(e) =>
+                      setEditMeal({ ...editMeal, name: e.target.value })
+                    }
+                  />
 
-              <input
-                type="text"
-                placeholder={meal.description}
-                value={editMeal.description}
-                onChange={(e) =>
-                  setEditMeal({ ...editMeal, description: e.target.value })
-                }
-              />
+                  <input
+                    type="text"
+                    value={editMeal.description}
+                    onChange={(e) =>
+                      setEditMeal({ ...editMeal, description: e.target.value })
+                    }
+                  />
 
-              <input
-                type="number"
-                placeholder={meal.price.toString()}
-                value={editMeal.price}
-                onChange={(e) =>
-                  setEditMeal({
-                    ...editMeal,
-                    price: Number(e.target.value)
-                  })
-                }
-              />
+                  <input
+                    type="number"
+                    value={editMeal.price}
+                    onChange={(e) =>
+                      setEditMeal({
+                        ...editMeal,
+                        price: Number(e.target.value)
+                      })
+                    }
+                  />
 
-              <button onClick={() => modifyMeal(meal.id, editMeal)}>
-                Módosítás
-              </button>
+                  <button onClick={() => modifyMeal(meal.id, editMeal)}>
+                    Mentés
+                  </button>
+                  <button onClick={cancelEditing}>Mégse</button>
+                </>
+              ) : (
+                <button onClick={() => startEditing(meal)}>
+                  Módosítás
+                </button>
+              )}
             </div>
 
             <div className="delete">
