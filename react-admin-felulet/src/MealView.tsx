@@ -23,18 +23,30 @@ export function MealView({ meals }: MealViewProps) {
     price: 0
   });
 
+  const [newMeal, setNewMeal] = useState({
+    name: "",
+    description: "",
+    price: 0
+  });
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchedItem(event.target.value);
   };
 
-  const addMeal = (newMeal: { name: string; description: string; price: number }) => {
+  const addMeal = (mealToAdd: { name: string; description: string; price: number }) => {
     setMealsList(prev => [
       ...prev,
       {
         id: Math.max(0, ...prev.map(meal => meal.id)) + 1,
-        ...newMeal
+        ...mealToAdd
       }
     ]);
+
+    setNewMeal({
+      name: "",
+      description: "",
+      price: 0
+    });
   };
 
   const startEditing = (meal: MealItem) => {
@@ -57,20 +69,18 @@ export function MealView({ meals }: MealViewProps) {
 
   const modifyMeal = (
     id: number,
-    newMeal: { name: string; description: string; price: number }
+    updatedMeal: { name: string; description: string; price: number }
   ) => {
     setMealsList(prev =>
       prev.map(meal =>
-        meal.id === id ? { ...meal, ...newMeal } : meal
+        meal.id === id ? { ...meal, ...updatedMeal } : meal
       )
     );
-
     cancelEditing();
   };
 
   const deleteMeal = (id: number) => {
     setMealsList(prev => prev.filter(meal => meal.id !== id));
-
     if (editingId === id) {
       cancelEditing();
     }
@@ -81,13 +91,13 @@ export function MealView({ meals }: MealViewProps) {
     cancelEditing();
   };
 
-  function handleSearch() {
+  const handleSearch = () => {
     setMealsList(
       meals.filter(meal =>
         meal.name.toLowerCase().includes(searchedItem.toLowerCase())
       )
     );
-  }
+  };
 
   return (
     <>
@@ -106,9 +116,7 @@ export function MealView({ meals }: MealViewProps) {
               onChange={handleChange}
             />
             <button onClick={handleSearch}>🔍 Keresés</button>
-            <button onClick={() => setMealsList(meals)}>
-              Lista frissítése
-            </button>
+            <button onClick={() => setMealsList(meals)}>Lista frissítése</button>
           </label>
         </div>
 
@@ -170,16 +178,12 @@ export function MealView({ meals }: MealViewProps) {
                   <button onClick={cancelEditing}>Mégse</button>
                 </>
               ) : (
-                <button onClick={() => startEditing(meal)}>
-                  Módosítás
-                </button>
+                <button onClick={() => startEditing(meal)}>Módosítás</button>
               )}
             </div>
 
             <div className="delete">
-              <button onClick={() => deleteMeal(meal.id)}>
-                Törlés
-              </button>
+              <button onClick={() => deleteMeal(meal.id)}>Törlés</button>
             </div>
           </div>
         ))}
@@ -188,23 +192,36 @@ export function MealView({ meals }: MealViewProps) {
       <aside className="add">
         <h1>Új étel hozzáadása</h1>
 
-        {meals.length > 0 && (
-          <div>
-            <input placeholder={meals[0].name} />
-            <input placeholder={meals[0].description} />
-            <input placeholder={meals[0].price.toString()} />
-          </div>
-        )}
+        <div>
+          <input
+            type="text"
+            placeholder={meals[0]?.name ?? "Név"}
+            value={newMeal.name}
+            onChange={(e) =>
+              setNewMeal({ ...newMeal, name: e.target.value })
+            }
+          />
+          <input
+            type="text"
+            placeholder={meals[0]?.description ?? "Leírás"}
+            value={newMeal.description}
+            onChange={(e) =>
+              setNewMeal({ ...newMeal, description: e.target.value })
+            }
+          />
+          <input
+            type="number"
+            placeholder={meals[0]?.price?.toString() ?? "Ár"}
+            value={newMeal.price}
+            onChange={(e) =>
+              setNewMeal({ ...newMeal, price: Number(e.target.value) })
+            }
+          />
+        </div>
 
         <button
           type="button"
-          onClick={() =>
-            addMeal({
-              name: "Új étel",
-              description: "Új leírás",
-              price: 1000
-            })
-          }
+          onClick={() => addMeal(newMeal)}
         >
           Hozzáadás
         </button>
