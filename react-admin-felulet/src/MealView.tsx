@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { exportCSV, exportJSON } from "./utils/export";
 
 
 export type MealItem = {
@@ -16,6 +17,11 @@ export function MealView({ meals }: MealViewProps) {
 
   const [searchedItem, setSearchedItem] = useState('');
   const [mealsList, setMealsList] = useState(meals);
+  const [editMeal, setEditMeal] = useState({
+    name: "",
+    description: "",
+    price: 0
+  });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchedItem(event.target.value);
@@ -23,6 +29,10 @@ export function MealView({ meals }: MealViewProps) {
 
   const addMeal = (newMeal: { name: string; description: string; price: number }) => {
     setMealsList(prev => [...prev, { id: prev.length + 1, ...newMeal }]); // Az új étel hozzáadása a listához
+  }
+
+  const modifyMeal = (id: number, newMeal: { name: string; description: string; price: number }) => {
+    setMealsList(prev => prev.map(meal => meal.id === id ? { ...meal, ...newMeal } : meal));
   }
 
   const deleteMeal = (id: number) => {
@@ -45,7 +55,7 @@ export function MealView({ meals }: MealViewProps) {
       <div className="search-container">
         <div>
 
-          <label htmlFor="search" className='search'>Keresés:<br/>
+          <label htmlFor="search" className='search'>Keresés:<br />
             <input type='text' id="search" placeholder='Étel neve vagy leírása...' value={searchedItem} onChange={handleChange} />
             <button onClick={handleSearch}>🔍 Keresés</button>
             <button onClick={() => setMealsList(meals)}>Lista frissítése</button>
@@ -62,16 +72,26 @@ export function MealView({ meals }: MealViewProps) {
       <div className="list grid-cards">
         {mealsList.map((meal) => (
           <div key={meal.id} style={{ padding: '12px' }} className="currentView">
-            <h1>{meal.name} </h1>
-            <ul >
-              <li>Id: {meal.id} </li>
-              <li>Leírás: {meal.description} </li>
+            <h1>{meal.name}</h1>
+
+            <ul>
+              <li>Id: {meal.id}</li>
+              <li>Leírás: {meal.description}</li>
               <li>Ár: {meal.price} Ft</li>
             </ul>
-            <div className='modify'>
-              <button>Módosítás</button>
+
+            <div className="modify">
+              <input type="text" placeholder={meal.name} value={editMeal.name}
+                onChange={(e) => setEditMeal({ ...editMeal, name: e.target.value })} />
+              <input type="text" placeholder={meal.description} />
+              <input type="text" placeholder={meal.price.toString()} />
+
+              <button onClick={() => modifyMeal(meal.id, editMeal)}>
+                Módosítás
+              </button>
             </div>
-            <div className='delete'>
+
+            <div className="delete">
               <button onClick={() => deleteMeal(meal.id)}>Törlés</button>
             </div>
           </div>
@@ -93,7 +113,13 @@ export function MealView({ meals }: MealViewProps) {
           )}
           <button type="button" onClick={() => addMeal({ name: "Új étel", description: "Új leírás", price: 1000 })} value="Hozzáadás">Hozzáadás</button>
         </aside>
+        <button onClick={() => exportJSON(mealsList, "meals")}>
+          Export JSON
+        </button>
 
+        <button onClick={() => exportCSV(mealsList, "meals")}>
+          Export CSV
+        </button>
         <div className="delete">
           <button onClick={deleteAll}>Összes törlése</button>
         </div>

@@ -15,10 +15,12 @@ import { meals } from './stores/meals';
 import { restaurants } from './stores/restaurants';
 import { orders } from './stores/orders';
 import { users } from './stores/users';
+import { applicants } from './stores/applicants';
 import { CatFact } from './CatFact';
+import { DashboardView } from './DashboardView';
 
 
-type ViewType = 'meals' | 'restaurants' | 'orders' | 'users';
+type ViewType = 'meals' | 'restaurants' | 'orders' | 'users' | 'applicants' | 'dashboard';
 
 function App() {
   // A single string to track the active view with type safety
@@ -27,17 +29,18 @@ function App() {
   const [thisRestaurants, setThisRestaurants] = useState(restaurants);
   const [thisOrders, setThisOrders] = useState(orders);
   const [thisUsers, setThisUsers] = useState(users);
-  
+  const [thisApplicants, setThisApplicants] = useState(applicants);
 
 
   return (
     <>
-    <nav>
+    <nav className='szoros-elrendezes'>
       <ul className='no-bullets'>
         <li><button onClick={(e) => setActiveView('restaurants')}>Éttermek</button></li>
         <li><button onClick={(e) => setActiveView('meals')}>Ételek</button></li>
         <li><button onClick={(e) => setActiveView('orders')}>Rendelések</button></li>
         <li><button onClick={(e) => setActiveView('users')}>Felhasználók</button></li>
+        <li><button onClick={() => setActiveView('dashboard')}>Dashboard</button></li>
       </ul>
     </nav>
     <div className="grid-layout">
@@ -47,10 +50,13 @@ function App() {
         <main className='currentView'>
           {/* ezt kéne jól kitalálni, hogy hogyan lehetne megjeleníteni a különböző típusú adatokat egy közös komponensben */}
           {activeView === 'meals' && <MealView meals={thisMeals} />}
-          {activeView === 'restaurants' && <RestaurantView restaurant={thisRestaurants} />}
-          {activeView === 'orders' && <OrderView order={thisOrders} />}
-          {activeView === 'users' && <UserView user={thisUsers} />}
-        </main>
+          {activeView === 'restaurants' && <RestaurantView restaurants={thisRestaurants} />}
+          {activeView === 'orders' && <OrderView orders={thisOrders} />}
+          {activeView === 'users' && <UserView users={thisUsers} />}
+          {activeView === 'dashboard' && (
+            <DashboardView meals={thisMeals} restaurants={thisRestaurants} orders={thisOrders} users={thisUsers} applicants={thisApplicants} />
+          )}     
+          </main>
 
         <footer>{ <CatFact />}</footer>
 

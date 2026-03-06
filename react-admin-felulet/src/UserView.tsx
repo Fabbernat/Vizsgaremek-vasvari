@@ -1,5 +1,6 @@
 import { useState, type SetStateAction } from "react";
 import { meals } from "./stores/meals";
+import { exportCSV, exportJSON } from "./utils/export";
 
 export type User = {
   id: number;
@@ -11,7 +12,7 @@ export type User = {
 }[]
   ;
 
-export function UserView({ user: users }: { user: User }) {
+export function UserView({ users: users }: { users: User }) {
 
   const [searchedItem, setSearchedItem] = useState('');
 
@@ -73,7 +74,13 @@ export function UserView({ user: users }: { user: User }) {
           </div>
         )}
       </div>
+      <button onClick={() => exportJSON(users, "users")}>
+        Export JSON
+      </button>
 
+      <button onClick={() => exportCSV(users, "users")}>
+        Export CSV
+      </button>
       <div className="delete">
         <button>Összes törlése</button>
       </div>
