@@ -34,7 +34,7 @@ function App() {
 
   return (
     <>
-    <nav>
+    <nav className='szoros-elrendezes'>
       <ul className='no-bullets'>
         <li><button onClick={(e) => setActiveView('restaurants')}>Éttermek</button></li>
         <li><button onClick={(e) => setActiveView('meals')}>Ételek</button></li>
