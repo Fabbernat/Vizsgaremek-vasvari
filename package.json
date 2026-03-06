@@ -19,11 +19,11 @@
     "vue": "^3.5.27"
   },
   "devDependencies": {
-    "@eslint/js": "^10.0.1",
-    "eslint": "^9.39.3",
+    "@eslint/js": "^9.20.0",
+    "eslint": "^9.20.0",
     "eslint-plugin-react": "^7.37.5",
-    "globals": "^17.3.0",
-    "typescript": "^5.9.3",
-    "typescript-eslint": "^8.56.1"
+    "globals": "^15.14.0",
+    "typescript": "^5.7.0",
+    "typescript-eslint": "^8.24.0"
   }
 }

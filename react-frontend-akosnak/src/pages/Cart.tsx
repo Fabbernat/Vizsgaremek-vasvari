@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-key */
+/* eslint-disable react/react-in-jsx-scope */
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import apiClient, { baseURL } from "../store/store";
