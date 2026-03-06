@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { exportCSV, exportJSON } from "./utils/export";
+import { loadFromLocalStorage, saveToLocalStorage } from "./utils/localStorage";
 
 export type MealItem = {
   id: number;
@@ -12,9 +13,13 @@ type MealViewProps = {
   meals: MealItem[];
 };
 
+const MEALS_STORAGE_KEY = "admin_meals";
+
 export function MealView({ meals }: MealViewProps) {
   const [searchedItem, setSearchedItem] = useState("");
-  const [mealsList, setMealsList] = useState<MealItem[]>(meals);
+  const [mealsList, setMealsList] = useState<MealItem[]>(() =>
+    loadFromLocalStorage<MealItem[]>(MEALS_STORAGE_KEY, meals)
+  );
 
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editMeal, setEditMeal] = useState({
@@ -28,6 +33,10 @@ export function MealView({ meals }: MealViewProps) {
     description: "",
     price: 0
   });
+
+  useEffect(() => {
+    saveToLocalStorage(MEALS_STORAGE_KEY, mealsList);
+  }, [mealsList]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchedItem(event.target.value);
@@ -92,11 +101,16 @@ export function MealView({ meals }: MealViewProps) {
   };
 
   const handleSearch = () => {
-    setMealsList(
-      meals.filter(meal =>
+    setMealsList(prev =>
+      prev.filter(meal =>
         meal.name.toLowerCase().includes(searchedItem.toLowerCase())
       )
     );
+  };
+
+  const resetToSeedData = () => {
+    setMealsList(meals);
+    localStorage.setItem(MEALS_STORAGE_KEY, JSON.stringify(meals));
   };
 
   return (
@@ -116,7 +130,7 @@ export function MealView({ meals }: MealViewProps) {
               onChange={handleChange}
             />
             <button onClick={handleSearch}>🔍 Keresés</button>
-            <button onClick={() => setMealsList(meals)}>Lista frissítése</button>
+            <button onClick={resetToSeedData}>Lista alaphelyzet</button>
           </label>
         </div>
 
@@ -219,10 +233,7 @@ export function MealView({ meals }: MealViewProps) {
           />
         </div>
 
-        <button
-          type="button"
-          onClick={() => addMeal(newMeal)}
-        >
+        <button type="button" onClick={() => addMeal(newMeal)}>
           Hozzáadás
         </button>
       </aside>
