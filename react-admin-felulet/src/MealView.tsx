@@ -17,6 +17,11 @@ export function MealView({ meals }: MealViewProps) {
 
   const [searchedItem, setSearchedItem] = useState('');
   const [mealsList, setMealsList] = useState(meals);
+  const [editMeal, setEditMeal] = useState({
+    name: "",
+    description: "",
+    price: 0
+  });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchedItem(event.target.value);
@@ -67,19 +72,26 @@ export function MealView({ meals }: MealViewProps) {
       <div className="list grid-cards">
         {mealsList.map((meal) => (
           <div key={meal.id} style={{ padding: '12px' }} className="currentView">
-            <h1>{meal.name} </h1>
-            <ul >
-              <li>Id: {meal.id} </li>
-              <li>Leírás: {meal.description} </li>
+            <h1>{meal.name}</h1>
+
+            <ul>
+              <li>Id: {meal.id}</li>
+              <li>Leírás: {meal.description}</li>
               <li>Ár: {meal.price} Ft</li>
             </ul>
-            <div className='modify'>
-              const name = <input type="text" placeholder={meal.name} />
-              const description = <input type="text" placeholder={meal.description} />
-              const price = <input type="text" placeholder={meal.price.toString()} />
-              <button onClick={() => modifyMeal(meal.id, new MealItem(name, description, price)}>Módosítás</button>
+
+            <div className="modify">
+              <input type="text" placeholder={meal.name} value={editMeal.name}
+                onChange={(e) => setEditMeal({ ...editMeal, name: e.target.value })} />
+              <input type="text" placeholder={meal.description} />
+              <input type="text" placeholder={meal.price.toString()} />
+
+              <button onClick={() => modifyMeal(meal.id, editMeal)}>
+                Módosítás
+              </button>
             </div>
-            <div className='delete'>
+
+            <div className="delete">
               <button onClick={() => deleteMeal(meal.id)}>Törlés</button>
             </div>
           </div>
