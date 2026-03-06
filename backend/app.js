@@ -14,24 +14,24 @@ app.use(cors());
 app.use(express.json());
 
 // Statikus fájlok kiszolgálása
-app.use(express.static(path.join(__dirname, '../webui')));
+app.use(express.static(path.join(__dirname, 'webui')));
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../webui/index.html'))
+  res.sendFile(path.join(__dirname, 'webui/index.html'))
 })
 
 // Admin, dashboard, api-docs oldalak
 app.get('/admin-panel', (req, res) => {
-  res.sendFile(path.join(__dirname, '../webui/admin-panel.html'));
+  res.sendFile(path.join(__dirname, 'webui/admin-panel.html'));
 });
 app.get('/dashboard', (req, res) => {
-  res.sendFile(path.join(__dirname, '../webui/dashboard.html'));
+  res.sendFile(path.join(__dirname, 'webui/dashboard.html'));
 });
 app.get('/api-docs', (req, res) => {
-  res.sendFile(path.join(__dirname, '../webui/api-docs.html'));
+  res.sendFile(path.join(__dirname, 'webui/api-docs.html'));
 });
 app.get('/health', (req, res) => {
-  res.sendFile(path.join(__dirname, '../webui/health.html'));
+  res.sendFile(path.join(__dirname, 'webui/health.html'));
 });
 
 // Dashboard statok API
