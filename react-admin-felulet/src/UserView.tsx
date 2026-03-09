@@ -9,8 +9,11 @@ export type User = {
   lastName: string;
   email: string;
   address: string;
-}[]
-  ;
+}[];
+
+type UserViewProps = {
+  user: User;
+};
 
 export function UserView({ users: users }: { users: User }) {
 
