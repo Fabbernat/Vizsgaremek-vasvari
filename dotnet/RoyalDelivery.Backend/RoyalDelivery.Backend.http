@@ -1,0 +1,6 @@
+@RoyalDelivery.Backend_HostAddress = http://localhost:5088
+
+GET {{RoyalDelivery.Backend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -28,7 +28,7 @@ export const createMeal = (name, price, categoryid, type) =>
 export const updateMeal = (id, name, price, categoryid, type) =>
   db
     .prepare(
-      `UPDATE meals SET (name = ?, price = ?, categoryid = ?, type = ?) WHERE id = ?`
+      `UPDATE meals SET (name = ?, price = ?, categoryid = ?, type = ?) WHERE id = ?`,
     )
     .run(name, price, categoryid, type, id);
 

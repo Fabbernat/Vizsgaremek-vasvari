@@ -15,10 +15,12 @@ import { meals } from './stores/meals';
 import { restaurants } from './stores/restaurants';
 import { orders } from './stores/orders';
 import { users } from './stores/users';
+import { applicants } from './stores/applicants';
 import { CatFact } from './CatFact';
+import { DashboardView } from './DashboardView';
 
 
-type ViewType = 'meals' | 'restaurants' | 'orders' | 'users';
+type ViewType = 'meals' | 'restaurants' | 'orders' | 'users' | 'applicants' | 'dashboard';
 
 function App() {
   // A single string to track the active view with type safety
@@ -27,6 +29,7 @@ function App() {
   const [thisRestaurants, setThisRestaurants] = useState(restaurants);
   const [thisOrders, setThisOrders] = useState(orders);
   const [thisUsers, setThisUsers] = useState(users);
+  const [thisApplicants, setThisApplicants] = useState(applicants);
 import { usePersistedState } from './hooks/usePersistedState';
 import {exportJSON, exportCSV} from './utils/export.ts';
 import { DashboardView } from './DashboardView.tsx';
@@ -47,12 +50,13 @@ function App() {
 
   return (
     <>
-    <nav>
+    <nav className='szoros-elrendezes'>
       <ul className='no-bullets'>
         <li><button onClick={(e) => setActiveView('restaurants')}>Éttermek</button></li>
         <li><button onClick={(e) => setActiveView('meals')}>Ételek</button></li>
         <li><button onClick={(e) => setActiveView('orders')}>Rendelések</button></li>
         <li><button onClick={(e) => setActiveView('users')}>Felhasználók</button></li>
+        <li><button onClick={() => setActiveView('dashboard')}>Dashboard</button></li>
         <li><button onClick={() => setActiveView('restaurants')}>Éttermek</button></li>
         <li><button onClick={() => setActiveView('meals')}>Ételek</button></li>
         <li><button onClick={() => setActiveView('orders')}>Rendelések</button></li>
@@ -67,6 +71,14 @@ function App() {
         
         <main className='currentView'>
           {/* ezt kéne jól kitalálni, hogy hogyan lehetne megjeleníteni a különböző típusú adatokat egy közös komponensben */}
+          {activeView === 'meals' && <MealView meals={thisMeals} />}
+          {activeView === 'restaurants' && <RestaurantView restaurants={thisRestaurants} />}
+          {activeView === 'orders' && <OrderView orders={thisOrders} />}
+          {activeView === 'users' && <UserView users={thisUsers} />}
+          {activeView === 'dashboard' && (
+            <DashboardView meals={thisMeals} restaurants={thisRestaurants} orders={thisOrders} users={thisUsers} applicants={thisApplicants} />
+          )}     
+          </main>
           {activeView === 'meals' &&   <MealView meals={thisMeals} setMeals={setThisMeals} />}
           {activeView === 'restaurants' && <RestaurantView restaurant={thisRestaurants} />}
           {activeView === 'orders' && <OrderView order={thisOrders} />}

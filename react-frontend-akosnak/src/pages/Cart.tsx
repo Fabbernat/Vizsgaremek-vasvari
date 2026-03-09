@@ -1,22 +1,21 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import apiClient, { baseURL } from "../store/store";
-import type { Pizza } from "../types/Pizza";
+import type { Restaurant } from "../types/Restaurant";
 import { Button, Table } from "react-bootstrap";
 import { FaTrash } from "react-icons/fa";
 
 const Cart = () => {
-  // pizzák betöltése az API-ról
-  const [pizzak, setPizzak] = useState<Array<Pizza>>([]);
+  const [restaurants, setRestaurants] = useState<Array<Restaurant>>([]);
   useEffect(() => {
     apiClient
-      .get("/pizzak")
+      .get("/restaurants")
       .catch(() => toast.error("A pizzák betöltése sikertelen volt"));
   }, []);
 
   // kosár betöltése localStorage-ból vagy üres tömb, ha nincs
   const [kosar, setKosar] = useState<Array<number>>(
-    JSON.parse(localStorage.getItem("kosar") ?? "[]")
+    JSON.parse(localStorage.getItem("kosar") ?? "[]"),
   );
 
   // ha a kosár változik (új elem, törlés, kiürítés), akkor elmentjük a localStorage-ba
@@ -37,17 +36,15 @@ const Cart = () => {
           <Table striped bordered hover>
             <thead>
               <th>Név</th>
-              <th>Ár</th>
               <th>Törlés</th>
             </thead>
             <tbody>
               {kosar.map((id, index) => {
-                const pizza = pizzak.find((p) => p.id == id);
+                const restaurant = restaurants.find((p) => p.id == id);
 
                 return (
                   <tr>
-                    <td>{pizza?.nev}</td>
-                    <td>{pizza?.ar} Ft</td>
+                    <td>{restaurant?.nev}</td>
                     <td>
                       <Button
                         onClick={() => removeItem(index)}

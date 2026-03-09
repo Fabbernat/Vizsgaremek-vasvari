@@ -1,14 +1,16 @@
 import { useState, type SetStateAction } from "react";
+import { exportCSV, exportJSON } from "./utils/export";
 
 
 export type Order = {
-  order: {
+  orders: {
     id: number;
     username: string;
     date: string;
   }[]
 };
 
+export function OrderView({ orders: orders }: Order) {
 type OrderViewProps = {
   orders: Order[];
   setMeals: React.Dispatch<React.SetStateAction<Order[]>>
@@ -56,7 +58,7 @@ export function OrderView({ order: orders }: Order) {
             </div>
           </div>
         ))}
-        <div className='add'>
+        <aside className='add'>
           <h1>Új rendelés hozzáadása</h1>
           {orders.length > 0 && (
             <div>
@@ -67,9 +69,15 @@ export function OrderView({ order: orders }: Order) {
             </div>
           )}
           <button>Hozzáadás</button>
-        </div>
+        </aside>
       </div>
+      <button onClick={() => exportJSON(orders, "orders")}>
+        Export JSON
+      </button>
 
+      <button onClick={() => exportCSV(orders, "orders")}>
+        Export CSV
+      </button>
       <div className="delete">
         <button>Összes törlése</button>
       </div>
