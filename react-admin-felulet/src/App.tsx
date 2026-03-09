@@ -30,6 +30,22 @@ function App() {
   const [thisOrders, setThisOrders] = useState(orders);
   const [thisUsers, setThisUsers] = useState(users);
   const [thisApplicants, setThisApplicants] = useState(applicants);
+import { usePersistedState } from './hooks/usePersistedState';
+import {exportJSON, exportCSV} from './utils/export.ts';
+import { DashboardView } from './DashboardView.tsx';
+import { CarreersView } from './CarreersView.tsx';
+
+
+type ViewType = 'meals' | 'restaurants' | 'orders' | 'users' | 'dashboard' | 'carreers';
+
+function App() {
+  // A single string to track the active view with type safety
+  const [activeView, setActiveView] = usePersistedState<ViewType>("activeView", "meals"); // meals a default view
+  const [thisMeals, setThisMeals] = usePersistedState("meals", meals);  const [thisRestaurants] = usePersistedState("restaurants", restaurants);
+  const [thisOrders, setThisOrders] = usePersistedState("orders", orders);
+  const [thisUsers, setThisUsers] = usePersistedState("users", users);
+  const [thisCarreers, setThisCarreers] = usePersistedState("carreers", []);
+  
 
 
   return (
@@ -41,6 +57,12 @@ function App() {
         <li><button onClick={(e) => setActiveView('orders')}>Rendelések</button></li>
         <li><button onClick={(e) => setActiveView('users')}>Felhasználók</button></li>
         <li><button onClick={() => setActiveView('dashboard')}>Dashboard</button></li>
+        <li><button onClick={() => setActiveView('restaurants')}>Éttermek</button></li>
+        <li><button onClick={() => setActiveView('meals')}>Ételek</button></li>
+        <li><button onClick={() => setActiveView('orders')}>Rendelések</button></li>
+        <li><button onClick={() => setActiveView('users')}>Felhasználók</button></li>
+        <li><button onClick={() => setActiveView('dashboard')}>Dashboard</button></li>
+        <li><button onClick={() => setActiveView('carreers')}>Karrier</button></li>
       </ul>
     </nav>
     <div className="grid-layout">
@@ -57,6 +79,27 @@ function App() {
             <DashboardView meals={thisMeals} restaurants={thisRestaurants} orders={thisOrders} users={thisUsers} applicants={thisApplicants} />
           )}     
           </main>
+          {activeView === 'meals' &&   <MealView meals={thisMeals} setMeals={setThisMeals} />}
+          {activeView === 'restaurants' && <RestaurantView restaurant={thisRestaurants} />}
+          {activeView === 'orders' && <OrderView order={thisOrders} />}
+          {activeView === 'users' && <UserView user={thisUsers} />}
+          {activeView === 'dashboard' && <DashboardView meals={thisMeals} restaurants={thisRestaurants} orders={thisOrders} users={thisUsers} />}
+          {activeView === 'carreers' && <CarreersView carreers={thisCarreers} />}
+        </main>
+
+        <div className='experimental-features '>
+          <button onClick={() => exportJSON(meals, "meals")}>
+            JSON  Exportálás
+          </button>
+
+          <button onClick={() => exportCSV(meals, "meals")}>
+             CSV Exportálás
+          </button>
+
+          <div>
+            
+          </div>
+        </div>
 
         <footer>{ <CatFact />}</footer>
 
