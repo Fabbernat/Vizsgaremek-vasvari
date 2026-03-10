@@ -16,7 +16,6 @@ type OrderViewProps = {
   setMeals: React.Dispatch<React.SetStateAction<Order[]>>
 }
 
-export function OrderView({ order: orders }: Order) {
 
   const [searchedItem, setSearchedItem] = useState('');
 

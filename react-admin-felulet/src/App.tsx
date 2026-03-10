@@ -18,6 +18,9 @@ import { users } from './stores/users';
 import { applicants } from './stores/applicants';
 import { CatFact } from './CatFact';
 import { DashboardView } from './DashboardView';
+import { usePersistedState } from './hooks/usePersistedState';
+import { exportJSON, exportCSV } from './utils/export.ts';
+import { CarreersView } from './CarreersView.tsx';
 
 
 type ViewType = 'meals' | 'restaurants' | 'orders' | 'users' | 'applicants' | 'dashboard';
@@ -25,65 +28,43 @@ type ViewType = 'meals' | 'restaurants' | 'orders' | 'users' | 'applicants' | 'd
 function App() {
   // A single string to track the active view with type safety
   const [activeView, setActiveView] = useState<ViewType>('meals');
-  const [thisMeals, setThisMeals] = useState(meals);
-  const [thisRestaurants, setThisRestaurants] = useState(restaurants);
-  const [thisOrders, setThisOrders] = useState(orders);
-  const [thisUsers, setThisUsers] = useState(users);
-  const [thisApplicants, setThisApplicants] = useState(applicants);
-import { usePersistedState } from './hooks/usePersistedState';
-import {exportJSON, exportCSV} from './utils/export.ts';
-import { DashboardView } from './DashboardView.tsx';
-import { CarreersView } from './CarreersView.tsx';
-
-
-type ViewType = 'meals' | 'restaurants' | 'orders' | 'users' | 'dashboard' | 'carreers';
-
-function App() {
-  // A single string to track the active view with type safety
-  const [activeView, setActiveView] = usePersistedState<ViewType>("activeView", "meals"); // meals a default view
-  const [thisMeals, setThisMeals] = usePersistedState("meals", meals);  const [thisRestaurants] = usePersistedState("restaurants", restaurants);
+  const [thisMeals, setThisMeals] = usePersistedState("meals", meals);
+  const [thisRestaurants, setThisRestaurants] = usePersistedState("restaurants", restaurants);
   const [thisOrders, setThisOrders] = usePersistedState("orders", orders);
   const [thisUsers, setThisUsers] = usePersistedState("users", users);
+  const [thisApplicants, setThisApplicants] = usePersistedState("applicants", applicants);
   const [thisCarreers, setThisCarreers] = usePersistedState("carreers", []);
-  
+
+
+  type ViewType = 'meals' | 'restaurants' | 'orders' | 'users' | 'dashboard' | 'carreers';
+
 
 
   return (
     <>
-    <nav className='szoros-elrendezes'>
-      <ul className='no-bullets'>
-        <li><button onClick={(e) => setActiveView('restaurants')}>Éttermek</button></li>
-        <li><button onClick={(e) => setActiveView('meals')}>Ételek</button></li>
-        <li><button onClick={(e) => setActiveView('orders')}>Rendelések</button></li>
-        <li><button onClick={(e) => setActiveView('users')}>Felhasználók</button></li>
-        <li><button onClick={() => setActiveView('dashboard')}>Dashboard</button></li>
-        <li><button onClick={() => setActiveView('restaurants')}>Éttermek</button></li>
-        <li><button onClick={() => setActiveView('meals')}>Ételek</button></li>
-        <li><button onClick={() => setActiveView('orders')}>Rendelések</button></li>
-        <li><button onClick={() => setActiveView('users')}>Felhasználók</button></li>
-        <li><button onClick={() => setActiveView('dashboard')}>Dashboard</button></li>
-        <li><button onClick={() => setActiveView('carreers')}>Karrier</button></li>
-      </ul>
-    </nav>
-    <div className="grid-layout">
+      <nav className='szoros-elrendezes'>
+        <ul className='no-bullets'>
+          <li><button onClick={() => setActiveView('restaurants')}>Éttermek</button></li>
+          <li><button onClick={() => setActiveView('meals')}>Ételek</button></li>
+          <li><button onClick={() => setActiveView('orders')}>Rendelések</button></li>
+          <li><button onClick={() => setActiveView('users')}>Felhasználók</button></li>
+          <li><button onClick={() => setActiveView('dashboard')}>Dashboard</button></li>
+          <li><button onClick={() => setActiveView('carreers')}>Karrier</button></li>
+        </ul>
+      </nav>
+      <div className="grid-layout">
 
         <header>👑</header>
-        
+
         <main className='currentView'>
           {/* ezt kéne jól kitalálni, hogy hogyan lehetne megjeleníteni a különböző típusú adatokat egy közös komponensben */}
-          {activeView === 'meals' && <MealView meals={thisMeals} />}
-          {activeView === 'restaurants' && <RestaurantView restaurants={thisRestaurants} />}
-          {activeView === 'orders' && <OrderView orders={thisOrders} />}
-          {activeView === 'users' && <UserView users={thisUsers} />}
+          {activeView === 'meals' && <MealView meals={thisMeals} setMeals={setThisMeals} />}
+          {/* {activeView === 'restaurants' && <RestaurantView restaurant={thisRestaurants} setRestaurants={setThisRestaurants} />}
+          {activeView === 'orders' && <OrderView order={thisOrders} />}
+          {activeView === 'users' && <UserView user={thisUsers} />} */}
           {activeView === 'dashboard' && (
             <DashboardView meals={thisMeals} restaurants={thisRestaurants} orders={thisOrders} users={thisUsers} applicants={thisApplicants} />
-          )}     
-          </main>
-          {activeView === 'meals' &&   <MealView meals={thisMeals} setMeals={setThisMeals} />}
-          {activeView === 'restaurants' && <RestaurantView restaurant={thisRestaurants} />}
-          {activeView === 'orders' && <OrderView order={thisOrders} />}
-          {activeView === 'users' && <UserView user={thisUsers} />}
-          {activeView === 'dashboard' && <DashboardView meals={thisMeals} restaurants={thisRestaurants} orders={thisOrders} users={thisUsers} />}
+          )}
           {activeView === 'carreers' && <CarreersView carreers={thisCarreers} />}
         </main>
 
@@ -93,17 +74,17 @@ function App() {
           </button>
 
           <button onClick={() => exportCSV(meals, "meals")}>
-             CSV Exportálás
+            CSV Exportálás
           </button>
 
           <div>
-            
+
           </div>
         </div>
 
-        <footer>{ <CatFact />}</footer>
+        <footer>{<CatFact />}</footer>
 
-      </div>
+      </div >
     </>
   )
 }
