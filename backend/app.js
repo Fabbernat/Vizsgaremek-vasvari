@@ -3,6 +3,8 @@ import cors from "cors";
 import path from "path";
 import Database from "better-sqlite3";
 
+import restaurantRoute from "./routes/restaurantRoutes.js";
+
 import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -13,6 +15,8 @@ const PORT = 3000;
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+app.use("/", restaurantRoute);
 
 // Statikus fájlok kiszolgálása
 app.use(express.static(path.join(__dirname, "../backend/webui")));

@@ -1,6 +1,6 @@
 import type { Restaurant } from "../types/Restaurant";
 
-export const baseURL = "http://localhost:3000";
+export const baseURL = "http://localhost:4000";
 
 const apiClient = {
     get: function (url: string) {
