@@ -1,11 +1,11 @@
 import { useState } from "react";
 import type { Restaurant } from "../types/Restaurant";
-import apiClient, { baseURL } from "../store/store";
+import apiClient from "../store/store";
 import { toast } from "react-toastify";
 
 const NewRestaurant = () => {
   const [restaurant, setRestaurant] = useState<Restaurant>({
-    nev: "",
+    name: "",
   });
 
   const submit = () => {
@@ -20,8 +20,8 @@ const NewRestaurant = () => {
       <h1>Név:</h1>
       <input
         type="text"
-        value={restaurant.nev}
-        onChange={(e) => setRestaurant({ ...restaurant, nev: e.target.value })}
+        value={restaurant?.name}
+        onChange={(e) => setRestaurant({ ...restaurant, name: e.target.value })}
       />
 
       <br />

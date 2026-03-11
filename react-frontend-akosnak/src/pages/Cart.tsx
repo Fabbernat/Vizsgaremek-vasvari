@@ -2,7 +2,7 @@
 /* eslint-disable react/react-in-jsx-scope */
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import apiClient, { baseURL } from "../store/store";
+import apiClient from "../store/store";
 import type { Restaurant } from "../types/Restaurant";
 import { Button, Table } from "react-bootstrap";
 import { FaTrash } from "react-icons/fa";
@@ -46,7 +46,7 @@ const Cart = () => {
 
                 return (
                   <tr>
-                    <td>{restaurant?.nev}</td>
+                    <td>{restaurant?.name}</td>
                     <td>
                       <Button
                         onClick={() => removeItem(index)}

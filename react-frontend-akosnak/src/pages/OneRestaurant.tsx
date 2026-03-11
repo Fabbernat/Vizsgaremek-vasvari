@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import type { Restaurant } from "../types/Restaurant";
 import { toast } from "react-toastify";
-import apiClient, { baseURL } from "../store/store";
+import apiClient from "../store/store";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import goodFood from "./good-food.jpg";
 
@@ -37,7 +37,7 @@ const OneRestaurant = () => {
       {restaurant ? (
         <Row>
           <Col sm={8}>
-            <h1>{restaurant.nev}</h1>
+            <h1>{restaurant?.name}</h1>
 
             <Button variant="warning" onClick={editRestaurant}>
               Szerkesztés
