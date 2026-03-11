@@ -1,6 +1,7 @@
 import './App.css'
-import { useState } from 'react';
+import { useState, useEffect } from 'react'
 import { MainContent } from './MainContent'
+import supabase from './utils/supabase'
 
 type ViewType = "blank" | "database";
 
