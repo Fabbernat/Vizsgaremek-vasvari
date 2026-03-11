@@ -1,27 +1,27 @@
 
 
 // view-k
-import { MealView } from './MealView';
-import { RestaurantView } from './RestaurantView'
-import { OrderView } from './OrderView'
-import { UserView } from './UserView'
+import { MealView } from './MealView.tsx';
+import { RestaurantView } from './RestaurantView.tsx'
+import { OrderView } from './OrderView.tsx'
+import { UserView } from './UserView.tsx'
 
 // modellek
-import { meals } from './stores/meals';
-import { restaurants } from './stores/restaurants';
-import { orders } from './stores/orders';
-import { users } from './stores/users';
-import { applicants } from './stores/applicants';
-import { CatFact } from './CatFact';
-import { DashboardView } from './DashboardView';
-import { usePersistedState } from './hooks/usePersistedState';
+import { meals } from './stores/meals.ts';
+import { restaurants } from './stores/restaurants.ts';
+import { orders } from './stores/orders.ts';
+import { users } from './stores/users.ts';
+import { applicants } from './stores/applicants.ts';
+import { CatFact } from './CatFact.tsx';
+import { DashboardView } from './DashboardView.tsx';
+import { usePersistedState } from './hooks/usePersistedState.ts';
 import { exportJSON, exportCSV } from './utils/export.ts';
 import { CarreersView } from './CarreersView.tsx';
 import { useState } from 'react';
 
 
 
-export function MainContent(){
+export function DatabaseContent(){
   // A single string to track the active view with type safety
   const [activeView, setActiveView] = useState<ViewType>('meals');
   const [thisMeals, setThisMeals] = usePersistedState("meals", meals);
