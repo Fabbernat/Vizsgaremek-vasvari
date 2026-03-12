@@ -19,6 +19,46 @@ type ServiceStatusBoardProps = {
   title?: string;
 };
 
+const STATUS_OPTIONS = [
+  {
+    value: "healthy" as const,
+    label: "Teljesen jó",
+    badgeClass: "bg-emerald-100 text-black border-emerald-200",
+    dotClass: "bg-emerald-500",
+  },
+  {
+    value: "degraded" as const,
+    label: "Kisebb probléma",
+    badgeClass: "bg-amber-100 text-black border-amber-200",
+    dotClass: "bg-amber-500",
+  },
+  {
+    value: "down" as const,
+    label: "Down / nem elérhető",
+    badgeClass: "bg-rose-100 text-black border-rose-200",
+    dotClass: "bg-rose-500",
+  },
+  {
+    value: "in-development" as const,
+    label: "Fejlesztés alatt",
+    badgeClass: "bg-slate-100 text-black border-slate-200",
+    dotClass: "bg-slate-500",
+  },
+];
+
+const CHANNEL_OPTIONS = [
+  {
+    value: "stable" as const,
+    label: "Nem béta",
+    className: "bg-sky-100 text-black border-sky-200",
+  },
+  {
+    value: "beta" as const,
+    label: "BETA",
+    className: "bg-fuchsia-100 text-black border-fuchsia-200",
+  },
+];
+
 const DEFAULT_SERVICES: ServiceItem[] = [
   {
     id: crypto.randomUUID(),
@@ -61,39 +101,13 @@ const DEFAULT_SERVICES: ServiceItem[] = [
 const STATUS_META: Record<
   ServiceStatus,
   { label: string; badgeClass: string; dotClass: string }
-> = {
-  healthy: {
-    label: "Teljesen jó",
-    badgeClass: "bg-emerald-100 text-black border-emerald-200",
-    dotClass: "bg-emerald-500",
-  },
-  degraded: {
-    label: "Kisebb probléma",
-    badgeClass: "bg-amber-100 text-black border-amber-200",
-    dotClass: "bg-amber-500",
-  },
-  down: {
-    label: "Down / nem elérhető",
-    badgeClass: "bg-rose-100 text-black border-rose-200",
-    dotClass: "bg-rose-500",
-  },
-  "in-development": {
-    label: "Fejlesztés alatt",
-    badgeClass: "bg-slate-100 text-black border-slate-200",
-    dotClass: "bg-slate-500",
-  },
-};
+> = Object.fromEntries(
+  STATUS_OPTIONS.map((item) => [item.value, item])
+) as Record<ServiceStatus, (typeof STATUS_OPTIONS)[number]>;
 
-const CHANNEL_META: Record<ReleaseChannel, { label: string; className: string }> = {
-  stable: {
-    label: "Nem béta",
-    className: "bg-sky-100 text-black border-sky-200",
-  },
-  beta: {
-    label: "BETA",
-    className: "bg-fuchsia-100 text-black border-fuchsia-200",
-  },
-};
+const CHANNEL_META: Record<ReleaseChannel, { label: string; className: string }> = Object.fromEntries(
+  CHANNEL_OPTIONS.map((item) => [item.value, item])
+) as Record<ReleaseChannel, (typeof CHANNEL_OPTIONS)[number]>;
 
 const emptyDraft = (): Omit<ServiceItem, "id" | "updatedAt"> => ({
   name: "",
