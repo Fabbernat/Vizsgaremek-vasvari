@@ -19,6 +19,8 @@ type ServiceStatusBoardProps = {
   title?: string;
 };
 
+type ServiceDraft = Omit<ServiceItem, "id" | "updatedAt">;
+
 const STATUS_OPTIONS = [
   {
     value: "healthy" as const,
@@ -109,7 +111,7 @@ const CHANNEL_META: Record<ReleaseChannel, { label: string; className: string }>
   CHANNEL_OPTIONS.map((item) => [item.value, item])
 ) as Record<ReleaseChannel, (typeof CHANNEL_OPTIONS)[number]>;
 
-const emptyDraft = (): Omit<ServiceItem, "id" | "updatedAt"> => ({
+const emptyDraft = (): ServiceDraft => ({
   name: "",
   url: "",
   description: "",
@@ -123,7 +125,7 @@ export default function ServiceStatusBoard({
   title = "Royal Delivery service státuszok",
 }: ServiceStatusBoardProps) {
   const [services, setServices] = useState<ServiceItem[]>([]);
-  const [draft, setDraft] = useState<Omit<ServiceItem, "id" | "updatedAt">>(emptyDraft());
+  const [draft, setDraft] = useState<ServiceDraft>(emptyDraft());
   const [editingId, setEditingId] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [filterStatus, setFilterStatus] = useState<ServiceStatus | "all">("all");
@@ -231,23 +233,13 @@ export default function ServiceStatusBoard({
     if (editingId === id) resetForm();
   };
 
-  const handleQuickStatusChange = (id: string, status: ServiceStatus) => {
-    setServices((prev) =>
-      prev.map((service) =>
-        service.id === id
-          ? { ...service, status, updatedAt: new Date().toISOString() }
-          : service,
-      ),
-    );
-  };
-
-  const handleChannelChange = (id: string, channel: ReleaseChannel) => {
-    setServices((prev) =>
-      prev.map((service) =>
-        service.id === id
-          ? { ...service, channel, updatedAt: new Date().toISOString() }
-          : service,
-      ),
+  const updateService = (id: string, patch: Partial<ServiceItem>) => {
+  setServices((prev) =>
+    prev.map((service) =>
+      service.id === id
+        ? { ...service, ...patch, updatedAt: new Date().toISOString() }
+        : service
+      )
     );
   };
 
@@ -470,12 +462,7 @@ export default function ServiceStatusBoard({
                       <div className="grid gap-3 lg:w-[260px]">
                         <select
                           value={service.status}
-                          onChange={(e) =>
-                            handleQuickStatusChange(
-                              service.id,
-                              e.target.value as ServiceStatus,
-                            )
-                          }
+                          onChange={(e) => updateService(service.id, { status: e.target.value as ServiceStatus })}
                           className="w-full rounded-2xl border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-slate-500"
                         >
                           {Object.entries(STATUS_META).map(([value, meta]) => (
@@ -487,12 +474,7 @@ export default function ServiceStatusBoard({
 
                         <select
                           value={service.channel}
-                          onChange={(e) =>
-                            handleChannelChange(
-                              service.id,
-                              e.target.value as ReleaseChannel,
-                            )
-                          }
+                          onChange={(e) => updateService(service.id, { channel: e.target.value as ReleaseChannel })}
                           className="w-full rounded-2xl border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-slate-500"
                         >
                           <option value="stable">Nem béta</option>
