@@ -21,6 +21,16 @@ type ServiceStatusBoardProps = {
 
 type ServiceDraft = Omit<ServiceItem, "id" | "updatedAt">;
 
+const forcedFieldStyle: React.CSSProperties = {
+  backgroundColor: "#ffffff",
+  color: "#000000",
+};
+
+const forcedOptionStyle: React.CSSProperties = {
+  backgroundColor: "#ffffff",
+  color: "#000000",
+};
+
 const STATUS_OPTIONS = [
   {
     value: "healthy" as const,
@@ -269,12 +279,11 @@ export default function ServiceStatusBoard({
       <div className="mb-6 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
         <div>
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">
-            Community maintained
+            ADMIN FELÜLET
           </p>
           <h2 className="mt-2 text-3xl font-bold text-slate-900">{title}</h2>
           <p className="mt-2 max-w-3xl text-sm text-slate-600">
-            A felhasználók becsületkassza alapon tudják jelezni, hogy az egyes
-            Royal Delivery service-ek milyen állapotban vannak.
+            Kérlek, ha van időd, frissítsd, hogy az egyes Royal Delivery service-ek milyen állapotban vannak.
           </p>
         </div>
 
@@ -308,19 +317,25 @@ export default function ServiceStatusBoard({
           <div className="space-y-4">
             <Field label="Service neve">
               <input
+                type="text"
+                required
                 value={draft.name}
                 onChange={(e) => setDraftField("name", e.target.value)}
                 placeholder="pl. Admin API"
                 className={inputClass}
+                style={forcedFieldStyle}
               />
             </Field>
 
             <Field label="URL">
               <input
+                type="url"
+                required
                 value={draft.url}
                 onChange={(e) => setDraftField("url", e.target.value)}
                 placeholder="https://api.royaldelivery.hu"
                 className={inputClass}
+                style={forcedFieldStyle}
               />
             </Field>
 
@@ -331,6 +346,7 @@ export default function ServiceStatusBoard({
                 placeholder="Rövid leírás a service-ről"
                 rows={4}
                 className={inputClass}
+                style={forcedFieldStyle}
               />
             </Field>
 
@@ -342,9 +358,10 @@ export default function ServiceStatusBoard({
                     setDraftField("status", e.target.value as ServiceStatus)
                   }
                   className={selectClass}
-                >
+                  style={forcedFieldStyle}
+                  >
                   {STATUS_OPTIONS.map((option) => (
-                    <option key={option.value} value={option.value}>
+                    <option key={option.value} value={option.value} style={forcedOptionStyle}>
                       {option.label}
                     </option>
                   ))}
@@ -358,9 +375,10 @@ export default function ServiceStatusBoard({
                     setDraftField("channel", e.target.value as ReleaseChannel)
                   }
                   className={selectClass}
-                >
+                  style={forcedFieldStyle}
+                  >
                   {CHANNEL_OPTIONS.map((option) => (
-                    <option key={option.value} value={option.value}>
+                    <option key={option.value} value={option.value} style={forcedOptionStyle}>
                       {option.label}
                     </option>
                   ))}
@@ -384,16 +402,18 @@ export default function ServiceStatusBoard({
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Keresés név, URL vagy leírás alapján"
               className={inputClass}
-            />
+                style={forcedFieldStyle}
+              />
 
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value as ServiceStatus | "all")}
               className={selectClass}
-            >
-              <option value="all">Minden státusz</option>
+              style={forcedFieldStyle}
+              >
+              <option value="all" style={forcedOptionStyle}>Minden státusz</option>
               {STATUS_OPTIONS.map((option) => (
-                <option key={option.value} value={option.value}>
+                <option key={option.value} value={option.value} style={forcedOptionStyle}>
                   {option.label}
                 </option>
               ))}
@@ -405,10 +425,11 @@ export default function ServiceStatusBoard({
                 setFilterChannel(e.target.value as ReleaseChannel | "all")
               }
               className={selectClass}
-            >
-              <option value="all">Minden verzió</option>
+              style={forcedFieldStyle}
+              >
+              <option value="all" style={forcedOptionStyle}>Minden verzió</option>
               {CHANNEL_OPTIONS.map((option) => (
-                <option key={option.value} value={option.value}>
+                <option key={option.value} value={option.value} style={forcedOptionStyle}>
                   {option.label}
                 </option>
               ))}
@@ -485,9 +506,10 @@ export default function ServiceStatusBoard({
                             })
                           }
                           className={selectClass}
+                          style={forcedFieldStyle}
                         >
                           {STATUS_OPTIONS.map((option) => (
-                            <option key={option.value} value={option.value}>
+                            <option key={option.value} value={option.value} style={forcedOptionStyle}>
                               {option.label}
                             </option>
                           ))}
@@ -501,9 +523,10 @@ export default function ServiceStatusBoard({
                             })
                           }
                           className={selectClass}
+                          style={forcedFieldStyle}
                         >
                           {CHANNEL_OPTIONS.map((option) => (
-                            <option key={option.value} value={option.value}>
+                            <option key={option.value} value={option.value} style={forcedOptionStyle}>
                               {option.label}
                             </option>
                           ))}
