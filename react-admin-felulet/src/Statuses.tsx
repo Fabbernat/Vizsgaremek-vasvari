@@ -64,22 +64,22 @@ const STATUS_META: Record<
 > = {
   healthy: {
     label: "Teljesen jó",
-    badgeClass: "bg-emerald-100 text-emerald-800 border-emerald-200",
+    badgeClass: "bg-emerald-100 text-black border-emerald-200",
     dotClass: "bg-emerald-500",
   },
   degraded: {
     label: "Kisebb probléma",
-    badgeClass: "bg-amber-100 text-amber-800 border-amber-200",
+    badgeClass: "bg-amber-100 text-black border-amber-200",
     dotClass: "bg-amber-500",
   },
   down: {
     label: "Down / nem elérhető",
-    badgeClass: "bg-rose-100 text-rose-800 border-rose-200",
+    badgeClass: "bg-rose-100 text-black border-rose-200",
     dotClass: "bg-rose-500",
   },
   "in-development": {
     label: "Fejlesztés alatt",
-    badgeClass: "bg-slate-100 text-slate-800 border-slate-200",
+    badgeClass: "bg-slate-100 text-black border-slate-200",
     dotClass: "bg-slate-500",
   },
 };
@@ -87,11 +87,11 @@ const STATUS_META: Record<
 const CHANNEL_META: Record<ReleaseChannel, { label: string; className: string }> = {
   stable: {
     label: "Nem béta",
-    className: "bg-sky-100 text-sky-800 border-sky-200",
+    className: "bg-sky-100 text-black border-sky-200",
   },
   beta: {
     label: "BETA",
-    className: "bg-fuchsia-100 text-fuchsia-800 border-fuchsia-200",
+    className: "bg-fuchsia-100 text-black border-fuchsia-200",
   },
 };
 
@@ -241,10 +241,13 @@ export default function ServiceStatusBoard({
     <section className="w-full rounded-3xl bg-white p-6 shadow-xl ring-1 ring-slate-200">
       <div className="mb-6 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
         <div>
-          <h1 className="mt-2 text-3xl font-bold text-slate-900">{title}</h1>
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">
+            Community maintained
+          </p>
+          <h2 className="mt-2 text-3xl font-bold text-slate-900">{title}</h2>
           <p className="mt-2 max-w-3xl text-sm text-slate-600">
-           Üdvözlünk, Adminisztrátor! Ha szükséges, módosítsd, hogy az egyes
-            Royal Delivery service-ek milyen állapotban vannak!
+            A felhasználók becsületkassza alapon tudják jelezni, hogy az egyes
+            Royal Delivery service-ek milyen állapotban vannak.
           </p>
         </div>
 
