@@ -104,11 +104,14 @@ const STATUS_META: Record<
   ServiceStatus,
   { label: string; badgeClass: string; dotClass: string }
 > = Object.fromEntries(
-  STATUS_OPTIONS.map((item) => [item.value, item])
+  STATUS_OPTIONS.map((item) => [item.value, item]),
 ) as Record<ServiceStatus, (typeof STATUS_OPTIONS)[number]>;
 
-const CHANNEL_META: Record<ReleaseChannel, { label: string; className: string }> = Object.fromEntries(
-  CHANNEL_OPTIONS.map((item) => [item.value, item])
+const CHANNEL_META: Record<
+  ReleaseChannel,
+  { label: string; className: string }
+> = Object.fromEntries(
+  CHANNEL_OPTIONS.map((item) => [item.value, item]),
 ) as Record<ReleaseChannel, (typeof CHANNEL_OPTIONS)[number]>;
 
 const emptyDraft = (): ServiceDraft => ({
@@ -118,6 +121,12 @@ const emptyDraft = (): ServiceDraft => ({
   status: "healthy",
   channel: "stable",
 });
+
+const inputClass =
+  "w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-slate-500";
+
+const selectClass =
+  "w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-slate-500";
 
 export default function ServiceStatusBoard({
   storageKey = "royal-delivery-service-statuses",
@@ -134,20 +143,14 @@ export default function ServiceStatusBoard({
   useEffect(() => {
     try {
       const stored = localStorage.getItem(storageKey);
-      if (stored) {
-        setServices(JSON.parse(stored) as ServiceItem[]);
-      } else {
-        setServices(initialServices);
-      }
+      setServices(stored ? (JSON.parse(stored) as ServiceItem[]) : initialServices);
     } catch {
       setServices(initialServices);
     }
   }, [initialServices, storageKey]);
 
   useEffect(() => {
-    if (services.length > 0) {
-      localStorage.setItem(storageKey, JSON.stringify(services));
-    }
+    localStorage.setItem(storageKey, JSON.stringify(services));
   }, [services, storageKey]);
 
   const filteredServices = useMemo(() => {
@@ -164,54 +167,72 @@ export default function ServiceStatusBoard({
     });
   }, [services, search, filterStatus, filterChannel]);
 
-  const stats = useMemo(() => {
-    return {
-      total: services.length,
-      healthy: services.filter((s) => s.status === "healthy").length,
-      degraded: services.filter((s) => s.status === "degraded").length,
-      down: services.filter((s) => s.status === "down").length,
-      inDevelopment: services.filter((s) => s.status === "in-development").length,
-      beta: services.filter((s) => s.channel === "beta").length,
-    };
-  }, [services]);
+  const statCards = useMemo(
+    () => [
+      { label: "Összes service", value: services.length },
+      {
+        label: "Teljesen jó",
+        value: services.filter((s) => s.status === "healthy").length,
+      },
+      {
+        label: "Kisebb probléma",
+        value: services.filter((s) => s.status === "degraded").length,
+      },
+      {
+        label: "Down",
+        value: services.filter((s) => s.status === "down").length,
+      },
+      {
+        label: "Fejlesztés alatt",
+        value: services.filter((s) => s.status === "in-development").length,
+      },
+      {
+        label: "BETA",
+        value: services.filter((s) => s.channel === "beta").length,
+      },
+    ],
+    [services],
+  );
 
   const resetForm = () => {
     setDraft(emptyDraft());
     setEditingId(null);
   };
 
+  const setDraftField = <K extends keyof ServiceDraft>(
+    key: K,
+    value: ServiceDraft[K],
+  ) => {
+    setDraft((prev) => ({ ...prev, [key]: value }));
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!draft.name.trim()) return;
+    const normalizedDraft: ServiceDraft = {
+      ...draft,
+      name: draft.name.trim(),
+      url: draft.url.trim(),
+      description: draft.description.trim(),
+    };
+
+    if (!normalizedDraft.name) return;
+
+    const timestamp = new Date().toISOString();
 
     if (editingId) {
       setServices((prev) =>
         prev.map((service) =>
           service.id === editingId
-            ? {
-                ...service,
-                ...draft,
-                name: draft.name.trim(),
-                url: draft.url.trim(),
-                description: draft.description.trim(),
-                updatedAt: new Date().toISOString(),
-              }
+            ? { ...service, ...normalizedDraft, updatedAt: timestamp }
             : service,
         ),
       );
     } else {
-      const newService: ServiceItem = {
-        id: crypto.randomUUID(),
-        name: draft.name.trim(),
-        url: draft.url.trim(),
-        description: draft.description.trim(),
-        status: draft.status,
-        channel: draft.channel,
-        updatedAt: new Date().toISOString(),
-      };
-
-      setServices((prev) => [newService, ...prev]);
+      setServices((prev) => [
+        { id: crypto.randomUUID(), ...normalizedDraft, updatedAt: timestamp },
+        ...prev,
+      ]);
     }
 
     resetForm();
@@ -234,12 +255,12 @@ export default function ServiceStatusBoard({
   };
 
   const updateService = (id: string, patch: Partial<ServiceItem>) => {
-  setServices((prev) =>
-    prev.map((service) =>
-      service.id === id
-        ? { ...service, ...patch, updatedAt: new Date().toISOString() }
-        : service
-      )
+    setServices((prev) =>
+      prev.map((service) =>
+        service.id === id
+          ? { ...service, ...patch, updatedAt: new Date().toISOString() }
+          : service,
+      ),
     );
   };
 
@@ -258,12 +279,9 @@ export default function ServiceStatusBoard({
         </div>
 
         <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6">
-          <StatCard label="Összes service" value={stats.total} />
-          <StatCard label="Teljesen jó" value={stats.healthy} />
-          <StatCard label="Kisebb probléma" value={stats.degraded} />
-          <StatCard label="Down" value={stats.down} />
-          <StatCard label="Fejlesztés alatt" value={stats.inDevelopment} />
-          <StatCard label="BETA" value={stats.beta} />
+          {statCards.map((item) => (
+            <StatCard key={item.label} label={item.label} value={item.value} />
+          ))}
         </div>
       </div>
 
@@ -291,30 +309,28 @@ export default function ServiceStatusBoard({
             <Field label="Service neve">
               <input
                 value={draft.name}
-                onChange={(e) => setDraft((prev) => ({ ...prev, name: e.target.value }))}
+                onChange={(e) => setDraftField("name", e.target.value)}
                 placeholder="pl. Admin API"
-                className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-slate-500"
+                className={inputClass}
               />
             </Field>
 
             <Field label="URL">
               <input
                 value={draft.url}
-                onChange={(e) => setDraft((prev) => ({ ...prev, url: e.target.value }))}
+                onChange={(e) => setDraftField("url", e.target.value)}
                 placeholder="https://api.royaldelivery.hu"
-                className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-slate-500"
+                className={inputClass}
               />
             </Field>
 
             <Field label="Leírás">
               <textarea
                 value={draft.description}
-                onChange={(e) =>
-                  setDraft((prev) => ({ ...prev, description: e.target.value }))
-                }
+                onChange={(e) => setDraftField("description", e.target.value)}
                 placeholder="Rövid leírás a service-ről"
                 rows={4}
-                className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-slate-500"
+                className={inputClass}
               />
             </Field>
 
@@ -323,16 +339,13 @@ export default function ServiceStatusBoard({
                 <select
                   value={draft.status}
                   onChange={(e) =>
-                    setDraft((prev) => ({
-                      ...prev,
-                      status: e.target.value as ServiceStatus,
-                    }))
+                    setDraftField("status", e.target.value as ServiceStatus)
                   }
-                  className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-slate-500"
+                  className={selectClass}
                 >
-                  {Object.entries(STATUS_META).map(([value, meta]) => (
-                    <option key={value} value={value}>
-                      {meta.label}
+                  {STATUS_OPTIONS.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
                     </option>
                   ))}
                 </select>
@@ -342,15 +355,15 @@ export default function ServiceStatusBoard({
                 <select
                   value={draft.channel}
                   onChange={(e) =>
-                    setDraft((prev) => ({
-                      ...prev,
-                      channel: e.target.value as ReleaseChannel,
-                    }))
+                    setDraftField("channel", e.target.value as ReleaseChannel)
                   }
-                  className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-slate-500"
+                  className={selectClass}
                 >
-                  <option value="stable">Nem béta</option>
-                  <option value="beta">BETA</option>
+                  {CHANNEL_OPTIONS.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
                 </select>
               </Field>
             </div>
@@ -370,18 +383,18 @@ export default function ServiceStatusBoard({
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Keresés név, URL vagy leírás alapján"
-              className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-slate-500"
+              className={inputClass}
             />
 
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value as ServiceStatus | "all")}
-              className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-slate-500"
+              className={selectClass}
             >
               <option value="all">Minden státusz</option>
-              {Object.entries(STATUS_META).map(([value, meta]) => (
-                <option key={value} value={value}>
-                  {meta.label}
+              {STATUS_OPTIONS.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
                 </option>
               ))}
             </select>
@@ -391,11 +404,14 @@ export default function ServiceStatusBoard({
               onChange={(e) =>
                 setFilterChannel(e.target.value as ReleaseChannel | "all")
               }
-              className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-slate-500"
+              className={selectClass}
             >
               <option value="all">Minden verzió</option>
-              <option value="stable">Nem béta</option>
-              <option value="beta">BETA</option>
+              {CHANNEL_OPTIONS.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
             </select>
           </div>
 
@@ -455,30 +471,42 @@ export default function ServiceStatusBoard({
                         )}
 
                         <p className="mt-3 text-xs text-slate-400">
-                          Utolsó módosítás: {new Date(service.updatedAt).toLocaleString("hu-HU")}
+                          Utolsó módosítás:{" "}
+                          {new Date(service.updatedAt).toLocaleString("hu-HU")}
                         </p>
                       </div>
 
                       <div className="grid gap-3 lg:w-[260px]">
                         <select
                           value={service.status}
-                          onChange={(e) => updateService(service.id, { status: e.target.value as ServiceStatus })}
-                          className="w-full rounded-2xl border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-slate-500"
+                          onChange={(e) =>
+                            updateService(service.id, {
+                              status: e.target.value as ServiceStatus,
+                            })
+                          }
+                          className={selectClass}
                         >
-                          {Object.entries(STATUS_META).map(([value, meta]) => (
-                            <option key={value} value={value}>
-                              {meta.label}
+                          {STATUS_OPTIONS.map((option) => (
+                            <option key={option.value} value={option.value}>
+                              {option.label}
                             </option>
                           ))}
                         </select>
 
                         <select
                           value={service.channel}
-                          onChange={(e) => updateService(service.id, { channel: e.target.value as ReleaseChannel })}
-                          className="w-full rounded-2xl border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-slate-500"
+                          onChange={(e) =>
+                            updateService(service.id, {
+                              channel: e.target.value as ReleaseChannel,
+                            })
+                          }
+                          className={selectClass}
                         >
-                          <option value="stable">Nem béta</option>
-                          <option value="beta">BETA</option>
+                          {CHANNEL_OPTIONS.map((option) => (
+                            <option key={option.value} value={option.value}>
+                              {option.label}
+                            </option>
+                          ))}
                         </select>
 
                         <div className="grid grid-cols-2 gap-3">
