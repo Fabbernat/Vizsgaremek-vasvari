@@ -238,9 +238,6 @@ li > p {
   color: white;
 }
 
-.deleteButton {
-  background-color: red;
-  color: white;
-  border: none;
-  transition: background-color 0.3s ease;
+.red-background {
+  background-color: red !important;
 }

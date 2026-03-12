@@ -241,13 +241,10 @@ export default function ServiceStatusBoard({
     <section className="w-full rounded-3xl bg-white p-6 shadow-xl ring-1 ring-slate-200">
       <div className="mb-6 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
         <div>
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">
-            Community maintained
-          </p>
-          <h2 className="mt-2 text-3xl font-bold text-slate-900">{title}</h2>
+          <h1 className="mt-2 text-3xl font-bold text-slate-900">{title}</h1>
           <p className="mt-2 max-w-3xl text-sm text-slate-600">
-            A felhasználók becsületkassza alapon tudják jelezni, hogy az egyes
-            Royal Delivery service-ek milyen állapotban vannak.
+           Üdvözlünk, Adminisztrátor! Ha szükséges, módosítsd, hogy az egyes
+            Royal Delivery service-ek milyen állapotban vannak!
           </p>
         </div>
 

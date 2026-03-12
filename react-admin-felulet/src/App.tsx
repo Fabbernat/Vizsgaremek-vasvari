@@ -36,8 +36,8 @@ function App() {
       </ul>
         ) : (
           <ul>
-            <li>
-              <button className="deleteButton" onClick={() => setActiveView("blank")}>X</button>
+            <li className="no-bullets red-background">
+              <button onClick={() => setActiveView("blank")}>X</button>
             </li>
           </ul>
         )}
