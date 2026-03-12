@@ -1,8 +1,6 @@
 import './App.css'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { DatabaseContent } from './DatabaseContent.tsx';
-import supabase from './utils/supabase'
-import RoyalDeliveryServiceStatusBoard from './Statuses.tsx';
 import ServiceStatusBoard from './Statuses.tsx';
 
 type ViewType = "blank" | "database" | "statuses";
@@ -32,14 +30,14 @@ function App() {
           </li>
           <li>
             <button onClick={showStatuses}>
-              Az adatbázisok, backendek és frontendek státuszának ellenőrzése
+              Az adatbázisok, backendek és frontendek státuszának megtekintése, kezelése
             </button>
           </li>
       </ul>
         ) : (
           <ul>
             <li>
-              <button onClick={() => setActiveView("blank")}>X</button>
+              <button className="deleteButton" onClick={() => setActiveView("blank")}>X</button>
             </li>
           </ul>
         )}

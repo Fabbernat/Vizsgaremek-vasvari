@@ -351,7 +351,7 @@ export default function ServiceStatusBoard({
 
             <button
               type="submit"
-              className="w-full rounded-2xl bg-slate-900 px-4 py-3 font-semibold text-white transition hover:translate-y-[-1px] hover:bg-slate-800"
+              className="w-full rounded-2xl bg-slate-900 px-4 py-3 font-semibold text-white transition hover:-translate-y-px hover:bg-slate-800"
             >
               {editingId ? "Módosítás mentése" : "Service hozzáadása"}
             </button>
