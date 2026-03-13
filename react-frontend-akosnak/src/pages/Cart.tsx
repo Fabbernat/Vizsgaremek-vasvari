@@ -46,7 +46,7 @@ const Cart = () => {
 
                 return (
                   <tr>
-                    <td>{restaurant?.nev}</td>
+                    <td>{restaurant?.name}</td>
                     <td>
                       <Button
                         onClick={() => removeItem(index)}

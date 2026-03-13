@@ -3,5 +3,6 @@ export type Meals = {
     name: string;
     description: string;
     price: number;
-    restaurantId?: number;
+    categoryid?: number;
+    restaurantid?: number;
 }

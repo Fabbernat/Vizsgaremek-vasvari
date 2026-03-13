@@ -1,55 +1,54 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import type { Restaurant } from "../types/Restaurant";
-import { toast } from "react-toastify";
-import apiClient, { baseURL } from "../store/store";
-import { Button, Col, Container, Row } from "react-bootstrap";
-import goodFood from "./good-food.jpg";
+import { useParams } from "react-router-dom";
+import type { Restaurant } from "../types/Restaurant.ts";
+import type { Meals } from "../types/Meals.ts";
+import apiClient from "../api/apiClient.ts";
+import { Button, Card, Container, Row, Col } from "react-bootstrap";
 
 const OneRestaurant = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
 
   const [restaurant, setRestaurant] = useState<Restaurant>();
+  const [meals, setMeals] = useState<Array<Meals>>([]);
 
   useEffect(() => {
     apiClient
       .get(`/restaurants/${id}`)
-      .catch(() => toast.error("A pizzák betöltése sikertelen volt"));
+      .then((response) => setRestaurant(response.data.data))
+      .catch((error) => console.error(error));
+
+    apiClient
+      .get(`/restaurants/${id}/meals`)
+      .then((response) => setMeals(response.data))
+      .catch((error) => console.error(error));
   }, [id]);
 
-  const deleteRestaurant = () => {
-    apiClient
-      .delete(`/restaurants/${id}`)
-      .then(() => {
-        toast.success("Sikeres törlés!");
-        navigate("/"); // kezdőlapra irányítás
-      })
-      .catch(() => toast.error("Sikertelen törlés!"));
-  };
-
-  const editRestaurant = () => {
-    navigate(`/edit-restaurant/${id}`);
-  };
+  if (!restaurant) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Container>
-      {restaurant ? (
-        <Row>
-          <Col sm={8}>
-            <h1>{restaurant.nev}</h1>
-
-            <Button variant="warning" onClick={editRestaurant}>
-              Szerkesztés
-            </Button>
-            <Button variant="danger" onClick={deleteRestaurant}>
-              Törlés
-            </Button>
+      <h3>Meals</h3>
+      <Row>
+        {meals.map((meal) => (
+          <Col key={meal.id} md={4} className="mb-4">
+            <Card data-bs-theme="dark">
+              <Card.Body>
+                <Card.Title>{meal.name}</Card.Title>
+                <Card.Text>{meal.description}</Card.Text>
+                <Card.Text>Price: {meal.price}Ft</Card.Text>
+              </Card.Body>
+            </Card>
           </Col>
-        </Row>
-      ) : (
-        <>A pizza nem található!</>
-      )}
+        ))}
+      </Row>
+
+      <div className="text-center">
+        <Button href="/restaurants" className="back-button">
+          Go Back
+        </Button>
+      </div>
     </Container>
   );
 };

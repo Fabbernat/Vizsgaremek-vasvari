@@ -4,6 +4,7 @@ import path from "path";
 import Database from "better-sqlite3";
 
 import restaurantRoute from "./routes/restaurantRoutes.js";
+import mealRoute from "./routes/mealRoutes.js";
 
 import { fileURLToPath } from "url";
 
@@ -17,6 +18,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/", restaurantRoute);
+app.use("/", mealRoute);
 
 // Statikus fájlok kiszolgálása
 app.use(express.static(path.join(__dirname, "../backend/webui")));
