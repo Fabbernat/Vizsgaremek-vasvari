@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import type { Restaurant } from "../types/Restaurant.ts";
 import type { Meals } from "../types/Meals.ts";
 import apiClient from "../api/apiClient.ts";
@@ -33,13 +33,18 @@ const OneRestaurant = () => {
       <Row>
         {meals.map((meal) => (
           <Col key={meal.id} md={4} className="mb-4">
-            <Card data-bs-theme="dark">
-              <Card.Body>
-                <Card.Title>{meal.name}</Card.Title>
-                <Card.Text>{meal.description}</Card.Text>
-                <Card.Text>Price: {meal.price}Ft</Card.Text>
-              </Card.Body>
-            </Card>
+            <Link
+              to={`/meals/${meal.id}`}
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <Card data-bs-theme="dark">
+                <Card.Body>
+                  <Card.Title>{meal.name}</Card.Title>
+                  <Card.Text>{meal.description}</Card.Text>
+                  <Card.Text>Price: {meal.price}Ft</Card.Text>
+                </Card.Body>
+              </Card>
+            </Link>
           </Col>
         ))}
       </Row>
