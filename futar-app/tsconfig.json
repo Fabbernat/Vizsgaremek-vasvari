@@ -1,6 +1,10 @@
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
+    "typeRoots": [
+      "./node_modules/@types",
+      "./path/to/react-native-url-polyfill"
+    ],
     "strict": true,
     "paths": {
       "@/*": [
