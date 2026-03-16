@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace RoyalDelivery.Backend.Controllers
+namespace RoyalDelivery.Dotnet.Backend.Controllers
 {
     [ApiController]
     [Route("[controller]")]

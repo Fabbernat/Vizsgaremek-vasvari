@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoyalDelivery", "RoyalDeliv
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoyalDelivery.Backend", "RoyalDelivery.Backend\RoyalDelivery.Backend.csproj", "{9226C8EC-6EA2-4B7A-AB23-90378348035D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoyalDelivery.Dotnet.Backend", "RoyalDelivery.Dotnet.Backend\RoyalDelivery.Dotnet.Backend.csproj", "{AC3ED2BC-6F5F-4106-B5A1-BDF52DFAB0BC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{9226C8EC-6EA2-4B7A-AB23-90378348035D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9226C8EC-6EA2-4B7A-AB23-90378348035D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9226C8EC-6EA2-4B7A-AB23-90378348035D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC3ED2BC-6F5F-4106-B5A1-BDF52DFAB0BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC3ED2BC-6F5F-4106-B5A1-BDF52DFAB0BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC3ED2BC-6F5F-4106-B5A1-BDF52DFAB0BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC3ED2BC-6F5F-4106-B5A1-BDF52DFAB0BC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
