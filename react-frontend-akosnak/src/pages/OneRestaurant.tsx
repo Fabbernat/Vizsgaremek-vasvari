@@ -30,7 +30,11 @@ const OneRestaurant = () => {
 
   return (
     <Container>
-      <h3>Meals</h3>
+      <h1 className="mt-3">{restaurant.name}</h1>
+      <h2 className="mb-5 text-center">
+        Choose a meal to <strong>edit</strong> or <strong>add</strong> a new one
+      </h2>
+      <h3 className="m-5">Meals</h3>
       <Row>
         {meals.map((meal) => (
           <Col key={meal.id} md={4} className="mb-4">
@@ -38,9 +42,11 @@ const OneRestaurant = () => {
               to={`/meals/${meal.id}`}
               style={{ textDecoration: "none", color: "inherit" }}
             >
-              <Card data-bs-theme="dark">
+              <Card data-bs-theme="dark" style={{ height: "100%" }}>
                 <Card.Body>
-                  <Card.Title>{meal.name}</Card.Title>
+                  <Card.Title>
+                    <strong>{meal.name}</strong>
+                  </Card.Title>
                   <Card.Text>{meal.description}</Card.Text>
                   <Card.Text>Price: {meal.price}Ft</Card.Text>
                 </Card.Body>

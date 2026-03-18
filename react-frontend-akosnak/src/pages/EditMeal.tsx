@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import apiClient from "../api/apiClient";
 import type { Meals } from "../types/Meals";
+import type { Restaurant } from "../types/Restaurant";
 import { toast } from "react-toastify";
 import { Button, Card, Container } from "react-bootstrap";
 
@@ -10,6 +11,7 @@ const EditMeal = () => {
   const { id } = useParams();
 
   const [meal, setMeal] = useState<Meals | null>(null);
+  const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,6 +26,15 @@ const EditMeal = () => {
           error,
         );
       });
+
+    apiClient
+      .get("/restaurants")
+      .then((response) => {
+        setRestaurants(response.data);
+      })
+      .catch((error) => {
+        console.error("Failed to fetch restaurants:", error);
+      });
   }, [id]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,6 +44,12 @@ const EditMeal = () => {
         ...meal,
         [e.target.name]: e.target.value,
       });
+    }
+  };
+
+  const handleRestaurantChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    if (meal) {
+      setMeal({ ...meal, restaurantId: +e.target.value });
     }
   };
 
@@ -109,6 +126,25 @@ const EditMeal = () => {
                   onChange={handleInputChange}
                   required
                 />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="restaurantId" className="form-label">
+                  Restaurant
+                </label>
+                <select
+                  className="form-control"
+                  id="restaurantId"
+                  value={meal.restaurantId || ""}
+                  onChange={handleRestaurantChange}
+                  required
+                >
+                  <option value="">Select a restaurant</option>
+                  {restaurants.map((restaurant) => (
+                    <option key={restaurant.id} value={restaurant.id}>
+                      {restaurant.name}
+                    </option>
+                  ))}
+                </select>
               </div>
               <Button variant="primary" type="submit">
                 Update Meal
