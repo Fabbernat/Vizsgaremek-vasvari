@@ -4,7 +4,7 @@ import { FlatList, Text, View } from 'react-native';
 import { supabase } from '../utils/supabase';
 
 export default function App() {
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState<{ id: number; title: string }[]>([]);
 
   useEffect(() => {
     const getTodos = async () => {
@@ -19,8 +19,8 @@ export default function App() {
         if (todos && todos.length > 0) {
           setTodos(todos);
         }
-      } catch (error) {
-        console.error('Error fetching todos:', error.message);
+      } catch (error: any) {
+        console.error('Error fetching todos:', (error as Error).message);
       }
     };
 

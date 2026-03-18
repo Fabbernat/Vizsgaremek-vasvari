@@ -1,6 +1,7 @@
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { createClient, processLock } from '@supabase/supabase-js'
 import 'react-native-url-polyfill/auto'
+
+const AsyncStorage = require('@react-native-async-storage/async-storage').default
 
 export const supabase = createClient(
   process.env.EXPO_PUBLIC_SUPABASE_URL!,
