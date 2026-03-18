@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import "./AllRestaurantStyle.css";
+import "../styles/AllRestaurantStyle.css";
 import type { Restaurant } from "../types/Restaurant.ts";
 import apiClient from "../api/apiClient.ts";
 import { Card, Container, Row, Col } from "react-bootstrap";
@@ -34,9 +34,13 @@ const AllRestaurant = () => {
                 className="card-link"
                 style={{ textDecoration: "none", color: "inherit" }}
               >
-                <Card style={{ width: "25vw" }} data-bs-theme="dark">
+                <Card
+                  style={{ width: "25vw" }}
+                  data-bs-theme="dark"
+                  className="RestCard"
+                >
                   <Card.Img variant="top" src={TestImg} />
-                  <Card.Body>
+                  <Card.Body className="RestCardBody">
                     <Card.Title>
                       <strong>{r.name}</strong>
                     </Card.Title>

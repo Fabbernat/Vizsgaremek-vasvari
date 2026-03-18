@@ -1,0 +1,30 @@
+#root{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+body{
+    background-color: #363f4d;
+    color: #fff;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    align-items: center;
+}
+
+h1{
+    margin: 3vw;
+    font-weight: bold;;
+    text-align: center;
+}
+
+.RestCard{
+    margin: 2vw;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.RestCard:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.3);
+    background-color: #2e2e2e;
+    transition: all 0.3s ease;
+}
