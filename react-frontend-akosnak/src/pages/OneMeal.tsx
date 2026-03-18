@@ -33,6 +33,10 @@ const OneMeal = () => {
       });
   };
 
+  const navigateEdit = () => {
+    navigate(`/meals/${id}/edit`);
+  };
+
   return (
     <>
       <Container>
@@ -44,9 +48,12 @@ const OneMeal = () => {
               </Card.Title>
               <Card.Text>{meal.description}</Card.Text>
               <Card.Text>Price: {meal.price}Ft</Card.Text>
+              <Card.Text>ID: {meal.id}</Card.Text>
+              <Card.Text>Category ID: {meal.categoryid || "N/A"}</Card.Text>
+              <Card.Text>Restaurant ID: {meal.restaurantId}</Card.Text>
 
               {/* Delete and Edit Button */}
-              <Button variant="primary" className="me-3">
+              <Button variant="primary" className="me-3" onClick={navigateEdit}>
                 Edit
               </Button>
               <Button variant="danger">

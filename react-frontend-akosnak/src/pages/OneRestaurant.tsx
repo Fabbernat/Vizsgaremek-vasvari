@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import type { Restaurant } from "../types/Restaurant.ts";
 import type { Meals } from "../types/Meals.ts";
 import apiClient from "../api/apiClient.ts";
@@ -7,6 +7,7 @@ import { Button, Card, Container, Row, Col } from "react-bootstrap";
 
 const OneRestaurant = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const [restaurant, setRestaurant] = useState<Restaurant>();
   const [meals, setMeals] = useState<Array<Meals>>([]);
@@ -50,8 +51,16 @@ const OneRestaurant = () => {
       </Row>
 
       <div className="text-center">
-        <Button href="/restaurants" className="back-button">
-          Go Back
+        <Button href={`/add-meal`} className="add-button m-2" variant="success">
+          Add Meal
+        </Button>
+
+        <Button
+          variant="primary"
+          onClick={() => navigate(`/restaurants`)}
+          className="m-2"
+        >
+          Go back
         </Button>
       </div>
     </Container>

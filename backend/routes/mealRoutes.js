@@ -19,14 +19,16 @@ routes.get("/meals/:id", (req, res) => {
     name: meal.name,
     description: meal.description,
     price: meal.price,
-    restaurantId: meal.restaurantId,
+    // categoryid: meal.categoryid,
+    // Keep a camelCase version for clients that expect it
+    restaurantId: meal.restaurantid,
   };
   res.status(200).json({ message: "Meal loaded:", data });
 });
 
-routes.post("/meals", (req, res) => {
-  const { name, description, price, categoryid, restaurantId } = req.body;
-  if (!name || !description || !price || !categoryid || !restaurantId) {
+routes.post("/add-meal", (req, res) => {
+  const { name, description, price, restaurantId } = req.body;
+  if (!name || !description || !price || !restaurantId) {
     return res.status(400).json({
       message:
         "Name, description, price, categoryid and restaurantId are required!",
@@ -36,15 +38,15 @@ routes.post("/meals", (req, res) => {
     name,
     description,
     price,
-    categoryid,
+    /*     categoryid || null, */
     restaurantId,
   );
   res.status(201).json({ message: "Meal created!", meal });
 });
 
 routes.put("/meals/:id", (req, res) => {
-  const { name, description, price, categoryid, restaurantId } = req.body;
-  if (!name || !description || !price || !categoryid || !restaurantId) {
+  const { name, description, price, restaurantId } = req.body;
+  if (!name || !description || !price || !restaurantId) {
     return res.status(400).json({
       message:
         "Name, description, price, categoryid and restaurantId are required!",
@@ -55,10 +57,10 @@ routes.put("/meals/:id", (req, res) => {
     name,
     description,
     price,
-    categoryid,
+    /*   categoryid, */
     restaurantId,
   );
-  if (!meal) {
+  if (!meal.changes) {
     return res.status(404).json({ message: "Meal not found!" });
   }
   res.status(200).json({ message: "Meal updated!", meal });

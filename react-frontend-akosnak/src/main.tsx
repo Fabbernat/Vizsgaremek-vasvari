@@ -11,6 +11,8 @@ import Cart from "./pages/Cart";
 import OneRestaurant from "./pages/OneRestaurant";
 import AllMeal from "./pages/AllMeal";
 import OneMeal from "./pages/OneMeal";
+import EditMeal from "./pages/EditMeal";
+import AddMeal from "./pages/AddMeal";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -23,6 +25,8 @@ createRoot(document.getElementById("root")!).render(
         <Route path="/restaurants/:id" element={<OneRestaurant />} />
         <Route path="/meals" element={<AllMeal />} />
         <Route path="/meals/:id" element={<OneMeal />} />
+        <Route path="/meals/:id/edit" element={<EditMeal />} />
+        <Route path="/add-meal" element={<AddMeal />} />
         <Route path="/orders" element={<Cart />} />
         <Route path="*" element={<h1>404 - Not Found</h1>} />
       </Routes>
