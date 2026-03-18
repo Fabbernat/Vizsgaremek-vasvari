@@ -4,7 +4,6 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Slide, ToastContainer } from "react-toastify";
 import "bootstrap/dist/css/bootstrap.min.css";
 import MyNavbar from "./router/Navbar";
-import "bootstrap/dist/css/bootstrap.min.css";
 
 import AllRestaurant from "./pages/AllRestaurant";
 import Cart from "./pages/Cart";
@@ -13,6 +12,7 @@ import AllMeal from "./pages/AllMeal";
 import OneMeal from "./pages/OneMeal";
 import EditMeal from "./pages/EditMeal";
 import AddMeal from "./pages/AddMeal";
+import HomePage from "./pages/Home";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -20,7 +20,7 @@ createRoot(document.getElementById("root")!).render(
       <MyNavbar />
 
       <Routes>
-        <Route path="/" element={<AllRestaurant />} />
+        <Route path="/" element={<HomePage />} />
         <Route path="/restaurants" element={<AllRestaurant />} />
         <Route path="/restaurants/:id" element={<OneRestaurant />} />
         <Route path="/meals" element={<AllMeal />} />
@@ -42,7 +42,7 @@ createRoot(document.getElementById("root")!).render(
       pauseOnFocusLoss
       draggable
       pauseOnHover={false}
-      theme="colored"
+      theme="dark"
       transition={Slide}
     />
   </StrictMode>,

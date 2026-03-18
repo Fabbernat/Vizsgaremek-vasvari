@@ -31,7 +31,7 @@ const AddMeal = () => {
       return;
     }
 
-    apiClient
+    (apiClient
       .post(`/add-meal`, {
         name,
         description,
@@ -40,12 +40,13 @@ const AddMeal = () => {
       })
       .then(() => {
         toast.success("Meal added successfully!");
-        navigate("/meals");
+        navigate(`/restaurants/${restaurantId}`);
       })
       .catch((error) => {
         console.error("A problem has occured while adding the meal:", error);
         toast.error("Failed to add meal. Please try again.");
-      });
+      }),
+      [restaurantId]);
   };
 
   return (
