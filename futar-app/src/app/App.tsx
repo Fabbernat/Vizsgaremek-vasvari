@@ -1,7 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
 import { FlatList, Text, View } from 'react-native';
-import { supabase } from '../utils/supabase';
 
 export default function App() {
   const [todos, setTodos] = useState<{ id: number; title: string }[]>([]);
@@ -9,7 +8,7 @@ export default function App() {
   useEffect(() => {
     const getTodos = async () => {
       try {
-        const { data: todos, error } = await supabase.from('todos').select();
+        const { data: todos, error } = await null as any;
 
         if (error) {
           console.error('Error fetching todos:', error.message);
