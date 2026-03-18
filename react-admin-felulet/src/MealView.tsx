@@ -143,7 +143,7 @@ export function MealView({ meals }: MealViewProps) {
       </div>
 
       <div className="list grid-cards">
-        {mealsList.map((meal) => (
+        {mealsList.map(meal => (
           <div
             key={meal.id}
             style={{ padding: "12px" }}
@@ -156,80 +156,9 @@ export function MealView({ meals }: MealViewProps) {
               <li>Leírás: {meal.description}</li>
               <li>Ár: {meal.price} Ft</li>
             </ul>
-
-            <div className="modify">
-              {editingId === meal.id ? (
-                <>
-                  <input
-                    type="text"
-                    value={editMeal.name}
-                    onChange={(e) =>
-                      setEditMeal({ ...editMeal, name: e.target.value })
-                    }
-                  />
-
-                  <input
-                    type="text"
-                    value={editMeal.description}
-                    onChange={(e) =>
-                      setEditMeal({ ...editMeal, description: e.target.value })
-                    }
-                  />
-
-                  <input
-                    type="number"
-                    value={editMeal.price}
-                    onChange={(e) =>
-                      setEditMeal({
-                        ...editMeal,
-                        price: Number(e.target.value)
-                      })
-                    }
-                  />
-
-                  <button onClick={() => modifyMeal(meal.id, editMeal)}>
-                    Mentés
-                  </button>
-                  <button onClick={cancelEditing}>Mégse</button>
-                </>
-              ) : (
-                <button onClick={() => startEditing(meal)}>Módosítás</button>
-              )}
-            </div>
-
-            <div className="delete">
-              <button onClick={() => deleteMeal(meal.id)}>Törlés</button>
-        {Array.isArray(mealsList) && mealsList.length > 0 ? (
-          mealsList.map((meal) => (
-            <div
-              key={meal.id}
-              style={{ padding: '12px' }}
-              className="currentView"
-            >
-              <h1>{meal.name}</h1>
-
-              <ul>
-                <li>Id: {meal.id}</li>
-                <li>Leírás: {meal.description}</li>
-                <li>Ár: {meal.price} Ft</li>
-              </ul>
-
-              <div className="modify">
-                <button>Módosítás</button>
-              </div>
-
-              <div className="delete">
-                <button onClick={() => deleteMeal(meal.id)}>
-                  Törlés
-                </button>
-              </div>
-            </div>
-          ))
-        ) : (
-          <p>Nincs megjeleníthető adat.</p>
-        )}
-      </div>
-
+          </div>
+        ))}
+         
       <aside className="add">
         <h1>Új étel hozzáadása</h1>
 
@@ -258,29 +187,14 @@ export function MealView({ meals }: MealViewProps) {
               setNewMeal({ ...newMeal, price: Number(e.target.value) })
             }
           />
-      <div>
-        <aside className='add'>
-          <h1>Új étel hozzáadása</h1>
-          {meals.length > 0 && (
-            <div>
-              <div>
-                <input placeholder={meals[0].name} />
-                <input placeholder={meals[0].description} />
-                <input placeholder={String(meals?.[0]?.price ?? "")}/>
-              </div>
-            </div>
-          )}
-          <button type="button" onClick={() => addMeal({ name: "Új étel", description: "Új leírás", price: 1000 })} value="Hozzáadás">Hozzáadás</button>
+          </div>
         </aside>
+      <div>
 
         <div className="delete">
           <button onClick={deleteAll}>Összes törlése</button>
         </div>
-
-        <button type="button" onClick={() => addMeal(newMeal)}>
-          Hozzáadás
-        </button>
-      </aside>
+      </div>
 
       <button onClick={() => exportJSON(mealsList, "meals")}>
         Export JSON
@@ -293,6 +207,7 @@ export function MealView({ meals }: MealViewProps) {
       <div className="delete">
         <button onClick={deleteAll}>Összes törlése</button>
       </div>
+    </div>
     </>
   );
 }

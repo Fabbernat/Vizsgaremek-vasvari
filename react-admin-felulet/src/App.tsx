@@ -1,111 +1,87 @@
-import { useState, type MouseEvent } from 'react'
-
-// stílusok
 import './App.css'
+import { useState } from 'react'
+import { DatabaseContent } from './DatabaseContent.tsx';
+import ServiceStatusBoard from './Statuses.tsx';
 
-
-// view-k
-import { MealView } from './MealView';
-import { RestaurantView } from './RestaurantView'
-import { OrderView } from './OrderView'
-import { UserView } from './UserView'
-
-// modellek
-import { meals } from './stores/meals';
-import { restaurants } from './stores/restaurants';
-import { orders } from './stores/orders';
-import { users } from './stores/users';
-import { applicants } from './stores/applicants';
-import { CatFact } from './CatFact';
-import { DashboardView } from './DashboardView';
-
-
-type ViewType = 'meals' | 'restaurants' | 'orders' | 'users' | 'applicants' | 'dashboard';
+type ViewType = "blank" | "database" | "statuses";
 
 function App() {
-  // A single string to track the active view with type safety
-  const [activeView, setActiveView] = useState<ViewType>('meals');
-  const [thisMeals, setThisMeals] = useState(meals);
-  const [thisRestaurants, setThisRestaurants] = useState(restaurants);
-  const [thisOrders, setThisOrders] = useState(orders);
-  const [thisUsers, setThisUsers] = useState(users);
-  const [thisApplicants, setThisApplicants] = useState(applicants);
-import { usePersistedState } from './hooks/usePersistedState';
-import {exportJSON, exportCSV} from './utils/export.ts';
-import { DashboardView } from './DashboardView.tsx';
-import { CarreersView } from './CarreersView.tsx';
+  const [activeView, setActiveView] = useState<ViewType>('blank');
 
-
-type ViewType = 'meals' | 'restaurants' | 'orders' | 'users' | 'dashboard' | 'carreers';
-
-function App() {
-  // A single string to track the active view with type safety
-  const [activeView, setActiveView] = usePersistedState<ViewType>("activeView", "meals"); // meals a default view
-  const [thisMeals, setThisMeals] = usePersistedState("meals", meals);  const [thisRestaurants] = usePersistedState("restaurants", restaurants);
-  const [thisOrders, setThisOrders] = usePersistedState("orders", orders);
-  const [thisUsers, setThisUsers] = usePersistedState("users", users);
-  const [thisCarreers, setThisCarreers] = usePersistedState("carreers", []);
-  
-
+  function getViewTitle(view: ViewType) {
+    switch (view) {
+      case "database":
+        return "Adatbázis-kezelés";
+      case "statuses":
+        return "Rendszerstátuszok";
+      default:
+        return "Főmenü";
+    }
+  }
 
   return (
-    <>
-    <nav className='szoros-elrendezes'>
-      <ul className='no-bullets'>
-        <li><button onClick={(e) => setActiveView('restaurants')}>Éttermek</button></li>
-        <li><button onClick={(e) => setActiveView('meals')}>Ételek</button></li>
-        <li><button onClick={(e) => setActiveView('orders')}>Rendelések</button></li>
-        <li><button onClick={(e) => setActiveView('users')}>Felhasználók</button></li>
-        <li><button onClick={() => setActiveView('dashboard')}>Dashboard</button></li>
-        <li><button onClick={() => setActiveView('restaurants')}>Éttermek</button></li>
-        <li><button onClick={() => setActiveView('meals')}>Ételek</button></li>
-        <li><button onClick={() => setActiveView('orders')}>Rendelések</button></li>
-        <li><button onClick={() => setActiveView('users')}>Felhasználók</button></li>
-        <li><button onClick={() => setActiveView('dashboard')}>Dashboard</button></li>
-        <li><button onClick={() => setActiveView('carreers')}>Karrier</button></li>
-      </ul>
-    </nav>
-    <div className="grid-layout">
+    <div className="app-shell">
+      <header className="hero">
+        <h1>Üdvözöljük a Royal Delivery admin felületén!</h1>
+        <h2>Válassza ki, hogy mit szeretne tenni</h2>
+      </header>
 
-        <header>👑</header>
-        
-        <main className='currentView'>
-          {/* ezt kéne jól kitalálni, hogy hogyan lehetne megjeleníteni a különböző típusú adatokat egy közös komponensben */}
-          {activeView === 'meals' && <MealView meals={thisMeals} />}
-          {activeView === 'restaurants' && <RestaurantView restaurants={thisRestaurants} />}
-          {activeView === 'orders' && <OrderView orders={thisOrders} />}
-          {activeView === 'users' && <UserView users={thisUsers} />}
-          {activeView === 'dashboard' && (
-            <DashboardView meals={thisMeals} restaurants={thisRestaurants} orders={thisOrders} users={thisUsers} applicants={thisApplicants} />
-          )}     
-          </main>
-          {activeView === 'meals' &&   <MealView meals={thisMeals} setMeals={setThisMeals} />}
-          {activeView === 'restaurants' && <RestaurantView restaurant={thisRestaurants} />}
-          {activeView === 'orders' && <OrderView order={thisOrders} />}
-          {activeView === 'users' && <UserView user={thisUsers} />}
-          {activeView === 'dashboard' && <DashboardView meals={thisMeals} restaurants={thisRestaurants} orders={thisOrders} users={thisUsers} />}
-          {activeView === 'carreers' && <CarreersView carreers={thisCarreers} />}
-        </main>
-
-        <div className='experimental-features '>
-          <button onClick={() => exportJSON(meals, "meals")}>
-            JSON  Exportálás
-          </button>
-
-          <button onClick={() => exportCSV(meals, "meals")}>
-             CSV Exportálás
-          </button>
-
-          <div>
-            
+      <section className="view-panel">
+        <div className="view-toolbar">
+          <div className="view-toolbar-left">
+            <span className="view-badge">Aktuális nézet</span>
+            <h3>{getViewTitle(activeView)}</h3>
           </div>
+
+          {activeView !== "blank" && (
+            <button
+              className="ghost-button"
+              onClick={() => setActiveView("blank")}
+            >
+              ← Vissza a főmenübe
+            </button>
+          )}
         </div>
 
-        <footer>{ <CatFact />}</footer>
+        <div className="view-body">
+          {activeView === "blank" && (
+            <ul className="menu-list no-bullets">
+              <li>
+                <button
+                  className="menu-button"
+                  onClick={() => setActiveView('database')}
+                >
+                  <span className="menu-button-title">
+                    Adatbázis-kezelés
+                  </span>
+                  <span className="menu-button-subtitle">
+                    Az adatbázis adatainak megtekintése és kezelése
+                  </span>
+                </button>
+              </li>
 
-      </div>
-    </>
-  )
+              <li>
+                <button
+                  className="menu-button"
+                  onClick={() => setActiveView('statuses')}
+                >
+                  <span className="menu-button-title">
+                    Szolgáltatások állapota
+                  </span>
+                  <span className="menu-button-subtitle">
+                    Adatbázisok, backendek és frontendek státuszának megtekintése
+                  </span>
+                </button>
+              </li>
+            </ul>
+          )}
+
+          {activeView === "database" && <DatabaseContent />}
+          {activeView === "statuses" && <ServiceStatusBoard />}
+        </div>
+      </section>
+    </div>
+  );
 }
 
-export default App
+export default App;
