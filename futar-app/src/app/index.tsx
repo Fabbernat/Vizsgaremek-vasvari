@@ -55,7 +55,7 @@ export default function HomeScreen() {
         <Text style={{ color: 'white', fontWeight: '600' }}>Regisztráció</Text>
       </Pressable>
 
-      <Pressable>
+      <Pressable onPress={() => router.push('/contacts')}>
         <Text style={{ color: '#2563eb', textDecorationLine: 'underline' }}>
           Segítség
         </Text>
