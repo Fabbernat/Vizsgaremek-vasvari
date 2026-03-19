@@ -1,3 +1,4 @@
+import { router } from 'expo-router';
 import { Linking, Pressable, ScrollView, Text, View } from 'react-native';
 
 export default function ContactsScreen() {
@@ -30,6 +31,20 @@ export default function ContactsScreen() {
       }}
     >
       <View style={{ flex: 1, justifyContent: 'center' }}>
+        <Pressable
+          onPress={() => router.back()}
+          style={{
+            alignSelf: 'flex-start',
+            backgroundColor: '#e5e7eb',
+            paddingVertical: 10,
+            paddingHorizontal: 16,
+            borderRadius: 10,
+            marginBottom: 20,
+          }}
+        >
+          <Text style={{ color: '#111827', fontWeight: '600' }}>← Vissza</Text>
+        </Pressable>
+
         <Text
           style={{
             fontSize: 28,
