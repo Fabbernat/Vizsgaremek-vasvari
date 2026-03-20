@@ -1,10 +1,34 @@
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import { Pressable, SafeAreaView, ScrollView, StatusBar, Text, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { Pressable, ScrollView, StatusBar, Text, View } from 'react-native';
+import { getMeals, getOrders } from '../services/api';
 
 export default function HomeScreen() {
+  const [orderCount, setOrderCount] = useState(0);
+  const [mealCount, setMealCount] = useState(0);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadData() {
+      try {
+        const orders = await getOrders();
+        const meals = await getMeals();
+
+        setOrderCount(Array.isArray(orders) ? orders.length : 0);
+        setMealCount(Array.isArray(meals) ? meals.length : 0);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadData();
+  }, []);
+
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#f8fafc' }}>
+    <View style={{ flex: 1, backgroundColor: '#f8fafc' }}>
       <StatusBar barStyle="dark-content" />
       <ScrollView
         contentContainerStyle={{
@@ -230,6 +254,13 @@ export default function HomeScreen() {
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Ionicons name="checkmark-circle" size={18} color="#16a34a" />
               <Text style={{ marginLeft: 10, color: '#334155' }}>
+                Feladatok gyors áttekintése
+              </Text>
+            </View>
+
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Ionicons name="checkmark-circle" size={18} color="#16a34a" />
+              <Text style={{ marginLeft: 10, color: '#334155' }}>
                 Műszak és elérhetőség kezelése
               </Text>
             </View>
@@ -414,6 +445,6 @@ export default function HomeScreen() {
           </Text>
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
