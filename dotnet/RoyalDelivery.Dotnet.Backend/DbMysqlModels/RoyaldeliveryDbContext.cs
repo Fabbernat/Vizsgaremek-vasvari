@@ -88,15 +88,15 @@ public partial class RoyaldeliveryDbContext : DbContext
                 .HasColumnName("id");
             entity.Property(e => e.Date)
                 .HasMaxLength(100)
-                .HasDefaultValueSql("'2026-05-05'")
+                .HasDefaultValueSql("2026-05-05")
                 .HasColumnName("date");
             entity.Property(e => e.RestaurantId)
                 .HasMaxLength(100)
-                .HasDefaultValueSql("'1'")
+                .HasDefaultValueSql("1")
                 .HasColumnName("restaurant_id");
             entity.Property(e => e.UserId)
                 .HasMaxLength(100)
-                .HasDefaultValueSql("'1'")
+                .HasDefaultValueSql("1")
                 .HasColumnName("user_id");
         });
 
