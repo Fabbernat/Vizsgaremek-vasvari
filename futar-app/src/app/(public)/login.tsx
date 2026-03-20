@@ -10,11 +10,32 @@ import {
   TextInput,
   View,
 } from 'react-native';
+import { loginUser } from '../../services/api';
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+
+  async function handleLogin() {
+    try {
+      setLoading(true);
+      setError('');
+
+      const result = await loginUser(email, password);
+      console.log(result);
+
+      router.replace('/');
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#f8fafc' }}>
@@ -93,7 +114,12 @@ export default function LoginScreen() {
               marginBottom: 8,
             }}
           >
-            Bejelentkezés
+            {loading ? 'Bejelentkezés...' : 'Belépés'}
+            {error ? (
+              <Text style={{ color: '#dc2626', marginBottom: 12, fontWeight: '600' }}>
+                {error}
+              </Text>
+            ) : null}
           </Text>
 
           <Text
@@ -262,7 +288,7 @@ export default function LoginScreen() {
 
           {/* Main login button */}
           <Pressable
-            onPress={() => router.replace('/')}
+            onPress={handleLogin}
             style={({ pressed }) => ({
               backgroundColor: pressed ? '#1d4ed8' : '#2563eb',
               paddingVertical: 16,
@@ -282,7 +308,7 @@ export default function LoginScreen() {
                 marginLeft: 10,
               }}
             >
-              Demo belépés
+              Belépés
             </Text>
           </Pressable>
 
