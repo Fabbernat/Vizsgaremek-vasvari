@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RoyalDelivery.Dotnet.Backend.DbMysqlModels;
+using RoyalDelivery.Dotnet.Backend.Dtos;
 
 namespace RoyalDelivery.Dotnet.Backend.Controllers
 {
@@ -9,18 +9,17 @@ namespace RoyalDelivery.Dotnet.Backend.Controllers
     [ApiController]
     public class MealsController : ControllerBase
     {
-        private readonly RoyaldeliveryDbContext _context = new();
+        private readonly RoyaldeliveryDbContext _context;
+
+        public MealsController(RoyaldeliveryDbContext context)
+        {
+            _context = context;
+        }
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
             var result = await _context.Meals.ToListAsync();
-
-            if (result.Count == 0)
-            {
-                return NotFound("Nincsenek ételek az adatbázisban!");
-            }
-
             return Ok(result);
         }
 
@@ -30,11 +29,58 @@ namespace RoyalDelivery.Dotnet.Backend.Controllers
             var result = await _context.Meals.FindAsync(id);
 
             if (result == null)
-            {
-                return NotFound("Nem található a megadott azonosítójú étel!");
-            }
+                return NotFound(new { error = "Nem található a megadott azonosítójú étel!" });
 
             return Ok(result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(CreateMealDto dto)
+        {
+            var meal = new Meal
+            {
+                Name = dto.Name,
+                Description = dto.Description,
+                Price = dto.Price,
+                RestaurantId = dto.RestaurantId
+            };
+
+            _context.Meals.Add(meal);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetById), new { id = meal.Id }, meal);
+        }
+
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> Update(int id, CreateMealDto dto)
+        {
+            var meal = await _context.Meals.FindAsync(id);
+
+            if (meal == null)
+                return NotFound(new { error = "Nem található az étel!" });
+
+            meal.Name = dto.Name;
+            meal.Description = dto.Description;
+            meal.Price = dto.Price;
+            meal.RestaurantId = dto.RestaurantId;
+
+            await _context.SaveChangesAsync();
+
+            return Ok(meal);
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var meal = await _context.Meals.FindAsync(id);
+
+            if (meal == null)
+                return NotFound(new { error = "Nem található az étel!" });
+
+            _context.Meals.Remove(meal);
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message = "Étel sikeresen törölve." });
         }
     }
 }
