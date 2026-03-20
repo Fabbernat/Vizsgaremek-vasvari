@@ -9,6 +9,7 @@ import {
   TextInput,
   View,
 } from 'react-native';
+import { registerUser } from '../../services/api';
 
 export default function RegisterScreen() {
   const [fullName, setFullName] = useState('');
@@ -17,6 +18,36 @@ export default function RegisterScreen() {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  async function handleRegister() {
+    try {
+      setLoading(true);
+      setError('');
+
+      const nameParts = fullName.trim().split(' ');
+      const firstName = nameParts[0] || '';
+      const lastName = nameParts.slice(1).join(' ') || '';
+      const username = email.split('@')[0];
+
+      await registerUser({
+        username,
+        firstName,
+        lastName,
+        email,
+        password,
+        address: 'Nincs megadva',
+      });
+
+      router.replace('/');
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+  
   return (
     <View style={{ flex: 1, backgroundColor: '#f8fafc' }}>
       <StatusBar barStyle="dark-content" />
@@ -334,7 +365,7 @@ export default function RegisterScreen() {
 
           {/* Main CTA */}
           <Pressable
-            onPress={() => router.replace('/')}
+            onPress={handleRegister}
             style={({ pressed }) => ({
               backgroundColor: pressed ? '#15803d' : '#16a34a',
               paddingVertical: 16,
@@ -354,7 +385,7 @@ export default function RegisterScreen() {
                 marginLeft: 10,
               }}
             >
-              Demo regisztráció
+              regisztráció
             </Text>
           </Pressable>
 
