@@ -7,9 +7,9 @@ public partial class Order
 {
     public int Id { get; set; }
 
-    public string RestaurantId { get; set; } = null!;
+    public int RestaurantId { get; set; }
 
-    public string UserId { get; set; } = null!;
+    public int UserId { get; set; }
 
-    public string Date { get; set; } = null!;
+    public DateTime Date { get; set; }
 }

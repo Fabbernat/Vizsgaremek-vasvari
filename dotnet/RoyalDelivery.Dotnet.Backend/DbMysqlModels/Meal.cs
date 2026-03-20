@@ -11,7 +11,7 @@ public partial class Meal
 
     public string Description { get; set; } = null!;
 
-    public int Price { get; set; }
+    public double Price { get; set; }
 
     public int RestaurantId { get; set; }
 }

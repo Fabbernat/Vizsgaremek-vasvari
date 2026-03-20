@@ -3,7 +3,6 @@ import { router } from 'expo-router';
 import { useState } from 'react';
 import {
   Pressable,
-  SafeAreaView,
   ScrollView,
   StatusBar,
   Text,
@@ -19,7 +18,7 @@ export default function RegisterScreen() {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#f8fafc' }}>
+    <View style={{ flex: 1, backgroundColor: '#f8fafc' }}>
       <StatusBar barStyle="dark-content" />
       <ScrollView
         contentContainerStyle={{
@@ -477,6 +476,6 @@ export default function RegisterScreen() {
           </Text>
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
