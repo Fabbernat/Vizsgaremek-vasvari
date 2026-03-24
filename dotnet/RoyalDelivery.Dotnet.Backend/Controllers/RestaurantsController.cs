@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using RoyalDelivery.Dotnet.Backend.DbModels;
 using RoyalDelivery.Dotnet.Backend.DbMysqlModels;
 using RoyalDelivery.Dotnet.Backend.Dtos;
 
@@ -19,17 +20,49 @@ namespace RoyalDelivery.Dotnet.Backend.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var result = await _context.Restaurants.ToListAsync();
+            var result = await _context.Restaurants
+                .Select(r => new
+                {
+                    id = r.Id,
+                    name = r.Name,
+                    ownerId = r.OwnerId
+                })
+                .ToListAsync();
+
             return Ok(result);
         }
 
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var result = await _context.Restaurants.FindAsync(id);
+            var result = await _context.Restaurants
+                .Where(r => r.Id == id)
+                .Select(r => new
+                {
+                    id = r.Id,
+                    name = r.Name,
+                    ownerId = r.OwnerId
+                })
+                .FirstOrDefaultAsync();
 
             if (result == null)
-                return NotFound(new { error = "Nem található a megadott azonosítójú étterem!" });
+                return NotFound(new { error = "Nem található a megadott azonosítójú étterem." });
+
+            return Ok(result);
+        }
+
+        [HttpGet("by-owner/{ownerId:int}")]
+        public async Task<IActionResult> GetByOwnerId(int ownerId)
+        {
+            var result = await _context.Restaurants
+                .Where(r => r.OwnerId == ownerId)
+                .Select(r => new
+                {
+                    id = r.Id,
+                    name = r.Name,
+                    ownerId = r.OwnerId
+                })
+                .ToListAsync();
 
             return Ok(result);
         }
@@ -37,6 +70,14 @@ namespace RoyalDelivery.Dotnet.Backend.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateRestaurantDto dto)
         {
+            var owner = await _context.Users.FirstOrDefaultAsync(u => u.Id == dto.OwnerId && u.Role == "owner");
+            if (owner == null)
+                return BadRequest(new { error = "A megadott owner_id nem létező tulajdonos." });
+
+            var exists = await _context.Restaurants.AnyAsync(r => r.Name == dto.Name && r.OwnerId == dto.OwnerId);
+            if (exists)
+                return BadRequest(new { error = "Ez az étteremnév ennél a tulajdonosnál már létezik." });
+
             var restaurant = new Restaurant
             {
                 Name = dto.Name,
@@ -53,9 +94,18 @@ namespace RoyalDelivery.Dotnet.Backend.Controllers
         public async Task<IActionResult> Update(int id, CreateRestaurantDto dto)
         {
             var restaurant = await _context.Restaurants.FindAsync(id);
-
             if (restaurant == null)
-                return NotFound(new { error = "Nem található az étterem!" });
+                return NotFound(new { error = "Nem található az étterem." });
+
+            var owner = await _context.Users.FirstOrDefaultAsync(u => u.Id == dto.OwnerId && u.Role == "owner");
+            if (owner == null)
+                return BadRequest(new { error = "A megadott owner_id nem létező tulajdonos." });
+
+            var exists = await _context.Restaurants.AnyAsync(r =>
+                r.Name == dto.Name && r.OwnerId == dto.OwnerId && r.Id != id);
+
+            if (exists)
+                return BadRequest(new { error = "Ez az étteremnév ennél a tulajdonosnál már létezik." });
 
             restaurant.Name = dto.Name;
             restaurant.OwnerId = dto.OwnerId;
@@ -69,9 +119,8 @@ namespace RoyalDelivery.Dotnet.Backend.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var restaurant = await _context.Restaurants.FindAsync(id);
-
             if (restaurant == null)
-                return NotFound(new { error = "Nem található az étterem!" });
+                return NotFound(new { error = "Nem található az étterem." });
 
             _context.Restaurants.Remove(restaurant);
             await _context.SaveChangesAsync();

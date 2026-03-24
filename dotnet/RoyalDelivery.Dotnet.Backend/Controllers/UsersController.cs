@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using RoyalDelivery.Dotnet.Backend.DbModels;
 using RoyalDelivery.Dotnet.Backend.DbMysqlModels;
 using RoyalDelivery.Dotnet.Backend.Dtos;
 
@@ -24,10 +25,11 @@ namespace RoyalDelivery.Dotnet.Backend.Controllers
                 {
                     id = u.Id,
                     username = u.Username,
-                    firstname = u.FirstName,
-                    lastname = u.LastName,
+                    firstName = u.FirstName,
+                    lastName = u.LastName,
                     email = u.Email,
-                    address = u.Address
+                    address = u.Address,
+                    role = u.Role
                 })
                 .ToListAsync();
 
@@ -43,15 +45,16 @@ namespace RoyalDelivery.Dotnet.Backend.Controllers
                 {
                     id = u.Id,
                     username = u.Username,
-                    firstname = u.FirstName,
-                    lastname = u.LastName,
+                    firstName = u.FirstName,
+                    lastName = u.LastName,
                     email = u.Email,
-                    address = u.Address
+                    address = u.Address,
+                    role = u.Role
                 })
                 .FirstOrDefaultAsync();
 
             if (result == null)
-                return NotFound(new { error = "Nem található a megadott azonosítójú felhasználó!" });
+                return NotFound(new { error = "Nem található a megadott azonosítójú felhasználó." });
 
             return Ok(result);
         }
@@ -65,28 +68,70 @@ namespace RoyalDelivery.Dotnet.Backend.Controllers
                 {
                     id = u.Id,
                     username = u.Username,
-                    firstname = u.FirstName,
-                    lastname = u.LastName,
+                    firstName = u.FirstName,
+                    lastName = u.LastName,
                     email = u.Email,
-                    address = u.Address
+                    address = u.Address,
+                    role = u.Role
                 })
                 .FirstOrDefaultAsync();
 
             if (result == null)
-                return NotFound(new { error = "Nem található az adott nevű felhasználó!" });
+                return NotFound(new { error = "Nem található ilyen felhasználónév." });
 
             return Ok(result);
         }
 
-        [HttpPost("register")]
-        public async Task<IActionResult> Register(RegisterUserDto dto)
+        [HttpGet("owners")]
+        public async Task<IActionResult> GetOwners()
         {
-            var exists = await _context.Users.AnyAsync(u => u.Email == dto.Email || u.Username == dto.Username);
+            var result = await _context.Users
+                .Where(u => u.Role == "owner")
+                .Select(u => new
+                {
+                    id = u.Id,
+                    username = u.Username,
+                    firstName = u.FirstName,
+                    lastName = u.LastName,
+                    email = u.Email,
+                    address = u.Address,
+                    role = u.Role
+                })
+                .ToListAsync();
 
-            if (exists)
-            {
-                return BadRequest(new { error = "Már létezik ilyen email vagy felhasználónév!" });
-            }
+            return Ok(result);
+        }
+
+        [HttpGet("couriers")]
+        public async Task<IActionResult> GetCouriers()
+        {
+            var result = await _context.Users
+                .Where(u => u.Role == "courier")
+                .Select(u => new
+                {
+                    id = u.Id,
+                    username = u.Username,
+                    firstName = u.FirstName,
+                    lastName = u.LastName,
+                    email = u.Email,
+                    address = u.Address,
+                    role = u.Role
+                })
+                .ToListAsync();
+
+            return Ok(result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(CreateUserDto dto)
+        {
+            var emailExists = await _context.Users.AnyAsync(u => u.Email == dto.Email);
+            if (emailExists)
+                return BadRequest(new { error = "Ez az email cím már foglalt." });
+
+            var usernameExists = await _context.Users.AnyAsync(u => u.Username == dto.Username);
+            if (usernameExists)
+                return BadRequest(new { error = "Ez a felhasználónév már foglalt." });
 
             var user = new User
             {
@@ -94,8 +139,9 @@ namespace RoyalDelivery.Dotnet.Backend.Controllers
                 FirstName = dto.FirstName,
                 LastName = dto.LastName,
                 Email = dto.Email,
-                Password = dto.Password,
-                Address = dto.Address
+                PasswordHash = dto.PasswordHash,
+                Address = dto.Address,
+                Role = dto.Role
             };
 
             _context.Users.Add(user);
@@ -105,57 +151,50 @@ namespace RoyalDelivery.Dotnet.Backend.Controllers
             {
                 id = user.Id,
                 username = user.Username,
-                firstname = user.FirstName,
-                lastname = user.LastName,
+                firstName = user.FirstName,
+                lastName = user.LastName,
                 email = user.Email,
-                address = user.Address
-            });
-        }
-
-        [HttpPost("login")]
-        public async Task<IActionResult> Login(LoginDto dto)
-        {
-            var user = await _context.Users.FirstOrDefaultAsync(u =>
-                u.Email == dto.Email && u.Password == dto.Password);
-
-            if (user == null)
-            {
-                return Unauthorized(new { error = "Hibás email vagy jelszó!" });
-            }
-
-            return Ok(new
-            {
-                message = "Sikeres bejelentkezés",
-                user = new
-                {
-                    id = user.Id,
-                    username = user.Username,
-                    firstname = user.FirstName,
-                    lastname = user.LastName,
-                    email = user.Email,
-                    address = user.Address
-                }
+                address = user.Address,
+                role = user.Role
             });
         }
 
         [HttpPut("{id:int}")]
-        public async Task<IActionResult> Update(int id, RegisterUserDto dto)
+        public async Task<IActionResult> Update(int id, CreateUserDto dto)
         {
             var user = await _context.Users.FindAsync(id);
 
             if (user == null)
-                return NotFound(new { error = "Nem található a felhasználó!" });
+                return NotFound(new { error = "Nem található a felhasználó." });
+
+            var emailTaken = await _context.Users.AnyAsync(u => u.Email == dto.Email && u.Id != id);
+            if (emailTaken)
+                return BadRequest(new { error = "Ez az email cím már másik felhasználónál szerepel." });
+
+            var usernameTaken = await _context.Users.AnyAsync(u => u.Username == dto.Username && u.Id != id);
+            if (usernameTaken)
+                return BadRequest(new { error = "Ez a felhasználónév már másik felhasználónál szerepel." });
 
             user.Username = dto.Username;
             user.FirstName = dto.FirstName;
             user.LastName = dto.LastName;
             user.Email = dto.Email;
-            user.Password = dto.Password;
+            user.PasswordHash = dto.PasswordHash;
             user.Address = dto.Address;
+            user.Role = dto.Role;
 
             await _context.SaveChangesAsync();
 
-            return Ok(new { message = "Felhasználó sikeresen módosítva." });
+            return Ok(new
+            {
+                id = user.Id,
+                username = user.Username,
+                firstName = user.FirstName,
+                lastName = user.LastName,
+                email = user.Email,
+                address = user.Address,
+                role = user.Role
+            });
         }
 
         [HttpDelete("{id:int}")]
@@ -164,7 +203,7 @@ namespace RoyalDelivery.Dotnet.Backend.Controllers
             var user = await _context.Users.FindAsync(id);
 
             if (user == null)
-                return NotFound(new { error = "Nem található a felhasználó!" });
+                return NotFound(new { error = "Nem található a felhasználó." });
 
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
