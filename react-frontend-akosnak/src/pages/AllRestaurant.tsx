@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../styles/AllRestaurantStyle.css";
 import type { Restaurant } from "../types/Restaurant.ts";
 import apiClient from "../api/apiClient.ts";
-import { Card, Container, Row, Col } from "react-bootstrap";
+import { Card, Container, Row, Col, Button } from "react-bootstrap";
 
 import TestImg from "./good-food.jpg";
 
 const AllRestaurant = () => {
   const [restaurants, setRestaurants] = useState<Array<Restaurant>>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     apiClient
@@ -44,10 +45,7 @@ const AllRestaurant = () => {
                     <Card.Title>
                       <strong>{r.name}</strong>
                     </Card.Title>
-                    <Card.Text>
-                      This is a TEST decription for the restaurant. More details
-                      will be added later.
-                    </Card.Text>
+                    <Card.Text>{r.description}</Card.Text>
                     {/* <Card.Subtitle>{r.imageUrl}</Card.Subtitle> */}
                   </Card.Body>
                 </Card>
@@ -55,6 +53,14 @@ const AllRestaurant = () => {
             </Col>
           ))}
         </Row>
+
+        <Button
+          variant="info"
+          onClick={() => navigate(`/add-restaurant`)}
+          className="mt-3 mb-5 w-50 mx-auto d-block"
+        >
+          Add Restaurant
+        </Button>
       </Container>
     </>
   );

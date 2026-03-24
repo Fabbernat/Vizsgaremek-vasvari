@@ -35,7 +35,7 @@ const EditMeal = () => {
       .catch((error) => {
         console.error("Failed to fetch restaurants:", error);
       });
-  }, [id]);
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (meal) {
@@ -57,7 +57,6 @@ const EditMeal = () => {
     e.preventDefault();
 
     if (meal) {
-      console.log(meal);
       apiClient
         .put(`/meals/${id}`, meal)
         .then(() => {
@@ -81,7 +80,7 @@ const EditMeal = () => {
   return (
     <>
       <Container className="mt-4" data-bs-theme="dark">
-        <Card>
+        <Card style={{ width: "20vw" }}>
           <Card.Body>
             <Card.Title>Edit Meal</Card.Title>
             <form onSubmit={handleSubmit}>
@@ -105,7 +104,7 @@ const EditMeal = () => {
                 </label>
                 <input
                   type="text"
-                  className="form-control"
+                  className="form-control pb-5"
                   id="description"
                   name="description"
                   value={meal.description}

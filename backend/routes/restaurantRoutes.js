@@ -19,6 +19,7 @@ routes.get("/restaurants/:id", (req, res) => {
   const data = {
     id: restaurants.id,
     name: restaurants.name,
+    description: restaurants.description,
   };
   res.status(200).json({ message: "Restaurant loaded:", data });
 });
@@ -28,24 +29,29 @@ routes.get("/restaurants/:id/meals", (req, res) => {
   res.status(200).json(meals);
 });
 
-routes.post("/restaurants", (req, res) => {
-  const { name, ownerid } = req.body;
-  if (!name || !ownerid) {
-    return res.status(400).json({ message: "Name and ownerid are required!" });
+routes.post("/add-restaurant", (req, res) => {
+  const { name, description } = req.body;
+  if (!name || !description) {
+    return res.status(400).json({
+      message: "Name and description required!",
+    });
   }
-  const restaurant = Restaurants.createRestaurant(name, ownerid);
-  res.status(201).json({ message: "Restaurant created!", restaurant });
+  const restaurant = Restaurants.createRestaurant(name, description);
+  res.status(201).json({ message: "Meal created!", restaurant });
 });
 
 routes.put("/restaurants/:id", (req, res) => {
-  const { name, ownerid } = req.body;
-  if (!name || !ownerid) {
-    return res.status(400).json({ message: "Name and ownerid are required!" });
+  const { name, description } = req.body;
+  if (!name || !description) {
+    return res
+      .status(400)
+      .json({ message: "Name and description are required!" });
   }
   const restaurant = Restaurants.updateRestaurant(
     +req.params.id,
     name,
-    ownerid,
+    description,
+    // ownerid,
   );
   if (!restaurant) {
     return res.status(404).json({ message: "Restaurant not found!" });

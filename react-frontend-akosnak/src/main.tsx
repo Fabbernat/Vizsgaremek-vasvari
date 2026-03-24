@@ -13,6 +13,8 @@ import OneMeal from "./pages/OneMeal";
 import EditMeal from "./pages/EditMeal";
 import AddMeal from "./pages/AddMeal";
 import HomePage from "./pages/Home";
+import EditRestaurant from "./pages/EditRestaurant";
+import AddRestaurant from "./pages/AddRestaurant";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -23,6 +25,8 @@ createRoot(document.getElementById("root")!).render(
         <Route path="/" element={<HomePage />} />
         <Route path="/restaurants" element={<AllRestaurant />} />
         <Route path="/restaurants/:id" element={<OneRestaurant />} />
+        <Route path="/restaurants/:id/edit" element={<EditRestaurant />} />
+        <Route path="/add-restaurant" element={<AddRestaurant />} />
         <Route path="/meals" element={<AllMeal />} />
         <Route path="/meals/:id" element={<OneMeal />} />
         <Route path="/meals/:id/edit" element={<EditMeal />} />

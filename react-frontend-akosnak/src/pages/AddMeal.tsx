@@ -69,7 +69,7 @@ const AddMeal = () => {
             <input
               type="text"
               placeholder="Product description"
-              className="form-control"
+              className="form-control pb-5"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               required

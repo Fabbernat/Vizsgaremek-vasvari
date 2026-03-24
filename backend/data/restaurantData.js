@@ -5,6 +5,7 @@ db.prepare(
     CREATE TABLE IF NOT EXISTS restaurants(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT,
+    description TEXT,
     ownerid INTEGER,
     FOREIGN KEY(ownerid) REFERENCES owners(id)
     )
@@ -20,16 +21,16 @@ export const getRestaurantById = (id) =>
   db.prepare(`SELECT * FROM restaurants WHERE id = ?`).get(id);
 
 // Create restaurant
-export const createRestaurant = (name, ownerid) =>
+export const createRestaurant = (name, description) =>
   db
-    .prepare(`INSERT INTO (restaurants name, ownerid) VALUES (?, ?)`)
-    .run(name, ownerid);
+    .prepare(`INSERT INTO restaurants (name, description) VALUES (?, ?)`)
+    .run(name, description);
 
 // Update restaurant
-export const updateRestaurant = (id, name, ownerid) =>
+export const updateRestaurant = (id, name, description) =>
   db
-    .prepare(`UPDATE restaurants SET name = ?, ownerid = ? WHERE id = ?`)
-    .run(name, ownerid, id);
+    .prepare(`UPDATE restaurants SET name = ?, description = ? WHERE id = ?`)
+    .run(name, description, id);
 
 // Delete restaurant
 export const deleteRestaurant = (id) =>
