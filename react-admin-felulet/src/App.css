@@ -376,3 +376,31 @@ li > p {
     padding: 18px;
   }
 }
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-field span {
+  font-weight: 600;
+}
+
+.form-field input {
+  padding: 12px 14px;
+  border: 1px solid #d0d7de;
+  border-radius: 12px;
+  font-size: 16px;
+  outline: none;
+}
+
+.form-field input:focus {
+  border-color: #646cff;
+}
+
+.error-text {
+  color: #c62828;
+  font-weight: 600;
+  margin: 0;
+}
