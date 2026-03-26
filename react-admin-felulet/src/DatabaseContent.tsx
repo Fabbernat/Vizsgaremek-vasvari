@@ -56,9 +56,9 @@ export function DatabaseContent(){
         <main className='currentView'>
           {/* ezt kéne jól kitalálni, hogy hogyan lehetne megjeleníteni a különböző típusú adatokat egy közös komponensben */}
           {activeView === 'meals' && <MealView meals={thisMeals} setMeals={setThisMeals} />}
-          {/* {activeView === 'restaurants' && <RestaurantView restaurant={thisRestaurants} setRestaurants={setThisRestaurants} />}
-          {activeView === 'orders' && <OrderView order={thisOrders} />}
-          {activeView === 'users' && <UserView user={thisUsers} />} */}
+          {activeView === 'restaurants' && <RestaurantView restaurants={thisRestaurants} setRestaurants={setThisRestaurants} />}
+          {activeView === 'orders' && <OrderView orders={thisOrders} />}
+          {activeView === 'users' && <UserView users={thisUsers} />}
           {activeView === 'dashboard' && (
               <DashboardView meals={thisMeals} restaurants={thisRestaurants} orders={thisOrders} users={thisUsers} applicants={thisApplicants} />
             )}

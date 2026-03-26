@@ -1,4 +1,3 @@
-import ViewChooser from "./ViewChooser";
 import { useEffect, useState } from 'react'
 import { DatabaseContent } from './DatabaseContent'
 import ServiceStatusBoard from './Statuses'
@@ -217,43 +216,4 @@ export default function LoginView () {
       </section>
     </div>
   );
-
-    return (
-        <>
-        <fieldset>
-        <legend>
-            <h2>Bejelentkezés</h2>
-        </legend>
-        <form action="#" method="post" onSubmit={handleLogin}>
-            <label className="form-field">
-                <span>Felhasználónév</span>
-                <input
-                  type="text"
-                  value={usernameInput}
-                  onChange={(e) => setUsernameInput(e.target.value)}
-                  placeholder="Írd be a felhasználónevet"
-                />
-              </label>
-
-              <label className="form-field">
-                <span>Jelszó</span>
-                <input
-                  type="password"
-                  value={passwordInput}
-                  onChange={(e) => setPasswordInput(e.target.value)}
-                  placeholder="Írd be a jelszót"
-                />
-              </label>
-
-              {loginError && <p className="error-text">{loginError}</p>}
-
-              <button className="menu-button login-button" type="submit">
-                Bejelentkezés
-              </button>
-        </form>
-        </fieldset>
-        <ViewChooser />
-        </>
-    )
-    
 }
