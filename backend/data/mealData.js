@@ -7,12 +7,16 @@ db.prepare(`
     price INTEGER,
     description TEXT,
     restaurantid INTEGER,
-    FOREIGN KEY (restaurantid) REFERENCES restaurants(id)
+    FOREIGN KEY (restaurantid) REFERENCES restaurants(id) ON DELETE CASCADE
 )
-`);
+`).run();
 
 // Add restaurantid column if it doesn't exist
 // db.prepare(`ALTER TABLE meals ADD COLUMN restaurantid INTEGER REFERENCES restaurants(id)`).run();
+
+// Delete meals by restaurant id (used before deleting restaurant)
+export const deleteMealsByRestaurantId = (restaurantId) =>
+  db.prepare(`DELETE FROM meals WHERE restaurantid = ?`).run(restaurantId);
 
 // Get all meals
 export const getMeals = () => db.prepare(`SELECT * FROM meals`).all();

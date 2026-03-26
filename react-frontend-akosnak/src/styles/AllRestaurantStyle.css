@@ -28,3 +28,33 @@ h1{
     background-color: #2e2e2e;
     transition: all 0.3s ease;
 }
+
+.CardHeadR {
+    align-items: flex-end;
+}
+
+.DeleteBtn {
+    float: right;
+    opacity: 0.5;
+}
+
+.DeleteBtn:hover {
+    background-color: rgb(206, 67, 67);
+    opacity: 1;
+}
+
+.DeleteBtn:hover + .DeleteTxt {
+    opacity: 1;
+    transition: ease-in-out all 0.2s;
+}
+
+.DeleteBtn:not(:hover) + .DeleteTxt {
+    opacity: 0;
+    transition: ease-in-out all 0.2s;
+}
+
+.DeleteTxt {
+    align-items: flex-end;
+    float: right;
+    opacity: 0;
+}

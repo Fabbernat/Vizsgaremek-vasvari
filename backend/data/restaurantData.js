@@ -1,4 +1,5 @@
 import db from "./db.js";
+import { deleteMealsByRestaurantId } from "./mealData.js";
 
 db.prepare(
   `
@@ -7,7 +8,7 @@ db.prepare(
     name TEXT,
     description TEXT,
     ownerid INTEGER,
-    FOREIGN KEY(ownerid) REFERENCES owners(id)
+    FOREIGN KEY (ownerid) REFERENCES owners(id) ON DELETE SET NULL
     )
 `,
 ).run();
@@ -33,5 +34,8 @@ export const updateRestaurant = (id, name, description) =>
     .run(name, description, id);
 
 // Delete restaurant
-export const deleteRestaurant = (id) =>
-  db.prepare(`DELETE FROM restaurants WHERE id = ?`).run(id);
+export const deleteRestaurant = (id) => {
+  // first delete dependent meal rows to avoid FOREIGN KEY constraint errors
+  deleteMealsByRestaurantId(id);
+  return db.prepare(`DELETE FROM restaurants WHERE id = ?`).run(id);
+};

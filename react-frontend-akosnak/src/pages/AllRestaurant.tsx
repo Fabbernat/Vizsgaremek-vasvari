@@ -6,6 +6,7 @@ import apiClient from "../api/apiClient.ts";
 import { Card, Container, Row, Col, Button } from "react-bootstrap";
 
 import TestImg from "./good-food.jpg";
+import { toast } from "react-toastify";
 
 const AllRestaurant = () => {
   const [restaurants, setRestaurants] = useState<Array<Restaurant>>([]);
@@ -22,6 +23,19 @@ const AllRestaurant = () => {
     console.log(restaurants);
   }, [restaurants]);
 
+  const handleDelete = (e: React.MouseEvent, restaurantId: number) => {
+    e.stopPropagation();
+    if (window.confirm("Are you sure you want to delete this restaurant?")) {
+      apiClient
+        .delete(`/restaurants/${restaurantId}`)
+        .then(() => {
+          toast.success("Restaurant has been deleted");
+          setRestaurants(restaurants.filter((r) => r.id !== restaurantId));
+        })
+        .catch((error) => console.error(error));
+    }
+  };
+
   return (
     <>
       <h1>Restaurants</h1>
@@ -30,15 +44,25 @@ const AllRestaurant = () => {
         <Row>
           {restaurants.map((r) => (
             <Col key={r.id} md={4} className="mb-4">
-              <Link
-                to={`/restaurants/${r.id}`}
-                className="card-link"
-                style={{ textDecoration: "none", color: "inherit" }}
+              <Card
+                style={{ width: "25vw" }}
+                data-bs-theme="dark"
+                className="RestCard"
               >
-                <Card
-                  style={{ width: "25vw" }}
-                  data-bs-theme="dark"
-                  className="RestCard"
+                <Card.Header id="CardHeadR">
+                  <Button
+                    variant="dark"
+                    onClick={(e) => handleDelete(e, r.id)}
+                    className="DeleteBtn"
+                  >
+                    x
+                  </Button>
+                  <Card.Title className="m-1 p-1 DeleteTxt">Delete?</Card.Title>
+                </Card.Header>
+                <Link
+                  to={`/restaurants/${r.id}`}
+                  className="card-link"
+                  style={{ textDecoration: "none", color: "inherit" }}
                 >
                   <Card.Img variant="top" src={TestImg} />
                   <Card.Body className="RestCardBody">
@@ -48,8 +72,8 @@ const AllRestaurant = () => {
                     <Card.Text>{r.description}</Card.Text>
                     {/* <Card.Subtitle>{r.imageUrl}</Card.Subtitle> */}
                   </Card.Body>
-                </Card>
-              </Link>
+                </Link>
+              </Card>
             </Col>
           ))}
         </Row>
