@@ -3,14 +3,45 @@ import { Link, useNavigate } from "react-router-dom";
 import "../styles/AllRestaurantStyle.css";
 import type { Restaurant } from "../types/Restaurant.ts";
 import apiClient from "../api/apiClient.ts";
-import { Card, Container, Row, Col, Button } from "react-bootstrap";
+import { Card, Container, Row, Col, Button, Modal } from "react-bootstrap";
 
 import TestImg from "./good-food.jpg";
 import { toast } from "react-toastify";
 
 const AllRestaurant = () => {
   const [restaurants, setRestaurants] = useState<Array<Restaurant>>([]);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [restaurantToDelete, setRestaurantToDelete] =
+    useState<Restaurant | null>(null);
   const navigate = useNavigate();
+
+  const handleOpenDeleteModal = (restaurant: Restaurant) => {
+    setRestaurantToDelete(restaurant);
+    setShowDeleteModal(true);
+  };
+
+  const handleCloseDeleteModal = () => {
+    setShowDeleteModal(false);
+    setRestaurantToDelete(null);
+  };
+
+  const confirmDeleteRestaurant = () => {
+    if (!restaurantToDelete) return;
+
+    apiClient
+      .delete(`/restaurants/${restaurantToDelete.id}`)
+      .then(() => {
+        toast.success("Restaurant has been deleted");
+        setRestaurants((prev) =>
+          prev.filter((r) => r.id !== restaurantToDelete.id),
+        );
+        handleCloseDeleteModal();
+      })
+      .catch((error) => {
+        console.error(error);
+        toast.error("Failed to delete restaurant");
+      });
+  };
 
   useEffect(() => {
     apiClient
@@ -23,17 +54,9 @@ const AllRestaurant = () => {
     console.log(restaurants);
   }, [restaurants]);
 
-  const handleDelete = (e: React.MouseEvent, restaurantId: number) => {
+  const handleDelete = (e: React.MouseEvent, restaurant: Restaurant) => {
     e.stopPropagation();
-    if (window.confirm("Are you sure you want to delete this restaurant?")) {
-      apiClient
-        .delete(`/restaurants/${restaurantId}`)
-        .then(() => {
-          toast.success("Restaurant has been deleted");
-          setRestaurants(restaurants.filter((r) => r.id !== restaurantId));
-        })
-        .catch((error) => console.error(error));
-    }
+    handleOpenDeleteModal(restaurant);
   };
 
   return (
@@ -52,7 +75,7 @@ const AllRestaurant = () => {
                 <Card.Header id="CardHeadR">
                   <Button
                     variant="dark"
-                    onClick={(e) => handleDelete(e, r.id)}
+                    onClick={(e) => handleDelete(e, r)}
                     className="DeleteBtn"
                   >
                     x
@@ -85,6 +108,35 @@ const AllRestaurant = () => {
         >
           Add Restaurant
         </Button>
+
+        <Modal
+          show={showDeleteModal}
+          onHide={handleCloseDeleteModal}
+          centered
+          data-bs-theme="dark"
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Delete restaurant</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            Are you sure you want to delete
+            <strong>
+              {" "}
+              {restaurantToDelete?.name ?? "this restaurant"}
+            </strong>? <br />
+          </Modal.Body>
+          <Modal.Body>
+            <strong className="fs-15 mt-1">This cannot be undone.</strong>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleCloseDeleteModal}>
+              Cancel
+            </Button>
+            <Button variant="danger" onClick={confirmDeleteRestaurant}>
+              Delete
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </Container>
     </>
   );

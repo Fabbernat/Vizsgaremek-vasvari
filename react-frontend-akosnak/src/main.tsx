@@ -3,7 +3,9 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Slide, ToastContainer } from "react-toastify";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./styles/AllRestaurantStyle.css";
 import MyNavbar from "./router/Navbar";
+import Footer from "./components/Footer";
 
 import AllRestaurant from "./pages/AllRestaurant";
 import Cart from "./pages/Cart";
@@ -34,6 +36,8 @@ createRoot(document.getElementById("root")!).render(
         <Route path="/orders" element={<Cart />} />
         <Route path="*" element={<h1>404 - Not Found</h1>} />
       </Routes>
+
+      <Footer />
     </BrowserRouter>
 
     <ToastContainer
