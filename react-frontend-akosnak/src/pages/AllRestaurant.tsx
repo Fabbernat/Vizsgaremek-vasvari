@@ -22,6 +22,7 @@ const AllRestaurant = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [restaurantToDelete, setRestaurantToDelete] =
     useState<Restaurant | null>(null);
+
   const [show, setShow] = useState(false);
   const [editingRestaurant, setEditingRestaurant] = useState<Restaurant | null>(
     null,

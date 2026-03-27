@@ -20,7 +20,6 @@ routes.get("/meals/:id", (req, res) => {
     description: meal.description,
     price: meal.price,
     // categoryid: meal.categoryid,
-    // Keep a camelCase version for clients that expect it
     restaurantId: meal.restaurantid,
   };
   res.status(200).json({ message: "Meal loaded:", data });
