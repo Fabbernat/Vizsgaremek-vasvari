@@ -12,4 +12,5 @@ public partial class Order
     public int UserId { get; set; }
 
     public DateTime Date { get; set; }
+    public object OrderedAt { get; internal set; }
 }

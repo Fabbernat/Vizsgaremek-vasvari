@@ -18,4 +18,6 @@ public partial class User
     public string Password { get; set; } = null!;
 
     public string Address { get; set; } = null!;
+    public string Role { get; internal set; }
+    public string PasswordHash { get; internal set; }
 }

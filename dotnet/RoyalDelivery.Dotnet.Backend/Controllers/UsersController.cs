@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using RoyalDelivery.Dotnet.Backend.DbModels;
 using RoyalDelivery.Dotnet.Backend.DbMysqlModels;
 using RoyalDelivery.Dotnet.Backend.Dtos;
 
