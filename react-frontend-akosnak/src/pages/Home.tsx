@@ -11,9 +11,9 @@ const HomePage = () => {
       </p>
       <div className="text-center mt-4">
         <img
-          src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png"
+          src="/src/assets/new-royal-delivery-logo.png"
           alt="Royal Delivery Logo"
-          style={{ width: "200px", height: "200px" }}
+          style={{ width: "400px", height: "400px" }}
         />
       </div>
 
@@ -25,7 +25,7 @@ const HomePage = () => {
       <Button
         variant="warning"
         size="lg"
-        className="d-block mx-auto mt-3 px-5 py-3 fs-4 fw-bold border-0 rounded shadow hover-effect text-light border-info hover-effect hover-effect:hover:bg-info hover-effect:hover:text-dark hover-effect:hover:shadow-lg transition duration-300 hover-effect:hover:scale-105 hover-effect:hover:shadow-info hover-effect:hover:shadow-lg hover-effect:hover:shadow-info hover-effect:hover:shadow-lg hover-effect:hover:shadow-info hover-effect:hover:shadow-lg hover-effect:hover:shadow-info hover-effect:hover:shadow-lg hover-effect:hover:shadow-info hover-effect:hover:shadow-lg hover-effect:hover:shadow-info hover-effect:hover:shadow-lg hover-effect:hover:shadow-info hover-effect:hover:shadow-lg hover-effect:hover:shadow-info hover-effect:hover:shadow-lg hover-effect:hover:shadow-info hover-effect:hover:shadow-lg hover-effect:hover:shadow-info hover-effect:hover:shadow-lg hover-effect:hover:shadow-info hover-effect:hover:shadow-lg hover-effect:hover:shadow-info hover-effect:hover:shadow-lg hover-effect:hover:shadow-info hover-effect:hover:shadow-lg hover-effect:hover:shadow-info hover-effect:hover:shadow-lg hover-effect:hover:shadow-info hover-effect:hover:shadow-lg hover-effect:hover:shadow-info hover-effect:hover:shadow-lg hover-effect:hover:shadow-info hover-effect:hover:shadow-lg hover-effect:hover:shadow-info hover-effect:hover:shadow-lg hover-effect:hover:shadow-info hover-effect:hover:shadow-lg hover-effect:hover:shadow-info hover-effect:hover:shadow-lg hover-effect:hover:shadow-info hover-effect:hover:shadow-lg hover-effect:hover:shadow-info hover-effect:hover:shadow-lg hover-effect:hover:shadow-info hover-effect:hover:shadow-lg hover-effect:hover:shadow-info hover-effect:hover:shadow-lg hover-effect:hover:shadow-info hover-effect:hover:shadow-lg hover-effect:hover:shadow-info hover-effect:hover:shadow-lg"
+        className="justify-content-center p-3 mb-5 d-block"
         href="/restaurants"
       >
         View Restaurants
