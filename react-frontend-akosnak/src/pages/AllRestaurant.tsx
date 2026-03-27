@@ -3,7 +3,16 @@ import { Link, useNavigate } from "react-router-dom";
 import "../styles/AllRestaurantStyle.css";
 import type { Restaurant } from "../types/Restaurant.ts";
 import apiClient from "../api/apiClient.ts";
-import { Card, Container, Row, Col, Button, Modal } from "react-bootstrap";
+import "bootstrap-icons/font/bootstrap-icons.css";
+import {
+  Card,
+  Container,
+  Row,
+  Col,
+  Button,
+  Modal,
+  Offcanvas,
+} from "react-bootstrap";
 
 import TestImg from "./good-food.jpg";
 import { toast } from "react-toastify";
@@ -13,6 +22,10 @@ const AllRestaurant = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [restaurantToDelete, setRestaurantToDelete] =
     useState<Restaurant | null>(null);
+  const [show, setShow] = useState(false);
+  const [editingRestaurant, setEditingRestaurant] = useState<Restaurant | null>(
+    null,
+  );
   const navigate = useNavigate();
 
   const handleOpenDeleteModal = (restaurant: Restaurant) => {
@@ -59,6 +72,57 @@ const AllRestaurant = () => {
     handleOpenDeleteModal(restaurant);
   };
 
+  const handleEdit = (e: React.MouseEvent, restaurant: Restaurant) => {
+    e.stopPropagation();
+    setEditingRestaurant(restaurant);
+    setShow(true);
+  };
+
+  const handleClose = () => {
+    setShow(false);
+    setEditingRestaurant(null);
+  };
+
+  const handleEditClose = () => {
+    handleClose();
+    // Refresh restaurants list after successful edit
+    apiClient
+      .get("/restaurants")
+      .then((response) => setRestaurants(response.data))
+      .catch((error) => console.error(error));
+  };
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    if (editingRestaurant) {
+      setEditingRestaurant({
+        ...editingRestaurant,
+        [e.target.name]: e.target.value,
+      });
+    }
+  };
+
+  const handleEditSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (editingRestaurant) {
+      apiClient
+        .put(`/restaurants/${editingRestaurant.id}`, editingRestaurant)
+        .then(() => {
+          toast.success("Restaurant updated successfully!");
+          handleEditClose();
+        })
+        .catch((error) => {
+          console.error(
+            "A problem has occurred while updating the restaurant:",
+            error,
+          );
+          toast.error("Failed to update restaurant. Please try again.");
+        });
+    }
+  };
+
   return (
     <>
       <h1>Restaurants</h1>
@@ -76,11 +140,20 @@ const AllRestaurant = () => {
                   <Button
                     variant="dark"
                     onClick={(e) => handleDelete(e, r)}
-                    className="DeleteBtn"
+                    className="DeleteBtn d-inline-flex align-items-center"
                   >
-                    x
+                    <i className="bi bi-trash"></i>
                   </Button>
                   <Card.Title className="m-1 p-1 DeleteTxt">Delete?</Card.Title>
+
+                  <Button
+                    onClick={(e) => handleEdit(e, r)}
+                    className="EditBtn d-inline-flex align-items-center"
+                    variant="dark"
+                  >
+                    <i className="bi bi-pen"></i>
+                  </Button>
+                  <Card.Title className="m-1 p-1 EditTxt">Edit</Card.Title>
                 </Card.Header>
                 <Link
                   to={`/restaurants/${r.id}`}
@@ -93,7 +166,6 @@ const AllRestaurant = () => {
                       <strong>{r.name}</strong>
                     </Card.Title>
                     <Card.Text>{r.description}</Card.Text>
-                    {/* <Card.Subtitle>{r.imageUrl}</Card.Subtitle> */}
                   </Card.Body>
                 </Link>
               </Card>
@@ -137,6 +209,49 @@ const AllRestaurant = () => {
             </Button>
           </Modal.Footer>
         </Modal>
+
+        <Offcanvas show={show} onHide={handleClose} data-bs-theme="dark">
+          <Offcanvas.Header closeButton>
+            <Offcanvas.Title>Edit Restaurant</Offcanvas.Title>
+          </Offcanvas.Header>
+          <Offcanvas.Body>
+            {editingRestaurant && (
+              <form onSubmit={handleEditSubmit}>
+                <div className="mb-3">
+                  <label htmlFor="name" className="form-label">
+                    Name
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="name"
+                    name="name"
+                    value={editingRestaurant.name}
+                    onChange={handleInputChange}
+                    required
+                  />
+
+                  <label htmlFor="description" className="form-label mt-3">
+                    Description
+                  </label>
+                  <div className="mt-2">
+                    <textarea
+                      className="form-control"
+                      id="description"
+                      name="description"
+                      value={editingRestaurant.description}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+                </div>
+                <Button variant="primary" type="submit">
+                  Update Restaurant
+                </Button>
+              </form>
+            )}
+          </Offcanvas.Body>
+        </Offcanvas>
       </Container>
     </>
   );

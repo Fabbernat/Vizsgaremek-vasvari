@@ -68,14 +68,6 @@ const OneRestaurant = () => {
         >
           Go back
         </Button>
-
-        <Button
-          onClick={() => navigate(`/restaurants/${id}/edit`)}
-          className="m-2"
-          variant="warning"
-        >
-          Edit Restaurant
-        </Button>
       </div>
     </Container>
   );

@@ -85,6 +85,7 @@ h1{
 
 .CardHeadR {
     align-items: flex-end;
+    border-radius: 20px;
 }
 
 .DeleteBtn {
@@ -111,6 +112,34 @@ h1{
 .DeleteTxt {
     align-items: flex-end;
     float: right;
+    opacity: 0;
+    cursor: default
+}
+
+.EditBtn {
+  float: left;
+  opacity: 0.5;
+  border-radius: 10px;
+}
+
+.EditBtn:hover {
+    background-color: rgb(67, 111, 206);
+    opacity: 1;
+}
+
+.EditBtn:hover + .EditTxt {
+    opacity: 1;
+    transition: ease-in-out all 0.2s;
+}
+
+.EditBtn:not(:hover) + .EditTxt {
+    opacity: 0;
+    transition: ease-in-out all 0.2s;
+}
+
+.EditTxt {
+  align-items: flex-end;
+    float: left;
     opacity: 0;
     cursor: default
 }
