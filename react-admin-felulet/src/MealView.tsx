@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { exportCSV, exportJSON } from "./utils/export";
-
+import { loadFromLocalStorage, saveToLocalStorage } from "./utils/localStorage";
 
 export type MealItem = {
   id: number;
@@ -11,42 +11,108 @@ export type MealItem = {
 
 type MealViewProps = {
   meals: MealItem[];
+  setMeals: React.Dispatch<React.SetStateAction<MealItem[]>>;
 };
 
-export function MealView({ meals }: MealViewProps) {
+const MEALS_STORAGE_KEY = "admin_meals";
 
-  const [searchedItem, setSearchedItem] = useState('');
-  const [mealsList, setMealsList] = useState(meals);
+export function MealView({ meals }: MealViewProps) {
+  const [searchedItem, setSearchedItem] = useState("");
+  const [mealsList, setMealsList] = useState<MealItem[]>(() =>
+    loadFromLocalStorage<MealItem[]>(MEALS_STORAGE_KEY, meals)
+  );
+
+  const [editingId, setEditingId] = useState<number | null>(null);
   const [editMeal, setEditMeal] = useState({
     name: "",
     description: "",
     price: 0
   });
 
+  const [newMeal, setNewMeal] = useState({
+    name: "",
+    description: "",
+    price: 0
+  });
+
+  useEffect(() => {
+    saveToLocalStorage(MEALS_STORAGE_KEY, mealsList);
+  }, [mealsList]);
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchedItem(event.target.value);
   };
 
-  const addMeal = (newMeal: { name: string; description: string; price: number }) => {
-    setMealsList(prev => [...prev, { id: prev.length + 1, ...newMeal }]); // Az új étel hozzáadása a listához
-  }
+  const addMeal = (mealToAdd: { name: string; description: string; price: number }) => {
+    setMealsList(prev => [
+      ...prev,
+      {
+        id: Math.max(0, ...prev.map(meal => meal.id)) + 1,
+        ...mealToAdd
+      }
+    ]);
 
-  const modifyMeal = (id: number, newMeal: { name: string; description: string; price: number }) => {
-    setMealsList(prev => prev.map(meal => meal.id === id ? { ...meal, ...newMeal } : meal));
-  }
+    setNewMeal({
+      name: "",
+      description: "",
+      price: 0
+    });
+  };
+
+  const startEditing = (meal: MealItem) => {
+    setEditingId(meal.id);
+    setEditMeal({
+      name: meal.name,
+      description: meal.description,
+      price: meal.price
+    });
+  };
+
+  const cancelEditing = () => {
+    setEditingId(null);
+    setEditMeal({
+      name: "",
+      description: "",
+      price: 0
+    });
+  };
+
+  const modifyMeal = (
+    id: number,
+    updatedMeal: { name: string; description: string; price: number }
+  ) => {
+    setMealsList(prev =>
+      prev.map(meal =>
+        meal.id === id ? { ...meal, ...updatedMeal } : meal
+      )
+    );
+    cancelEditing();
+  };
 
   const deleteMeal = (id: number) => {
     setMealsList(prev => prev.filter(meal => meal.id !== id));
+    if (editingId === id) {
+      cancelEditing();
+    }
   };
 
   const deleteAll = () => {
     setMealsList([]);
-  }
+    cancelEditing();
+  };
 
-  function handleSearch(event: React.MouseEvent<HTMLButtonElement>): void {
-    const tempMealsForSearch = meals;
-    setMealsList(tempMealsForSearch => tempMealsForSearch.filter(meal => meal.name.toLowerCase().includes(searchedItem.toLowerCase())));
-  }
+  const handleSearch = () => {
+    setMealsList(prev =>
+      prev.filter(meal =>
+        meal.name.toLowerCase().includes(searchedItem.toLowerCase())
+      )
+    );
+  };
+
+  const resetToSeedData = () => {
+    setMealsList(meals);
+    localStorage.setItem(MEALS_STORAGE_KEY, JSON.stringify(meals));
+  };
 
   return (
     <>
@@ -54,24 +120,35 @@ export function MealView({ meals }: MealViewProps) {
 
       <div className="search-container">
         <div>
-
-          <label htmlFor="search" className='search'>Keresés:<br />
-            <input type='text' id="search" placeholder='Étel neve vagy leírása...' value={searchedItem} onChange={handleChange} />
+          <label htmlFor="search" className="search">
+            Keresés:
+            <br />
+            <input
+              type="text"
+              id="search"
+              placeholder="Étel neve vagy leírása..."
+              value={searchedItem}
+              onChange={handleChange}
+            />
             <button onClick={handleSearch}>🔍 Keresés</button>
-            <button onClick={() => setMealsList(meals)}>Lista frissítése</button>
+            <button onClick={resetToSeedData}>Lista alaphelyzet</button>
           </label>
         </div>
-        {searchedItem !== "" ?
+
+        {searchedItem !== "" && mealsList.length === 0 && (
           <div>
             <p>Nincs találat a következőre: {searchedItem}</p>
-          </div> : null}
+          </div>
+        )}
       </div>
 
-
-
       <div className="list grid-cards">
-        {mealsList.map((meal) => (
-          <div key={meal.id} style={{ padding: '12px' }} className="currentView">
+        {mealsList.map(meal => (
+          <div
+            key={meal.id}
+            style={{ padding: "12px" }}
+            className="currentView"
+          >
             <h1>{meal.name}</h1>
 
             <ul>
@@ -79,51 +156,58 @@ export function MealView({ meals }: MealViewProps) {
               <li>Leírás: {meal.description}</li>
               <li>Ár: {meal.price} Ft</li>
             </ul>
-
-            <div className="modify">
-              <input type="text" placeholder={meal.name} value={editMeal.name}
-                onChange={(e) => setEditMeal({ ...editMeal, name: e.target.value })} />
-              <input type="text" placeholder={meal.description} />
-              <input type="text" placeholder={meal.price.toString()} />
-
-              <button onClick={() => modifyMeal(meal.id, editMeal)}>
-                Módosítás
-              </button>
-            </div>
-
-            <div className="delete">
-              <button onClick={() => deleteMeal(meal.id)}>Törlés</button>
-            </div>
           </div>
         ))}
-      </div>
+         
+      <aside className="add">
+        <h1>Új étel hozzáadása</h1>
 
-
-      <div>
-        <aside className='add'>
-          <h1>Új étel hozzáadása</h1>
-          {meals.length > 0 && (
-            <div>
-              <div>
-                <input placeholder={meals[0].name} />
-                <input placeholder={meals[0].description} />
-                <input placeholder={meals[0].price.toString()} />
-              </div>
-            </div>
-          )}
-          <button type="button" onClick={() => addMeal({ name: "Új étel", description: "Új leírás", price: 1000 })} value="Hozzáadás">Hozzáadás</button>
+        <div>
+          <input
+            type="text"
+            placeholder={meals[0]?.name ?? "Név"}
+            value={newMeal.name}
+            onChange={(e) =>
+              setNewMeal({ ...newMeal, name: e.target.value })
+            }
+          />
+          <input
+            type="text"
+            placeholder={meals[0]?.description ?? "Leírás"}
+            value={newMeal.description}
+            onChange={(e) =>
+              setNewMeal({ ...newMeal, description: e.target.value })
+            }
+          />
+          <input
+            type="number"
+            placeholder={meals[0]?.price?.toString() ?? "Ár"}
+            value={newMeal.price}
+            onChange={(e) =>
+              setNewMeal({ ...newMeal, price: Number(e.target.value) })
+            }
+          />
+          </div>
         </aside>
-        <button onClick={() => exportJSON(mealsList, "meals")}>
-          Export JSON
-        </button>
+      <div>
 
-        <button onClick={() => exportCSV(mealsList, "meals")}>
-          Export CSV
-        </button>
         <div className="delete">
           <button onClick={deleteAll}>Összes törlése</button>
         </div>
       </div>
+
+      <button onClick={() => exportJSON(mealsList, "meals")}>
+        Export JSON
+      </button>
+
+      <button onClick={() => exportCSV(mealsList, "meals")}>
+        Export CSV
+      </button>
+
+      <div className="delete">
+        <button onClick={deleteAll}>Összes törlése</button>
+      </div>
+    </div>
     </>
   );
 }

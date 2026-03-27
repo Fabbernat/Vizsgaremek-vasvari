@@ -11,6 +11,11 @@ export type Order = {
 };
 
 export function OrderView({ orders: orders }: Order) {
+type OrderViewProps = {
+  orders: Order[];
+  setMeals: React.Dispatch<React.SetStateAction<Order[]>>
+}
+
 
   const [searchedItem, setSearchedItem] = useState('');
 
