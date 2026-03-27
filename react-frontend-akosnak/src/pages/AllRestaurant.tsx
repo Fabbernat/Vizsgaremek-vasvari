@@ -1,184 +1,261 @@
-import { Container, Modal, Button, Form } from "react-bootstrap";
-import { useState } from "react";
-import "./AllRestaurantStyle.css";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import "../styles/AllRestaurantStyle.css";
+import type { Restaurant } from "../types/Restaurant.ts";
+import apiClient from "../api/apiClient.ts";
+import "bootstrap-icons/font/bootstrap-icons.css";
+import {
+  Card,
+  Container,
+  Row,
+  Col,
+  Button,
+  Modal,
+  Offcanvas,
+} from "react-bootstrap";
+
+import TestImg from "./good-food.jpg";
 import { toast } from "react-toastify";
 
-const RestaurantList = () => {
-  const [restaurants, setRestaurants] = useState([
-    { id: 1, name: "The Golden Artichoke" },
-    { id: 2, name: "Midnight Ramen Bar" },
-    { id: 3, name: "Blue Wave Seafood" },
-    { id: 4, name: "Terracotta Kitchen" },
-    { id: 5, name: "Urban Forge Steakhouse" },
-  ]);
+const AllRestaurant = () => {
+  const [restaurants, setRestaurants] = useState<Array<Restaurant>>([]);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [restaurantToDelete, setRestaurantToDelete] =
+    useState<Restaurant | null>(null);
 
-  const [selectedIds, setSelectedIds] = useState([]);
-  const [newName, setNewName] = useState("");
-  const [editName, setEditName] = useState("");
+  const [show, setShow] = useState(false);
+  const [editingRestaurant, setEditingRestaurant] = useState<Restaurant | null>(
+    null,
+  );
+  const navigate = useNavigate();
 
-  const [showCreate, setShowCreate] = useState(false);
-  const [showEdit, setShowEdit] = useState(false);
+  const handleOpenDeleteModal = (restaurant: Restaurant) => {
+    setRestaurantToDelete(restaurant);
+    setShowDeleteModal(true);
+  };
 
-  function handleCheckboxChange(id) {
-    if (selectedIds.includes(id)) {
-      setSelectedIds(selectedIds.filter((item) => item !== id));
-    } else {
-      setSelectedIds([...selectedIds, id]);
+  const handleCloseDeleteModal = () => {
+    setShowDeleteModal(false);
+    setRestaurantToDelete(null);
+  };
+
+  const confirmDeleteRestaurant = () => {
+    if (!restaurantToDelete) return;
+
+    apiClient
+      .delete(`/restaurants/${restaurantToDelete.id}`)
+      .then(() => {
+        toast.success("Restaurant has been deleted");
+        setRestaurants((prev) =>
+          prev.filter((r) => r.id !== restaurantToDelete.id),
+        );
+        handleCloseDeleteModal();
+      })
+      .catch((error) => {
+        console.error(error);
+        toast.error("Failed to delete restaurant");
+      });
+  };
+
+  useEffect(() => {
+    apiClient
+      .get("/restaurants")
+      .then((response) => setRestaurants(response.data))
+      .catch((error) => console.error(error));
+  }, []);
+
+  useEffect(() => {
+    console.log(restaurants);
+  }, [restaurants]);
+
+  const handleDelete = (e: React.MouseEvent, restaurant: Restaurant) => {
+    e.stopPropagation();
+    handleOpenDeleteModal(restaurant);
+  };
+
+  const handleEdit = (e: React.MouseEvent, restaurant: Restaurant) => {
+    e.stopPropagation();
+    setEditingRestaurant(restaurant);
+    setShow(true);
+  };
+
+  const handleClose = () => {
+    setShow(false);
+    setEditingRestaurant(null);
+  };
+
+  const handleEditClose = () => {
+    handleClose();
+    // Refresh restaurants list after successful edit
+    apiClient
+      .get("/restaurants")
+      .then((response) => setRestaurants(response.data))
+      .catch((error) => console.error(error));
+  };
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    if (editingRestaurant) {
+      setEditingRestaurant({
+        ...editingRestaurant,
+        [e.target.name]: e.target.value,
+      });
     }
-  }
+  };
 
-  // CREATE
-  function CreateRest() {
-    if (newName.trim() === "") {
-      toast.error("Name cannot be empty!");
-      return;
+  const handleEditSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (editingRestaurant) {
+      apiClient
+        .put(`/restaurants/${editingRestaurant.id}`, editingRestaurant)
+        .then(() => {
+          toast.success("Restaurant updated successfully!");
+          handleEditClose();
+        })
+        .catch((error) => {
+          console.error(
+            "A problem has occurred while updating the restaurant:",
+            error,
+          );
+          toast.error("Failed to update restaurant. Please try again.");
+        });
     }
-
-    const newRestaurant = {
-      id:
-        restaurants.length > 0
-          ? Math.max(...restaurants.map((r) => r.id)) + 1
-          : 1,
-      name: newName,
-    };
-
-    setRestaurants([...restaurants, newRestaurant]);
-    setNewName("");
-    setShowCreate(false);
-    toast.success("Restaurant created!");
-  }
-
-  // DELETE
-  function DeleteRest() {
-    if (selectedIds.length === 0) {
-      toast.error("Select at least one item!");
-      return;
-    }
-
-    setRestaurants(restaurants.filter((r) => !selectedIds.includes(r.id)));
-    setSelectedIds([]);
-    toast.success("Deleted successfully!");
-  }
-
-  // MODIFY
-  function ModifyRest() {
-    if (selectedIds.length !== 1) {
-      toast.error("Select exactly ONE item to modify!");
-      return;
-    }
-
-    if (editName.trim() === "") {
-      toast.error("Modified name cannot be empty!");
-      return;
-    }
-
-    setRestaurants(
-      restaurants.map((r) =>
-        r.id === selectedIds[0] ? { ...r, name: editName } : r,
-      ),
-    );
-
-    setEditName("");
-    setSelectedIds([]);
-    setShowEdit(false);
-    toast.success("Modified successfully!");
-  }
-
-  function openEditModal() {
-    if (selectedIds.length !== 1) {
-      toast.error("Select exactly ONE item to modify!");
-      return;
-    }
-
-    const selectedRestaurant = restaurants.find((r) => r.id === selectedIds[0]);
-
-    setEditName(selectedRestaurant.name);
-    setShowEdit(true);
-  }
+  };
 
   return (
-    <Container className="ListStyle">
-      <h1>Our Featured Restaurants</h1>
+    <>
+      <h1>Restaurants</h1>
 
-      <ul>
-        {restaurants.map((restaurant) => (
-          <li key={restaurant.id}>
-            {restaurant.name}
-            <input
-              id="SelectedData"
-              type="checkbox"
-              checked={selectedIds.includes(restaurant.id)}
-              onChange={() => handleCheckboxChange(restaurant.id)}
-            />
-          </li>
-        ))}
-      </ul>
+      <Container>
+        <Row>
+          {restaurants.map((r) => (
+            <Col key={r.id} md={4} className="mb-4">
+              <Card
+                style={{ width: "25vw" }}
+                data-bs-theme="dark"
+                className="RestCard"
+              >
+                <Card.Header id="CardHeadR">
+                  <Button
+                    variant="dark"
+                    onClick={(e) => handleDelete(e, r)}
+                    className="DeleteBtn d-inline-flex align-items-center"
+                  >
+                    <i className="bi bi-trash"></i>
+                  </Button>
+                  <Card.Title className="m-1 p-1 DeleteTxt">Delete?</Card.Title>
 
-      <div className="BtnDiv">
-        <button className="Btn" onClick={() => setShowCreate(true)}>
-          CREATE
-        </button>
+                  <Button
+                    onClick={(e) => handleEdit(e, r)}
+                    className="EditBtn d-inline-flex align-items-center"
+                    variant="dark"
+                  >
+                    <i className="bi bi-pen"></i>
+                  </Button>
+                  <Card.Title className="m-1 p-1 EditTxt">Edit</Card.Title>
+                </Card.Header>
+                <Link
+                  to={`/restaurants/${r.id}`}
+                  className="card-link"
+                  style={{ textDecoration: "none", color: "inherit" }}
+                >
+                  <Card.Img variant="top" src={TestImg} />
+                  <Card.Body className="RestCardBody">
+                    <Card.Title>
+                      <strong>{r.name}</strong>
+                    </Card.Title>
+                    <Card.Text>{r.description}</Card.Text>
+                  </Card.Body>
+                </Link>
+              </Card>
+            </Col>
+          ))}
+        </Row>
 
-        <button className="Btn" onClick={DeleteRest}>
-          DELETE
-        </button>
+        <Button
+          variant="info"
+          onClick={() => navigate(`/add-restaurant`)}
+          className="mt-3 mb-5 w-50 mx-auto d-block"
+        >
+          Add Restaurant
+        </Button>
 
-        <button className="Btn" onClick={openEditModal}>
-          MODIFY
-        </button>
-      </div>
+        <Modal
+          show={showDeleteModal}
+          onHide={handleCloseDeleteModal}
+          centered
+          data-bs-theme="dark"
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Delete restaurant</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            Are you sure you want to delete
+            <strong>
+              {" "}
+              {restaurantToDelete?.name ?? "this restaurant"}
+            </strong>? <br />
+          </Modal.Body>
+          <Modal.Body>
+            <strong className="fs-15 mt-1">This cannot be undone.</strong>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleCloseDeleteModal}>
+              Cancel
+            </Button>
+            <Button variant="danger" onClick={confirmDeleteRestaurant}>
+              Delete
+            </Button>
+          </Modal.Footer>
+        </Modal>
 
-      {/* CREATE MODEL */}
-      <Modal show={showCreate} onHide={() => setShowCreate(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Create Restaurant</Modal.Title>
-        </Modal.Header>
+        <Offcanvas show={show} onHide={handleClose} data-bs-theme="dark">
+          <Offcanvas.Header closeButton>
+            <Offcanvas.Title>Edit Restaurant</Offcanvas.Title>
+          </Offcanvas.Header>
+          <Offcanvas.Body>
+            {editingRestaurant && (
+              <form onSubmit={handleEditSubmit}>
+                <div className="mb-3">
+                  <label htmlFor="name" className="form-label">
+                    Name
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="name"
+                    name="name"
+                    value={editingRestaurant.name}
+                    onChange={handleInputChange}
+                    required
+                  />
 
-        <Modal.Body>
-          <Form.Control
-            type="text"
-            placeholder="New restaurant name"
-            value={newName}
-            onChange={(e) => setNewName(e.target.value)}
-          />
-        </Modal.Body>
-
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowCreate(false)}>
-            Cancel
-          </Button>
-          <Button variant="primary" onClick={CreateRest}>
-            Save
-          </Button>
-        </Modal.Footer>
-      </Modal>
-
-      {/* MODIFY MODEL */}
-      <Modal show={showEdit} onHide={() => setShowEdit(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Modify Restaurant</Modal.Title>
-        </Modal.Header>
-
-        <Modal.Body>
-          <Form.Control
-            type="text"
-            placeholder="Modified name"
-            value={editName}
-            onChange={(e) => setEditName(e.target.value)}
-          />
-        </Modal.Body>
-
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowEdit(false)}>
-            Cancel
-          </Button>
-          <Button variant="primary" onClick={ModifyRest}>
-            Save Changes
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    </Container>
+                  <label htmlFor="description" className="form-label mt-3">
+                    Description
+                  </label>
+                  <div className="mt-2">
+                    <textarea
+                      className="form-control"
+                      id="description"
+                      name="description"
+                      value={editingRestaurant.description}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+                </div>
+                <Button variant="primary" type="submit">
+                  Update Restaurant
+                </Button>
+              </form>
+            )}
+          </Offcanvas.Body>
+        </Offcanvas>
+      </Container>
+    </>
   );
 };
 
-export default RestaurantList;
+export default AllRestaurant;
