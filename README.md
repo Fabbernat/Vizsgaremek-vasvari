@@ -1,6 +1,11 @@
 # Royal-Delivery
 
 ## Fontos linkek:
+### Supabase adatbázis:
+### https://supabase.com/dashboard/project/uqusahmtbaypepskpxxa
+<img width="1581" height="1031" alt="Supabase schema" src="https://github.com/user-attachments/assets/9bd67b34-359b-4d3f-a89c-2b6b203eabde" />
+
+
 ### MySQL Adatbázis elérési útja:
 ### C:\xampp\mysql\data\royaldelivery_db\
 
