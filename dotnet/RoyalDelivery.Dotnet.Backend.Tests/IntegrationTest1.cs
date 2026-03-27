@@ -1,29 +1,40 @@
-using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.VisualStudio.TestPlatform.TestHost;
 using System.Net;
+using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
 
-namespace RoyalDelivery.Dotnet.Backend.Tests;
-
-public class IntegrationTest1 : IClassFixture<WebApplicationFactory<Program>>
+namespace RoyalDelivery.Dotnet.Backend.Tests.Tests
 {
-    private readonly WebApplicationFactory<Program> _factory;
-
-    public IntegrationTest1(WebApplicationFactory<Program> factory)
+    public class IntegrationTest1
     {
-        _factory = factory;
-    }
+        private static readonly TimeSpan DefaultTimeout = TimeSpan.FromSeconds(30);
 
-    [Fact]
-    public async Task Get_WeatherForecast_ReturnsOk()
-    {
-        // Arrange
-        var client = _factory.CreateClient();
+        //Instructions:
+        // 1. Add a project reference to the target AppHost project, e.g.:
 
-        // Act
-        var response = await client.GetAsync("/WeatherForecast");
+        //    <ItemGroup>
+        //        <ProjectReference Include = "../MyAspireApp.AppHost/MyAspireApp.AppHost.csproj" />
+        //    </ ItemGroup >
 
-        // Assert
-        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        // 2.Uncomment the following example test and update 'Projects.MyAspireApp_AppHost' to match your AppHost project:
+        private readonly HttpClient _client;
+
+        public IntegrationTest1(WebApplicationFactory<Program> factory)
+        {
+            _client = factory.CreateClient();
+        }
+
+        [Fact]
+        public async Task GetWebResourceRootReturnsOkStatusCode()
+        {
+            // Arrange
+            var url = "/WeatherForecast";
+
+            // Act
+            var response = await _client.GetAsync(url);
+
+            // Assert
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+        }
     }
 }
