@@ -10,13 +10,27 @@ const OneMeal = () => {
   const navigate = useNavigate();
 
   const [meal, setMeal] = useState<Meals>();
+  const [restaurantName, setRestaurantName] = useState<string>("");
 
   useEffect(() => {
     apiClient
       .get(`/meals/${id}`)
-      .then((response) => setMeal(response.data.data))
+      .then((response) => {
+        const mealData = response.data.data;
+        setMeal(mealData);
+
+        // Fetch restaurant details
+        if (mealData.restaurantId) {
+          apiClient
+            .get(`/restaurants/${mealData.restaurantId}`)
+            .then((res) => setRestaurantName(res.data.data.name))
+            .catch((error) =>
+              console.error("Failed to fetch restaurant:", error),
+            );
+        }
+      })
       .catch((error) => console.error(error));
-  }, [id]);
+  }, []);
 
   //   Delete and Edit funcion
   const handleDelete = () => {
@@ -33,23 +47,42 @@ const OneMeal = () => {
       });
   };
 
+  const navigateEdit = () => {
+    navigate(`/meals/${id}/edit`);
+  };
+
   return (
     <>
-      <Container>
+      <Container
+        className="d-flex justify-content-center align-items-center"
+        style={{ minHeight: "80vh" }}
+      >
         {meal ? (
           <Card style={{ width: "20vw" }} data-bs-theme="dark">
             <Card.Body>
-              <Card.Title>
+              <Card.Title className="text-center mb-4">
                 <strong>{meal.name}</strong>
               </Card.Title>
-              <Card.Text>{meal.description}</Card.Text>
-              <Card.Text>Price: {meal.price}Ft</Card.Text>
+              <Card.Subtitle className="mb-2">
+                <strong>Description:</strong>
+                <div className="text-muted mt-2">{meal.description}</div>
+              </Card.Subtitle>
+              <Card.Text>
+                <strong>Price:</strong> {meal.price}Ft
+              </Card.Text>
+              <Card.Text>
+                <strong>Restaurant:</strong> {restaurantName || "Loading..."}
+              </Card.Text>
 
               {/* Delete and Edit Button */}
-              <Button variant="primary" className="me-3">
+              <Button
+                variant="primary"
+                className="justify-content-center"
+                onClick={navigateEdit}
+              >
                 Edit
               </Button>
-              <Button variant="danger">
+              <Button variant="danger" className="ms-3 justify-content-center">
                 <span onClick={handleDelete}>Delete</span>
               </Button>
             </Card.Body>

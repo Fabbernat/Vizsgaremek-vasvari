@@ -1,0 +1,145 @@
+#root{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+body{
+    background-color: #363f4d;
+    color: #fff;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    align-items: center;
+}
+
+h1{
+    margin: 3vw;
+    font-weight: bold;;
+    text-align: center;
+}
+
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-content {
+  flex: 1;
+}
+
+.site-footer {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  background: linear-gradient(180deg, #2d3645, #1f2731);
+  color: #f6f8fa;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 -4px 18px rgba(0, 0, 0, 0.35);
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  text-align: center;
+}
+
+.footer-links {
+  display: inline-flex;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  font-size: 0.94rem;
+}
+
+.footer-links a {
+  color: #a8c3db;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.footer-links a:hover {
+  text-decoration: underline;
+  color: #fefefe;
+}
+
+.footer-tagline {
+  margin: 0;
+  font-size: 0.88rem;
+  color: #c7d4e5;
+}
+
+.RestCard{
+    margin: 2vw;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 20px;
+}
+
+.RestCard:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.3);
+    background-color: #2e2e2e;
+    transition: all 0.3s ease;
+}
+
+.CardHeadR {
+    align-items: flex-end;
+    border-radius: 20px;
+}
+
+.DeleteBtn {
+    float: right;
+    opacity: 0.5;
+    border-radius: 10px;
+}
+
+.DeleteBtn:hover {
+    background-color: rgb(206, 67, 67);
+    opacity: 1;
+}
+
+.DeleteBtn:hover + .DeleteTxt {
+    opacity: 1;
+    transition: ease-in-out all 0.2s;
+}
+
+.DeleteBtn:not(:hover) + .DeleteTxt {
+    opacity: 0;
+    transition: ease-in-out all 0.2s;
+}
+
+.DeleteTxt {
+    align-items: flex-end;
+    float: right;
+    opacity: 0;
+    cursor: default
+}
+
+.EditBtn {
+  float: left;
+  opacity: 0.5;
+  border-radius: 10px;
+}
+
+.EditBtn:hover {
+    background-color: rgb(67, 111, 206);
+    opacity: 1;
+}
+
+.EditBtn:hover + .EditTxt {
+    opacity: 1;
+    transition: ease-in-out all 0.2s;
+}
+
+.EditBtn:not(:hover) + .EditTxt {
+    opacity: 0;
+    transition: ease-in-out all 0.2s;
+}
+
+.EditTxt {
+  align-items: flex-end;
+    float: left;
+    opacity: 0;
+    cursor: default
+}

@@ -5,16 +5,18 @@ db.prepare(`
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT,
     price INTEGER,
-    categoryid INTEGER,
     description TEXT,
     restaurantid INTEGER,
-    FOREIGN KEY (categoryid) REFERENCES categories(id),
-    FOREIGN KEY (restaurantid) REFERENCES restaurants(id)
+    FOREIGN KEY (restaurantid) REFERENCES restaurants(id) ON DELETE CASCADE
 )
-`);
+`).run();
 
 // Add restaurantid column if it doesn't exist
 // db.prepare(`ALTER TABLE meals ADD COLUMN restaurantid INTEGER REFERENCES restaurants(id)`).run();
+
+// Delete meals by restaurant id (used before deleting restaurant)
+export const deleteMealsByRestaurantId = (restaurantId) =>
+  db.prepare(`DELETE FROM meals WHERE restaurantid = ?`).run(restaurantId);
 
 // Get all meals
 export const getMeals = () => db.prepare(`SELECT * FROM meals`).all();
@@ -28,33 +30,20 @@ export const getMealsByRestaurantId = (restaurantId) =>
   db.prepare(`SELECT * FROM meals WHERE restaurantid = ?`).all(restaurantId);
 
 // Create meal
-export const createMeal = (
-  name,
-  description,
-  price,
-  categoryid,
-  restaurantid,
-) =>
+export const createMeal = (name, description, price, restaurantid) =>
   db
     .prepare(
-      `INSERT INTO meals (name, description, price, categoryid, restaurantid) VALUES (?, ?, ?, ?, ?)`,
+      `INSERT INTO meals (name, description, price, restaurantid) VALUES (?, ?, ?, ?)`,
     )
-    .run(name, description, price, categoryid, restaurantid);
+    .run(name, description, price, restaurantid);
 
 // Update meal
-export const updateMeal = (
-  id,
-  name,
-  description,
-  price,
-  categoryid,
-  restaurantid,
-) =>
+export const updateMeal = (id, name, description, price, restaurantid) =>
   db
     .prepare(
-      `UPDATE meals SET name = ?, description = ?, price = ?, categoryid = ?, restaurantid = ? WHERE id = ?`,
+      `UPDATE meals SET name = ?, description = ?, price = ?, restaurantid = ? WHERE id = ?`,
     )
-    .run(name, description, price, categoryid, restaurantid, id);
+    .run(name, description, price, restaurantid, id);
 
 // Delete meal
 export const deleteMeal = (id) =>

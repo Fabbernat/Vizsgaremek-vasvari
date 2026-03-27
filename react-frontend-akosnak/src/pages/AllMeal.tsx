@@ -30,7 +30,10 @@ const AllMeal = () => {
                 to={`/meals/${m.id}`}
                 style={{ textDecoration: "none", color: "inherit" }}
               >
-                <Card style={{ width: "25vw" }} data-bs-theme="dark">
+                <Card
+                  style={{ width: "100%", height: "100%" }}
+                  data-bs-theme="dark"
+                >
                   <Card.Body>
                     <Card.Title>
                       <strong>{m.name}</strong>
