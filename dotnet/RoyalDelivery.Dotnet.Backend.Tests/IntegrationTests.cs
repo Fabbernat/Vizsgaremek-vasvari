@@ -4,11 +4,11 @@ using Xunit;
 
 namespace RoyalDelivery.Dotnet.Backend.Tests.Tests
 {
-    public class IntegrationTest1 : IClassFixture<WebApplicationFactory<Program>>
+    public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
     {
         private readonly HttpClient _client;
 
-        public IntegrationTest1(WebApplicationFactory<Program> factory)
+        public IntegrationTests(WebApplicationFactory<Program> factory)
         {
             _client = factory.CreateClient();
         }
