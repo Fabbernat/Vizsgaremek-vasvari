@@ -14,4 +14,7 @@ public partial class Meal
     public double Price { get; set; }
 
     public int RestaurantId { get; set; }
+
+    public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+
 }
