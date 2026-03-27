@@ -5,6 +5,8 @@ VisualStudioVersion = 18.2.11415.280
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoyalDelivery.Dotnet.Backend", "RoyalDelivery.Dotnet.Backend\RoyalDelivery.Dotnet.Backend.csproj", "{AC3ED2BC-6F5F-4106-B5A1-BDF52DFAB0BC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoyalDelivery.Dotnet.Backend.Tests", "RoyalDelivery.Dotnet.Backend.Tests\RoyalDelivery.Dotnet.Backend.Tests.csproj", "{EE2F99BA-8ACF-41C4-9696-070B58B0D5A5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{AC3ED2BC-6F5F-4106-B5A1-BDF52DFAB0BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AC3ED2BC-6F5F-4106-B5A1-BDF52DFAB0BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AC3ED2BC-6F5F-4106-B5A1-BDF52DFAB0BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE2F99BA-8ACF-41C4-9696-070B58B0D5A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE2F99BA-8ACF-41C4-9696-070B58B0D5A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE2F99BA-8ACF-41C4-9696-070B58B0D5A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE2F99BA-8ACF-41C4-9696-070B58B0D5A5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
