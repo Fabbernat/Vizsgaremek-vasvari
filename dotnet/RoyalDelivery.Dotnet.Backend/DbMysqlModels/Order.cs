@@ -12,5 +12,7 @@ public partial class Order
     public int UserId { get; set; }
 
     public DateTime Date { get; set; }
-    public object OrderedAt { get; internal set; }
+    public DateTimeOffset OrderedAt { get; set; }
+
+    public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 }

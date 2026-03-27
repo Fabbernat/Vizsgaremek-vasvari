@@ -16,6 +16,8 @@ public partial class RoyaldeliveryDbContext : DbContext
     {
     }
 
+    public virtual DbSet<OrderItem> OrderItems { get; set; }
+
     public virtual DbSet<Meal> Meals { get; set; }
 
     public virtual DbSet<Order> Orders { get; set; }

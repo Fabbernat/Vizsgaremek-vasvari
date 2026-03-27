@@ -25,5 +25,26 @@ namespace RoyalDelivery.Dotnet.Backend.Tests.Tests
             // Assert
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
+
+        [Fact]
+        public async Task GetUsersReturnsSuccessStatusCode()
+        {
+            var response = await _client.GetAsync("/api/Users");
+            Assert.True(response.IsSuccessStatusCode);
+        }
+
+        [Fact]
+        public async Task GetMealsReturnsSuccessStatusCode()
+        {
+            var response = await _client.GetAsync("/api/Meals");
+            Assert.True(response.IsSuccessStatusCode);
+        }
+
+        [Fact]
+        public async Task GetOrdersReturnsSuccessStatusCode()
+        {
+            var response = await _client.GetAsync("/api/Orders");
+            Assert.True(response.IsSuccessStatusCode);
+        }
     }
 }
