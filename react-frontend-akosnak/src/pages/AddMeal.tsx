@@ -53,8 +53,8 @@ const AddMeal = () => {
     <>
       <h1>Add a new Meal</h1>
 
-      <Container>
-        <Card style={{ width: "20vw" }} data-bs-theme="dark">
+      <Container className="d-flex justify-content-center">
+        <Card style={{ width: "100%", maxWidth: "500px" }} data-bs-theme="dark">
           <Card.Body>
             <Card.Title className="mt-3">Name</Card.Title>
             <input
