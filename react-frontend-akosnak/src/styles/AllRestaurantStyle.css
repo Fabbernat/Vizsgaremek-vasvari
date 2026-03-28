@@ -143,3 +143,8 @@ h1{
     opacity: 0;
     cursor: default
 }
+
+.SearchBar {
+  border-radius: 15px;
+  height: 50px;
+}

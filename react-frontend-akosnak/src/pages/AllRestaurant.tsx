@@ -16,9 +16,11 @@ import {
 
 import TestImg from "./good-food.jpg";
 import { toast } from "react-toastify";
+import SearchBar from "../components/SearchBar.tsx";
 
 const AllRestaurant = () => {
   const [restaurants, setRestaurants] = useState<Array<Restaurant>>([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [restaurantToDelete, setRestaurantToDelete] =
     useState<Restaurant | null>(null);
@@ -27,6 +29,16 @@ const AllRestaurant = () => {
   const [editingRestaurant, setEditingRestaurant] = useState<Restaurant | null>(
     null,
   );
+
+  const filteredRestaurants = restaurants.filter((restaurant) => {
+    const lowerQuery = searchTerm.toLowerCase();
+    const name = restaurant.name ? restaurant.name.toLowerCase() : "";
+    const description = restaurant.description
+      ? restaurant.description.toLowerCase()
+      : "";
+
+    return name.includes(lowerQuery) || description.includes(lowerQuery);
+  });
   const navigate = useNavigate();
 
   const handleOpenDeleteModal = (restaurant: Restaurant) => {
@@ -86,7 +98,6 @@ const AllRestaurant = () => {
 
   const handleEditClose = () => {
     handleClose();
-    // Refresh restaurants list after successful edit
     apiClient
       .get("/restaurants")
       .then((response) => setRestaurants(response.data))
@@ -129,13 +140,18 @@ const AllRestaurant = () => {
       <h1>Restaurants</h1>
 
       <Container>
+        <SearchBar
+          query={searchTerm}
+          onQueryChange={setSearchTerm}
+          placeholder="Search..."
+        />
         <Row>
-          {restaurants.map((r) => (
-            <Col key={r.id} md={4} className="mb-4">
+          {filteredRestaurants.map((r) => (
+            <Col key={r.id} xs={12} sm={6} md={4} className="mb-4">
               <Card
-                style={{ width: "25vw" }}
+                style={{ width: "100%", minHeight: "300px" }}
                 data-bs-theme="dark"
-                className="RestCard"
+                className="RestCard h-100"
               >
                 <Card.Header id="CardHeadR">
                   <Button
@@ -177,7 +193,7 @@ const AllRestaurant = () => {
         <Button
           variant="info"
           onClick={() => navigate(`/add-restaurant`)}
-          className="mt-3 mb-5 w-50 mx-auto d-block"
+          className="mt-5 mb-5 w-100 w-md-50 mx-auto d-block"
         >
           Add Restaurant
         </Button>
