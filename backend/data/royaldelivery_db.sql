@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2026. Már 02. 15:28
+-- Létrehozás ideje: 2026. Már 09. 14:05
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -20,8 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Adatbázis: `royaldelivery_db`
 --
-CREATE DATABASE IF NOT EXISTS `royaldelivery_db` DEFAULT CHARACTER SET latin2 COLLATE latin2_hungarian_ci;
-USE `royaldelivery_db`;
 
 -- --------------------------------------------------------
 
@@ -31,10 +29,10 @@ USE `royaldelivery_db`;
 
 CREATE TABLE `meals` (
   `id` int(2) NOT NULL,
-  `name` varchar(20) DEFAULT NULL,
-  `description` varchar(52) DEFAULT NULL,
-  `price` int(4) DEFAULT NULL,
-  `restaurantid` int(1) DEFAULT NULL
+  `name` varchar(20) NOT NULL DEFAULT 'Gipsz Jakab',
+  `description` varchar(52) NOT NULL DEFAULT '.',
+  `price` int(4) NOT NULL DEFAULT 1000,
+  `restaurantid` int(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
@@ -51,10 +49,10 @@ INSERT INTO `meals` (`id`, `name`, `description`, `price`, `restaurantid`) VALUE
 (7, 'California Roll', 'Rák, avokádó és uborka egy finom tekercsben', 2000, 7),
 (8, 'Spicy Tuna Roll', 'Fűszeres tonhal és avokádó egy ízletes kombinációban', 2200, 8),
 (9, 'Salmon Nigiri', 'Friss lazac egy szelet rizs tetején', 1800, 1),
-(10, 'Gyros tál', '', 1500, 1),
-(11, 'Hamburger', '', 1800, 1),
-(12, 'Sült csirke', '', 2200, 1),
-(13, 'Rántott sajt', '', 1700, 1),
+(10, 'Gyros tál', 'asdas', 1500, 1),
+(11, 'Hamburger', 'afwawf', 1800, 1),
+(12, 'Sült csirke', 'awiwfvaivg', 2200, 1),
+(13, 'Rántott sajt', 'afwahogw', 1700, 1),
 (14, 'Lazac steak', '', 3000, 1),
 (15, 'Vegetáriánus lasagne', '', 2500, 4),
 (16, 'Sült zöldségek', '', 1200, 6),
@@ -69,9 +67,9 @@ INSERT INTO `meals` (`id`, `name`, `description`, `price`, `restaurantid`) VALUE
 
 CREATE TABLE `orders` (
   `id` int(2) NOT NULL,
-  `restaurantid` varchar(10) DEFAULT NULL,
-  `userid` varchar(10) DEFAULT NULL,
-  `date` varchar(10) DEFAULT NULL
+  `restaurantid` varchar(10) NOT NULL DEFAULT '1',
+  `userid` varchar(10) NOT NULL DEFAULT '1',
+  `date` varchar(10) NOT NULL DEFAULT '2026-05-05'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
@@ -79,18 +77,18 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `restaurantid`, `userid`, `date`) VALUES
-(1, '', '', '2024-06-01'),
-(2, '', '', '2024-06-02'),
-(3, '', '', '2024-06-03'),
-(4, '', '', '2024-06-04'),
-(5, '', '', '2024-06-05'),
-(6, '', '', '2024-06-06'),
-(7, '', '', '2024-06-07'),
-(8, '', '', '2024-06-08'),
-(9, '', '', '2024-06-09'),
-(10, '', '', '2024-06-10'),
-(11, '', '', '2025-12-27'),
-(12, '', '', '2026-01-31');
+(1, '1', '1', '2024-06-01'),
+(2, '2', '1', '2024-06-02'),
+(3, '3', '3', '2024-06-03'),
+(4, '4', '6', '2024-06-04'),
+(5, '5', '8', '2024-06-05'),
+(6, '6', '10', '2024-06-06'),
+(7, '7', '2', '2024-06-07'),
+(8, '8', '4', '2024-06-08'),
+(9, '9', '3', '2024-06-09'),
+(10, '10', '5', '2024-06-10'),
+(11, '11', '6', '2025-12-27'),
+(12, '12', '7', '2026-01-31');
 
 -- --------------------------------------------------------
 
@@ -100,9 +98,9 @@ INSERT INTO `orders` (`id`, `restaurantid`, `userid`, `date`) VALUES
 
 CREATE TABLE `owners` (
   `id` int(1) NOT NULL,
-  `username` varchar(16) DEFAULT NULL,
-  `email` varchar(22) DEFAULT NULL,
-  `password` varchar(15) DEFAULT NULL
+  `username` varchar(16) NOT NULL DEFAULT 'gipszjakab',
+  `email` varchar(22) NOT NULL DEFAULT 'gipszjakab@gmail.com',
+  `password` varchar(15) NOT NULL DEFAULT 'jelszo123'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
@@ -122,8 +120,8 @@ INSERT INTO `owners` (`id`, `username`, `email`, `password`) VALUES
 
 CREATE TABLE `restaurants` (
   `id` int(2) NOT NULL,
-  `name` varchar(15) DEFAULT NULL,
-  `ownerid` int(1) DEFAULT NULL
+  `name` varchar(15) NOT NULL DEFAULT '.',
+  `ownerid` int(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
@@ -152,12 +150,12 @@ INSERT INTO `restaurants` (`id`, `name`, `ownerid`) VALUES
 
 CREATE TABLE `users` (
   `id` int(2) NOT NULL,
-  `username` varchar(11) DEFAULT NULL,
-  `firstName` varchar(9) DEFAULT NULL,
-  `lastName` varchar(7) DEFAULT NULL,
-  `email` varchar(30) DEFAULT NULL,
-  `password` varchar(15) DEFAULT NULL,
-  `address` varchar(32) DEFAULT NULL
+  `username` varchar(11) NOT NULL DEFAULT 'gipszjakab',
+  `firstName` varchar(9) NOT NULL DEFAULT 'Jakab',
+  `lastName` varchar(7) NOT NULL DEFAULT 'Gipsz',
+  `email` varchar(30) NOT NULL DEFAULT 'gipszjakab@gmail.com',
+  `password` varchar(15) NOT NULL DEFAULT 'jelszo123',
+  `address` varchar(32) NOT NULL DEFAULT '.'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --

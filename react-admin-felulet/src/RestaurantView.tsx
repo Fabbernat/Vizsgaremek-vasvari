@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { exportCSV, exportJSON } from "./utils/export";
+import React from "react";
 
 export type RestaurantItem = {
   id: number;
@@ -7,11 +8,15 @@ export type RestaurantItem = {
   description: string;
 };
 
+
+
 type RestaurantViewProps = {
   restaurants: RestaurantItem[];
-};
+  setRestaurants: React.Dispatch<React.SetStateAction<RestaurantItem[]>>
+}
 
 export function RestaurantView({ restaurants }: RestaurantViewProps) {
+
 
   const [searchedItem, setSearchedItem] = useState("");
   const [restaurantsList, setRestaurantsList] = useState<RestaurantItem[]>(restaurants);
