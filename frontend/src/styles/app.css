@@ -25,12 +25,27 @@ body {
   border-radius: 15px;
 }
 
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0 1rem;
+    height: 60px;
+    margin-top: 1rem;
+    border-radius: 10px;
+  }
+}
+
 .nav-items {
   display: flex;
   align-items: center;
   gap: 20px;
   cursor: pointer;
   color: #fff;
+}
+
+@media (max-width: 768px) {
+  .nav-items {
+    gap: 10px;
+  }
 }
 
 .nav-items :hover {
@@ -76,6 +91,12 @@ body {
   transition: transform 0.3s ease;
 }
 
+@media (max-width: 768px) {
+  .logo-floating img {
+    height: 80px;
+  }
+}
+
 .floating-logo-img {
   position:fixed;
   top: 5px;
@@ -84,6 +105,14 @@ body {
   z-index: 1000;
   filter: drop-shadow(0 5px 15px rgba(0,0,0,0.5));
 }
+
+@media (max-width: 768px) {
+  .floating-logo-img {
+    left: 20px;
+    height: 80px;
+    top: 10px;
+  }
+}
 /* HERO */
 .hero {
   padding: 3rem 2rem;
@@ -91,10 +120,22 @@ body {
   color: #443627;
 }
 
+@media (max-width: 768px) {
+  .hero {
+    padding: 2rem 1rem;
+  }
+}
+
 .hero h1 {
   margin-bottom: 0.5rem;
   font-size: 2.2rem;
   font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 1.8rem;
+  }
 }
 
 /* MENU GRID */
@@ -106,6 +147,14 @@ body {
   max-width: 1200px;
   margin: auto;
   color: #A0A0A0;
+}
+
+@media (max-width: 768px) {
+  .menu {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+    gap: 1rem;
+  }
 }
 
 /* CARD */
