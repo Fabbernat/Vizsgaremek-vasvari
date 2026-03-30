@@ -1,13 +1,32 @@
 import type { Meals } from "../types/Meals.ts";
 import { useEffect, useState } from "react";
 import apiClient from "../api/apiClient.ts";
-import { Card, Container, Row, Col } from "react-bootstrap";
+import {
+  Card,
+  Container,
+  Row,
+  Col,
+  Button,
+  OverlayTrigger,
+  Tooltip,
+  Modal,
+} from "react-bootstrap";
 import SearchBar from "../components/SearchBar.tsx";
+import AddMealModal from "../components/AddMealModal.tsx";
 import { Link } from "react-router-dom";
 
 const AllMeal = () => {
   const [meals, setMeals] = useState<Array<Meals>>([]);
   const [searchTerm, setSearchTerm] = useState("");
+
+  const [showAddModal, setShowAddModal] = useState(false);
+
+  const fetchMeals = () => {
+    apiClient
+      .get("/meals")
+      .then((response) => setMeals(response.data))
+      .catch((error) => console.error(error));
+  };
 
   const filteredMeals = meals.filter((meal) => {
     const lowerQuery = searchTerm.toLowerCase();
@@ -18,10 +37,7 @@ const AllMeal = () => {
   });
 
   useEffect(() => {
-    apiClient
-      .get("meals")
-      .then((response) => setMeals(response.data))
-      .catch((error) => console.error(error));
+    fetchMeals();
   }, []);
 
   useEffect(() => {
@@ -36,7 +52,7 @@ const AllMeal = () => {
         <SearchBar
           query={searchTerm}
           onQueryChange={setSearchTerm}
-          placeholder="Search meals by name or description"
+          placeholder="Search..."
         />
         <Row>
           {filteredMeals.map((m) => (
@@ -48,7 +64,7 @@ const AllMeal = () => {
                 <Card
                   style={{ width: "100%", minHeight: "200px" }}
                   data-bs-theme="dark"
-                  className="h-100"
+                  className="h-50 RestCard"
                 >
                   <Card.Body>
                     <Card.Title>
@@ -62,6 +78,43 @@ const AllMeal = () => {
             </Col>
           ))}
         </Row>
+
+        <Col xs={12} sm={6} md={4}>
+          <OverlayTrigger
+            overlay={<Tooltip className="mb-2 OvrlayTrgr">Add meal</Tooltip>}
+          >
+            <Button
+              variant="success"
+              className="d-flex align-items-center justify-content-center FloatBtn"
+              onClick={() => setShowAddModal(true)}
+            >
+              <i className="bi bi-plus-lg"></i>
+            </Button>
+          </OverlayTrigger>
+        </Col>
+
+        <Modal
+          size="lg"
+          show={showAddModal}
+          onHide={() => setShowAddModal(false)}
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+          data-bs-theme="dark"
+        >
+          <Modal.Header closeButton>
+            <Modal.Title id="contained-modal-title-vcenter">
+              Add New Meal
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <AddMealModal
+              onSuccess={() => {
+                setShowAddModal(false);
+                fetchMeals();
+              }}
+            />
+          </Modal.Body>
+        </Modal>
       </Container>
     </>
   );

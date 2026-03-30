@@ -148,3 +148,48 @@ h1{
   border-radius: 15px;
   height: 50px;
 }
+
+.FloatBtn {
+  position: fixed;
+  bottom: 50px;
+  right: 100px;
+  height: 60px;
+  width: 60px;
+  z-index: 1000;
+  border-radius: 15px;
+  transition: all 0.3s;
+}
+
+.FloatBtn :first-child {
+  font-size: 25px;
+}
+
+@media (max-width: 767px) {
+  .FloatBtn {
+    bottom: 20px;
+    right: 50%;
+    transform: translateX(50%);
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+  }
+
+  .FloatBtn:hover {
+  transform: scale(1.1) translateX(45%);
+  transition: all 0.3s ease-in-out;
+  background-color: #32a730;
+  border-color: #32a730;
+  }
+
+  .FloatBtn:active {
+  transform: scale(0.85) translateX(60%);
+  transition: 0.2s;
+  background-color: oklch(from #198754 calc(l + 0.2) c h) !important
+  }
+}
+
+
+
+.OvrlayTrgr {
+  font-size: 15px;
+}

@@ -12,6 +12,7 @@ import {
   Button,
   Modal,
   Offcanvas,
+  Alert,
 } from "react-bootstrap";
 
 import TestImg from "./good-food.jpg";
@@ -151,7 +152,7 @@ const AllRestaurant = () => {
               <Card
                 style={{ width: "100%", minHeight: "300px" }}
                 data-bs-theme="dark"
-                className="RestCard h-100"
+                className="RestCard h-70"
               >
                 <Card.Header id="CardHeadR">
                   <Button
@@ -215,7 +216,10 @@ const AllRestaurant = () => {
             </strong>? <br />
           </Modal.Body>
           <Modal.Body>
-            <strong className="fs-15 mt-1">This cannot be undone.</strong>
+            <Alert variant="danger">
+              <i className="bi bi-exclamation-circle me-3"></i>
+              This cannot be undone!
+            </Alert>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleCloseDeleteModal}>

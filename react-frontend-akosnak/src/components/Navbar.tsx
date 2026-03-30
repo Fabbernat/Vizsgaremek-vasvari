@@ -15,23 +15,25 @@ const MyNavbar = () => {
           />{" "}
           Royal Delivery
         </Navbar.Brand>
+        <Navbar.Toggle aria-controls={`...`} />
 
-        <Nav className="me-auto">
-          <Nav.Link as={Link} to="/restaurants">
-            Restaurants
-          </Nav.Link>
-          <Nav.Link as={Link} to="/meals">
-            Meals
-          </Nav.Link>
-          <Nav.Link as={Link} to="/orders">
-            Orders
-          </Nav.Link>
-          <Nav.Link as={Link} to="/users">
-            Users
-          </Nav.Link>
-        </Nav>
         <Navbar.Collapse className="justify-content-end">
-          <Navbar.Text>
+          <Nav className="me-auto">
+            <Nav.Link as={Link} to="/restaurants">
+              Restaurants
+            </Nav.Link>
+            <Nav.Link as={Link} to="/meals">
+              Meals
+            </Nav.Link>
+            <Nav.Link as={Link} to="/orders">
+              Orders
+            </Nav.Link>
+            <Nav.Link as={Link} to="/users">
+              Users
+            </Nav.Link>
+          </Nav>
+          <Navbar.Text className="justify-content-end">
+            <i className="bi bi-person-circle me-2"></i>
             Signed in as: <a href="#login">Mark Otto</a>
           </Navbar.Text>
         </Navbar.Collapse>

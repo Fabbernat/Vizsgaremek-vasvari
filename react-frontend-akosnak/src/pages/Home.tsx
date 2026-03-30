@@ -1,4 +1,4 @@
-import { Button, Container } from "react-bootstrap";
+import { Alert, Button, Container } from "react-bootstrap";
 
 const HomePage = () => {
   return (
@@ -6,9 +6,16 @@ const HomePage = () => {
       <h1 className="mt-5 fs-1 fs-md-2 text-center">
         Welcome to the Royal Delivery's Admin Page
       </h1>
-      <p className="mt-3 fs-4 fs-md-5 text-secondary text-center px-3 py-3 border border-secondary rounded mx-auto d-block w-100 w-md-75 bg-dark text-light border-0">
-        Use the navigation bar to manage restaurants, meals, orders, and users.
-      </p>
+      <Alert variant="info" data-bs-theme="dark">
+        <Alert.Heading>
+          <i className="bi bi-info-circle me-3"></i>
+          What can you do here?
+        </Alert.Heading>
+        This page made only for the <strong>ADMINS</strong>!
+        <br />
+        Here, you can <strong>ADD</strong>, <strong>EDIT</strong>,{" "}
+        <strong>DELETE</strong> the Restaurants and the meals.
+      </Alert>
       <div className="text-center mt-4">
         <img
           src="/src/assets/new-royal-delivery-logo.png"
@@ -18,10 +25,11 @@ const HomePage = () => {
         />
       </div>
 
-      <p className="mt-4 fs-5 fs-md-6 text-secondary text-center px-3 py-3 border border-secondary rounded mx-auto d-block w-100 w-md-75 bg-dark text-light border-0">
-        Manage your restaurant's menu, track orders, and oversee user accounts
-        with ease. Click on the links above to get started!
-      </p>
+      <Alert data-bs-theme="dark">
+        <Alert.Heading>To get started:</Alert.Heading>
+        Click on the button below, or simply choose what would you like to see
+        on the navbar.
+      </Alert>
 
       <Button
         variant="warning"
