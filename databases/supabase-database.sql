@@ -21,8 +21,8 @@ create table if not exists users (
   constraint users_email_unique unique (email),
   constraint users_role_check check (role in ('user', 'owner', 'admin', 'courier', 'customer')),
   constraint users_username_length_check check (char_length(username) >= 3),
-  constraint users_first_name_length_check check (char_length("first_name") >= 1),
-  constraint users_last_name_length_check check (char_length("last_name") >= 1),
+  constraint users_first_name_length_check check (char_length(first_name) >= 1),
+  constraint users_last_name_length_check check (char_length(last_name) >= 1),
   constraint users_email_format_check check (position('@' in email) > 1),
   constraint users_address_length_check check (char_length(address) >= 5),
   constraint users_password_hash_length_check check (char_length(password_hash) >= 20)
@@ -90,7 +90,7 @@ create table if not exists orders (
     on delete restrict
     on update cascade,
 
-    constraint orders_user_id_fkey
+  constraint orders_user_id_fkey
     foreign key (user_id)
     references users(id)
     on delete restrict
@@ -207,10 +207,10 @@ insert into orders (id, restaurant_id, user_id, ordered_at) values
 (6, 6, 9, '2024-06-06'),
 (7, 7, 10, '2024-06-07'),
 (8, 8, 11, '2024-06-08'),
-(9, 9, 12, '2024-06-09'),
-(10, 10, 13, '2024-06-10'),
-(11, 11, 14, '2025-12-27'),
-(12, 12, 15, '2026-01-31');
+(9, 4, 12, '2024-06-09'),
+(10, 1, 13, '2024-06-10'),
+(11, 7, 14, '2025-12-27'),
+(12, 8, 15, '2026-01-31');
 
 insert into order_items (id, order_id, meal_id, restaurant_id, quantity, unit_price) values
 (1, 1, 1, 1, 2, 1500),
@@ -222,11 +222,11 @@ insert into order_items (id, order_id, meal_id, restaurant_id, quantity, unit_pr
 (7, 6, 6, 6, 2, 1400),
 (8, 7, 7, 7, 3, 2000),
 (9, 8, 8, 8, 1, 2200),
-(10, 9, 15, 9, 1, 2500),
-(11, 10, 10, 10, 2, 1500),
-(12, 10, 11, 10, 1, 1800),
-(13, 11, 17, 11, 2, 500),
-(14, 12, 18, 12, 3, 1000);
+(10, 9, 15, 4, 1, 2500),
+(11, 10, 10, 1, 2, 1500),
+(12, 10, 11, 1, 1, 1800),
+(13, 11, 17, 7, 2, 500),
+(14, 12, 18, 8, 3, 1000);
 
 create index if not exists restaurants_owner_id_idx on restaurants (owner_id);
 create index if not exists shops_owner_id_idx on shops (owner_id);
