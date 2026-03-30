@@ -74,7 +74,7 @@ create table if not exists meals (
   constraint meals_name_length_check check (char_length(name) >= 2),
   constraint meals_description_length_check check (char_length(description) >= 3),
   constraint meals_price_check check (price >= 0),
-  constraint meals_name_restaurant_unique unique (name, restaurant_id)
+  constraint meals_name_restaurant_unique unique (name, restaurant_id),
   constraint meals_id_restaurant_unique unique (id, restaurant_id)
 );
 
