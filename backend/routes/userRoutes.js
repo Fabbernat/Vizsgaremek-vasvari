@@ -2,6 +2,7 @@ import express from "express";
 import * as Users from "../data/userData.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { use } from "react";
 
 const router = express.Router();
 
@@ -20,36 +21,67 @@ router.get("/users/:id", (req, res) => {
 
 router.post("/register", (req, res) => {
   const username = req.body.username;
+  const firstName = req.body.firstName;
+  const lastName = req.body.lastName;
   const email = req.body.email;
   const password = req.body.password;
-  if (!username || !email || !password) {
+  if (!username || !email || !password || !firstName || !lastName) {
     return res.status(400).json({ message: "Missing data!" });
+  }
+
+  // Check if email already exists
+  const existingEmail = Users.getUserByEmail(email);
+  if (existingEmail) {
+    return res.status(409).json({ message: "Email already registered!" });
+  }
+
+  // Check if username already exists
+  const existingUsername = Users.getUserByUsername(username);
+  if (existingUsername) {
+    return res.status(409).json({ message: "Username already taken!" });
   }
 
   const salt = bcrypt.genSaltSync();
   const hashedPassword = bcrypt.hashSync(password, salt);
-  const saved = Users.createUser(username, email, hashedPassword);
+  const saved = Users.createUser(
+    username,
+    firstName,
+    lastName,
+    email,
+    hashedPassword,
+  );
   const user = Users.getUserById(saved.lastInsertRowid);
-  res
-    .status(201)
-    .json({ message: "User created!", id: saved.lastInsertRowid, user });
+
+  // Generate JWT token
+  const token = jwt.sign(
+    { id: user.id, email: user.email },
+    "VERY_SECRET_KEY_FOR_THE_TOKENS",
+    { expiresIn: "30m" },
+  );
+
+  res.status(201).json({
+    message: "User created!",
+    token,
+    user_id: user.id,
+    username: user.username,
+  });
 });
 
 router.put("/users/:id", (req, res) => {
-  const { username, email, password } = req.body;
-  if (!username || !email || !password) {
+  const { username, firstName, lastName, email, password } = req.body;
+  if (!username || !email || !password || !firstName || !lastName) {
     return res.status(400).json({ message: "Missing data!" });
   }
   const id = req.params.id;
   const salt = bcrypt.genSaltSync();
   const hashedPassword = bcrypt.hashSync(password, salt);
-  Users.updateUser(id, username, email, hashedPassword);
+  Users.updateUser(id, username, firstName, lastName, email, hashedPassword);
   const user = Users.getUserById(id);
   res.status(200).json({ message: "User update success", user });
 });
 
 router.patch("/users/:id", (req, res) => {
-  const { username, email, password } = req.body;
+  const { username, firstName, lastName, email, password } = req.body;
   const id = req.params.id;
   let user = Users.getUserById(id);
   let hashedPassword;
@@ -60,6 +92,8 @@ router.patch("/users/:id", (req, res) => {
   Users.updateUser(
     id,
     username || user.username,
+    firstName || user.firstName,
+    lastName || user.lastName,
     email || user.email,
     hashedPassword || user.password,
   );

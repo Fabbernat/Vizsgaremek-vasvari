@@ -3,16 +3,16 @@ import type { Restaurant } from "../types/Restaurant";
 export const baseURL = "http://localhost:4000";
 
 const apiClient = {
-    get: function (url: string) {
+    get: function (_url: string) {
         return Promise.resolve({ data: null as Restaurant[] | Restaurant | null });
     },
-    post: function (url: string, data: any) {
+    post: function (_url: string, _data: any) {
         return Promise.resolve();
     },
-    put: function (url: string, data: any) {
+    put: function (_url: string, _data: any) {
         return Promise.resolve();
     },
-    delete: function (url: string) {
+    delete: function (_url: string) {
         return Promise.resolve();
     }
 }
