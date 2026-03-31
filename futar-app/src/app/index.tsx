@@ -3,11 +3,75 @@ import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Pressable, ScrollView, StatusBar, Text, View } from 'react-native';
 import { getMeals, getOrders } from '../services/api';
+import { CourierOrderCard } from './stores/HomeScreen';
 
 export default function HomeScreen() {
   const [orderCount, setOrderCount] = useState(0);
   const [mealCount, setMealCount] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [activeOrders, setActiveOrders] = useState<CourierOrderCard[]>([]);
+  const [isGeneratingOrders, setIsGeneratingOrders] = useState(false);
+
+// Segédfüggvények: random demo rendelés generálása
+  function randomFrom<T>(items: T[]): T {
+  return items[Math.floor(Math.random() * items.length)];
+}
+
+function createDemoOrder(id: number): CourierOrderCard {
+  const customerNames = [
+    'Kiss Péter',
+    'Nagy Anna',
+    'Tóth Bence',
+    'Varga Lilla',
+    'Molnár Dávid',
+    'Kovács Zsófi',
+    'Farkas Márk',
+    'Balogh Réka',
+  ];
+
+  const addresses = [
+    'Szeged, Roosevelt tér 1.',
+    'Szeged, Kárász utca 8.',
+    'Szeged, Tisza Lajos körút 45.',
+    'Szeged, Londoni körút 12.',
+    'Szeged, Petőfi Sándor sugárút 33.',
+    'Szeged, József Attila sugárút 21.',
+    'Szeged, Boldogasszony sugárút 14.',
+  ];
+
+  const restaurantIds = [1, 2, 3, 4];
+  const userIds = [11, 12, 13, 14, 15, 16];
+  const itemCount = Math.floor(Math.random() * 4) + 1;
+  const totalPrice = itemCount * (1800 + Math.floor(Math.random() * 2200));
+
+  return {
+    id,
+    restaurantId: randomFrom(restaurantIds),
+    userId: randomFrom(userIds),
+    orderedAt: new Date(Date.now() - Math.floor(Math.random() * 90) * 60000).toISOString(),
+    customerName: randomFrom(customerNames),
+    customerAddress: randomFrom(addresses),
+    itemCount,
+    totalPrice,
+  };
+}
+
+// Függvény 10 demo rendelés hozzáadására
+function addTenDemoOrders() {
+  setIsGeneratingOrders(true);
+
+  const newOrders = Array.from({ length: 10 }, (_, index) =>
+    createDemoOrder(index + 1)
+  );
+
+  setActiveOrders(newOrders);
+  setIsGeneratingOrders(false);
+}
+
+// Függvény a kézbesítéshez
+function markOrderAsDelivered(orderId: number) {
+  setActiveOrders((prev) => prev.filter((order) => order.id !== orderId));
+}
 
   useEffect(() => {
     async function loadData() {
@@ -17,6 +81,21 @@ export default function HomeScreen() {
 
         setOrderCount(Array.isArray(orders) ? orders.length : 0);
         setMealCount(Array.isArray(meals) ? meals.length : 0);
+
+        if (Array.isArray(orders)) {
+        const mappedOrders: CourierOrderCard[] = orders.slice(0, 5).map((order: any) => ({
+          id: order.id,
+          restaurantId: order.restaurant_id,
+          userId: order.user_id,
+          orderedAt: order.ordered_at,
+          customerName: `Vásárló #${order.user_id}`,
+          customerAddress: 'Szeged, demo cím',
+          itemCount: Math.floor(Math.random() * 3) + 1,
+          totalPrice: 2000 + Math.floor(Math.random() * 5000),
+        }));
+
+          setActiveOrders(mappedOrders);
+        }
       } catch (error) {
         console.error(error);
       } finally {
@@ -168,7 +247,7 @@ export default function HomeScreen() {
                 marginTop: 4,
               }}
             >
-              0
+              {activeOrders.length}
             </Text>
           </View>
 
