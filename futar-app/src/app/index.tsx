@@ -6,9 +6,9 @@ import { getMeals, getOrders, markDelivered } from '../services/api';
 import { CourierOrderCard } from './stores/HomeScreen';
 
 export default function HomeScreen() {
-  const [orderCount, setOrderCount] = useState(0);
-  const [mealCount, setMealCount] = useState(0);
-  const [loading, setLoading] = useState(true);
+  const [, setOrderCount] = useState(0);
+  const [, setMealCount] = useState(0);
+  const [, setLoading] = useState(true);
   const [activeOrders, setActiveOrders] = useState<CourierOrderCard[]>([]);
   const [isGeneratingOrders, setIsGeneratingOrders] = useState(false);
 
@@ -16,6 +16,7 @@ export default function HomeScreen() {
   function randomFrom<T>(items: T[]): T {
   return items[Math.floor(Math.random() * items.length)];
 }
+
 
 function createDemoOrder(id: number): CourierOrderCard {
   const customerNames = [
@@ -372,7 +373,7 @@ async function markOrderAsDelivered(orderId: number) {
 
         <View style={{ gap: 12, marginBottom: 20 }}>
           <Pressable
-            onPress={() => router.push('/login')}
+            onPress={() => router.push('/(public)/login')}
             style={({ pressed }) => ({
               backgroundColor: pressed ? '#1d4ed8' : '#2563eb',
               borderRadius: 16,
@@ -401,7 +402,7 @@ async function markOrderAsDelivered(orderId: number) {
           </Pressable>
 
           <Pressable
-            onPress={() => router.push('/register')}
+            onPress={() => router.push('/(public)/register')}
             style={({ pressed }) => ({
               backgroundColor: pressed ? '#15803d' : '#16a34a',
               borderRadius: 16,
@@ -621,7 +622,7 @@ async function markOrderAsDelivered(orderId: number) {
           </Pressable>
 
           <Pressable
-            onPress={() => router.push('/contacts')}
+            onPress={() => router.push('/(public)/contacts')}
             style={({ pressed }) => ({
               backgroundColor: pressed ? '#e0f2fe' : '#f8fafc',
               borderRadius: 14,
