@@ -1,11 +1,12 @@
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { router } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { Pressable, ScrollView, StatusBar, Text, View } from 'react-native';
+import { Alert, Pressable, ScrollView, StatusBar, Text, View } from 'react-native';
 import { getMeals, getOrders, markDelivered } from '../services/api';
 import { CourierOrderCard } from './stores/HomeScreen';
 
 export default function HomeScreen() {
+  const router = useRouter();
   const [, setOrderCount] = useState(0);
   const [, setMealCount] = useState(0);
   const [, setLoading] = useState(true);
@@ -74,8 +75,13 @@ async function markOrderAsDelivered(orderId: number) {
   try {
     await markDelivered(orderId);
     setActiveOrders((prev) => prev.filter((o) => o.id !== orderId));
-  } catch (error) {
+    Alert.alert('Siker', `A(z) ${orderId}. rendelés kézbesítettnek jelölve.`);
+  } catch (error: any) {
     console.error(error);
+    Alert.alert(
+      'Hiba',
+      error?.message || 'Nem sikerült a rendelést kézbesítettnek jelölni.'
+    );
   }
 }
 

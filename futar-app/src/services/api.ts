@@ -1,7 +1,4 @@
-const API_BASE_URL = 'http://10.0.2.2:5000/api';
-// Android emulátor esetén 10.0.2.2
-// Ha fizikai telefonról fut Expo Go-ban, akkor ide a géped lokális IP-je kell, pl.
-// const API_BASE_URL = 'http://192.168.1.25:5000/api';
+const API_BASE_URL = 'http://192.168.1.145:5000/api';
 
 async function handleResponse(response: Response) {
   const contentType = response.headers.get('content-type');
