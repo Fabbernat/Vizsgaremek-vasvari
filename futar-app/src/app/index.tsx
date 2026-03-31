@@ -2,7 +2,7 @@ import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Pressable, ScrollView, StatusBar, Text, View } from 'react-native';
-import { getMeals, getOrders } from '../services/api';
+import { getMeals, getOrders, markDelivered } from '../services/api';
 import { CourierOrderCard } from './stores/HomeScreen';
 
 export default function HomeScreen() {
@@ -69,8 +69,13 @@ function addTenDemoOrders() {
 }
 
 // Függvény a kézbesítéshez
-function markOrderAsDelivered(orderId: number) {
-  setActiveOrders((prev) => prev.filter((order) => order.id !== orderId));
+async function markOrderAsDelivered(orderId: number) {
+  try {
+    await markDelivered(orderId);
+    setActiveOrders((prev) => prev.filter((o) => o.id !== orderId));
+  } catch (error) {
+    console.error(error);
+  }
 }
 
   useEffect(() => {
@@ -423,6 +428,139 @@ function markOrderAsDelivered(orderId: number) {
 
             <Ionicons name="chevron-forward" size={22} color="white" />
           </Pressable>
+
+          <Pressable
+            onPress={addTenDemoOrders}
+            style={({ pressed }) => ({
+              backgroundColor: pressed ? '#ea580c' : '#f97316',
+              borderRadius: 16,
+              paddingVertical: 16,
+              paddingHorizontal: 18,
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            })}
+          >
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Ionicons name="add-circle-outline" size={22} color="white" />
+              <Text
+                style={{
+                  color: 'white',
+                  fontWeight: '700',
+                  fontSize: 16,
+                  marginLeft: 12,
+                }}
+              >
+                {isGeneratingOrders ? 'Generálás...' : '10 demo rendelés hozzáadása'}
+              </Text>
+            </View>
+
+            <Ionicons name="chevron-forward" size={22} color="white" />
+          </Pressable>
+        </View>
+
+        <Text
+  style={{
+    fontSize: 17,
+    fontWeight: '700',
+    color: '#0f172a',
+    marginBottom: 12,
+  }}
+>
+  Aktív rendelések
+</Text>
+
+<View style={{ gap: 12, marginBottom: 24 }}>
+  {activeOrders.length === 0 ? (
+    <View
+      style={{
+        backgroundColor: 'white',
+        borderRadius: 16,
+        padding: 18,
+        borderWidth: 1,
+        borderColor: '#e2e8f0',
+      }}
+    >
+      <Text style={{ fontSize: 15, fontWeight: '700', color: '#0f172a', marginBottom: 6 }}>
+        Jelenleg nincs aktív rendelés
+      </Text>
+      <Text style={{ color: '#64748b', lineHeight: 20 }}>
+        Nyomd meg a „10 demo rendelés hozzáadása” gombot a teszteléshez.
+      </Text>
+    </View>
+  ) : (
+    activeOrders.map((order) => (
+      <View
+        key={order.id}
+        style={{
+          backgroundColor: 'white',
+          borderRadius: 18,
+          padding: 16,
+          shadowColor: '#000',
+          shadowOpacity: 0.06,
+          shadowRadius: 8,
+          shadowOffset: { width: 0, height: 2 },
+          elevation: 2,
+        }}
+      >
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'flex-start',
+            marginBottom: 10,
+          }}
+        >
+          <View style={{ flex: 1, paddingRight: 12 }}>
+            <Text style={{ fontSize: 16, fontWeight: '800', color: '#0f172a' }}>
+              Rendelés #{order.id}
+            </Text>
+            <Text style={{ color: '#475569', marginTop: 4 }}>
+              {order.customerName}
+            </Text>
+          </View>
+
+          <View
+            style={{
+              backgroundColor: '#dbeafe',
+              paddingHorizontal: 10,
+              paddingVertical: 6,
+              borderRadius: 999,
+            }}
+          >
+            <Text style={{ color: '#1d4ed8', fontWeight: '700', fontSize: 12 }}>
+              Aktív
+            </Text>
+          </View>
+        </View>
+
+        <View style={{ gap: 6, marginBottom: 14 }}>
+          <Text style={{ color: '#334155' }}>Cím: {order.customerAddress}</Text>
+          <Text style={{ color: '#334155' }}>Étterem azonosító: {order.restaurantId}</Text>
+          <Text style={{ color: '#334155' }}>Tételek száma: {order.itemCount}</Text>
+          <Text style={{ color: '#334155' }}>Összeg: {order.totalPrice} Ft</Text>
+          <Text style={{ color: '#64748b' }}>
+            Rendelés ideje: {new Date(order.orderedAt).toLocaleString('hu-HU')}
+          </Text>
+        </View>
+
+        <Pressable
+          onPress={() => markOrderAsDelivered(order.id)}
+          style={({ pressed }) => ({
+            backgroundColor: pressed ? '#15803d' : '#16a34a',
+            borderRadius: 14,
+            paddingVertical: 14,
+            alignItems: 'center',
+            justifyContent: 'center',
+          })}
+        >
+          <Text style={{ color: 'white', fontWeight: '800', fontSize: 15 }}>
+            Kézbesítve
+          </Text>
+                </Pressable>
+              </View>
+            ))
+          )}
         </View>
 
         {/* Secondary actions */}

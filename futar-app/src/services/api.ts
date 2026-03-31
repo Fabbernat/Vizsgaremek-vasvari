@@ -61,3 +61,14 @@ export async function getMeals() {
   const response = await fetch(`${API_BASE_URL}/Meals`);
   return handleResponse(response);
 }
+
+export async function markDelivered(orderId: number) {
+  const response = await fetch(`${API_BASE_URL}/Orders/${orderId}/deliver`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  return handleResponse(response);
+}
