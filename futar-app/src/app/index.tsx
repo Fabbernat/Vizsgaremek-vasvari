@@ -379,7 +379,7 @@ async function markOrderAsDelivered(orderId: number) {
 
         <View style={{ gap: 12, marginBottom: 20 }}>
           <Pressable
-            onPress={() => router.push('/(public)/login')}
+            onPress={() => router.push('/login')}
             style={({ pressed }) => ({
               backgroundColor: pressed ? '#1d4ed8' : '#2563eb',
               borderRadius: 16,
@@ -408,7 +408,7 @@ async function markOrderAsDelivered(orderId: number) {
           </Pressable>
 
           <Pressable
-            onPress={() => router.push('/(public)/register')}
+            onPress={() => router.push('/register')}
             style={({ pressed }) => ({
               backgroundColor: pressed ? '#15803d' : '#16a34a',
               borderRadius: 16,
@@ -628,7 +628,7 @@ async function markOrderAsDelivered(orderId: number) {
           </Pressable>
 
           <Pressable
-            onPress={() => router.push('/(public)/contacts')}
+            onPress={() => router.push('/contacts')}
             style={({ pressed }) => ({
               backgroundColor: pressed ? '#e0f2fe' : '#f8fafc',
               borderRadius: 14,
