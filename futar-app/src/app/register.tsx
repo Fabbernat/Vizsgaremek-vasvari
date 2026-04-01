@@ -9,7 +9,7 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import { registerUser } from '../../services/api';
+import { registerUser } from '../services/api';
 
 export default function RegisterScreen() {
   const [fullName, setFullName] = useState('');

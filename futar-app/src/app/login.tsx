@@ -10,7 +10,7 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import { loginUser } from '../../services/api';
+import { loginUser } from '../services/api';
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
