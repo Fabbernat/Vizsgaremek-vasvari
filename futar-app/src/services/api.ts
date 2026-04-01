@@ -1,6 +1,7 @@
-const API_BASE_URL = 'http://192.168.1.145:5000/api';
+const API_BASE_URL =
+  process.env.EXPO_PUBLIC_API_BASE_URL || 'http://192.168.1.145:5000/api';
 
-async function handleResponse(response: Response) {
+  async function handleResponse(response: Response) {
   const contentType = response.headers.get('content-type');
 
   let data: any = null;
