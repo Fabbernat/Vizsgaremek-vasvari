@@ -19,7 +19,6 @@ export default function HomeScreen() {
       }>
       <ThemedView style={styles.titleContainer}>
         <ThemedText type="title">Welcome!</ThemedText>
-        <Text>A RoyalDelivery kontaktjai: legfontosabb munka közben: telefon: +36301234567 2. legfontosabb munka közben: Facebook messages<a href="https://www.facebook.com/RoyalDelivery" target="_blank">Facebook</a> 3. legfontosabb (hivatalos ügyekre csak) <a href="mailto:info@royaldelivery.com" target="_blank">Gmail</a> <a href="https://www.instagram.com/RoyalDelivery/" target="_blank">Instagram</a> <a href="https://www.linkedin.com/RoyalDelivery/" target="_blank">LinkedIn</a></Text>
         <HelloWave />
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
