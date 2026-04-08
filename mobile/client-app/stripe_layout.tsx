@@ -2,7 +2,7 @@ import { Stack } from 'expo-router';
 import { StripeProvider } from '@stripe/stripe-react-native';
 import { CartProvider } from './cart-context';
 
-export default function RootLayout() {
+export default function StripeLayout() {
   return (
     <StripeProvider publishableKey={process.env.EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? ''}>
       <CartProvider>
