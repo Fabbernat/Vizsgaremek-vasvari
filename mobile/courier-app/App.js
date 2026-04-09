@@ -72,7 +72,7 @@ export default function App() {
           Kapcsolat & Segítség
         </Text>
           <View style={styles.container}>
-            <Image source={require('./assets/mine/email.png')} style={styles.icon}/>
+            <Image source={require('./assets/mine/email.png')} style={ styles.icon}/>
             <Image source={require('./assets/mine/icons8-facebook-96.png')} style={styles.icon} />
             <Image source={require('./assets/mine/icons8-instagram-480.png')} style={styles.icon} />
             <Image source={require('./assets/mine/icons8-linkedin-96.png')} style={styles.icon} />
@@ -198,11 +198,16 @@ export default function App() {
           </Text>
           <Text style={{ color: "white" }}>Royal Delivery LinkedIn</Text>
         </Pressable>
+
+        <View>
+          <Image source={require('./assets/mine/5icons.png')} style={{ height: 400 }}/>
+        </View>
       </View>
     </ScrollView>
   );
 }
 
+const ICON_SIZE = 40;
 
 const styles = StyleSheet.create({
     container: {
@@ -212,8 +217,8 @@ const styles = StyleSheet.create({
       alignItems: 'center',
     },
     icon: {
-      width: 40,
-      height: 40,
+      width: ICON_SIZE,
+      height: ICON_SIZE,
       resizeMode: 'contain', // 🔥 prevents distortion
     },
   });
