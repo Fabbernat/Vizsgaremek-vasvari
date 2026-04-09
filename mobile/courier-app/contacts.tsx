@@ -1,10 +1,14 @@
-import { router } from 'expo-router';
-import { Linking, Pressable, ScrollView, Text, View } from 'react-native';
+  import { router } from 'expo-router';
+  import { Linking, Platform, Pressable, ScrollView, Text, View } from 'react-native';
 
 export default function ContactsScreen() {
   function openPhone() {
+  if (Platform.OS === 'web') {
+    alert('Call: +36 30 123 4567');
+  } else {
     Linking.openURL('tel:+36301234567');
   }
+}
 
   function openFacebook() {
     Linking.openURL('https://www.facebook.com/RoyalDelivery');
@@ -32,7 +36,7 @@ export default function ContactsScreen() {
     >
       <View style={{ flex: 1, justifyContent: 'center' }}>
         <Pressable
-          onPress={() => router.back()}
+          onPress={() => router.replace('/')}
           style={{
             alignSelf: 'flex-start',
             backgroundColor: '#e5e7eb',
