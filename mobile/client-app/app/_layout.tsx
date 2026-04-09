@@ -37,6 +37,7 @@ export default function RootLayout() {
 
       {/* Login gomb */}
       <Pressable
+        // @ts-ignore
         onPress={() => router.push('/login')}
         style={{
           backgroundColor: '#2563eb',
@@ -55,6 +56,7 @@ export default function RootLayout() {
 
       {/* Register gomb */}
       <Pressable
+        // @ts-ignore
         onPress={() => router.push('/register')}
         style={{
           backgroundColor: '#16a34a',
