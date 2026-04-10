@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, Alert, Text } from 'react-native';
-import { supabase } from './supabase';
+import { supabase } from '../supabase';
 
 
 export default function Register() {
