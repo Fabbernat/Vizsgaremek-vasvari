@@ -49,6 +49,7 @@
     "@types/react": "~19.1.0",
     "eslint": "^9.25.0",
     "eslint-config-expo": "~10.0.0",
+    "postgres": "^3.4.9",
     "psql": "^0.0.1",
     "supabase": "^2.89.0",
     "typescript": "~5.9.2"
