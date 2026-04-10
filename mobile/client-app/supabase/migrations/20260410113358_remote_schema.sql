@@ -722,3 +722,12 @@ ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON TAB
 
 
 
+drop extension if exists "pg_net";
+
+alter table "public"."users" drop constraint "users_role_check";
+
+alter table "public"."users" add constraint "users_role_check" CHECK (((role)::text = ANY ((ARRAY['user'::character varying, 'owner'::character varying, 'admin'::character varying, 'courier'::character varying, 'customer'::character varying])::text[]))) not valid;
+
+alter table "public"."users" validate constraint "users_role_check";
+
+
