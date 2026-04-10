@@ -5,6 +5,7 @@ import {
   Pressable,
   Text,
   View,
+  ScrollView,
   Image,
   StyleSheet,
 } from "react-native";
@@ -35,7 +36,7 @@ export default function ContactsScreen() {
   }
 
   return (
-    <View
+    <ScrollView
       style={{
         flexGrow: 1,
         padding: 24,
@@ -218,7 +219,7 @@ export default function ContactsScreen() {
           />
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
