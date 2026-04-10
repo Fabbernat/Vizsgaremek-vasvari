@@ -72,11 +72,11 @@ export default function App() {
           Kapcsolat & Segítség
         </Text>
           <View style={styles.container}>
+            <Image source={require('./assets/mine/landline-phone.png')} style={styles.icon} />
             <Image source={require('./assets/mine/email.png')} style={ styles.icon}/>
             <Image source={require('./assets/mine/icons8-facebook-96.png')} style={styles.icon} />
             <Image source={require('./assets/mine/icons8-instagram-480.png')} style={styles.icon} />
             <Image source={require('./assets/mine/icons8-linkedin-96.png')} style={styles.icon} />
-            <Image source={require('./assets/mine/landline-phone.png')} style={styles.icon} />
           </View>
 
         <Text
