@@ -1,5 +1,6 @@
 import { View, Text, Pressable } from 'react-native';
 import { router } from 'expo-router';
+import Meals from './meals';
 
 export default function HomeScreen() {
   return (
@@ -12,6 +13,7 @@ export default function HomeScreen() {
         backgroundColor: '#ffffff',
       }}
     >
+        <Meals/>
       {/* Cím */}
       <Text
         style={{
