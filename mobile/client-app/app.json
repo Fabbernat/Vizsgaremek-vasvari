@@ -39,9 +39,8 @@
           }
         }
       ],
-      "expo-secure-store",
-      "@stripe/stripe-react-native"
-    ],
+      "expo-secure-store"
+        ],
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
