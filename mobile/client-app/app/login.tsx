@@ -1,18 +1,33 @@
 import { useState } from "react";
-import {Text, TextInput, Button, View } from "react-native";
+import {Text, TextInput, Button, Alert, View } from "react-native";
+import { supabase } from "../supabase";
 
 export default function Login() {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  // 3. Ez a függvény fut le, ha rányomnak a gombra
+  async function handleLogin() {
+    // Meghívjuk a Supabase bejelentkezést
+    const {  user, session, error } = await (supabase.auth as any)({
+      email: email,
+      password: password,
+    });
+
+    if (error) {
+      // Ha hiba van, feldobunk egy mobilos ablakot (Alert)
+      Alert.alert("Hiba!", error.message);
+    }
+  }
 
   return (
     <View style={{ padding: 20, marginTop: 50 }}>
       <Text>Bejelentkezés</Text>
 
       <TextInput
-        placeholder="Felhasznélónév"
-        value={username}
-        onChangeText={setUsername}
+        placeholder="Email"
+        value={email}
+        onChangeText={setEmail}
         style={{ borderBottomWidth: 1, marginBottom: 20 }}
         autoCapitalize="none"
       />
@@ -25,7 +40,7 @@ export default function Login() {
         style={{ borderBottomWidth: 1, marginBottom: 20 }}
       />
 
-      <Button title="Bejelentkezés" onPress={() => {}} />
+      <Button title="Bejelentkezés" onPress={handleLogin} />
     </View>
   );
 }
