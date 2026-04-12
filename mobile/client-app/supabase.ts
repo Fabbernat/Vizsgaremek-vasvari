@@ -7,6 +7,9 @@ import "react-native-url-polyfill/auto";
 const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL!;
 const supabaseKey = process.env.EXPO_PUBLIC_SUPABASE_KEY!;
 
+const isWeb = Platform.OS === "web";
+const isBrowser = typeof window !== "undefined";
+
 const ExpoSecureStoreAdapter = {
   getItem: (key: string) => SecureStore.getItemAsync(key),
   setItem: (key: string, value: string) => SecureStore.setItemAsync(key, value),
@@ -14,14 +17,19 @@ const ExpoSecureStoreAdapter = {
 };
 
 const WebStorageAdapter = {
-  getItem: (key: string) => Promise.resolve(localStorage.getItem(key)),
-  setItem: (key: string, value: string) => {
-    localStorage.setItem(key, value);
-    return Promise.resolve();
+  getItem: async (key: string) => {
+    if (typeof window === "undefined") return null;
+    return window.localStorage.getItem(key);
   },
-  removeItem: (key: string) => {
-    localStorage.removeItem(key);
-    return Promise.resolve();
+
+  setItem: async (key: string, value: string) => {
+    if (typeof window === "undefined") return;
+    window.localStorage.setItem(key, value);
+  },
+
+  removeItem: async (key: string) => {
+    if (typeof window === "undefined") return;
+    window.localStorage.removeItem(key);
   },
 };
 
@@ -31,9 +39,9 @@ const storage = Platform.OS === 'web'
 
 export const supabase = createClient(supabaseUrl, supabaseKey, {
   auth: {
-    storage,
-    autoRefreshToken: true,
-    persistSession: true,
-    detectSessionInUrl: false,
+    storage: isWeb ? WebStorageAdapter : ExpoSecureStoreAdapter,
+    autoRefreshToken: isBrowser,
+    persistSession: isBrowser,
+    detectSessionInUrl: isWeb,
   },
 });
