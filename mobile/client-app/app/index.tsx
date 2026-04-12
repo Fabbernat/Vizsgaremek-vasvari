@@ -4,12 +4,12 @@ import Meals from "./meals";
 import { supabase } from "@/supabase";
 
 const fallbackData = [
-  { id: "1", title: "Card 1" },
-  { id: "2", title: "Card 2" },
-  { id: "3", title: "Card 3" },
-  { id: "4", title: "Card 4" },
-  { id: "5", title: "Card 5" },
-  { id: "6", title: "Card 6" },
+  { id: "1", name: "Étel 1", description: "Leírás 1", price: 1590 },
+  { id: "2", name: "Étel 2", description: "Leírás 2", price: 1990 },
+  { id: "3", name: "Étel 3", description: "Leírás 3", price: 2990 },
+  { id: "4", name: "Étel 4", description: "Leírás 4", price: 3990 },
+  { id: "5", name: "Étel 5", description: "Leírás 5", price: 3490 },
+  { id: "6", name: "Étel 6", description: "Leírás 6", price: 2490 },
 ];
 
 export default function HomeScreen() {
@@ -57,7 +57,9 @@ export default function HomeScreen() {
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
               <View style={styles.card}>
-                <Text>{item.title}</Text>
+                <Text>{item.name}</Text>
+                <Text>{item.description}</Text>
+                <Text>{item.price} Ft</Text>
               </View>
             )}
           />
