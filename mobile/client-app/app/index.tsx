@@ -87,28 +87,39 @@ export default function HomeScreen() {
           
           <View>
       {loading ? (
-        <Text>Loading...</Text>
-      )  : (
-        <FlatList
-            data={
-              dataToShow.length > 0 ? dataToShow : fallbackData
-            }
-            numColumns={3} // 3 columns
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => (
-              <View style={styles.card}>
-                <Text>{item.name}</Text>
-                <Text>{item.description}</Text>
-                <Text>{item.price} Ft</Text>
-                <Image
-                  source={{ uri: item.imageUrl }}
-                  style={{ width: 200, height: 20 }}
-                  accessibilityLabel={`Egy kép erről: ${item.name}`}
-                />
-              </View>
-            )}
-          />
-      )}
+  <Text>Loading...</Text>
+) : dataToShow.length === 0 ? (
+  <View style={styles.emptyContainer}>
+    <Text style={styles.emptyText}>Nincs étel</Text>
+  </View>
+) : (
+  <FlatList
+  data={
+                  dataToShow.length > 0 ? dataToShow : fallbackData
+  }
+  numColumns={3}
+  keyExtractor={(item) => item.id.toString()}
+  ListEmptyComponent={
+    !loading ? (
+      <View style={styles.emptyContainer}>
+        <Text style={styles.emptyText}>Nincs étel</Text>
+      </View>
+    ) : null
+  }
+  renderItem={({ item }) => (
+    <View style={styles.card}>
+      <Text>{item.name}</Text>
+      <Text>{item.description}</Text>
+      <Text>{item.price} Ft</Text>
+      <Image
+        source={{ uri: item.imageUrl }}
+        style={{ width: 200, height: 20 }}
+        accessibilityLabel={`Egy kép erről: ${item.name}`}
+/>
+    </View>
+  )}
+/>
+)}
     </View>
         </View>
 
@@ -181,4 +192,14 @@ const styles = StyleSheet.create({
     height: 120,
     justifyContent: "center",
   },
+  emptyContainer: {
+  alignItems: "center",
+  justifyContent: "center",
+  marginTop: 40,
+},
+
+emptyText: {
+  fontSize: 18,
+  color: "#888",
+},
 });
