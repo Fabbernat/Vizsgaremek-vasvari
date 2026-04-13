@@ -34,7 +34,8 @@ export default function HomeScreen() {
     const { data, error } = await supabase
       .from('meals')
       .select('*')
-
+      .order('id', { ascending: true })
+      .limit(6);
     if (error) {
       console.error(error)
     }
@@ -42,7 +43,7 @@ export default function HomeScreen() {
     return data
   }
 
-  const dataToShow = meals.map((meal: Meal) => ({
+  const dataToShow = (meals ?? []).map((meal: Meal) => ({
   ...meal,
   id: meal.id.toString(),
 }));
@@ -90,8 +91,8 @@ export default function HomeScreen() {
       )  : (
         <FlatList
             data={
-              /* supabase.tables.meals || */
-              dataToShow.length > 0 ? dataToShow : fallbackData}
+              dataToShow.length > 0 ? dataToShow : fallbackData
+            }
             numColumns={3} // 3 columns
             keyExtractor={(item) => item.id.toString()}
             renderItem={({ item }) => (
