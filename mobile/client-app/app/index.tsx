@@ -1,9 +1,9 @@
 import {Image, View, Text, Pressable, FlatList, StyleSheet } from "react-native";
 import { router } from "expo-router";
-import Meals from "./meals";
+import {Meal, Meals} from "./meals";
 import { supabase } from "@/supabase";
 import { useEffect, useState } from 'react'
-import { Meal } from "./meals";
+import { useMeals } from "./useMeals";
 
 const fallbackData = [
   { id: "1", name: "Étel 1", description: "Leírás 1", price: 1590, imageUrl:'kep1.jpg' },
@@ -18,14 +18,13 @@ const fallbackData = [
 
 
 export default function HomeScreen() {
-  const [meals, setMeals] = useState<Meal[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { meals, loading } = useMeals();
+  const [setMeals] = useState<Meal[]>([]);
+  const [setLoading] = useState(true);
 
     useEffect(() => {
     const loadMeals = async () => {
       const data = await fetchMeals();
-      setMeals(data as Meal[]);
-      setLoading(false);
     };
 
     loadMeals();
@@ -38,15 +37,16 @@ export default function HomeScreen() {
 
     if (error) {
       console.error(error)
-    } else {
-    setMeals(data as Meal[]);
     }
 
     return data
   }
 
-  const dataToShow = meals.length > 0 ? meals : fallbackData;
-
+  const dataToShow = meals.map((meal: Meal) => ({
+  ...meal,
+  id: meal.id.toString(),
+}));
+  
   return (
     <View
       style={{
@@ -87,31 +87,13 @@ export default function HomeScreen() {
           <View>
       {loading ? (
         <Text>Loading...</Text>
-      ) : meals.length > 0 ? (
-        <FlatList
-          data={meals}
-          numColumns={3}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => (
-            <View style={styles.card}>
-              <Text>{item.name}</Text>
-              <Text>{item.description}</Text>
-              <Text>{item.price} Ft</Text>
-
-              <Image
-                source={{ uri: item.imageUrl }}
-                style={{ width: 100, height: 80 }}
-              />
-            </View>
-          )}
-        />
-      ) : (
+      )  : (
         <FlatList
             data={
               /* supabase.tables.meals || */
-               fallbackData}
+              dataToShow.length > 0 ? dataToShow : fallbackData}
             numColumns={3} // 3 columns
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item) => item.id.toString()}
             renderItem={({ item }) => (
               <View style={styles.card}>
                 <Text>{item.name}</Text>
