@@ -2,6 +2,8 @@ import {Image, View, Text, Pressable, FlatList, StyleSheet } from "react-native"
 import { router } from "expo-router";
 import Meals from "./meals";
 import { supabase } from "@/supabase";
+import { useEffect, useState } from 'react'
+import { Meal } from "./meals";
 
 const fallbackData = [
   { id: "1", name: "Étel 1", description: "Leírás 1", price: 1590, imageUrl:'kep1.jpg' },
@@ -12,7 +14,39 @@ const fallbackData = [
   { id: "6", name: "Étel 6", description: "Leírás 6", price: 2490, imageUrl:'kep1.jpg' },
 ];
 
+
+
+
 export default function HomeScreen() {
+  const [meals, setMeals] = useState<Meal[]>([]);
+  const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+    const loadMeals = async () => {
+      const data = await fetchMeals();
+      setMeals(data as Meal[]);
+      setLoading(false);
+    };
+
+    loadMeals();
+  }, []);
+
+  async function fetchMeals() {
+    const { data, error } = await supabase
+      .from('meals')
+      .select('*')
+
+    if (error) {
+      console.error(error)
+    } else {
+    setMeals(data as Meal[]);
+    }
+
+    return data
+  }
+
+  const dataToShow = meals.length > 0 ? meals : fallbackData;
+
   return (
     <View
       style={{
@@ -49,7 +83,30 @@ export default function HomeScreen() {
 
       <View id="meals">
         <View id="featured">
-          <FlatList
+          
+          <View>
+      {loading ? (
+        <Text>Loading...</Text>
+      ) : meals.length > 0 ? (
+        <FlatList
+          data={meals}
+          numColumns={3}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
+            <View style={styles.card}>
+              <Text>{item.name}</Text>
+              <Text>{item.description}</Text>
+              <Text>{item.price} Ft</Text>
+
+              <Image
+                source={{ uri: item.imageUrl }}
+                style={{ width: 100, height: 80 }}
+              />
+            </View>
+          )}
+        />
+      ) : (
+        <FlatList
             data={
               /* supabase.tables.meals || */
                fallbackData}
@@ -68,6 +125,8 @@ export default function HomeScreen() {
               </View>
             )}
           />
+      )}
+    </View>
         </View>
 
         {/* Ételek */}

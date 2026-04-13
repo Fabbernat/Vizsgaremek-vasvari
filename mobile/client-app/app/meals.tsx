@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../supabase";
 
-interface Meal {
+export interface Meal {
   id: number;
   name: string;
   description: string;
   price: number;
+  imageUrl: string | undefined;
   restaurant_id: number;
 }
 
