@@ -6,12 +6,12 @@ import { useEffect, useState } from 'react'
 import { useMeals } from "./useMeals";
 
 const fallbackData = [
-  { id: "1", name: "Étel 1", description: "Leírás 1", price: 1590, imageUrl:'kep1.jpg' },
-  { id: "2", name: "Étel 2", description: "Leírás 2", price: 1990, imageUrl:'kep1.jpg' },
-  { id: "3", name: "Étel 3", description: "Leírás 3", price: 2990, imageUrl:'kep1.jpg' },
-  { id: "4", name: "Étel 4", description: "Leírás 4", price: 3990, imageUrl:'kep1.jpg' },
-  { id: "5", name: "Étel 5", description: "Leírás 5", price: 3490, imageUrl:'kep1.jpg' },
-  { id: "6", name: "Étel 6", description: "Leírás 6", price: 2490, imageUrl:'kep1.jpg' },
+  { id: "1", name: "Étel 1", description: "Leírás 1", price: 1590, imageUrl:'placeholder.jpg' },
+  { id: "2", name: "Étel 2", description: "Leírás 2", price: 1990, imageUrl:'placeholder.jpg' },
+  { id: "3", name: "Étel 3", description: "Leírás 3", price: 2990, imageUrl:'placeholder.jpg' },
+  { id: "4", name: "Étel 4", description: "Leírás 4", price: 3990, imageUrl:'placeholder.jpg' },
+  { id: "5", name: "Étel 5", description: "Leírás 5", price: 3490, imageUrl:'placeholder.jpg' },
+  { id: "6", name: "Étel 6", description: "Leírás 6", price: 2490, imageUrl:'placeholder.jpg' },
 ];
 
 
@@ -19,7 +19,6 @@ const fallbackData = [
 
 export default function HomeScreen() {
   const { meals, loading } = useMeals();
-  const [setMeals] = useState<Meal[]>([]);
   const [setLoading] = useState(true);
 
     useEffect(() => {
@@ -41,6 +40,11 @@ export default function HomeScreen() {
     }
 
     return data
+  }
+
+  async function tesztKiiras() {
+    const data = await fetchMeals();
+    console.log("FETCHED:", data);
   }
 
   const dataToShow = (meals ?? []).map((meal: Meal) => ({
@@ -87,10 +91,13 @@ export default function HomeScreen() {
           
           <View>
       {loading ? (
-  <Text>Loading...</Text>
+  <Text>Ételek betöltése...</Text>
 ) : dataToShow.length === 0 ? (
   <View style={styles.emptyContainer}>
     <Text style={styles.emptyText}>Nincs étel</Text>
+    <FlatList 
+    data={tesztKiiras}
+    />
   </View>
 ) : (
   <FlatList
