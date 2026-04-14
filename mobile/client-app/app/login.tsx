@@ -9,15 +9,8 @@ export default function Login() {
   // 3. Ez a függvény fut le, ha rányomnak a gombra
   async function handleLogin() {
     // Meghívjuk a Supabase bejelentkezést
-    const {  user, session, error } = await (supabase.auth as any)({
-      email: email,
-      password: password,
-    });
-
-    if (error) {
-      // Ha hiba van, feldobunk egy mobilos ablakot (Alert)
-      Alert.alert("Hiba!", error.message);
-    }
+     Alert.alert("Hiba!");
+    
   }
 
   return (

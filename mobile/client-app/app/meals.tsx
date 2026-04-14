@@ -11,6 +11,19 @@ export interface Meal {
   restaurant_id: number;
 }
 
+export async function getMeals() {
+  const { data, error } = await supabase
+    .from("meals")
+    .select("*")
+    .order("id", { ascending: true })
+    .limit(6);
+
+  if (error) {
+    console.error(error);
+  }
+  return data;
+}
+
 export function Meals() {
   const [meals, setMeals] = useState<Meal[]>([]);
   const [error, setError] = useState<string | null>(null);

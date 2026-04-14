@@ -5,11 +5,12 @@ import {
   Pressable,
   FlatList,
   StyleSheet,
+  Button,
 } from "react-native";
 import { router } from "expo-router";
 import { Meal, Meals } from "./meals";
 import { supabase } from "@/supabase";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useMeals } from "./useMeals";
 
 const fallbackData = [
@@ -59,15 +60,8 @@ const fallbackData = [
 
 export default function HomeScreen() {
   const { meals, loading } = useMeals();
-  const [setLoading] = useState(true);
+  const [isLoading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const loadMeals = async () => {
-      const data = await fetchMeals();
-    };
-
-    loadMeals();
-  }, []);
 
   async function fetchMeals() {
     const { data, error } = await supabase
@@ -134,7 +128,7 @@ export default function HomeScreen() {
             ) : dataToShow.length === 0 ? (
               <View style={styles.emptyContainer}>
                 <Text style={styles.emptyText}>Nincs étel</Text>
-                <FlatList data={tesztKiiras} />
+                <Button title="Teszt" onPress={tesztKiiras} />
               </View>
             ) : (
               <FlatList
