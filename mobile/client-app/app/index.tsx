@@ -9,7 +9,7 @@ export default function Index() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data: Meal[] = await getMeals();
+        const data: Meal[] |null = await getMeals();
       } catch (error) {
         console.error(error);
       }
@@ -18,18 +18,23 @@ export default function Index() {
     fetchData();
   }, []);
 
+  if (!meals) {
+    return <Text>Loading...</Text>;
+  }
+
   return (
     <View>
-      <FlatList
-        data={meals}
+      <FlatList<Meal>
+        data={meals ?? []}
+        keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <View>
-            <Text>{item}</Text>
+            <Text>{item.name}</Text>
           </View>
         )}
       />
-    <HomeContent />
+      
+      <HomeContent />
     </View>
-
   );
 }
