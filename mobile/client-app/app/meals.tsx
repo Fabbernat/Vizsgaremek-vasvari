@@ -16,7 +16,7 @@ export async function getMeals() {
     .from("meals")
     .select("*")
     .order("id", { ascending: true })
-    .limit(6);
+    .limit(1);
 
   if (error) {
     console.error(error);

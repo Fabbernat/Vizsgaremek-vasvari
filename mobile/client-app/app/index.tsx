@@ -1,11 +1,12 @@
 import { View } from "react-native";
-import DebugDashboard from "./debugDashboard";
+import HomeContent from "./homeContent";
 
 export default function Index() {
   return (
   <View>
-    <DebugDashboard />
-  {/* <HomeContent /> */}
+    
+  {/* <DebugDashboard /> */}
+  <HomeContent />
   </View>
   );
 }

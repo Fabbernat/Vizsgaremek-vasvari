@@ -1,21 +1,37 @@
-import React, { useState } from 'react';
-import { View, TextInput, Button, Alert, Text } from 'react-native';
-import { supabase } from '../supabase';
-
+import React, { useState } from "react";
+import { View, TextInput, Button, Alert, Text } from "react-native";
+import { supabase } from "../supabase";
 
 export default function Register() {
   // 2. Itt tároljuk el amit a user beír (kezdetben üres)
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordRepeat, setPasswordRepeat] = useState('');
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordRepeat, setPasswordRepeat] = useState("");
+  const [role, setRole] = useState("customer");
 
   // 3. Ez a függvény fut le, ha rányomnak a gombra
   async function handleRegister() {
+    if (!username || !email || !password || !passwordRepeat) {
+      Alert.alert("Hiba!", "Minden mezőt ki kell tölteni!");
+      return;
+    }
+
+    if (password !== passwordRepeat) {
+      Alert.alert("Hiba!", "A jelszavak nem egyeznek!");
+      return;
+    }
+
     // Meghívjuk a Supabase regisztrációt
     const { error } = await supabase.auth.signUp({
       email: email,
       password: password,
+      options: {
+        data: {
+          username: username,
+          role: role,
+        },
+      },
     });
 
     if (error) {
@@ -25,6 +41,13 @@ export default function Register() {
       Alert.alert("Siker!", "Nézd meg az e-mailed a visszaigazoláshoz!");
     }
   }
+
+  const isFormValid =
+    username.trim() &&
+    email.trim() &&
+    password &&
+    passwordRepeat &&
+    password === passwordRepeat;
 
   return (
     <View style={{ padding: 20, marginTop: 50 }}>
@@ -62,7 +85,11 @@ export default function Register() {
         style={{ borderBottomWidth: 1, marginBottom: 20 }}
       />
 
-      <Button title="Regisztrálok" onPress={handleRegister} />
+      <Button
+        title="Regisztrálok"
+        onPress={handleRegister}
+        disabled={!isFormValid}
+      />
     </View>
   );
 }

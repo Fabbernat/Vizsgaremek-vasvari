@@ -63,13 +63,12 @@ export default function HomeScreen() {
   const { meals, loading } = useMeals();
   const [isLoading, setLoading] = useState(true);
 
-
   async function fetchMeals() {
     const { data, error } = await supabase
       .from("meals")
       .select("*")
       .order("id", { ascending: true })
-      .limit(6);
+      .limit(1);
     if (error) {
       console.error(error);
     }
@@ -77,11 +76,18 @@ export default function HomeScreen() {
     return data;
   }
 
-
   const dataToShow = (meals ?? []).map((meal: Meal) => ({
     ...meal,
     id: meal.id.toString(),
   }));
+
+  async function displayMeals() {
+    const data = await fetchMeals();
+    if (data) {
+      const result = await data
+        
+    }
+  }
 
   return (
     <View
