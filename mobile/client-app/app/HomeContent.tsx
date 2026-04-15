@@ -77,10 +77,6 @@ export default function HomeScreen() {
     return data;
   }
 
-  async function tesztKiiras() {
-    const data = await fetchMeals();
-    console.log("FETCHED:", data);
-  }
 
   const dataToShow = (meals ?? []).map((meal: Meal) => ({
     ...meal,
@@ -130,7 +126,6 @@ export default function HomeScreen() {
             ) : dataToShow.length === 0 ? (
               <View style={styles.emptyContainer}>
                 <Text style={styles.emptyText}>Nincs étel</Text>
-                <Button title="Teszt" onPress={tesztKiiras} />
               </View>
             ) : (
               <FlatList
