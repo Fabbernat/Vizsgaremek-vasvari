@@ -1,9 +1,13 @@
-import { Image, Pressable, View } from "react-native";
+import { Image, Pressable, View, StyleProp, ViewStyle } from "react-native";
 import { router } from "expo-router";
 
-export default function CartIconButton() {
+type Props = {
+  style?: StyleProp<ViewStyle>;
+};
+
+export default function CartIconButton({ style }: Props) {
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+    <View style={style}>
       
       <Pressable onPress={() => router.push("/cartView")}>
         <Image
