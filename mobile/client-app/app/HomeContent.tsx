@@ -12,6 +12,7 @@ import { Meal, Meals } from "./meals";
 import { supabase } from "@/supabase";
 import { useState } from "react";
 import { useMeals } from "./useMeals";
+import Cart from "./cartIconButton";
 
 const fallbackData = [
   {
@@ -96,6 +97,7 @@ export default function HomeScreen() {
         backgroundColor: "#ffffff",
       }}
     >
+      <Cart />
       <Meals />
       {/* Cím */}
       <Text
