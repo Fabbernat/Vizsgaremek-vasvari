@@ -1,5 +1,4 @@
 import { Image, Pressable, View } from "react-native";
-import CartView from "./cartView";
 import { router } from "expo-router";
 
 export default function CartIconButton() {

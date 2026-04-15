@@ -97,7 +97,8 @@ export default function HomeScreen() {
         backgroundColor: "#ffffff",
       }}
     >
-      <Cart />
+      <Cart style={{ position: "absolute", top: 10, right: 10 }} />
+      {/* put a gap here */}
       <Meals />
       {/* Cím */}
       <Text
