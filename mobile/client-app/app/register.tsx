@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, TextInput, Button, Alert, Text } from "react-native";
+import { View, TextInput, Button, Alert, Text, Pressable  } from "react-native";
 import { supabase } from "../supabase";
 import { ToastAndroid } from 'react-native';
 import Toast from 'react-native-toast-message';
@@ -38,14 +38,12 @@ export default function Register() {
 
     if (error) {
       // Ha hiba van, feldobunk egy mobilos ablakot (Alert)
-      ToastAndroid.show(`Hiba ${error.message}!`, ToastAndroid.SHORT);
       Toast.show({
         type: 'error',
         text1: "Hiba",
         text2: error.message,
       })
     } else {
-      ToastAndroid.show("Siker! Nézd meg az e-mailed a visszaigazoláshoz!", ToastAndroid.SHORT);
       Toast.show({
         type: 'success',
         text1: 'Siker!',
@@ -64,6 +62,30 @@ export default function Register() {
   return (
     <View style={{ padding: 20, marginTop: 50 }}>
       <Text>Regisztráció</Text>
+
+      <Pressable
+        onPress={() => {
+          setUsername("teszt");
+          setEmail("teszt@gmail.com");
+          setPassword("jelszo12");
+          setPasswordRepeat("jelszo12");
+
+          setTimeout(handleRegister, 100); // kis delay kell a state update miatt
+
+          Toast.show({
+            type: "info",
+            text1: "Teszt adatok betöltve",
+          });
+        }}
+        style={{
+          backgroundColor: "#ddd",
+          padding: 10,
+          marginBottom: 20,
+          borderRadius: 8,
+        }}
+      >
+        <Text>Kitöltés teszt adatokkal</Text>
+      </Pressable>
 
       <TextInput
         placeholder="Felhasználónév"
