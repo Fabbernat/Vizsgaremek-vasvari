@@ -5,7 +5,7 @@ import { Text } from "react-native";
 export default function Layout() {
   return (
     <>
-        <Stack />;
+        <Stack />
         <Text
         style={{
           fontSize: 28,
