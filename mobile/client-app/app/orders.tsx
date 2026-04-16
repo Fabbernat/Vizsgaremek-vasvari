@@ -36,7 +36,7 @@ export default function Orders() {
           marginBottom: 12,
         }}
       >
-        Orders:
+        Rendelési tételek
       </Text>
       {orderItems.map((item) => (
         <View key={item.id}>

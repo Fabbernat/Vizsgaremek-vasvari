@@ -6,7 +6,6 @@ export default function Layout() {
   return (
     <>
         <Stack />;
-        <Toast />
         <Text
         style={{
           fontSize: 28,
@@ -47,6 +46,7 @@ export default function Layout() {
       >
         Cím: 1234 Budapest, Király utca 1.
       </Text>
+      <Toast />
     </>
   );
 }

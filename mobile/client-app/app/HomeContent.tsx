@@ -13,6 +13,8 @@ import { useState } from "react";
 import { useMeals } from "./useMeals";
 import Cart from "./cartIconButton";
 import { Meal } from "./models/meal";
+import Profile from "./profileIconButton";
+import ProfileIconButton from "./profileIconButton";
 
 const fallbackData = [
   {
@@ -98,7 +100,12 @@ export default function HomeScreen() {
         backgroundColor: "#ffffff",
       }}
     >
-      <Cart style={{ position: "absolute", top: 10, right: 10 }} />
+     
+     
+     {/* Kosár és profil */}
+      <Cart style={{ position: "absolute", top: 10, right: 50 }} />
+      <ProfileIconButton style={{ position: "absolute", top: 10, right: 10 }} />
+     
       <Meals />
       {/* Cím */}
       <Text
