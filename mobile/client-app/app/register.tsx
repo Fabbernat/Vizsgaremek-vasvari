@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { View, TextInput, Button, Alert, Text } from "react-native";
 import { supabase } from "../supabase";
+import { ToastAndroid } from 'react-native';
+import Toast from 'react-native-toast-message';
 
 export default function Register() {
   // 2. Itt tároljuk el amit a user beír (kezdetben üres)
@@ -36,9 +38,19 @@ export default function Register() {
 
     if (error) {
       // Ha hiba van, feldobunk egy mobilos ablakot (Alert)
-      Alert.alert("Hiba!", error.message);
+      ToastAndroid.show(`Hiba ${error.message}!`, ToastAndroid.SHORT);
+      Toast.show({
+        type: 'error',
+        text1: "Hiba",
+        text2: error.message,
+      })
     } else {
-      Alert.alert("Siker!", "Nézd meg az e-mailed a visszaigazoláshoz!");
+      ToastAndroid.show("Siker! Nézd meg az e-mailed a visszaigazoláshoz!", ToastAndroid.SHORT);
+      Toast.show({
+        type: 'success',
+        text1: 'Siker!',
+        text2: 'Nézd meg az e-mailed a visszaigazoláshoz!',
+      })
     }
   }
 
