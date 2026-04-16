@@ -8,7 +8,7 @@ import {
   Button,
 } from "react-native";
 import { router } from "expo-router";
-import { Meal, Meals } from "./meals";
+import Meals, { Meal } from "./meals";
 import { supabase } from "@/supabase";
 import { useState } from "react";
 import { useMeals } from "./useMeals";

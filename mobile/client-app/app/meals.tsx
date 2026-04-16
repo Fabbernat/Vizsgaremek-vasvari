@@ -1,15 +1,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../supabase";
 import { Text, View } from "react-native";
-
-export interface Meal {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  imageUrl: string | undefined;
-  restaurant_id: number;
-}
+import { Meal } from "./models/meal";
 
 export async function getMeals() {
   const { data, error } = await supabase
@@ -24,7 +16,7 @@ export async function getMeals() {
   return data;
 }
 
-export function Meals() {
+export default function Meals() {
   const [meals, setMeals] = useState<Meal[]>([]);
   const [error, setError] = useState<string | null>(null);
 

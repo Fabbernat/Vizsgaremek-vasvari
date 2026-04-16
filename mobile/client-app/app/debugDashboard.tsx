@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, ScrollView } from "react-native";
-import { getMeals } from "./meals";
 import { supabase } from "@/supabase";
 
 export default function DebugDashboard() {
