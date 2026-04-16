@@ -9,7 +9,8 @@ export default function CartIconButton({ style }: Props) {
   return (
     <View style={style}>
       
-      <Pressable onPress={() => router.push("/cartView")}>
+      <Pressable
+       onPress={() => router.push("/cartView")}>
         <Image
           source={require("../assets/mine/images/shopping-cart.png")}
           style={{ width: 32, height: 32 }}

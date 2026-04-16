@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../supabase";
-import { Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import { Meal } from "./models/meal";
 
 export async function getMeals() {
@@ -52,7 +52,7 @@ export default function Meals() {
         <Text>{meal.imageUrl}</Text>
         <Text>{meal.restaurant_id}</Text>
       </View>
-    ))}
+    ))}    
   </>
 );
 }

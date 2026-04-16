@@ -8,11 +8,12 @@ import {
   Button,
 } from "react-native";
 import { router } from "expo-router";
-import Meals, { Meal } from "./meals";
+import Meals from "./meals";
 import { supabase } from "@/supabase";
 import { useState } from "react";
 import { useMeals } from "./useMeals";
 import Cart from "./cartIconButton";
+import { Meal } from "./models/meal";
 
 const fallbackData = [
   {
@@ -84,8 +85,7 @@ export default function HomeScreen() {
   async function displayMeals() {
     const data = await fetchMeals();
     if (data) {
-      const result = await data
-        
+      const result = await data;
     }
   }
 
@@ -216,6 +216,47 @@ export default function HomeScreen() {
           Regisztráció
         </Text>
       </Pressable>
+
+      <Text
+        style={{
+          fontSize: 28,
+          fontWeight: "bold",
+          marginBottom: 12,
+        }}
+      >
+        Kapcsolat
+      </Text>
+
+      <Text
+        style={{
+          fontSize: 16,
+          color: "#555",
+          marginBottom: 40,
+          textAlign: "center",
+        }}
+      >
+        Email: info@royaldelivery.com
+      </Text>
+      <Text
+        style={{
+          fontSize: 16,
+          color: "#555",
+          marginBottom: 40,
+          textAlign: "center",
+        }}
+      >
+        Telefon: +36 20 123 4567
+      </Text>
+      <Text
+        style={{
+          fontSize: 16,
+          color: "#555",
+          marginBottom: 40,
+          textAlign: "center",
+        }}
+      >
+        Cím: 1234 Budapest, Király utca 1.
+      </Text>
     </View>
   );
 }
