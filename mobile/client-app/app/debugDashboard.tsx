@@ -63,7 +63,7 @@ export default function DebugDashboard() {
   }, []);
 
   return (
-    <ScrollView style={{ padding: 20 }}>
+    <ScrollView>
       <Text style={{ fontSize: 24, fontWeight: "bold", marginBottom: 10 }}>
         🛠 Debug Dashboard
       </Text>
