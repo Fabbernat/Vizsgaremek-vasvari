@@ -5,7 +5,6 @@ import {
   Pressable,
   FlatList,
   StyleSheet,
-  Button,
 } from "react-native";
 import { router } from "expo-router";
 import Meals from "./meals";
@@ -128,7 +127,7 @@ export default function HomeScreen() {
         <View id="featured">
           <View>
             {loading ? (
-              <Text>Ételek betöltése...</Text>
+              <Text>Ételek betöltése...⏳⌛</Text>
             ) : dataToShow.length === 0 ? (
               <View style={styles.emptyContainer}>
                 <Text style={styles.emptyText}>Nincs étel</Text>
@@ -217,46 +216,7 @@ export default function HomeScreen() {
         </Text>
       </Pressable>
 
-      <Text
-        style={{
-          fontSize: 28,
-          fontWeight: "bold",
-          marginBottom: 12,
-        }}
-      >
-        Kapcsolat
-      </Text>
-
-      <Text
-        style={{
-          fontSize: 16,
-          color: "#555",
-          marginBottom: 40,
-          textAlign: "center",
-        }}
-      >
-        Email: info@royaldelivery.com
-      </Text>
-      <Text
-        style={{
-          fontSize: 16,
-          color: "#555",
-          marginBottom: 40,
-          textAlign: "center",
-        }}
-      >
-        Telefon: +36 20 123 4567
-      </Text>
-      <Text
-        style={{
-          fontSize: 16,
-          color: "#555",
-          marginBottom: 40,
-          textAlign: "center",
-        }}
-      >
-        Cím: 1234 Budapest, Király utca 1.
-      </Text>
+      
     </View>
   );
 }
