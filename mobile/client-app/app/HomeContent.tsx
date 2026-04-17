@@ -62,7 +62,7 @@ const fallbackData = [
 
 export default function HomeScreen() {
   const { meals, loading } = useMeals();
-
+  const [mealsLegyenRenderelve, setMealsLegyenRenderelve] = useState(true);
 
   const dataToShow = (meals ?? []).map((meal: Meal) => ({
     ...meal,
@@ -86,7 +86,6 @@ export default function HomeScreen() {
       <Cart style={{ position: "absolute", top: 10, right: 50 }} />
       <ProfileIconButton style={{ position: "absolute", top: 10, right: 10 }} />
      
-      <Meals />
       {/* Cím */}
       <Text
         style={{
@@ -110,8 +109,8 @@ export default function HomeScreen() {
         Kiszállítás olcsón és egyszerűen.
       </Text>
 
-      <View id="meals">
-        <View id="featured">
+      <View testID="meals">
+        <View testID="featured">
           <View>
             {loading ? (
               <Text>Ételek betöltése...⏳⌛</Text>
@@ -119,7 +118,7 @@ export default function HomeScreen() {
               <View style={styles.emptyContainer}>
                 <Text style={styles.emptyText}>Nincs étel</Text>
               </View>
-            ) : (
+            ) : mealsLegyenRenderelve ? (
               <FlatList
                 data={dataToShow.length > 0 ? dataToShow : fallbackData}
                 numColumns={3}
@@ -144,6 +143,8 @@ export default function HomeScreen() {
                   </View>
                 )}
               />
+            ) : (
+            <Meals />
             )}
           </View>
         </View>

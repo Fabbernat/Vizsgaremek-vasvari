@@ -33,9 +33,6 @@ const WebStorageAdapter = {
   },
 };
 
-const storage = Platform.OS === 'web'
-  ? WebStorageAdapter
-  : ExpoSecureStoreAdapter;
 
 export const supabase = createClient(supabaseUrl, supabaseKey, {
   auth: {
