@@ -121,7 +121,7 @@ export default function HomeScreen() {
             ) : mealsLegyenRenderelve ? (
               <FlatList
                 data={dataToShow.length > 0 ? dataToShow : fallbackData}
-                numColumns={3}
+                numColumns={2}
                 keyExtractor={(item) => item.id.toString()}
                 ListEmptyComponent={
                   !loading ? (

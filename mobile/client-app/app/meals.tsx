@@ -57,10 +57,10 @@ export default function Meals() {
       }}>
     {meals.map((meal: Meal) => (
       <View key={meal.id}>
-        <Text>{meal.name}</Text>
-        <Text>{meal.description}</Text>
-        <Text>{meal.price}</Text>
         <Text>{meal.imageUrl}</Text>
+        <Text>{meal.name}</Text>
+        <Text>{meal.price} Ft</Text>
+        <Text>{meal.description}</Text>
         <Text>{meal.restaurant_id}</Text>
       </View>
     ))}    

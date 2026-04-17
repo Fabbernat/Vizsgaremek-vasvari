@@ -12,17 +12,19 @@ import { Meal } from "./models/meal";
 export function useMeals() {
   const [meals, setMeals] = useState<Meal[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchMeals = async () => {
       const { data, error } = await supabase.from("meals").select("*");
 
-      if (!error) setMeals(data ?? []);
+      if (!error) {setMeals(data ?? []);}
+      else {setError(error.message);}
       setLoading(false);
     };
 
     fetchMeals();
   }, []);
 
-  return { meals, loading };
+  return { meals, loading, error };
 }

@@ -1,12 +1,12 @@
-import { View } from "react-native";
+import { ScrollView } from "react-native";
 import HomeContent from "./homeContent";
 
 export default function Index() {
   return (
-  <View>
+  <ScrollView>
   {/* <DebugDashboard /> */}
   <HomeContent />
   
-  </View>
+  </ScrollView>
   );
 }
