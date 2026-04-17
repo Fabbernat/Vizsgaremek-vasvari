@@ -14,6 +14,7 @@ import { useMeals } from "./useMeals";
 import Cart from "./cartIconButton";
 import { Meal } from "./models/meal";
 import ProfileIconButton from "./profileIconButton";
+import {User} from "./models/user";
 
 const fallbackData = [
   {
@@ -63,11 +64,52 @@ const fallbackData = [
 export default function HomeScreen() {
   const { meals, loading } = useMeals();
   const [mealsLegyenRenderelve, setMealsLegyenRenderelve] = useState(true);
+  const [isLoggedIn, setLoggedIn] = useState(false);
+
+  const dummyUser: User = {
+    id: "0",
+    username: "guest",
+    first_name: "Guest",
+    last_name: "User",
+    email: "guest@example.com",
+    password_hash: "",
+    address: "",
+    role: "customer",
+  };
+
+  let currentUser: User | null = null;
+  currentUser = dummyUser; // Ez csak teszteléshez, később a Supabase auth-ból jön majd
 
   const dataToShow = (meals ?? []).map((meal: Meal) => ({
     ...meal,
     id: meal.id.toString(),
   }));
+
+  const logout = async () => {
+    await supabase.auth.signOut();
+  };
+
+  const renderAuthButtons = () => {
+  if (isLoggedIn) {
+    return (
+      <>
+        <Pressable onPress={() => router.push("/login")} style={styles.loginButton}>
+          <Text>Bejelentkezés</Text>
+        </Pressable>
+
+        <Pressable onPress={() => router.push("/register")} style={styles.registerButton}>
+          <Text>Regisztráció</Text>
+        </Pressable>
+      </>
+    );
+  } else {
+    return (
+      <Pressable onPress={() => logout()} style={styles.logoutButton}>
+        <Text>Kijelentkezés</Text>
+      </Pressable>
+    );
+  }
+};
 
 
   return (
@@ -169,26 +211,41 @@ export default function HomeScreen() {
         </Pressable>
       </View>
 
-      {/* Login gomb */}
-      <Pressable
-        onPress={() => router.push("/login")}
-        style={styles.loginButton}
-      >
-        <Text style={{ color: "white", fontSize: 16, fontWeight: "600" }}>
-          Bejelentkezés
-        </Text>
-      </Pressable>
+      {isLoggedIn ? (
+  <>
+    {/* Login gomb */}
+    <Pressable
+      onPress={() => router.push("/login")}
+      style={styles.loginButton}
+    >
+      <Text style={{ color: "white", fontSize: 16, fontWeight: "600" }}>
+        Bejelentkezés
+      </Text>
+    </Pressable>
 
-      {/* Register gomb */}
-      <Pressable
-        onPress={() => router.push("/register")}
-        style={styles.registerButton}
-      >
-        <Text style={{ color: "white", fontSize: 16, fontWeight: "600" }}>
-          Regisztráció
-        </Text>
-      </Pressable>
-
+    {/* Register gomb */}
+    <Pressable
+      onPress={() => router.push("/register")}
+      style={styles.registerButton}
+    >
+      <Text style={{ color: "white", fontSize: 16, fontWeight: "600" }}>
+        Regisztráció
+      </Text>
+    </Pressable>
+  </>
+) : (
+  <>
+    {/* Logout gomb */}
+    <Pressable
+      onPress={() => logout()}
+      style={styles.logoutButton}
+    >
+      <Text style={{ color: "white", fontSize: 16, fontWeight: "600" }}>
+        Kijelentkezés
+      </Text>
+    </Pressable>
+  </>
+)}
       
     </View>
   );
@@ -236,5 +293,16 @@ const styles = StyleSheet.create({
           minHeight: 50,
           minWidth: 200,
           alignItems: "center",
-        }
+        },
+  logoutButton: {
+          backgroundColor: "#f9c9c9",
+          paddingVertical: 14,
+          paddingHorizontal: 24,
+          borderRadius: 12,
+          marginTop: 40,
+          marginBottom: 12,
+          minHeight: 50,
+          minWidth: 200,
+          alignItems: "center",
+        },
 });
