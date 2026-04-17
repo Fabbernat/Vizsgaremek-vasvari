@@ -172,17 +172,7 @@ export default function HomeScreen() {
       {/* Login gomb */}
       <Pressable
         onPress={() => router.push("/login")}
-        style={{
-          backgroundColor: "#2563eb",
-          paddingVertical: 14,
-          paddingHorizontal: 24,
-          borderRadius: 12,
-          marginTop: 40,
-          marginBottom: 12,
-          minHeight: 50,
-          minWidth: 200,
-          alignItems: "center",
-        }}
+        style={styles.loginButton}
       >
         <Text style={{ color: "white", fontSize: 16, fontWeight: "600" }}>
           Bejelentkezés
@@ -192,17 +182,7 @@ export default function HomeScreen() {
       {/* Register gomb */}
       <Pressable
         onPress={() => router.push("/register")}
-        style={{
-          backgroundColor: "#16a34a",
-          paddingVertical: 14,
-          paddingHorizontal: 24,
-          borderRadius: 12,
-          marginTop: 12,
-          marginBottom: 12,
-                    minHeight: 50,
-          minWidth: 200,
-          alignItems: "center",
-        }}
+        style={styles.registerButton}
       >
         <Text style={{ color: "white", fontSize: 16, fontWeight: "600" }}>
           Regisztráció
@@ -235,4 +215,26 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: "#888",
   },
+  registerButton: {
+          backgroundColor: "#16a34a",
+          paddingVertical: 14,
+          paddingHorizontal: 24,
+          borderRadius: 12,
+          marginTop: 12,
+          marginBottom: 12,
+          minHeight: 50,
+          minWidth: 200,
+          alignItems: "center",
+        },
+  loginButton: {
+          backgroundColor: "#2563eb",
+          paddingVertical: 14,
+          paddingHorizontal: 24,
+          borderRadius: 12,
+          marginTop: 40,
+          marginBottom: 12,
+          minHeight: 50,
+          minWidth: 200,
+          alignItems: "center",
+        }
 });
