@@ -176,6 +176,7 @@ export default function HomeScreen() {
             paddingVertical: 14,
             paddingHorizontal: 24,
             borderRadius: 12,
+            marginTop: 30,
             marginBottom: 12,
             minWidth: 200,
             alignItems: "center",
@@ -195,7 +196,9 @@ export default function HomeScreen() {
           paddingVertical: 14,
           paddingHorizontal: 24,
           borderRadius: 12,
+          marginTop: 40,
           marginBottom: 12,
+          minHeight: 50,
           minWidth: 200,
           alignItems: "center",
         }}
@@ -213,7 +216,9 @@ export default function HomeScreen() {
           paddingVertical: 14,
           paddingHorizontal: 24,
           borderRadius: 12,
+          marginTop: 12,
           marginBottom: 12,
+                    minHeight: 50,
           minWidth: 200,
           alignItems: "center",
         }}

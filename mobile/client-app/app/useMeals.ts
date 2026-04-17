@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Meal } from "./meals";
 import { supabase } from "@/supabase";
+import { Meal } from "./models/meal";
 
 export function useMeals() {
   const [meals, setMeals] = useState<Meal[]>([]);

@@ -11,6 +11,7 @@ export default function Layout() {
           fontSize: 28,
           fontWeight: "bold",
           marginBottom: 12,
+          textAlign: "center",
         }}
       >
         Kapcsolat
