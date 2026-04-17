@@ -211,7 +211,7 @@ export default function HomeScreen() {
         </Pressable>
       </View>
 
-      {isLoggedIn ? (
+      {!isLoggedIn ? (
   <>
     {/* Login gomb */}
     <Pressable
