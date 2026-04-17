@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../supabase";
-import { Pressable, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import { Meal } from "./models/meal";
 
 export async function getMeals() {

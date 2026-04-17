@@ -4,7 +4,7 @@ import { router } from "expo-router";
 import Toast from "react-native-toast-message";
 import { useState } from "react";
 
-export default function CartView() {
+export default function ProfileView() {
     const [currentUsername, setCurrentUsername] = useState("Kiss Anna");
     const [newUsername, setNewUsername] = useState("");
 
