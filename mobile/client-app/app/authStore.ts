@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 let globalIsLoggedIn = false;
 let listeners: ((v: boolean) => void)[] = [];
@@ -11,13 +11,13 @@ export function setGlobalIsLoggedIn(value: boolean) {
 export function useGlobalAuth() {
   const [isLoggedIn, setIsLoggedIn] = useState(globalIsLoggedIn);
 
-  const set = (v: boolean) => {
-    setGlobalIsLoggedIn(v);
-  };
-
-  if (!listeners.includes(setIsLoggedIn)) {
+  useEffect(() => {
     listeners.push(setIsLoggedIn);
-  }
 
-  return { isLoggedIn, setIsLoggedIn: set };
+    return () => {
+      listeners = listeners.filter((l) => l !== setIsLoggedIn);
+    };
+  }, []);
+
+  return { isLoggedIn, setIsLoggedIn: setGlobalIsLoggedIn };
 }
