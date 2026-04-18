@@ -15,6 +15,7 @@ import Cart from "./cartIconButton";
 import { Meal } from "./models/meal";
 import ProfileIconButton from "./profileIconButton";
 import {User} from "./models/user";
+import AdminToggleButton from "./adminToggleButton";
 
 const fallbackData = [
   {
@@ -64,7 +65,7 @@ const fallbackData = [
 export default function HomeScreen() {
   const { meals, loading } = useMeals();
   const [mealsLegyenRenderelve, setMealsLegyenRenderelve] = useState(true);
-  const [isLoggedIn, setLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const dummyUser: User = {
     id: "0",
@@ -90,7 +91,7 @@ export default function HomeScreen() {
   };
 
   const renderAuthButtons = () => {
-  if (isLoggedIn) {
+  if (AdminToggleButton.isLoggedIn) {
     return (
       <>
         <Pressable onPress={() => router.push("/login")} style={styles.loginButton}>
@@ -125,6 +126,11 @@ export default function HomeScreen() {
      
      
      {/* Kosár és profil */}
+     <AdminToggleButton
+      isLoggedIn={isLoggedIn}
+      setIsLoggedIn={setIsLoggedIn}
+      style={{ position: "absolute", top: 10, left: 10 }}
+      />
       <Cart style={{ position: "absolute", top: 10, right: 50 }} />
       <ProfileIconButton style={{ position: "absolute", top: 10, right: 10 }} />
      
@@ -211,7 +217,7 @@ export default function HomeScreen() {
         </Pressable>
       </View>
 
-      {!isLoggedIn ? (
+      {!AdminToggleButton.isLoggedIn ? (
   <>
     {/* Login gomb */}
     <Pressable
