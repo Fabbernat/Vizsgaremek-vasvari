@@ -2,8 +2,16 @@ import { useState } from "react";
 import { Text, TextInput, Button, Alert, View, Pressable } from "react-native";
 import { supabase } from "../supabase";
 import Toast from "react-native-toast-message";
+import { router } from "@/.expo/types/router";
+import { setGlobalIsLoggedIn } from "./authStore";
 
-export default function Login() {
+type Props = {
+  style?: any;
+  isLoggedIn: boolean;
+  setIsLoggedIn: (v: boolean) => void;
+};
+
+export default function Login({ isLoggedIn, setIsLoggedIn }: Props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -14,27 +22,60 @@ export default function Login() {
       return;
     }
 
-    // Meghívjuk a Supabase regisztrációt
-    const { error } = await supabase.auth.signUp({
+    await supabase.auth.signUp({
+      email: "teszt@gmail.com",
+      password: "jelszo12",
+    });
+
+    // LOGIN (nem signup!)
+    const { data, error } = await supabase.auth.signInWithPassword({
       email: email,
       password: password,
     });
 
     if (error) {
-      // Ha hiba van, feldobunk egy mobilos ablakot (Alert)
+      const friendlyError =
+  error.message.includes("Invalid login credentials")
+    ? "Hibás email vagy jelszó"
+    : error.message;
+
       Toast.show({
         type: "error",
         text1: "Hiba",
-        text2: error.message,
+        text2: friendlyError, // hogyan érjem el, hogy a supabase elfogadja a setEmail("teszt@gmail.com");
+        // setPassword("jelszo12"); email és jelszó kombót, akár workaround-del?
       });
     } else {
+      // ✅ EZ A LÉNYEG: globális login state frissítés
+      setIsLoggedIn(true);
       Toast.show({
         type: "success",
         text1: "Siker!",
-        text2: "Nézd meg az e-mailed a visszaigazoláshoz!",
+        text2: "Sikeres bejelentkezés",
       });
     }
   }
+
+  // de van egy workaround függvény is
+  async function loginWithTestUser () {
+  if (!email || !password) {
+    Alert.alert("Hiba!", "Minden mezőt ki kell tölteni!");
+    return;
+  }
+
+  // ✅ FAKE LOGIN (Supabase nélkül)
+  setIsLoggedIn(true);
+
+  Toast.show({
+    type: "success",
+    text1: "Siker!",
+    text2: "Fake login sikeres",
+  });
+
+  // ✅ vissza a főoldalra
+  setGlobalIsLoggedIn(true);
+  router.replace("/");
+}
 
   const isFormValid = email.trim() && password;
 
@@ -85,6 +126,33 @@ export default function Login() {
         onPress={handleLogin}
         disabled={!isFormValid}
       />
+
+      <Pressable
+  onPress={() => {
+    setEmail("teszt@gmail.com");
+    setPassword("jelszo12");
+
+    // közvetlen login
+    setIsLoggedIn(true);
+
+    Toast.show({
+      type: "success",
+      text1: "Teszt login",
+      text2: "Automatikus belépés",
+    });
+
+    setGlobalIsLoggedIn(true);
+    router.replace("/");
+  }}
+  style={{
+    backgroundColor: "#ddd",
+    padding: 10,
+    marginBottom: 20,
+    borderRadius: 8,
+  }}
+>
+  <Text>Egyyszerűsített teszt login</Text>
+</Pressable>
     </View>
   );
 }

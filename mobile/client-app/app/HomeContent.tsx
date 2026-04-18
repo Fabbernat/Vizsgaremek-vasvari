@@ -16,6 +16,7 @@ import { Meal } from "./models/meal";
 import ProfileIconButton from "./profileIconButton";
 import {User} from "./models/user";
 import AdminToggleButton from "./adminToggleButton";
+import { useGlobalAuth } from "./authStore";
 
 const fallbackData = [
   {
@@ -65,7 +66,7 @@ const fallbackData = [
 export default function HomeScreen() {
   const { meals, loading } = useMeals();
   const [mealsLegyenRenderelve, setMealsLegyenRenderelve] = useState(true);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { isLoggedIn } = useGlobalAuth();
 
   const dummyUser: User = {
     id: "0",
@@ -91,14 +92,14 @@ export default function HomeScreen() {
   };
 
   const renderAuthButtons = () => {
-  if (AdminToggleButton.isLoggedIn) {
+  if (isLoggedIn) {
     return (
       <>
-        <Pressable onPress={() => router.push("/login")} style={styles.loginButton}>
+        <Pressable onPress={() => router.push({pathname: "/login"})} style={styles.loginButton} >
           <Text>Bejelentkezés</Text>
         </Pressable>
 
-        <Pressable onPress={() => router.push("/register")} style={styles.registerButton}>
+        <Pressable onPress={() => router.push({pathname: "/register"})} style={styles.registerButton}>
           <Text>Regisztráció</Text>
         </Pressable>
       </>
@@ -217,11 +218,14 @@ export default function HomeScreen() {
         </Pressable>
       </View>
 
-      {!AdminToggleButton.isLoggedIn ? (
+      {/* Itt kell cserélgetni a felkiáltójelet */}
+      {!isLoggedIn ? (
   <>
     {/* Login gomb */}
     <Pressable
       onPress={() => router.push("/login")}
+      isLoggedIn={isLoggedIn}
+      setIsLoggedIn={setIsLoggedIn}
       style={styles.loginButton}
     >
       <Text style={{ color: "white", fontSize: 16, fontWeight: "600" }}>
