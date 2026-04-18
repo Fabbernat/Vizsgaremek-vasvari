@@ -126,11 +126,11 @@ export default function HomeScreen() {
      
      
      {/* Kosár és profil */}
-     <AdminToggleButton
+     {/* <AdminToggleButton
       isLoggedIn={isLoggedIn}
       setIsLoggedIn={setIsLoggedIn}
       style={{ position: "absolute", top: 10, left: 10 }}
-      />
+      /> */}
       <Cart style={{ position: "absolute", top: 10, right: 50 }} />
       <ProfileIconButton style={{ position: "absolute", top: 10, right: 10 }} />
      
