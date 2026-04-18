@@ -66,7 +66,7 @@ const fallbackData = [
 export default function HomeScreen() {
   const { meals, loading } = useMeals();
   const [mealsLegyenRenderelve, setMealsLegyenRenderelve] = useState(true);
-  const { isLoggedIn } = useGlobalAuth();
+  const { isLoggedIn, setIsLoggedIn } = useGlobalAuth();
 
   const dummyUser: User = {
     id: "0",
@@ -92,21 +92,21 @@ export default function HomeScreen() {
   };
 
   const renderAuthButtons = () => {
-  if (isLoggedIn) {
+  if (!isLoggedIn) {
     return (
       <>
-        <Pressable onPress={() => router.push({pathname: "/login"})} style={styles.loginButton} >
+        <Pressable onPress={() => router.push("/login")} style={styles.loginButton}>
           <Text>Bejelentkezés</Text>
         </Pressable>
 
-        <Pressable onPress={() => router.push({pathname: "/register"})} style={styles.registerButton}>
+        <Pressable onPress={() => router.push("/register")} style={styles.registerButton}>
           <Text>Regisztráció</Text>
         </Pressable>
       </>
     );
   } else {
     return (
-      <Pressable onPress={() => logout()} style={styles.logoutButton}>
+      <Pressable onPress={logout} style={styles.logoutButton}>
         <Text>Kijelentkezés</Text>
       </Pressable>
     );
@@ -224,8 +224,6 @@ export default function HomeScreen() {
     {/* Login gomb */}
     <Pressable
       onPress={() => router.push("/login")}
-      isLoggedIn={isLoggedIn}
-      setIsLoggedIn={setIsLoggedIn}
       style={styles.loginButton}
     >
       <Text style={{ color: "white", fontSize: 16, fontWeight: "600" }}>
@@ -256,7 +254,7 @@ export default function HomeScreen() {
     </Pressable>
   </>
 )}
-      
+      {renderAuthButtons()}
     </View>
   );
 }

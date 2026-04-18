@@ -15,7 +15,6 @@ export default function AdminToggleButton({ style, isLoggedIn, setIsLoggedIn }: 
   const handlePress = async () => {
     if (isLoggedIn) {
       await supabase.auth.signOut();
-      setIsLoggedIn(false);
       Toast.show({
         type: "success",
         text1: "Siker",
@@ -25,7 +24,6 @@ export default function AdminToggleButton({ style, isLoggedIn, setIsLoggedIn }: 
     } else {
       const { data } = await supabase.auth.getSession();
       if (data.session) {
-        setIsLoggedIn(true);
         router.replace("/");
       } else {
         Toast.show({

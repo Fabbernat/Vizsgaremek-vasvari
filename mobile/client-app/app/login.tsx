@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Text, TextInput, Button, Alert, View, Pressable } from "react-native";
 import { supabase } from "../supabase";
 import Toast from "react-native-toast-message";
-import { router } from "@/.expo/types/router";
+import { router } from "expo-router";
 import { setGlobalIsLoggedIn } from "./authStore";
 
 type Props = {
@@ -47,7 +47,6 @@ export default function Login({ isLoggedIn, setIsLoggedIn }: Props) {
       });
     } else {
       // ✅ EZ A LÉNYEG: globális login state frissítés
-      setIsLoggedIn(true);
       Toast.show({
         type: "success",
         text1: "Siker!",
@@ -64,7 +63,6 @@ export default function Login({ isLoggedIn, setIsLoggedIn }: Props) {
   }
 
   // ✅ FAKE LOGIN (Supabase nélkül)
-  setIsLoggedIn(true);
 
   Toast.show({
     type: "success",
@@ -133,7 +131,6 @@ export default function Login({ isLoggedIn, setIsLoggedIn }: Props) {
     setPassword("jelszo12");
 
     // közvetlen login
-    setIsLoggedIn(true);
 
     Toast.show({
       type: "success",
