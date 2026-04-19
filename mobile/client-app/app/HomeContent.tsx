@@ -15,8 +15,8 @@ import Cart from "./cartIconButton";
 import { Meal } from "./models/meal";
 import ProfileIconButton from "./profileIconButton";
 import {User} from "./models/user";
-import AdminToggleButton from "./adminToggleButton";
 import { useGlobalAuth } from "./authStore";
+import Toast from "react-native-toast-message";
 
 const fallbackData = [
   {
@@ -64,7 +64,7 @@ const fallbackData = [
 ];
 
 export default function HomeScreen() {
-  const { meals, loading } = useMeals();
+  const { meals, loading, error } = useMeals();
   const [mealsLegyenRenderelve, setMealsLegyenRenderelve] = useState(true);
   const { isLoggedIn, setIsLoggedIn } = useGlobalAuth();
 
@@ -92,25 +92,7 @@ export default function HomeScreen() {
   };
 
   const renderAuthButtons = () => {
-  if (!isLoggedIn) {
-    return (
-      <>
-        <Pressable onPress={() => router.push("/login")} style={styles.loginButton}>
-          <Text>Bejelentkezés</Text>
-        </Pressable>
-
-        <Pressable onPress={() => router.push("/register")} style={styles.registerButton}>
-          <Text>Regisztráció</Text>
-        </Pressable>
-      </>
-    );
-  } else {
-    return (
-      <Pressable onPress={logout} style={styles.logoutButton}>
-        <Text>Kijelentkezés</Text>
-      </Pressable>
-    );
-  }
+  
 };
 
 
@@ -159,68 +141,72 @@ export default function HomeScreen() {
       </Text>
 
       <View testID="meals">
-        <View testID="featured">
-          <View>
-            {loading ? (
-              <Text>Ételek betöltése...⏳⌛</Text>
-            ) : dataToShow.length === 0 ? (
-              <View style={styles.emptyContainer}>
-                <Text style={styles.emptyText}>Nincs étel</Text>
-              </View>
-            ) : mealsLegyenRenderelve ? (
-              <FlatList
-                data={dataToShow.length > 0 ? dataToShow : fallbackData}
-                numColumns={2}
-                keyExtractor={(item) => item.id.toString()}
-                ListEmptyComponent={
-                  !loading ? (
-                    <View style={styles.emptyContainer}>
-                      <Text style={styles.emptyText}>Nincs étel</Text>
-                    </View>
-                  ) : null
-                }
-                renderItem={({ item }) => (
-                  <View style={styles.card}>
-                    <Text>{item.name}</Text>
-                    <Text>{item.description}</Text>
-                    <Text>{item.price} Ft</Text>
-                    <Image
-                      source={{ uri: item.imageUrl }}
-                      style={{ width: 200, height: 20 }}
-                      accessibilityLabel={`Egy kép erről: ${item.name}`}
-                    />
-                  </View>
-                )}
-              />
-            ) : (
-            <Meals />
-            )}
-          </View>
-        </View>
-
-        {/* Ételek */}
-        <Pressable
-          onPress={() => router.push("/meals")}
-          style={{
-            backgroundColor: "#178b42",
-            paddingVertical: 14,
-            paddingHorizontal: 24,
-            borderRadius: 12,
-            marginTop: 30,
-            marginBottom: 12,
-            minWidth: 200,
-            alignItems: "center",
-          }}
-        >
-          <Text style={{ color: "white", fontSize: 16, fontWeight: "600" }}>
-            Ételek böngészése
+  <View testID="featured">
+    <View>
+      {loading ? (
+        <Text>Ételek betöltése...⏳⌛</Text>
+      ) : error ? (
+        <View style={styles.emptyContainer}>
+          <Text style={[styles.emptyText, { color: "#cc0000" }]}>
+            ⚠️ Nem sikerült az ételek betöltése
           </Text>
-        </Pressable>
-      </View>
+        </View>
+      ) : dataToShow.length === 0 ? (
+        <View style={styles.emptyContainer}>
+          <Text style={styles.emptyText}>Nincs étel</Text>
+        </View>
+      ) : (
+        <FlatList
+          data={dataToShow}
+          numColumns={2}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
+            <View style={styles.card}>
+              <Text>{item.name}</Text>
+              <Text>{item.description}</Text>
+              <Text>{item.price} Ft</Text>
+              <Image
+                source={{ uri: item.imageUrl }}
+                style={{ width: 200, height: 20 }}
+                accessibilityLabel={`Egy kép erről: ${item.name}`}
+              />
+            </View>
+          )}
+        />
+      )}
+    </View>
+  </View>
+
+  {/* Gomb csak akkor, ha vannak ételek */}
+  {!loading && !error && dataToShow.length > 0 && (
+    <Pressable
+      onPress={() => router.push("/meals")}
+      style={{
+        backgroundColor: "#178b42",
+        paddingVertical: 14,
+        paddingHorizontal: 24,
+        borderRadius: 12,
+        marginTop: 30,
+        marginBottom: 12,
+        minWidth: 200,
+        alignItems: "center",
+      }}
+    >
+      <Text style={{ color: "white", fontSize: 16, fontWeight: "600" }}>
+        Ételek böngészése
+      </Text>
+    </Pressable>
+  )}
+</View>
 
       {/* Itt kell cserélgetni a felkiáltójelet */}
       {!isLoggedIn ? (
-  <>
+        <>
+        {Toast.show({
+    type: "info",
+    text1: "Vendég mód",
+    text2: "A kosár nem lesz elmentve!",
+  })}
     {/* Login gomb */}
     <Pressable
       onPress={() => router.push("/login")}
@@ -245,7 +231,7 @@ export default function HomeScreen() {
   <>
     {/* Logout gomb */}
     <Pressable
-      onPress={() => logout()}
+      onPress={logout}
       style={styles.logoutButton}
     >
       <Text style={{ color: "white", fontSize: 16, fontWeight: "600" }}>

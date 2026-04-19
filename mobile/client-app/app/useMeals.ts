@@ -17,12 +17,13 @@ export function useMeals() {
   useEffect(() => {
     const fetchMeals = async () => {
       const { data, error } = await supabase.from("meals").select("*");
-
-      if (!error) {setMeals(data ?? []);}
-      else {setError(error.message);}
+      if (error) {
+        setError(error.message);
+      } else {
+        setMeals(data ?? []);
+      }
       setLoading(false);
     };
-
     fetchMeals();
   }, []);
 
