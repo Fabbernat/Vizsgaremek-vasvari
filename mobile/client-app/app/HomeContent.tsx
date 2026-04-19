@@ -155,7 +155,7 @@ export default function HomeScreen() {
       {/* Top bar */}
       <View style={styles.topBar}>
         <Animated.View style={{ opacity: headerAnim, transform: [{ translateY: logoAnim }] }}>
-          <Text style={styles.brandSmall}>👑 Royal</Text>
+          <Text style={styles.brandSmall}>👑</Text>
         </Animated.View>
         <View style={styles.topActions}>
           <Cart style={styles.iconBtn} />
