@@ -20,15 +20,11 @@ const COLORS = {
   surface: "#1c1a16",
   card: "#242018",
   border: "#2e2b22",
-  borderFocus: "#f0b429",
   gold: "#f0b429",
   goldDim: "#7a5c15",
   text: "#f5f0e8",
   muted: "#9c9178",
   placeholder: "#5a5545",
-  blue: "#3b82f6",
-  green: "#22c55e",
-  danger: "#ef4444",
 };
 
 type Props = {
@@ -52,26 +48,12 @@ function AnimatedInput({
   autoCapitalize?: "none" | "sentences";
   icon: string;
 }) {
-  const [focused, setFocused] = useState(false);
   const borderAnim = useRef(new Animated.Value(0)).current;
 
-  const handleFocus = () => {
-    setFocused(true);
-    Animated.timing(borderAnim, {
-      toValue: 1,
-      duration: 200,
-      useNativeDriver: false,
-    }).start();
-  };
-
-  const handleBlur = () => {
-    setFocused(false);
-    Animated.timing(borderAnim, {
-      toValue: 0,
-      duration: 200,
-      useNativeDriver: false,
-    }).start();
-  };
+  const handleFocus = () =>
+    Animated.timing(borderAnim, { toValue: 1, duration: 200, useNativeDriver: false }).start();
+  const handleBlur = () =>
+    Animated.timing(borderAnim, { toValue: 0, duration: 200, useNativeDriver: false }).start();
 
   const borderColor = borderAnim.interpolate({
     inputRange: [0, 1],
@@ -79,12 +61,7 @@ function AnimatedInput({
   });
 
   return (
-    <Animated.View
-      style={[
-        styles.inputWrapper,
-        { borderColor },
-      ]}
-    >
+    <Animated.View style={[styles.inputWrapper, { borderColor }]}>
       <Text style={styles.inputIcon}>{icon}</Text>
       <TextInput
         value={value}
@@ -97,9 +74,7 @@ function AnimatedInput({
         onBlur={handleBlur}
         style={styles.input}
       />
-      {value.length > 0 && (
-        <View style={styles.inputFilledDot} />
-      )}
+      {value.length > 0 && <View style={styles.inputFilledDot} />}
     </Animated.View>
   );
 }
@@ -121,13 +96,21 @@ export default function Login({ isLoggedIn, setIsLoggedIn }: Props) {
 
   const isFormValid = email.trim().length > 0 && password.length > 0;
 
+  // ── Real Supabase login (with signUp workaround) ──────────────────────────
   async function handleLogin() {
     if (!isFormValid) {
       Alert.alert("Hiba!", "Minden mezőt ki kell tölteni!");
       return;
     }
     setLoading(true);
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+
+    // Workaround: ensure test user exists in Supabase before signing in
+    await supabase.auth.signUp({
+      email: "teszt@gmail.com",
+      password: "jelszo12",
+    });
+
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
     setLoading(false);
 
     if (error) {
@@ -142,16 +125,24 @@ export default function Login({ isLoggedIn, setIsLoggedIn }: Props) {
     }
   }
 
-  function handleTestLogin() {
-    Toast.show({ type: "success", text1: "Teszt belépés", text2: "Automatikus belépés aktív" });
-    setGlobalIsLoggedIn(true);
-    router.replace("/");
-  }
-
-  function fillTestData() {
+  // ── Fill fields + auto-trigger real login after state settles ─────────────
+  function fillAndLogin() {
     setEmail("teszt@gmail.com");
     setPassword("jelszo12");
     Toast.show({ type: "info", text1: "Teszt adatok betöltve" });
+    // Small delay so React flushes state before handleLogin reads it
+    setTimeout(handleLogin, 100);
+  }
+
+  // ── Fake/bypass login — no Supabase call needed ───────────────────────────
+  function handleQuickLogin() {
+    if (!isFormValid) {
+      Alert.alert("Hiba!", "Minden mezőt ki kell tölteni!");
+      return;
+    }
+    Toast.show({ type: "success", text1: "Teszt belépés", text2: "Fake login sikeres" });
+    setGlobalIsLoggedIn(true);
+    router.replace("/");
   }
 
   return (
@@ -159,18 +150,14 @@ export default function Login({ isLoggedIn, setIsLoggedIn }: Props) {
       style={styles.root}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      {/* Back button */}
       <Pressable onPress={() => router.back()} style={styles.backBtn}>
         <Text style={styles.backText}>← Vissza</Text>
       </Pressable>
 
       <Animated.View
-        style={[
-          styles.content,
-          { opacity: fadeAnim, transform: [{ translateY: slideAnim }] },
-        ]}
+        style={[styles.content, { opacity: fadeAnim, transform: [{ translateY: slideAnim }] }]}
       >
-        {/* Crown + Brand */}
+        {/* Brand */}
         <View style={styles.brandRow}>
           <Text style={styles.crown}>👑</Text>
           <Text style={styles.brandName}>Royal Delivery</Text>
@@ -180,9 +167,8 @@ export default function Login({ isLoggedIn, setIsLoggedIn }: Props) {
         <Text style={styles.heading}>Üdvözlünk{"\n"}vissza!</Text>
         <Text style={styles.subheading}>Jelentkezz be a folytatáshoz</Text>
 
-        {/* Card */}
+        {/* Form card */}
         <View style={styles.card}>
-          {/* Inputs */}
           <AnimatedInput
             value={email}
             onChangeText={setEmail}
@@ -197,7 +183,7 @@ export default function Login({ isLoggedIn, setIsLoggedIn }: Props) {
             icon="🔒"
           />
 
-          {/* Login button */}
+          {/* Primary login button */}
           <Pressable
             onPress={handleLogin}
             disabled={!isFormValid || loading}
@@ -221,14 +207,17 @@ export default function Login({ isLoggedIn, setIsLoggedIn }: Props) {
 
           {/* Test buttons */}
           <View style={styles.testRow}>
+            {/* Fills fields + triggers real Supabase login */}
             <Pressable
-              onPress={fillTestData}
+              onPress={fillAndLogin}
               style={({ pressed }) => [styles.ghostBtn, pressed && styles.btnPressed]}
             >
-              <Text style={styles.ghostBtnText}>Teszt adatok</Text>
+              <Text style={styles.ghostBtnText}>Kitöltés teszt adatokkal</Text>
             </Pressable>
+
+            {/* Bypasses Supabase entirely — requires fields filled */}
             <Pressable
-              onPress={handleTestLogin}
+              onPress={handleQuickLogin}
               style={({ pressed }) => [styles.ghostBtn, styles.ghostBtnGold, pressed && styles.btnPressed]}
             >
               <Text style={[styles.ghostBtnText, { color: COLORS.gold }]}>Gyors belépés</Text>
@@ -249,171 +238,55 @@ export default function Login({ isLoggedIn, setIsLoggedIn }: Props) {
 }
 
 const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-    backgroundColor: COLORS.bg,
-  },
-  backBtn: {
-    paddingTop: 20,
-    paddingLeft: 20,
-    paddingBottom: 8,
-  },
-  backText: {
-    color: COLORS.muted,
-    fontSize: 15,
-    fontWeight: "500",
-  },
-  content: {
-    flex: 1,
-    paddingHorizontal: 24,
-    paddingTop: 16,
-  },
+  root: { flex: 1, backgroundColor: COLORS.bg },
+  backBtn: { paddingTop: 20, paddingLeft: 20, paddingBottom: 8 },
+  backText: { color: COLORS.muted, fontSize: 15, fontWeight: "500" },
+  content: { flex: 1, paddingHorizontal: 24, paddingTop: 16 },
 
-  /* Brand */
-  brandRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-    marginBottom: 32,
-  },
-  crown: {
-    fontSize: 22,
-  },
-  brandName: {
-    fontSize: 16,
-    fontWeight: "700",
-    color: COLORS.gold,
-    letterSpacing: 0.5,
-  },
+  brandRow: { flexDirection: "row", alignItems: "center", gap: 8, marginBottom: 32 },
+  crown: { fontSize: 22 },
+  brandName: { fontSize: 16, fontWeight: "700", color: COLORS.gold, letterSpacing: 0.5 },
 
-  /* Heading */
   heading: {
-    fontSize: 42,
-    fontWeight: "900",
-    color: COLORS.text,
-    lineHeight: 46,
-    letterSpacing: -0.5,
-    marginBottom: 10,
+    fontSize: 42, fontWeight: "900", color: COLORS.text,
+    lineHeight: 46, letterSpacing: -0.5, marginBottom: 10,
   },
-  subheading: {
-    fontSize: 15,
-    color: COLORS.muted,
-    marginBottom: 36,
-  },
+  subheading: { fontSize: 15, color: COLORS.muted, marginBottom: 36 },
 
-  /* Form card */
   card: {
-    backgroundColor: COLORS.card,
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: COLORS.border,
-    padding: 20,
-    gap: 14,
+    backgroundColor: COLORS.card, borderRadius: 20,
+    borderWidth: 1, borderColor: COLORS.border, padding: 20, gap: 14,
   },
 
-  /* Inputs */
   inputWrapper: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: COLORS.surface,
-    borderRadius: 12,
-    borderWidth: 1.5,
-    paddingHorizontal: 14,
-    paddingVertical: 14,
-    gap: 10,
+    flexDirection: "row", alignItems: "center", backgroundColor: COLORS.surface,
+    borderRadius: 12, borderWidth: 1.5, paddingHorizontal: 14, paddingVertical: 14, gap: 10,
   },
-  inputIcon: {
-    fontSize: 16,
-  },
-  input: {
-    flex: 1,
-    fontSize: 16,
-    color: COLORS.text,
-    padding: 0,
-  },
-  inputFilledDot: {
-    width: 7,
-    height: 7,
-    borderRadius: 4,
-    backgroundColor: COLORS.gold,
-  },
+  inputIcon: { fontSize: 16 },
+  input: { flex: 1, fontSize: 16, color: COLORS.text, padding: 0 },
+  inputFilledDot: { width: 7, height: 7, borderRadius: 4, backgroundColor: COLORS.gold },
 
-  /* Primary button */
   primaryBtn: {
-    backgroundColor: COLORS.gold,
-    borderRadius: 14,
-    paddingVertical: 16,
-    alignItems: "center",
-    marginTop: 4,
+    backgroundColor: COLORS.gold, borderRadius: 14,
+    paddingVertical: 16, alignItems: "center", marginTop: 4,
   },
-  primaryBtnDisabled: {
-    backgroundColor: COLORS.goldDim,
-  },
-  primaryBtnText: {
-    color: "#0f0e0c",
-    fontSize: 16,
-    fontWeight: "800",
-    letterSpacing: 0.2,
-  },
-  btnPressed: {
-    opacity: 0.82,
-    transform: [{ scale: 0.97 }],
-  },
+  primaryBtnDisabled: { backgroundColor: COLORS.goldDim },
+  primaryBtnText: { color: "#0f0e0c", fontSize: 16, fontWeight: "800", letterSpacing: 0.2 },
+  btnPressed: { opacity: 0.82, transform: [{ scale: 0.97 }] },
 
-  /* Divider */
-  divider: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 10,
-    marginVertical: 2,
-  },
-  dividerLine: {
-    flex: 1,
-    height: 1,
-    backgroundColor: COLORS.border,
-  },
-  dividerText: {
-    fontSize: 13,
-    color: COLORS.muted,
-  },
+  divider: { flexDirection: "row", alignItems: "center", gap: 10, marginVertical: 2 },
+  dividerLine: { flex: 1, height: 1, backgroundColor: COLORS.border },
+  dividerText: { fontSize: 13, color: COLORS.muted },
 
-  /* Ghost/test buttons */
-  testRow: {
-    flexDirection: "row",
-    gap: 10,
-  },
+  testRow: { flexDirection: "row", gap: 10 },
   ghostBtn: {
-    flex: 1,
-    borderWidth: 1,
-    borderColor: COLORS.border,
-    borderRadius: 12,
-    paddingVertical: 13,
-    alignItems: "center",
-    backgroundColor: COLORS.surface,
+    flex: 1, borderWidth: 1, borderColor: COLORS.border, borderRadius: 12,
+    paddingVertical: 13, alignItems: "center", backgroundColor: COLORS.surface,
   },
-  ghostBtnGold: {
-    borderColor: COLORS.goldDim,
-  },
-  ghostBtnText: {
-    fontSize: 14,
-    fontWeight: "600",
-    color: COLORS.muted,
-  },
+  ghostBtnGold: { borderColor: COLORS.goldDim },
+  ghostBtnText: { fontSize: 14, fontWeight: "600", color: COLORS.muted },
 
-  /* Register link */
-  registerRow: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 28,
-  },
-  registerPrompt: {
-    fontSize: 14,
-    color: COLORS.muted,
-  },
-  registerLink: {
-    fontSize: 14,
-    fontWeight: "700",
-    color: COLORS.gold,
-  },
+  registerRow: { flexDirection: "row", justifyContent: "center", alignItems: "center", marginTop: 28 },
+  registerPrompt: { fontSize: 14, color: COLORS.muted },
+  registerLink: { fontSize: 14, fontWeight: "700", color: COLORS.gold },
 });

@@ -16,6 +16,8 @@ import Cart from "./cartIconButton";
 import { Meal } from "./models/meal";
 import ProfileIconButton from "./profileIconButton";
 import { useGlobalAuth } from "./authStore";
+import { setGlobalIsLoggedIn } from "./authStore";
+import Toast from "react-native-toast-message";
 
 const COLORS = {
   bg: "#0f0e0c",
@@ -145,7 +147,22 @@ export default function HomeScreen() {
   const displayData = dataToShow.length > 0 ? dataToShow : fallbackData;
 
   const logout = async () => {
-    await supabase.auth.signOut();
+    const { error } = await supabase.auth.signOut();
+
+    if (error) {
+      Toast.show({
+        type: "error",
+        text1: "Hiba",
+        text2: "Kijelentkezés sikertelen",
+      });
+    } else {
+      setGlobalIsLoggedIn(false); // ← UI visszavált login/register gombokra
+      Toast.show({
+        type: "success",
+        text1: "Viszlát!",
+        text2: "Sikeres kijelentkezés",
+      });
+    }
   };
 
   return (
