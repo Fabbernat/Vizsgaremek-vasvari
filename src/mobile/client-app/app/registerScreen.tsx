@@ -89,7 +89,7 @@ export default function Register() {
       Animated.timing(fadeAnim, { toValue: 1, duration: 500, useNativeDriver: true }),
       Animated.spring(slideAnim, { toValue: 0, tension: 60, friction: 9, useNativeDriver: true }),
     ]).start();
-  }, []);
+  }, [fadeAnim, slideAnim]);
 
   const isFormValid =
     username.trim().length > 0 &&
@@ -251,7 +251,7 @@ export default function Register() {
           {/* Login link */}
           <View style={styles.loginRow}>
             <Text style={styles.loginPrompt}>Már van fiókod? </Text>
-            <Pressable onPress={() => router.push("/login")}>
+            <Pressable onPress={() => router.push("/loginScreen")}>
               <Text style={styles.loginLink}>Bejelentkezés</Text>
             </Pressable>
           </View>

@@ -1,5 +1,5 @@
 import { ScrollView } from "react-native";
-import HomeContent from "./homeContent";
+import HomeContent from "./homeScreen";
 
 
 export default function Index() {

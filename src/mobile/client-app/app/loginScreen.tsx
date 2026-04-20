@@ -92,7 +92,7 @@ export default function Login({ isLoggedIn, setIsLoggedIn }: Props) {
       Animated.timing(fadeAnim, { toValue: 1, duration: 500, useNativeDriver: true }),
       Animated.spring(slideAnim, { toValue: 0, tension: 60, friction: 9, useNativeDriver: true }),
     ]).start();
-  }, []);
+  }, [fadeAnim, slideAnim]);
 
   const isFormValid = email.trim().length > 0 && password.length > 0;
 
@@ -228,7 +228,7 @@ export default function Login({ isLoggedIn, setIsLoggedIn }: Props) {
         {/* Register link */}
         <View style={styles.registerRow}>
           <Text style={styles.registerPrompt}>Nincs még fiókod? </Text>
-          <Pressable onPress={() => router.push("/register")}>
+          <Pressable onPress={() => router.push("/registerScreen")}>
             <Text style={styles.registerLink}>Regisztráció</Text>
           </Pressable>
         </View>

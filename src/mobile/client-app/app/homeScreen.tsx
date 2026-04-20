@@ -15,8 +15,8 @@ import { useMeals } from "./useMeals";
 import Cart from "./cartIconButton";
 import { Meal } from "./models/meal";
 import ProfileIconButton from "./profileIconButton";
-import { useGlobalAuth } from "./authStore";
-import { setGlobalIsLoggedIn } from "./authStore";
+import { useGlobalAuth , setGlobalIsLoggedIn } from "./authStore";
+
 import Toast from "react-native-toast-message";
 
 const COLORS = {
@@ -43,7 +43,7 @@ const fallbackData = [
 ];
 
 // Animated meal card
-function MealCard({ item, index }: { item: any; index: number }) {
+export function MealCard({ item, index }: { item: any; index: number }) {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(24)).current;
   const scaleAnim = useRef(new Animated.Value(1)).current;
@@ -63,7 +63,7 @@ function MealCard({ item, index }: { item: any; index: number }) {
         useNativeDriver: true,
       }),
     ]).start();
-  }, []);
+  }, [fadeAnim, index, slideAnim]);
 
   const handlePressIn = () => {
     Animated.spring(scaleAnim, { toValue: 0.96, useNativeDriver: true }).start();
@@ -83,35 +83,35 @@ function MealCard({ item, index }: { item: any; index: number }) {
       <Pressable
         onPressIn={handlePressIn}
         onPressOut={handlePressOut}
-        style={styles.card}
+        style={HomeScreenStyles.card}
       >
         {/* Image area */}
-        <View style={styles.cardImageBox}>
+        <View style={HomeScreenStyles.cardImageBox}>
           {item.imageUrl ? (
             <Image
               source={{ uri: item.imageUrl }}
-              style={styles.cardImage}
+              style={HomeScreenStyles.cardImage}
               accessibilityLabel={`Egy kép erről: ${item.name}`}
             />
           ) : (
-            <View style={styles.cardImagePlaceholder}>
-              <Text style={styles.cardImageEmoji}>🍽️</Text>
+            <View style={HomeScreenStyles.cardImagePlaceholder}>
+              <Text style={HomeScreenStyles.cardImageEmoji}>🍽️</Text>
             </View>
           )}
           {/* Price badge */}
-          <View style={styles.priceBadge}>
-            <Text style={styles.priceText}>{item.price} Ft</Text>
+          <View style={HomeScreenStyles.priceBadge}>
+            <Text style={HomeScreenStyles.priceText}>{item.price} Ft</Text>
           </View>
         </View>
 
         {/* Card body */}
-        <View style={styles.cardBody}>
-          <Text style={styles.cardName} numberOfLines={1}>{item.name}</Text>
-          <Text style={styles.cardDesc} numberOfLines={2}>{item.description}</Text>
+        <View style={HomeScreenStyles.cardBody}>
+          <Text style={HomeScreenStyles.cardName} numberOfLines={1}>{item.name}</Text>
+          <Text style={HomeScreenStyles.cardDesc} numberOfLines={2}>{item.description}</Text>
         </View>
 
         {/* Gold accent line */}
-        <View style={styles.cardAccent} />
+        <View style={HomeScreenStyles.cardAccent} />
       </Pressable>
     </Animated.View>
   );
@@ -138,7 +138,7 @@ export default function HomeScreen() {
         useNativeDriver: true,
       }),
     ]).start();
-  }, []);
+  }, [headerAnim, logoAnim]);
 
   const dataToShow = (meals ?? []).map((meal: Meal) => ({
     ...meal,
@@ -166,58 +166,58 @@ export default function HomeScreen() {
   };
 
   return (
-    <View style={styles.root}>
+    <View style={HomeScreenStyles.root}>
       <StatusBar barStyle="light-content" backgroundColor={COLORS.bg} />
 
       {/* Top bar */}
-      <View style={styles.topBar}>
+      <View style={HomeScreenStyles.topBar}>
         <Animated.View style={{ opacity: headerAnim, transform: [{ translateY: logoAnim }] }}>
-          <Text style={styles.brandSmall}>👑</Text>
+          <Text style={HomeScreenStyles.brandSmall}>👑</Text>
         </Animated.View>
-        <View style={styles.topActions}>
-          <Cart style={styles.iconBtn} />
-          <ProfileIconButton style={styles.iconBtn} />
+        <View style={HomeScreenStyles.topActions}>
+          <Cart style={HomeScreenStyles.iconBtn} />
+          <ProfileIconButton style={HomeScreenStyles.iconBtn} />
         </View>
       </View>
 
       {/* Hero section */}
       <Animated.View
         style={[
-          styles.hero,
+          HomeScreenStyles.hero,
           {
             opacity: headerAnim,
             transform: [{ translateY: logoAnim }],
           },
         ]}
       >
-        <Text style={styles.heroEyebrow}>🚀 Gyors kiszállítás</Text>
-        <Text style={styles.heroTitle}>Royal{"\n"}Delivery</Text>
-        <Text style={styles.heroSubtitle}>
+        <Text style={HomeScreenStyles.heroEyebrow}>🚀 Gyors kiszállítás</Text>
+        <Text style={HomeScreenStyles.heroTitle}>Royal{"\n"}Delivery</Text>
+        <Text style={HomeScreenStyles.heroSubtitle}>
           Kiszállítás olcsón és egyszerűen — egyenesen az ajtódhoz.
         </Text>
 
         <Pressable
           onPress={() => router.push("/meals")}
           style={({ pressed }) => [
-            styles.heroCta,
+            HomeScreenStyles.heroCta,
             pressed && { opacity: 0.85, transform: [{ scale: 0.97 }] },
           ]}
         >
-          <Text style={styles.heroCtaText}>Ételek böngészése →</Text>
+          <Text style={HomeScreenStyles.heroCtaText}>Ételek böngészése →</Text>
         </Pressable>
       </Animated.View>
 
       {/* Section header */}
-      <View style={styles.sectionHeader}>
-        <View style={styles.sectionDot} />
-        <Text style={styles.sectionTitle}>Ajánlott ételek</Text>
-        <View style={styles.sectionLine} />
+      <View style={HomeScreenStyles.sectionHeader}>
+        <View style={HomeScreenStyles.sectionDot} />
+        <Text style={HomeScreenStyles.sectionTitle}>Ajánlott ételek</Text>
+        <View style={HomeScreenStyles.sectionLine} />
       </View>
 
       {/* Meal grid */}
       {loading ? (
-        <View style={styles.loadingBox}>
-          <Text style={styles.loadingText}>⏳ Ételek betöltése...</Text>
+        <View style={HomeScreenStyles.loadingBox}>
+          <Text style={HomeScreenStyles.loadingText}>⏳ Ételek betöltése...</Text>
         </View>
       ) : (
         <FlatList
@@ -225,12 +225,12 @@ export default function HomeScreen() {
           numColumns={2}
           keyExtractor={(item) => item.id.toString()}
           scrollEnabled={false}
-          contentContainerStyle={styles.grid}
-          columnWrapperStyle={styles.gridRow}
+          contentContainerStyle={HomeScreenStyles.grid}
+          columnWrapperStyle={HomeScreenStyles.gridRow}
           ListEmptyComponent={
-            <View style={styles.emptyContainer}>
-              <Text style={styles.emptyIcon}>🍽</Text>
-              <Text style={styles.emptyText}>Nincs étel</Text>
+            <View style={HomeScreenStyles.emptyContainer}>
+              <Text style={HomeScreenStyles.emptyIcon}>🍽</Text>
+              <Text style={HomeScreenStyles.emptyText}>Nincs étel</Text>
             </View>
           }
           renderItem={({ item, index }) => (
@@ -240,28 +240,28 @@ export default function HomeScreen() {
       )}
 
       {/* Auth buttons */}
-      <View style={styles.authSection}>
+      <View style={HomeScreenStyles.authSection}>
         {!isLoggedIn ? (
-          <View style={styles.authRow}>
+          <View style={HomeScreenStyles.authRow}>
             <Pressable
-              onPress={() => router.push("/login")}
-              style={({ pressed }) => [styles.authBtn, styles.loginBtn, pressed && styles.btnPressed]}
+              onPress={() => router.push("/loginScreen")}
+              style={({ pressed }) => [HomeScreenStyles.authBtn, HomeScreenStyles.loginBtn, pressed && HomeScreenStyles.btnPressed]}
             >
-              <Text style={styles.authBtnText}>Bejelentkezés</Text>
+              <Text style={HomeScreenStyles.authBtnText}>Bejelentkezés</Text>
             </Pressable>
             <Pressable
-              onPress={() => router.push("/register")}
-              style={({ pressed }) => [styles.authBtn, styles.registerBtn, pressed && styles.btnPressed]}
+              onPress={() => router.push("/registerScreen")}
+              style={({ pressed }) => [HomeScreenStyles.authBtn, HomeScreenStyles.registerBtn, pressed && HomeScreenStyles.btnPressed]}
             >
-              <Text style={styles.authBtnText}>Regisztráció</Text>
+              <Text style={HomeScreenStyles.authBtnText}>Regisztráció</Text>
             </Pressable>
           </View>
         ) : (
           <Pressable
             onPress={logout}
-            style={({ pressed }) => [styles.authBtn, styles.logoutBtn, pressed && styles.btnPressed]}
+            style={({ pressed }) => [HomeScreenStyles.authBtn, HomeScreenStyles.logoutBtn, pressed && HomeScreenStyles.btnPressed]}
           >
-            <Text style={[styles.authBtnText, { color: COLORS.danger }]}>Kijelentkezés</Text>
+            <Text style={[HomeScreenStyles.authBtnText, { color: COLORS.danger }]}>Kijelentkezés</Text>
           </Pressable>
         )}
       </View>
@@ -269,7 +269,7 @@ export default function HomeScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+export const HomeScreenStyles = StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: COLORS.bg,
