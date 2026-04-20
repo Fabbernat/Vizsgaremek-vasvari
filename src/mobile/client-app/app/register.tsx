@@ -117,7 +117,7 @@ export default function Register() {
     setLoading(false);
 
     if (error) {
-      Toast.show({ type: "error", text1: "Hiba", text2: error.message });
+      Toast.show({ type: "error", text1: "Hiba", text2: "Ezzel az email-címmel vagy felhasználónévvel már regisztráltak!" });
     } else {
       Toast.show({
         type: "success",
