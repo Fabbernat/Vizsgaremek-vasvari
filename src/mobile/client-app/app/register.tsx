@@ -1,129 +1,318 @@
-import React, { useState } from "react";
-import { View, TextInput, Button, Alert, Text, Pressable  } from "react-native";
+import { useState, useRef, useEffect } from "react";
+import {
+  Text,
+  TextInput,
+  View,
+  Pressable,
+  Animated,
+  KeyboardAvoidingView,
+  Platform,
+  Alert,
+  StyleSheet,
+  ScrollView,
+} from "react-native";
 import { supabase } from "../supabase";
-import { ToastAndroid } from 'react-native';
-import Toast from 'react-native-toast-message';
+import Toast from "react-native-toast-message";
+import { router } from "expo-router";
+import { setGlobalIsLoggedIn } from "./authStore";
+
+const COLORS = {
+  bg: "#0f0e0c",
+  surface: "#1c1a16",
+  card: "#242018",
+  border: "#2e2b22",
+  gold: "#f0b429",
+  goldDim: "#7a5c15",
+  text: "#f5f0e8",
+  muted: "#9c9178",
+  placeholder: "#5a5545",
+};
+
+function AnimatedInput({
+  value,
+  onChangeText,
+  placeholder,
+  secureTextEntry = false,
+  autoCapitalize = "none",
+  icon,
+}: {
+  value: string;
+  onChangeText: (v: string) => void;
+  placeholder: string;
+  secureTextEntry?: boolean;
+  autoCapitalize?: "none" | "sentences";
+  icon: string;
+}) {
+  const borderAnim = useRef(new Animated.Value(0)).current;
+
+  const handleFocus = () =>
+    Animated.timing(borderAnim, { toValue: 1, duration: 200, useNativeDriver: false }).start();
+  const handleBlur = () =>
+    Animated.timing(borderAnim, { toValue: 0, duration: 200, useNativeDriver: false }).start();
+
+  const borderColor = borderAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: [COLORS.border, COLORS.gold],
+  });
+
+  return (
+    <Animated.View style={[styles.inputWrapper, { borderColor }]}>
+      <Text style={styles.inputIcon}>{icon}</Text>
+      <TextInput
+        value={value}
+        onChangeText={onChangeText}
+        placeholder={placeholder}
+        placeholderTextColor={COLORS.placeholder}
+        secureTextEntry={secureTextEntry}
+        autoCapitalize={autoCapitalize}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        style={styles.input}
+      />
+      {value.length > 0 && <View style={styles.inputFilledDot} />}
+    </Animated.View>
+  );
+}
 
 export default function Register() {
-  // 2. Itt tároljuk el amit a user beír (kezdetben üres)
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordRepeat, setPasswordRepeat] = useState("");
-  const [role, setRole] = useState("customer");
+  const [loading, setLoading] = useState(false);
 
-  // 3. Ez a függvény fut le, ha rányomnak a gombra
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const slideAnim = useRef(new Animated.Value(40)).current;
+
+  useEffect(() => {
+    Animated.parallel([
+      Animated.timing(fadeAnim, { toValue: 1, duration: 500, useNativeDriver: true }),
+      Animated.spring(slideAnim, { toValue: 0, tension: 60, friction: 9, useNativeDriver: true }),
+    ]).start();
+  }, []);
+
+  const isFormValid =
+    username.trim().length > 0 &&
+    email.trim().length > 0 &&
+    password.length > 0 &&
+    passwordRepeat.length > 0 &&
+    password === passwordRepeat;
+
+  // ── Valódi Supabase regisztráció ──────────────────────────────────────────
   async function handleRegister() {
     if (!username || !email || !password || !passwordRepeat) {
       Alert.alert("Hiba!", "Minden mezőt ki kell tölteni!");
       return;
     }
-
     if (password !== passwordRepeat) {
       Alert.alert("Hiba!", "A jelszavak nem egyeznek!");
       return;
     }
-
-    // Meghívjuk a Supabase regisztrációt
+    setLoading(true);
     const { error } = await supabase.auth.signUp({
-      email: email,
-      password: password,
-      options: {
-        data: {
-          username: username,
-          role: role,
-        },
-      },
+      email,
+      password,
+      options: { data: { username, role: "customer" } },
     });
+    setLoading(false);
 
     if (error) {
-      // Ha hiba van, feldobunk egy mobilos ablakot (Alert)
-      Toast.show({
-        type: 'error',
-        text1: "Hiba",
-        text2: error.message,
-      })
+      Toast.show({ type: "error", text1: "Hiba", text2: error.message });
     } else {
       Toast.show({
-        type: 'success',
-        text1: 'Siker!',
-        text2: 'Nézd meg az e-mailed a visszaigazoláshoz!',
-      })
+        type: "success",
+        text1: "Siker!",
+        text2: "Nézd meg az e-mailed a visszaigazoláshoz!",
+      });
     }
   }
 
-  const isFormValid =
-    username.trim() &&
-    email.trim() &&
-    password &&
-    passwordRepeat &&
-    password === passwordRepeat;
+  // ── Teszt adatok kitöltése + regisztráció indítása ────────────────────────
+  function fillAndRegister() {
+    setUsername("teszt");
+    setEmail("teszt@gmail.com");
+    setPassword("jelszo12");
+    setPasswordRepeat("jelszo12");
+    Toast.show({ type: "info", text1: "Teszt adatok betöltve" });
+    // Delay szükséges, hogy a React state frissüljön handleRegister előtt
+    setTimeout(handleRegister, 100);
+  }
+
+  // ── Fake regisztráció — Supabase nélkül, egyből belép ────────────────────
+  function handleQuickRegister() {
+    if (!isFormValid) {
+      Alert.alert("Hiba!", "Minden mezőt ki kell tölteni!");
+      return;
+    }
+    Toast.show({ type: "success", text1: "Teszt regisztráció", text2: "Fake belépés sikeres" });
+    setGlobalIsLoggedIn(true);
+    router.replace("/");
+  }
 
   return (
-    <View style={{ padding: 20, marginTop: 50 }}>
-      <Text>Regisztráció</Text>
-
-      <Pressable
-        onPress={() => {
-          setUsername("teszt");
-          setEmail("teszt@gmail.com");
-          setPassword("jelszo12");
-          setPasswordRepeat("jelszo12");
-
-          setTimeout(handleRegister, 100); // kis delay kell a state update miatt
-
-          Toast.show({
-            type: "info",
-            text1: "Teszt adatok betöltve",
-          });
-        }}
-        style={{
-          backgroundColor: "#ddd",
-          padding: 10,
-          marginBottom: 20,
-          borderRadius: 8,
-        }}
-      >
-        <Text>Kitöltés teszt adatokkal</Text>
+    <KeyboardAvoidingView
+      style={styles.root}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+      <Pressable onPress={() => router.back()} style={styles.backBtn}>
+        <Text style={styles.backText}>← Vissza</Text>
       </Pressable>
 
-      <TextInput
-        placeholder="Felhasználónév"
-        value={username}
-        onChangeText={setUsername}
-        style={{ borderBottomWidth: 1, marginBottom: 20 }}
-        autoCapitalize="none"
-      />
+      <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
+        <Animated.View
+          style={[styles.content, { opacity: fadeAnim, transform: [{ translateY: slideAnim }] }]}
+        >
+          {/* Brand */}
+          <View style={styles.brandRow}>
+            <Text style={styles.crown}>👑</Text>
+            <Text style={styles.brandName}>Royal Delivery</Text>
+          </View>
 
-      <TextInput
-        placeholder="E-mail cím"
-        value={email}
-        onChangeText={setEmail} // Amikor gépel, frissíti az e-mail változót
-        style={{ borderBottomWidth: 1, marginBottom: 20 }}
-        autoCapitalize="none"
-      />
+          {/* Heading */}
+          <Text style={styles.heading}>Csatlakozz{"\n"}hozzánk!</Text>
+          <Text style={styles.subheading}>Hozz létre egy fiókot a rendeléshez</Text>
 
-      <TextInput
-        placeholder="Jelszó"
-        value={password}
-        onChangeText={setPassword} // Frissíti a jelszó változót
-        secureTextEntry // Ettől lesznek pöttyök a jelszó helyén
-        style={{ borderBottomWidth: 1, marginBottom: 20 }}
-      />
+          {/* Form card */}
+          <View style={styles.card}>
+            <AnimatedInput
+              value={username}
+              onChangeText={setUsername}
+              placeholder="Felhasználónév"
+              icon="👤"
+            />
+            <AnimatedInput
+              value={email}
+              onChangeText={setEmail}
+              placeholder="Email cím"
+              icon="✉️"
+            />
+            <AnimatedInput
+              value={password}
+              onChangeText={setPassword}
+              placeholder="Jelszó"
+              secureTextEntry
+              icon="🔒"
+            />
+            <AnimatedInput
+              value={passwordRepeat}
+              onChangeText={setPasswordRepeat}
+              placeholder="Jelszó megerősítése"
+              secureTextEntry
+              icon="🔑"
+            />
 
-      <TextInput
-        placeholder="Jelszó megerősítése"
-        value={passwordRepeat}
-        onChangeText={setPasswordRepeat} // Frissíti a "jelszó megerősítése" változót
-        secureTextEntry
-        style={{ borderBottomWidth: 1, marginBottom: 20 }}
-      />
+            {/* Jelszó eltérés figyelmeztetés */}
+            {passwordRepeat.length > 0 && password !== passwordRepeat && (
+              <Text style={styles.errorText}>⚠️ A jelszavak nem egyeznek</Text>
+            )}
 
-      <Button
-        title="Regisztrálok"
-        onPress={handleRegister}
-        disabled={!isFormValid}
-      />
-    </View>
+            {/* Primary register button */}
+            <Pressable
+              onPress={handleRegister}
+              disabled={!isFormValid || loading}
+              style={({ pressed }) => [
+                styles.primaryBtn,
+                (!isFormValid || loading) && styles.primaryBtnDisabled,
+                pressed && isFormValid && styles.btnPressed,
+              ]}
+            >
+              <Text style={styles.primaryBtnText}>
+                {loading ? "Regisztráció..." : "Regisztrálok →"}
+              </Text>
+            </Pressable>
+
+            {/* Divider */}
+            <View style={styles.divider}>
+              <View style={styles.dividerLine} />
+              <Text style={styles.dividerText}>vagy</Text>
+              <View style={styles.dividerLine} />
+            </View>
+
+            {/* Test buttons */}
+            <View style={styles.testRow}>
+              {/* Kitölti a mezőket + valódi Supabase regisztráció */}
+              <Pressable
+                onPress={fillAndRegister}
+                style={({ pressed }) => [styles.ghostBtn, pressed && styles.btnPressed]}
+              >
+                <Text style={styles.ghostBtnText}>Kitöltés teszt adatokkal</Text>
+              </Pressable>
+
+              {/* Supabase-t megkerüli, egyből belép */}
+              <Pressable
+                onPress={handleQuickRegister}
+                style={({ pressed }) => [styles.ghostBtn, styles.ghostBtnGold, pressed && styles.btnPressed]}
+              >
+                <Text style={[styles.ghostBtnText, { color: COLORS.gold }]}>Gyors belépés</Text>
+              </Pressable>
+            </View>
+          </View>
+
+          {/* Login link */}
+          <View style={styles.loginRow}>
+            <Text style={styles.loginPrompt}>Már van fiókod? </Text>
+            <Pressable onPress={() => router.push("/login")}>
+              <Text style={styles.loginLink}>Bejelentkezés</Text>
+            </Pressable>
+          </View>
+        </Animated.View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
+
+const styles = StyleSheet.create({
+  root: { flex: 1, backgroundColor: COLORS.bg },
+  backBtn: { paddingTop: 20, paddingLeft: 20, paddingBottom: 8 },
+  backText: { color: COLORS.muted, fontSize: 15, fontWeight: "500" },
+  content: { paddingHorizontal: 24, paddingTop: 16, paddingBottom: 40 },
+
+  brandRow: { flexDirection: "row", alignItems: "center", gap: 8, marginBottom: 32 },
+  crown: { fontSize: 22 },
+  brandName: { fontSize: 16, fontWeight: "700", color: COLORS.gold, letterSpacing: 0.5 },
+
+  heading: {
+    fontSize: 42, fontWeight: "900", color: COLORS.text,
+    lineHeight: 46, letterSpacing: -0.5, marginBottom: 10,
+  },
+  subheading: { fontSize: 15, color: COLORS.muted, marginBottom: 36 },
+
+  card: {
+    backgroundColor: COLORS.card, borderRadius: 20,
+    borderWidth: 1, borderColor: COLORS.border, padding: 20, gap: 14,
+  },
+
+  inputWrapper: {
+    flexDirection: "row", alignItems: "center", backgroundColor: COLORS.surface,
+    borderRadius: 12, borderWidth: 1.5, paddingHorizontal: 14, paddingVertical: 14, gap: 10,
+  },
+  inputIcon: { fontSize: 16 },
+  input: { flex: 1, fontSize: 16, color: COLORS.text, padding: 0 },
+  inputFilledDot: { width: 7, height: 7, borderRadius: 4, backgroundColor: COLORS.gold },
+
+  errorText: { fontSize: 13, color: "#ef4444", marginTop: -4 },
+
+  primaryBtn: {
+    backgroundColor: COLORS.gold, borderRadius: 14,
+    paddingVertical: 16, alignItems: "center", marginTop: 4,
+  },
+  primaryBtnDisabled: { backgroundColor: COLORS.goldDim },
+  primaryBtnText: { color: "#0f0e0c", fontSize: 16, fontWeight: "800", letterSpacing: 0.2 },
+  btnPressed: { opacity: 0.82, transform: [{ scale: 0.97 }] },
+
+  divider: { flexDirection: "row", alignItems: "center", gap: 10, marginVertical: 2 },
+  dividerLine: { flex: 1, height: 1, backgroundColor: COLORS.border },
+  dividerText: { fontSize: 13, color: COLORS.muted },
+
+  testRow: { flexDirection: "row", gap: 10 },
+  ghostBtn: {
+    flex: 1, borderWidth: 1, borderColor: COLORS.border, borderRadius: 12,
+    paddingVertical: 13, alignItems: "center", backgroundColor: COLORS.surface,
+  },
+  ghostBtnGold: { borderColor: COLORS.goldDim },
+  ghostBtnText: { fontSize: 14, fontWeight: "600", color: COLORS.muted },
+
+  loginRow: { flexDirection: "row", justifyContent: "center", alignItems: "center", marginTop: 28 },
+  loginPrompt: { fontSize: 14, color: COLORS.muted },
+  loginLink: { fontSize: 14, fontWeight: "700", color: COLORS.gold },
+});
