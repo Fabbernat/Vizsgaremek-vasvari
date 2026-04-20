@@ -87,7 +87,7 @@ export default function ProfileView() {
 
             <Pressable
                 onPress={() => {
-                    router.push("/checkout");
+                    router.push("/checkoutScreen");
                 }}
              style={{ backgroundColor: "#2563eb", padding: 12, borderRadius: 10, marginTop: 20 }}>
                     <Text style={{ fontSize: 18, color: "white", textAlign: "center" }}>

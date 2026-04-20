@@ -8,7 +8,7 @@ export default function CartView() {
             <Orders />
                 <Pressable onPress={() => {
                     console.log("Checkout button pressed")
-                    router.push("/checkout")
+                    router.push("/checkoutScreen")
                     }}>
                     <View style={{ backgroundColor: "#2563eb", padding: 12, borderRadius: 10, marginTop: 20 }}>
                         <Text style={{ fontSize: 18, color: "white", textAlign: "center" }}>Megrendelés</Text>

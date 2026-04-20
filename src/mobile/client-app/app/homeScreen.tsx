@@ -197,7 +197,7 @@ export default function HomeScreen() {
         </Text>
 
         <Pressable
-          onPress={() => router.push("/meals")}
+          onPress={() => router.push("/mealsScreen")}
           style={({ pressed }) => [
             HomeScreenStyles.heroCta,
             pressed && { opacity: 0.85, transform: [{ scale: 0.97 }] },
