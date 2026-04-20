@@ -44,7 +44,7 @@ function MealCard({ item, index }: { item: Meal & { id: string }; index: number 
         toValue: 0, duration: 400, delay: index * 70, useNativeDriver: true,
       }),
     ]).start();
-  }, []);
+  }, [fadeAnim, index, slideAnim]);
 
   const handlePressIn = () =>
     Animated.spring(scaleAnim, { toValue: 0.96, useNativeDriver: true }).start();
@@ -127,7 +127,7 @@ export default function MealsScreen() {
     ]).start();
 
     fetchMeals();
-  }, []);
+  }, [fadeAnim, slideAnim]);
 
   const fetchMeals = async () => {
     setLoading(true);

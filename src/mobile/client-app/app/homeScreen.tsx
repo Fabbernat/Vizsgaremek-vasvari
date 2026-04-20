@@ -502,4 +502,45 @@ export const HomeScreenStyles = StyleSheet.create({
     opacity: 0.8,
     transform: [{ scale: 0.97 }],
   },
+   container: {
+        flex: 1,
+        padding: 20,
+        backgroundColor: '#fff',
+        gap: 20,
+    },
+    header: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 10,
+    },
+    section: {
+        marginBottom: 20,
+    },
+    formGroup: {
+        marginBottom: 10,
+    },
+    formLabel: {
+        fontSize: 14,
+        fontWeight: 'bold',
+        marginBottom: 5,
+    },
+    input: {
+        borderWidth: 1,
+        borderColor: '#ccc',
+        borderRadius: 5,
+        paddingHorizontal: 10,
+        fontSize: 14,
+    },
+    button: {
+        backgroundColor: '#007aff',
+        borderRadius: 5,
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        alignItems: 'center',
+    },
+    buttonText: {
+        color: '#fff',
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
 });
