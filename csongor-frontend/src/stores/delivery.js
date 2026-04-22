@@ -1,10 +1,10 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 
-export const useCounterStore = defineStore('counter', () => {
+export const useDeliveryStore = defineStore('delivery', () => {
   const cart = ref([])
 
-  const addToCart = () =>{
+  const addToCart = (id) =>{
     let p = cart.value.find((p) => id == p.id)
     if(p != undefined){
       p.q+=1
@@ -15,8 +15,9 @@ export const useCounterStore = defineStore('counter', () => {
         q: 1 
       })
     }
-
+    console.log(cart.value);
+    
   }
 
-  return { count, doubleCount, increment }
+  return { addToCart }
 })

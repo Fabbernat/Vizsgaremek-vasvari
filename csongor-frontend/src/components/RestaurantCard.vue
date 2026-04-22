@@ -1,3 +1,15 @@
+<script setup>
+  const props = defineProps({
+  restaurant: {
+    type: Object,
+    required: true
+  },
+  dis: {
+    type: Boolean,
+    default: false
+  }
+})
+</script>
 <template>
   <RouterLink class="container text-decoration-none text-dark m-1 bg-light border rounded pt-2" to="/test">
     <div class="restaurantcard rounded">
@@ -8,8 +20,8 @@
           alt=""
         />
       </div>
-      <h5>Test Restaurant</h5>
-      <p class="m-0">Étterem értékelése</p>
+      <h5>{{ restaurant.name }}</h5>
+      <p class="m-0">{{ restaurant.description }}</p>
       <p class="m-0">Elhelyezkedés</p>
       <p class="m-0">Ár intervallum</p>
       <p class="m-0">Kiszállítás</p>

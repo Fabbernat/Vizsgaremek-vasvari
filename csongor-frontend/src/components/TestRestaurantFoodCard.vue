@@ -1,15 +1,28 @@
 <script setup>
+  import { useDeliveryStore } from "@/stores/delivery";
+  const delivery = useDeliveryStore()
+  const props = defineProps({
+  meal: {
+    type: Object,
+    required: true
+  },
+  dis: {
+    type: Boolean,
+    default: false
+  }
+})
+
+
 </script>
 
 <template>
-<div id="testfoodcon" class="m-2 p-0">
+<div id="testfoodcon" class="m-2 p-0" >
     <div class="card flex-row">
       <div class="card-body">
-        <h5 class="card-title">Test Food</h5>
-        <p class="card-text">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem ullam numquam sunt delectus porro minima iste vitae.
-        </p>
-        <a href="#" class="btn btn-primary">Kosárba</a>
+        <h5 class="card-title">{{ meal.name }}</h5>
+        <p class="card-text">Ár: {{ meal.price }}</p>
+        <p>Leírás: {{ meal.description }}</p>
+        <button class="btn btn-primary" @click="delivery.addToCart(meal.id)">Kosárba</button>
       </div>
 
       <div class="card-img-right row col-4" >

@@ -2,7 +2,6 @@ import express from "express";
 import * as Users from "../data/userData.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { use } from "react";
 
 const router = express.Router();
 
