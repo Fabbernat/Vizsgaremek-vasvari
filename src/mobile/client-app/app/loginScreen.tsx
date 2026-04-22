@@ -79,7 +79,7 @@ function AnimatedInput({
   );
 }
 
-export default function Login({ isLoggedIn, setIsLoggedIn }: Props) {
+export default function LoginScreen({ isLoggedIn, setIsLoggedIn }: Props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -164,7 +164,7 @@ export default function Login({ isLoggedIn, setIsLoggedIn }: Props) {
         </View>
 
         {/* Heading */}
-        <Text style={styles.heading}>Üdvözlünk{"\n"}vissza!</Text>
+        <Text style={styles.heading}>Üdvözlünk{"\n"}újra!</Text>
         <Text style={styles.subheading}>Jelentkezz be a folytatáshoz</Text>
 
         {/* Form card */}
