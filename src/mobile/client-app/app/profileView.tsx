@@ -144,7 +144,7 @@ export default function ProfileView() {
   // ── Modify avatar ────────────────────────────────────────────────────────
   async function modifyAvatar() {
     if (!avatarUrl.trim()) {
-      Toast.show({ type: "error", text1: "Hiba", text2: "Adj meg egy képurl-t" });
+      Toast.show({ type: "error", text1: "Hiba", text2: "Adj meg egy képet" });
       return;
     }
     setLoadingAvatar(true);
@@ -222,7 +222,7 @@ export default function ProfileView() {
         <AnimatedInput
           value={avatarUrl}
           onChangeText={setAvatarUrl}
-          placeholder="Kép URL-je"
+          placeholder="Kép feltöltése"
           icon="🔗"
         />
         <Pressable
