@@ -78,7 +78,7 @@ function SectionHeader({ icon, title }: { icon: string; title: string }) {
   );
 }
 
-export default function Checkout() {
+export default function CheckoutScreen() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
