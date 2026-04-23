@@ -1,9 +1,11 @@
+// client-app/app/mealsScreen.tsx
 import { useEffect, useRef, useState } from "react";
 import {
   Animated,
   FlatList,
   Image,
   Pressable,
+  ScrollView,
   StatusBar,
   StyleSheet,
   Text,
@@ -21,14 +23,16 @@ const COLORS = {
   border: "#2e2b22",
   gold: "#f0b429",
   goldDim: "#7a5c15",
+  goldFaint: "#2a2010",
   green: "#22c55e",
   greenDim: "#14532d",
   text: "#f5f0e8",
   muted: "#9c9178",
   danger: "#ef4444",
+  dangerFaint: "#2a1010",
 };
 
-// ── Animated meal card with "Kosárba tesz" button ────────────────────────────
+// ── Animated meal card ────────────────────────────────────────────────────────
 function MealCard({ item, index }: { item: Meal & { id: string }; index: number }) {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(28)).current;
@@ -44,10 +48,10 @@ function MealCard({ item, index }: { item: Meal & { id: string }; index: number 
         toValue: 0, duration: 400, delay: index * 70, useNativeDriver: true,
       }),
     ]).start();
-  }, [fadeAnim, index, slideAnim]);
+  }, []);
 
   const handlePressIn = () =>
-    Animated.spring(scaleAnim, { toValue: 0.96, useNativeDriver: true }).start();
+    Animated.spring(scaleAnim, { toValue: 0.97, useNativeDriver: true }).start();
   const handlePressOut = () =>
     Animated.spring(scaleAnim, { toValue: 1, useNativeDriver: true }).start();
 
@@ -60,9 +64,9 @@ function MealCard({ item, index }: { item: Meal & { id: string }; index: number 
   return (
     <Animated.View
       style={{
-        flex: 1,
         opacity: fadeAnim,
         transform: [{ translateY: slideAnim }, { scale: scaleAnim }],
+        marginBottom: 16,
       }}
     >
       <Pressable
@@ -70,13 +74,13 @@ function MealCard({ item, index }: { item: Meal & { id: string }; index: number 
         onPressOut={handlePressOut}
         style={styles.card}
       >
-        {/* Image area */}
+        {/* Image */}
         <View style={styles.cardImageBox}>
           {item.imageUrl ? (
             <Image
               source={{ uri: item.imageUrl }}
               style={styles.cardImage}
-              accessibilityLabel={`Egy kép erről: ${item.name}`}
+              accessibilityLabel={`Kép: ${item.name}`}
             />
           ) : (
             <View style={styles.cardImagePlaceholder}>
@@ -88,13 +92,13 @@ function MealCard({ item, index }: { item: Meal & { id: string }; index: number 
           </View>
         </View>
 
-        {/* Card body */}
+        {/* Body */}
         <View style={styles.cardBody}>
           <Text style={styles.cardName} numberOfLines={1}>{item.name}</Text>
           <Text style={styles.cardDesc} numberOfLines={2}>{item.description}</Text>
         </View>
 
-        {/* Add to cart button */}
+        {/* Add to cart */}
         <Pressable
           onPress={handleAddToCart}
           style={[styles.cartBtn, added && styles.cartBtnAdded]}
@@ -104,7 +108,7 @@ function MealCard({ item, index }: { item: Meal & { id: string }; index: number 
           </Text>
         </Pressable>
 
-        {/* Gold accent line */}
+        {/* Gold accent */}
         <View style={styles.cardAccent} />
       </Pressable>
     </Animated.View>
@@ -113,7 +117,7 @@ function MealCard({ item, index }: { item: Meal & { id: string }; index: number 
 
 // ── Main screen ───────────────────────────────────────────────────────────────
 export default function MealsScreen() {
-  const [meals, setMeals] = useState<Meal[]>([]);
+  const [meals, setMeals] = useState<(Meal & { id: string })[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -125,159 +129,140 @@ export default function MealsScreen() {
       Animated.timing(fadeAnim, { toValue: 1, duration: 500, useNativeDriver: true }),
       Animated.spring(slideAnim, { toValue: 0, tension: 60, friction: 8, useNativeDriver: true }),
     ]).start();
-
     fetchMeals();
-  }, [fadeAnim, slideAnim]);
+  }, []);
 
   const fetchMeals = async () => {
     setLoading(true);
+    setError(null);
     const { data, error } = await supabase.from("meals").select("*");
     setLoading(false);
     if (error) { setError(error.message); return; }
-    setMeals(data ?? []);
+    setMeals((data ?? []).map((m) => ({ ...m, id: m.id.toString() })));
   };
-
-  const displayData = (meals ?? []).map((meal) => ({
-    ...meal,
-    id: meal.id.toString(),
-  }));
 
   return (
     <View style={styles.root}>
       <StatusBar barStyle="light-content" backgroundColor={COLORS.bg} />
 
-      {/* Back button */}
-      <Pressable onPress={() => router.back()} style={styles.backBtn}>
-        <Text style={styles.backText}>← Vissza</Text>
-      </Pressable>
-
-      <Animated.View
-        style={{ opacity: fadeAnim, transform: [{ translateY: slideAnim }] }}
+      <ScrollView
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
       >
-        {/* Brand */}
-        <View style={styles.brandRow}>
-          <Text style={styles.crown}>👑</Text>
-          <Text style={styles.brandName}>Royal Delivery</Text>
+        {/* Back */}
+        <Pressable onPress={() => router.back()} style={styles.backBtn}>
+          <Text style={styles.backText}>← Vissza</Text>
+        </Pressable>
+
+        {/* Header */}
+        <Animated.View style={{ opacity: fadeAnim, transform: [{ translateY: slideAnim }] }}>
+          <View style={styles.brandRow}>
+            <Text style={styles.crown}>👑</Text>
+            <Text style={styles.brandName}>Royal Delivery</Text>
+          </View>
+          <Text style={styles.heading}>Étlap</Text>
+          <Text style={styles.subheading}>Válassz kedvenc ételeidből</Text>
+        </Animated.View>
+
+        {/* Section header */}
+        <View style={styles.sectionHeader}>
+          <Text style={styles.sectionIcon}>🍴</Text>
+          <Text style={styles.sectionTitle}>Összes étel</Text>
         </View>
 
-        {/* Heading */}
-        <Text style={styles.heading}>Étlap</Text>
-        <Text style={styles.subheading}>Válassz kedvenc ételeidből</Text>
-      </Animated.View>
-
-      {/* Section header */}
-      <View style={styles.sectionHeader}>
-        <View style={styles.sectionDot} />
-        <Text style={styles.sectionTitle}>Összes étel</Text>
-        <View style={styles.sectionLine} />
-      </View>
-
-      {/* Content */}
-      {error ? (
-        <View style={styles.errorBox}>
-          <Text style={styles.errorIcon}>⚠️</Text>
-          <Text style={styles.errorText}>Hiba: {error}</Text>
-          <Pressable onPress={fetchMeals} style={styles.retryBtn}>
-            <Text style={styles.retryBtnText}>Újrapróbálás</Text>
-          </Pressable>
-        </View>
-      ) : loading ? (
-        <View style={styles.loadingBox}>
-          <Text style={styles.loadingText}>⏳ Ételek betöltése...</Text>
-        </View>
-      ) : (
-        <FlatList
-          data={displayData}
-          numColumns={2}
-          keyExtractor={(item) => item.id}
-          scrollEnabled={true}
-          contentContainerStyle={styles.grid}
-          columnWrapperStyle={styles.gridRow}
-          showsVerticalScrollIndicator={false}
-          ListEmptyComponent={
-            <View style={styles.emptyContainer}>
-              <Text style={styles.emptyIcon}>🍽</Text>
-              <Text style={styles.emptyText}>Nincs elérhető étel</Text>
-            </View>
-          }
-          renderItem={({ item, index }) => (
-            <MealCard item={item} index={index} />
-          )}
-        />
-      )}
+        {/* Content */}
+        {error ? (
+          <View style={styles.errorBox}>
+            <Text style={styles.errorIcon}>⚠️</Text>
+            <Text style={styles.errorText}>Hiba: {error}</Text>
+            <Pressable onPress={fetchMeals} style={styles.retryBtn}>
+              <Text style={styles.retryBtnText}>Újrapróbálás</Text>
+            </Pressable>
+          </View>
+        ) : loading ? (
+          <View style={styles.loadingBox}>
+            <Text style={styles.loadingText}>⏳ Ételek betöltése...</Text>
+          </View>
+        ) : meals.length === 0 ? (
+          <View style={styles.emptyState}>
+            <Text style={styles.emptyIcon}>🍽</Text>
+            <Text style={styles.emptyTitle}>Nincs elérhető étel</Text>
+            <Text style={styles.emptyBody}>Jelenleg nincs megjelenítendő étel az étlapon.</Text>
+          </View>
+        ) : (
+          meals.map((item, index) => (
+            <MealCard key={item.id} item={item} index={index} />
+          ))
+        )}
+      </ScrollView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-    backgroundColor: COLORS.bg,
-    paddingHorizontal: 16,
-  },
+  root: { flex: 1, backgroundColor: COLORS.bg },
+  scrollContent: { paddingHorizontal: 24, paddingBottom: 48 },
 
   backBtn: { paddingTop: 20, paddingBottom: 8 },
   backText: { color: COLORS.muted, fontSize: 15, fontWeight: "500" },
 
-  brandRow: { flexDirection: "row", alignItems: "center", gap: 8, marginBottom: 20 },
+  brandRow: { flexDirection: "row", alignItems: "center", gap: 8, marginBottom: 28, marginTop: 8 },
   crown: { fontSize: 22 },
   brandName: { fontSize: 16, fontWeight: "700", color: COLORS.gold, letterSpacing: 0.5 },
 
   heading: {
-    fontSize: 42, fontWeight: "900", color: COLORS.text,
-    lineHeight: 46, letterSpacing: -0.5, marginBottom: 8,
+    fontSize: 38, fontWeight: "900", color: COLORS.text,
+    lineHeight: 44, letterSpacing: -0.5, marginBottom: 8,
   },
-  subheading: { fontSize: 15, color: COLORS.muted, marginBottom: 24 },
+  subheading: { fontSize: 14, color: COLORS.muted, marginBottom: 28 },
 
   sectionHeader: {
-    flexDirection: "row", alignItems: "center", gap: 10, marginBottom: 16,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    marginBottom: 16,
+    paddingBottom: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: COLORS.border,
   },
-  sectionDot: { width: 8, height: 8, borderRadius: 4, backgroundColor: COLORS.gold },
-  sectionTitle: {
-    fontSize: 13, fontWeight: "700", color: COLORS.muted,
-    letterSpacing: 1.5, textTransform: "uppercase",
-  },
-  sectionLine: { flex: 1, height: 1, backgroundColor: COLORS.border },
-
-  grid: { gap: 12, paddingBottom: 40 },
-  gridRow: { gap: 12 },
+  sectionIcon: { fontSize: 16 },
+  sectionTitle: { fontSize: 15, fontWeight: "700", color: COLORS.gold, letterSpacing: 0.2 },
 
   /* Card */
   card: {
-    flex: 1,
     backgroundColor: COLORS.card,
-    borderRadius: 16,
-    overflow: "hidden",
+    borderRadius: 20,
     borderWidth: 1,
     borderColor: COLORS.border,
+    overflow: "hidden",
   },
   cardImageBox: {
-    position: "relative", height: 110, backgroundColor: COLORS.surface,
+    position: "relative", height: 160, backgroundColor: COLORS.surface,
   },
-  cardImage: { width: "100%", height: "100%" },
+  cardImage: { width: "100%", height: "100%", resizeMode: "cover" },
   cardImagePlaceholder: {
     flex: 1, justifyContent: "center", alignItems: "center",
     backgroundColor: COLORS.surface,
   },
-  cardImageEmoji: { fontSize: 36 },
+  cardImageEmoji: { fontSize: 48 },
   priceBadge: {
-    position: "absolute", bottom: 8, right: 8,
+    position: "absolute", bottom: 10, right: 10,
     backgroundColor: COLORS.gold, borderRadius: 8,
-    paddingHorizontal: 8, paddingVertical: 3,
+    paddingHorizontal: 10, paddingVertical: 4,
   },
-  priceText: { fontSize: 11, fontWeight: "800", color: "#0f0e0c" },
-  cardBody: { padding: 12, paddingBottom: 8 },
-  cardName: { fontSize: 14, fontWeight: "700", color: COLORS.text, marginBottom: 4 },
-  cardDesc: { fontSize: 12, color: COLORS.muted, lineHeight: 17 },
+  priceText: { fontSize: 13, fontWeight: "800", color: "#0f0e0c" },
 
-  /* Cart button */
+  cardBody: { padding: 18, paddingBottom: 10 },
+  cardName: { fontSize: 17, fontWeight: "800", color: COLORS.text, marginBottom: 6 },
+  cardDesc: { fontSize: 13, color: COLORS.muted, lineHeight: 19 },
+
   cartBtn: {
-    marginHorizontal: 12,
-    marginBottom: 10,
-    marginTop: 6,
+    marginHorizontal: 18,
+    marginBottom: 14,
+    marginTop: 8,
     backgroundColor: COLORS.surface,
-    borderRadius: 10,
-    paddingVertical: 9,
+    borderRadius: 12,
+    paddingVertical: 11,
     alignItems: "center",
     borderWidth: 1,
     borderColor: COLORS.border,
@@ -286,30 +271,34 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.greenDim,
     borderColor: COLORS.green,
   },
-  cartBtnText: { fontSize: 13, fontWeight: "700", color: COLORS.muted },
+  cartBtnText: { fontSize: 14, fontWeight: "700", color: COLORS.muted },
   cartBtnTextAdded: { color: COLORS.green },
 
   cardAccent: {
     height: 3, backgroundColor: COLORS.gold,
-    marginHorizontal: 12, marginBottom: 12,
-    borderRadius: 2, opacity: 0.4,
+    marginHorizontal: 18, marginBottom: 16,
+    borderRadius: 2, opacity: 0.45,
   },
 
-  /* Loading / error / empty */
-  loadingBox: { paddingVertical: 60, alignItems: "center" },
+  /* States */
+  loadingBox: { paddingVertical: 80, alignItems: "center" },
   loadingText: { fontSize: 16, color: COLORS.muted },
 
   errorBox: { paddingVertical: 60, alignItems: "center", gap: 12 },
   errorIcon: { fontSize: 36 },
   errorText: { fontSize: 15, color: COLORS.danger, textAlign: "center" },
   retryBtn: {
-    backgroundColor: COLORS.surface, borderRadius: 12,
+    backgroundColor: COLORS.dangerFaint, borderRadius: 12,
     paddingVertical: 12, paddingHorizontal: 24,
-    borderWidth: 1, borderColor: COLORS.border, marginTop: 8,
+    borderWidth: 1, borderColor: COLORS.danger, marginTop: 8,
   },
-  retryBtnText: { color: COLORS.gold, fontWeight: "700", fontSize: 14 },
+  retryBtnText: { color: COLORS.danger, fontWeight: "700", fontSize: 14 },
 
-  emptyContainer: { alignItems: "center", paddingVertical: 60 },
-  emptyIcon: { fontSize: 40, marginBottom: 12 },
-  emptyText: { fontSize: 16, color: COLORS.muted },
+  emptyState: { flex: 1, alignItems: "center", paddingVertical: 80, gap: 12 },
+  emptyIcon: { fontSize: 56, marginBottom: 8 },
+  emptyTitle: { fontSize: 22, fontWeight: "800", color: COLORS.text },
+  emptyBody: {
+    fontSize: 14, color: COLORS.muted, textAlign: "center",
+    lineHeight: 22, maxWidth: 260,
+  },
 });
