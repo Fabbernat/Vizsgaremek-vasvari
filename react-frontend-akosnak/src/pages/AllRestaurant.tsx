@@ -97,6 +97,19 @@ const AllRestaurant = () => {
     setEditingRestaurant(null);
   };
 
+  const leghtOfTheDescription = (
+    description: string | null | undefined,
+    maxLength: number = 150,
+  ): string => {
+    if (!description) {
+      return "";
+    }
+    if (description.length > maxLength) {
+      return description.substring(0, maxLength) + "...";
+    }
+    return description;
+  };
+
   const handleEditClose = () => {
     handleClose();
     apiClient
@@ -138,13 +151,13 @@ const AllRestaurant = () => {
 
   return (
     <>
-      <h1>Restaurants</h1>
+      <h1>Éttermek</h1>
 
       <Container>
         <SearchBar
           query={searchTerm}
           onQueryChange={setSearchTerm}
-          placeholder="Search..."
+          placeholder="Keresés..."
         />
         <Row>
           {filteredRestaurants.map((r) => (
@@ -162,7 +175,7 @@ const AllRestaurant = () => {
                   >
                     <i className="bi bi-trash"></i>
                   </Button>
-                  <Card.Title className="m-1 p-1 DeleteTxt">Delete?</Card.Title>
+                  <Card.Title className="m-1 p-1 DeleteTxt">Törlöd?</Card.Title>
 
                   <Button
                     onClick={(e) => handleEdit(e, r)}
@@ -171,7 +184,9 @@ const AllRestaurant = () => {
                   >
                     <i className="bi bi-pen"></i>
                   </Button>
-                  <Card.Title className="m-1 p-1 EditTxt">Edit</Card.Title>
+                  <Card.Title className="m-1 p-1 EditTxt">
+                    Szerkesztés
+                  </Card.Title>
                 </Card.Header>
                 <Link
                   to={`/restaurants/${r.id}`}
@@ -183,7 +198,9 @@ const AllRestaurant = () => {
                     <Card.Title>
                       <strong>{r.name}</strong>
                     </Card.Title>
-                    <Card.Text>{r.description}</Card.Text>
+                    <Card.Text>
+                      {leghtOfTheDescription(r.description, 50)}
+                    </Card.Text>
                   </Card.Body>
                 </Link>
               </Card>
@@ -206,41 +223,42 @@ const AllRestaurant = () => {
           data-bs-theme="dark"
         >
           <Modal.Header closeButton>
-            <Modal.Title>Delete restaurant</Modal.Title>
+            <Modal.Title>Étterem törlése</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            Are you sure you want to delete
+            Biztos, hogy ki akarod törölni ezt:
             <strong>
               {" "}
-              {restaurantToDelete?.name ?? "this restaurant"}
-            </strong>? <br />
+              {restaurantToDelete?.name ?? <i className="bi bi-bug"></i>}
+            </strong>
+            ? <br />
           </Modal.Body>
           <Modal.Body>
             <Alert variant="danger">
-              <i className="bi bi-exclamation-circle me-3"></i>
-              This cannot be undone!
+              <i className="bi bi-exclamation-circle me-3"></i>A törlés nem
+              vonható vissza!
             </Alert>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleCloseDeleteModal}>
-              Cancel
+              Mégse
             </Button>
             <Button variant="danger" onClick={confirmDeleteRestaurant}>
-              Delete
+              Törlés
             </Button>
           </Modal.Footer>
         </Modal>
 
         <Offcanvas show={show} onHide={handleClose} data-bs-theme="dark">
           <Offcanvas.Header closeButton>
-            <Offcanvas.Title>Edit Restaurant</Offcanvas.Title>
+            <Offcanvas.Title>Étterem szerkesztése</Offcanvas.Title>
           </Offcanvas.Header>
           <Offcanvas.Body>
             {editingRestaurant && (
               <form onSubmit={handleEditSubmit}>
                 <div className="mb-3">
                   <label htmlFor="name" className="form-label">
-                    Name
+                    Név
                   </label>
                   <input
                     type="text"
@@ -253,7 +271,7 @@ const AllRestaurant = () => {
                   />
 
                   <label htmlFor="description" className="form-label mt-3">
-                    Description
+                    Leírás
                   </label>
                   <div className="mt-2">
                     <textarea
@@ -267,7 +285,7 @@ const AllRestaurant = () => {
                   </div>
                 </div>
                 <Button variant="primary" type="submit">
-                  Update Restaurant
+                  Étterem frissítése
                 </Button>
               </form>
             )}

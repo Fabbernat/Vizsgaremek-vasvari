@@ -19,14 +19,15 @@ routes.get("/meals/:id", (req, res) => {
     name: meal.name,
     description: meal.description,
     price: meal.price,
-    // categoryid: meal.categoryid,
     restaurantId: meal.restaurantid,
+    available: meal.available,
+    status: meal.status,
   };
   res.status(200).json({ message: "Meal loaded:", data });
 });
 
 routes.post("/add-meal", (req, res) => {
-  const { name, description, price, restaurantId } = req.body;
+  const { name, description, price, restaurantId, available = 1 } = req.body;
   if (!name || !description || !price || !restaurantId) {
     return res.status(400).json({
       message:
@@ -39,12 +40,13 @@ routes.post("/add-meal", (req, res) => {
     price,
     /*     categoryid || null, */
     restaurantId,
+    available,
   );
   res.status(201).json({ message: "Meal created!", meal });
 });
 
 routes.put("/meals/:id", (req, res) => {
-  const { name, description, price, restaurantId } = req.body;
+  const { name, description, price, restaurantId, available = 1 } = req.body;
   if (!name || !description || !price || !restaurantId) {
     return res.status(400).json({
       message:
@@ -58,6 +60,7 @@ routes.put("/meals/:id", (req, res) => {
     price,
     /*   categoryid, */
     restaurantId,
+    available,
   );
   if (!meal.changes) {
     return res.status(404).json({ message: "Meal not found!" });

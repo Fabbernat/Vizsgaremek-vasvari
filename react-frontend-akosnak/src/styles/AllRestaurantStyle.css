@@ -1,7 +1,12 @@
 #root{
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    min-height: 120vh;
+    justify-content: space-between;
+}
+
+.routes-container {
+    flex: 1;
 }
 
 body{
@@ -200,13 +205,26 @@ h1{
   background-color: #2e2e2e00;
   color: #7d7d7d;
   transition: all 0.3s ease-in-out;
+  border-radius: 5px;
 }
 
 .LogoutBtn:hover {
   background-color: #dc3545;
   transform: scale(1.1);
+  border-radius: 5px;
 }
 
 .LogoutBtn:active {
   background-color: oklch(from #dc3545 calc(l + 0.2) c h) !important;
+}
+
+.RegisterBtn {
+  font-size: small;
+  padding: 1;
+  height: fit-content;
+  align-self: center;
+}
+
+.available-switch {
+  background-color: #198754;
 }

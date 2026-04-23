@@ -61,7 +61,7 @@ const LoginOffcanvas = ({ show, onHide }: LoginOffcanvasProps) => {
   return (
     <Offcanvas show={show} onHide={onHide} placement="end" data-bs-theme="dark">
       <Offcanvas.Header closeButton>
-        <Offcanvas.Title>Login</Offcanvas.Title>
+        <Offcanvas.Title>Bejelentkezés</Offcanvas.Title>
       </Offcanvas.Header>
       <Offcanvas.Body className="d-flex flex-column justify-content-start">
         <form
@@ -73,7 +73,7 @@ const LoginOffcanvas = ({ show, onHide }: LoginOffcanvasProps) => {
         >
           <div className="mb-3">
             <label htmlFor="login_username" className="d-block mb-2">
-              Username
+              Felhasználónév
             </label>
             <input
               className="w-100 ps-2 LoginInp"
@@ -88,7 +88,7 @@ const LoginOffcanvas = ({ show, onHide }: LoginOffcanvasProps) => {
 
           <div className="mb-3">
             <label htmlFor="login_email" className="d-block mb-2">
-              Email
+              E-mail
             </label>
             <input
               className="w-100 ps-2 LoginInp"
@@ -103,7 +103,7 @@ const LoginOffcanvas = ({ show, onHide }: LoginOffcanvasProps) => {
 
           <div className="mb-3">
             <label htmlFor="login_password" className="d-block mb-2">
-              Password
+              Jelszó
             </label>
             <input
               className="w-100 ps-2 LoginInp"
@@ -117,7 +117,7 @@ const LoginOffcanvas = ({ show, onHide }: LoginOffcanvasProps) => {
           </div>
 
           <Button type="submit" className="login-submit-btn w-100">
-            Submit
+            Bejelentkezés
           </Button>
         </form>
       </Offcanvas.Body>

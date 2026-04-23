@@ -4,4 +4,6 @@ export type Meals = {
     description: string;
     price: number;
     restaurantId?: number;
+    available?: number;
+    status?: string;
 }

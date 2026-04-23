@@ -15,39 +15,44 @@ import EditMeal from "./pages/EditMeal";
 import AddMeal from "./pages/AddMeal";
 import HomePage from "./pages/Home";
 import AddRestaurant from "./pages/AddRestaurant";
+import NotFoundPage from "./pages/NotFound";
+import UserList from "./pages/UserList";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
       <MyNavbar />
 
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/restaurants" element={<AllRestaurant />} />
-        <Route path="/restaurants/:id" element={<OneRestaurant />} />
-        <Route path="/add-restaurant" element={<AddRestaurant />} />
-        <Route path="/meals" element={<AllMeal />} />
-        <Route path="/meals/:id" element={<OneMeal />} />
-        <Route path="/meals/:id/edit" element={<EditMeal />} />
-        <Route path="/add-meal" element={<AddMeal />} />
-        {/* <Route path="/orders" element={<Order />} /> */}
-        <Route path="*" element={<h1>404 - Not Found</h1>} />
-      </Routes>
+      <div className="routes-container">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/restaurants" element={<AllRestaurant />} />
+          <Route path="/restaurants/:id" element={<OneRestaurant />} />
+          <Route path="/add-restaurant" element={<AddRestaurant />} />
+          <Route path="/meals" element={<AllMeal />} />
+          <Route path="/meals/:id" element={<OneMeal />} />
+          <Route path="/meals/:id/edit" element={<EditMeal />} />
+          <Route path="/add-meal" element={<AddMeal />} />
+          <Route path="/users" element={<UserList />} />
+          {/* <Route path="/orders" element={<Order />} /> */}
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </div>
 
       <Footer />
     </BrowserRouter>
 
     <ToastContainer
-      position="bottom-center"
+      position="bottom-left"
       autoClose={3000}
-      hideProgressBar={false}
+      hideProgressBar={true}
       newestOnTop={false}
       closeOnClick
       rtl={false}
       pauseOnFocusLoss
       draggable
       pauseOnHover={false}
-      theme="dark"
+      theme="colored"
       transition={Slide}
     />
   </StrictMode>,

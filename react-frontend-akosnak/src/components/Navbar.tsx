@@ -19,7 +19,7 @@ const MyNavbar = () => {
 
   return (
     <>
-      <Navbar bg="dark" variant="dark" expand="lg">
+      <Navbar bg="dark" variant="dark" expand="lg" sticky="top">
         <Container>
           <Navbar.Brand as={Link} to="/">
             <img
@@ -36,34 +36,43 @@ const MyNavbar = () => {
           <Navbar.Collapse className="justify-content-end">
             <Nav className="me-auto">
               <Nav.Link as={Link} to="/restaurants">
-                Restaurants
+                Éttermek
               </Nav.Link>
               <Nav.Link as={Link} to="/meals">
-                Meals
+                Ételek
               </Nav.Link>
               <Nav.Link as={Link} to="/orders">
-                Orders
+                Rendelések
               </Nav.Link>
               <Nav.Link as={Link} to="/users">
-                Users
+                Felhasználók
               </Nav.Link>
             </Nav>
 
             {!isLoggedIn && (
-              <Nav>
-                <Nav.Link as="button" onClick={() => setShowRegister(true)}>
-                  Register
-                </Nav.Link>
+              <Nav className="NavBar">
                 <Nav.Link as="button" onClick={() => setShowLogin(true)}>
-                  Login
+                  <i
+                    className="bi bi-person-circle"
+                    style={{ fontSize: 30 }}
+                  ></i>
                 </Nav.Link>
+                <Button
+                  as="button"
+                  className="m-1 align-item-center RegisterBtn"
+                  style={{ fontFamily: "revert-layer" }}
+                  variant="warning"
+                  onClick={() => setShowRegister(true)}
+                >
+                  Regisztrálj
+                </Button>
               </Nav>
             )}
 
             {isLoggedIn && (
               <>
                 <Navbar.Text className="me-3">
-                  Welcome: <strong>{username}</strong>
+                  Üdvözlünk: <strong>{username}</strong>{" "}
                 </Navbar.Text>
                 <Button variant="dark LogoutBtn" size="sm" onClick={onLogout}>
                   <i className="bi bi-door-open"></i>

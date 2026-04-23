@@ -4,17 +4,17 @@ const Footer = () => {
       <div className="footer-inner">
         <p>Royal Delivery • © {new Date().getFullYear()}</p>
         <div className="footer-links">
-          <a href="/">Home</a>
+          <a href="/">Főoldal</a>
           <span className="sep">|</span>
-          <a href="/restaurants">Restaurants</a>
+          <a href="/restaurants">Éttermek</a>
           <span className="sep">|</span>
-          <a href="/meals">Meals</a>
+          <a href="/meals">Ételek</a>
           <span className="sep">|</span>
-          <a href="/orders">Orders</a>
+          <a href="/orders">Rendelések</a>
+          <span className="sep">|</span>
+          <a href="/users">Felhasználók</a>
         </div>
-        <p className="footer-tagline">
-          You've reached the very bottom of Royal Delivery.{" "}
-        </p>
+        <p className="footer-tagline">Elérted a Royal Delivery legalját!. </p>
       </div>
     </footer>
   );

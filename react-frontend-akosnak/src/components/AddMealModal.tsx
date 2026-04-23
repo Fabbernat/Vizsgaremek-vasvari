@@ -51,33 +51,33 @@ const AddMealModal = ({ onSuccess }: AddMealModalProps) => {
 
   return (
     <>
-      <Card.Title className="mt-3 mb-1">Name</Card.Title>
+      <Card.Title className="mt-3 mb-1">Név</Card.Title>
       <input
         type="text"
-        placeholder="Product name"
+        placeholder="Étel neve"
         className="form-control"
         value={name}
         onChange={(e) => setName(e.target.value)}
         required
       />
-      <Card.Title className="mt-3 mb-1">Description</Card.Title>
+      <Card.Title className="mt-3 mb-1">Leírás</Card.Title>
       <textarea
-        placeholder="Product description"
+        placeholder="Étel leírása"
         className="form-control pb-5"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
         required
       />
-      <Card.Title className="mt-3 mb-1">Price</Card.Title>
+      <Card.Title className="mt-3 mb-1">Ár</Card.Title>
       <input
         type="number"
-        placeholder="Product price"
+        placeholder="Étel ára"
         className="form-control"
         value={price}
         onChange={(e) => setPrice(e.target.valueAsNumber)}
         required
       />
-      <Card.Title className="mt-3 mb-1">Restaurant</Card.Title>
+      <Card.Title className="mt-3 mb-1">Étterem</Card.Title>
       <select
         className="form-control mb-3"
         value={restaurantId}
@@ -86,7 +86,7 @@ const AddMealModal = ({ onSuccess }: AddMealModalProps) => {
         }
         required
       >
-        <option value="">Select a restaurant</option>
+        <option value="">Válassz éttermet</option>
         {restaurants.map((restaurant) => (
           <option key={restaurant.id} value={restaurant.id}>
             {restaurant.name}
@@ -94,7 +94,7 @@ const AddMealModal = ({ onSuccess }: AddMealModalProps) => {
         ))}
       </select>
       <Button variant="success" className="mb-3" onClick={handleSubmit}>
-        Add Meal
+        Étel hozzáadása
       </Button>
     </>
   );
