@@ -48,6 +48,10 @@ const AllMeal = () => {
     );
   });
 
+  const sortedMeals = [...filteredMeals].sort(
+    (a, b) => (b.available ?? 0) - (a.available ?? 0),
+  );
+
   const truncateDescription = (
     description: string | null | undefined,
     maxLength: number = 50,
@@ -166,7 +170,7 @@ const AllMeal = () => {
           placeholder="Keresés..."
         />
         <Row>
-          {filteredMeals.map((m) => (
+          {sortedMeals.map((m) => (
             <Col key={m.id} xs={12} sm={6} md={4} className="mb-4">
               <Card
                 style={{
