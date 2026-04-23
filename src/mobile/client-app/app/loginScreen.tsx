@@ -300,7 +300,8 @@ const styles = StyleSheet.create({
   inputFilledDot: { width: 7, height: 7, borderRadius: 4, backgroundColor: COLORS.gold },
 
   forgotBtn: { alignSelf: "flex-end", marginTop: -4 },
-  forgotBtnText: { fontSize: 13, fontWeight: "600", color: COLORS.muted },
+  forgotBtnText: { fontSize: 13, fontWeight: "600", color: "#c4b99a" },
+
 
   primaryBtn: {
     backgroundColor: COLORS.gold, borderRadius: 14,
