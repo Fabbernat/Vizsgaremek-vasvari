@@ -252,7 +252,7 @@ export default function Register() {
           <View style={styles.loginRow}>
             <Text style={styles.loginPrompt}>Már van fiókod? </Text>
             <Pressable onPress={() => router.push("/loginScreen")}>
-              <Text style={styles.loginLink}>Bejelentkezés</Text>
+              <Text style={styles.loginLink}>Jelentkezz be</Text>
             </Pressable>
           </View>
         </Animated.View>

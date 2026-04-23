@@ -83,6 +83,7 @@ export default function LoginScreen({ isLoggedIn, setIsLoggedIn }: Props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [resetLoading, setResetLoading] = useState(false);
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(40)).current;
@@ -122,6 +123,27 @@ export default function LoginScreen({ isLoggedIn, setIsLoggedIn }: Props) {
       Toast.show({ type: "success", text1: "Üdvözlünk!", text2: "Sikeres bejelentkezés" });
       setGlobalIsLoggedIn(true);
       router.replace("/");
+    }
+  }
+
+  // ── Forgot password — sends reset email via Supabase ─────────────────────
+  async function handleForgotPassword() {
+    if (email.trim().length === 0) {
+      Alert.alert("Elfelejtett jelszó", "Kérjük, add meg az email-címed a visszaállításhoz!");
+      return;
+    }
+    setResetLoading(true);
+    const { error } = await supabase.auth.resetPasswordForEmail(email.trim());
+    setResetLoading(false);
+
+    if (error) {
+      Toast.show({ type: "error", text1: "Hiba", text2: error.message });
+    } else {
+      Toast.show({
+        type: "success",
+        text1: "Email elküldve!",
+        text2: "Nézd meg a postaládád a visszaállítási linkért.",
+      });
     }
   }
 
@@ -183,6 +205,17 @@ export default function LoginScreen({ isLoggedIn, setIsLoggedIn }: Props) {
             icon="🔒"
           />
 
+          {/* Forgot password link */}
+          <Pressable
+            onPress={handleForgotPassword}
+            disabled={resetLoading}
+            style={({ pressed }) => [styles.forgotBtn, pressed && styles.btnPressed]}
+          >
+            <Text style={styles.forgotBtnText}>
+              {resetLoading ? "Küldés..." : "🔑 Elfelejtett jelszó?"}
+            </Text>
+          </Pressable>
+
           {/* Primary login button */}
           <Pressable
             onPress={handleLogin}
@@ -229,7 +262,7 @@ export default function LoginScreen({ isLoggedIn, setIsLoggedIn }: Props) {
         <View style={styles.registerRow}>
           <Text style={styles.registerPrompt}>Nincs még fiókod? </Text>
           <Pressable onPress={() => router.push("/registerScreen")}>
-            <Text style={styles.registerLink}>Regisztráció</Text>
+            <Text style={styles.registerLink}>Hozz létre egyet!</Text>
           </Pressable>
         </View>
       </Animated.View>
@@ -265,6 +298,9 @@ const styles = StyleSheet.create({
   inputIcon: { fontSize: 16 },
   input: { flex: 1, fontSize: 16, color: COLORS.text, padding: 0 },
   inputFilledDot: { width: 7, height: 7, borderRadius: 4, backgroundColor: COLORS.gold },
+
+  forgotBtn: { alignSelf: "flex-end", marginTop: -4 },
+  forgotBtnText: { fontSize: 13, fontWeight: "600", color: COLORS.muted },
 
   primaryBtn: {
     backgroundColor: COLORS.gold, borderRadius: 14,
