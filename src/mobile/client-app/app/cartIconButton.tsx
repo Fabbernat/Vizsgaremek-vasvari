@@ -12,7 +12,7 @@ export default function CartIconButton({ style }: Props) {
       <Pressable
        onPress={() => router.push("/cartView")}>
         <Image
-          source={require("../assets/mine/images/shopping-cart.png")}
+          source={require("../assets/mine/icons/shopping-cart.png")}
           style={{ width: 32, height: 32 }}
         />
       </Pressable>

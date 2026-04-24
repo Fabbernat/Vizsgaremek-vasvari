@@ -12,7 +12,7 @@ export default function ProfileIconButton({ style }: Props) {
         <Pressable
          onPress={() => router.push("/profileScreen")}>
           <Image
-            source={require("../assets/mine/images/profile-icon.png")}
+            source={require("../assets/mine/icons/profile-icon.png")}
             style={{ width: 32, height: 32 }}
           />
         </Pressable>
