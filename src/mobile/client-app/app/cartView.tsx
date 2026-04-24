@@ -1,7 +1,8 @@
 // client-app\app\cartView.tsx
 import { View, Pressable, Text, StyleSheet, FlatList, Alert } from "react-native";
 import { router } from "expo-router";
-import { useCart, removeFromCart, clearCart } from "./cartStore";
+import { useCart, clearGuestCart } from "./cartStore";
+import { clearCart } from "@/cart-context";
 
 const COLORS = {
   bg: "#0f0e0c",
@@ -39,23 +40,33 @@ const DEMO_ITEMS: CartItem[] = [
 // ── Component ──────────────────────────────────────────────────────────────────
 
 export default function CartView() {
-  const [items, setItems] = useState<CartItem[]>(DEMO_ITEMS);
-
+  // const [items, setItems] = useState<CartItem[]>(DEMO_ITEMS);
+  const items = useCart();
   const total = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
 
   const removeItem = (id: string) =>
-    setItems((prev) => prev.filter((i) => i.id !== id));
-
-  const clearCart = () => {
     Alert.alert(
-      "Kosár kiürítése",
-      "Biztosan törölni szeretnéd az összes tételt?",
+      "Tétel törlése",
+      "Biztosan törölni szeretnéd ezt a tételt?",
       [
         { text: "Mégse", style: "cancel" },
-        { text: "Kiürítés", style: "destructive", onPress: () => setItems([]) },
+        { text: "Törlés", style: "destructive", onPress: () => {
+          // setItems((prev) => prev.filter((i) => i.id !== id));
+        } },
+      ]
+    );
+
+  const clearCartHandler = () => {
+    Alert.alert(
+      "Kosár kiürítése",
+      "Biztosan törölni szeretnéd?",
+      [
+        { text: "Mégse", style: "cancel" },
+        { text: "Kiürítés", style: "destructive", onPress: clearGuestCart },
       ]
     );
   };
+
 
   return (
     <View style={styles.root}>

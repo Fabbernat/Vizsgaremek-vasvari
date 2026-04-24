@@ -86,10 +86,13 @@ function MealCard({ item, index }: any) {
           <Text style={styles.cardDesc}>{item.description}</Text>
         </View>
 
-        <Pressable
-          onPress={() => addToGuestCart(item)}
-          style={styles.cartBtn}
-        >
+       <Pressable
+  onPress={() => addToGuestCart(item)}
+  style={({ pressed }) => [
+    styles.cartBtn,
+    pressed && { opacity: 0.8, transform: [{ scale: 0.97 }] },
+  ]}
+>
           <Text style={styles.cartBtnText}>+ Kosárba</Text>
         </Pressable>
       </View>
@@ -203,10 +206,13 @@ const styles = StyleSheet.create({
 
   cartBtn: {
     margin: 10,
-    padding: 8,
-    backgroundColor: COLORS.surface,
-    borderRadius: 8,
-    alignItems: "center",
+  padding: 10,
+  backgroundColor: COLORS.gold,
+  borderRadius: 10,
+  alignItems: "center",
   },
-  cartBtnText: { color: COLORS.gold, fontWeight: "700" },
+  cartBtnText: {
+  color: "#0f0e0c",
+  fontWeight: "800",
+},
 });

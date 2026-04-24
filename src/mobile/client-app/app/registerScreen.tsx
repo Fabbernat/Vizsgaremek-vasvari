@@ -144,7 +144,7 @@ export default function Register() {
       Alert.alert("Hiba!", "Minden mezőt ki kell tölteni!");
       return;
     }
-    Toast.show({ type: "success", text1: "Teszt regisztráció", text2: "Fake belépés sikeres" });
+    Toast.show({ type: "success", text1: "Teszt regisztráció", text2: "Gyors belépés sikeres" });
     setGlobalIsLoggedIn(true);
     router.replace("/");
   }

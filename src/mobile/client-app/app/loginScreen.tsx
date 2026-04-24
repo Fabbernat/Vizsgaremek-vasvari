@@ -162,7 +162,7 @@ export default function LoginScreen({ isLoggedIn, setIsLoggedIn }: Props) {
       Alert.alert("Hiba!", "Minden mezőt ki kell tölteni!");
       return;
     }
-    Toast.show({ type: "success", text1: "Teszt belépés", text2: "Fake login sikeres" });
+    Toast.show({ type: "success", text1: "Teszt belépés", text2: "Gyors login sikeres" });
     setGlobalIsLoggedIn(true);
     router.replace("/");
   }
