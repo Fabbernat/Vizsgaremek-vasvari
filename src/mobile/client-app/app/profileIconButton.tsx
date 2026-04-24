@@ -1,3 +1,4 @@
+// client-app\app\profileIconButton.tsx
 import { Image, Pressable, View, StyleProp, ViewStyle } from "react-native";
 import { router } from "expo-router";
 
