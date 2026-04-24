@@ -3,7 +3,6 @@ import { useEffect, useRef, useState } from "react";
 import {
   Animated,
   FlatList,
-  Image,
   Pressable,
   StatusBar,
   StyleSheet,
@@ -54,8 +53,41 @@ const mealsData = [
   { id: "28", name: "Koronás Limonádé", description: "Frissen készített, ízletes fogás", price: 690 },
 ];
 
+// ── Toast ─────────────────────────────────────────────────
+function Toast({ message, visible }: { message: string; visible: boolean }) {
+  const opacity = useRef(new Animated.Value(0)).current;
+  const translateY = useRef(new Animated.Value(20)).current;
+
+  useEffect(() => {
+    if (visible) {
+      Animated.parallel([
+        Animated.timing(opacity, { toValue: 1, duration: 200, useNativeDriver: true }),
+        Animated.timing(translateY, { toValue: 0, duration: 200, useNativeDriver: true }),
+      ]).start();
+    } else {
+      Animated.parallel([
+        Animated.timing(opacity, { toValue: 0, duration: 300, useNativeDriver: true }),
+        Animated.timing(translateY, { toValue: 20, duration: 300, useNativeDriver: true }),
+      ]).start();
+    }
+  }, [visible]);
+
+  return (
+    <Animated.View
+      style={[
+        styles.toast,
+        { opacity, transform: [{ translateY }] },
+      ]}
+      pointerEvents="none"
+    >
+      <Text style={styles.toastIcon}>✓</Text>
+      <Text style={styles.toastText}>{message}</Text>
+    </Animated.View>
+  );
+}
+
 // ── Card ─────────────────────────────────────────────────
-function MealCard({ item, index }: any) {
+function MealCard({ item, index, onAddToCart }: any) {
   const fade = useRef(new Animated.Value(0)).current;
   const slide = useRef(new Animated.Value(20)).current;
 
@@ -86,13 +118,16 @@ function MealCard({ item, index }: any) {
           <Text style={styles.cardDesc}>{item.description}</Text>
         </View>
 
-       <Pressable
-  onPress={() => addToGuestCart(item)}
-  style={({ pressed }) => [
-    styles.cartBtn,
-    pressed && { opacity: 0.8, transform: [{ scale: 0.97 }] },
-  ]}
->
+        <Pressable
+          onPress={() => {
+            addToGuestCart(item);
+            onAddToCart(item.name);
+          }}
+          style={({ pressed }) => [
+            styles.cartBtn,
+            pressed && { opacity: 0.8, transform: [{ scale: 0.97 }] },
+          ]}
+        >
           <Text style={styles.cartBtnText}>+ Kosárba</Text>
         </Pressable>
       </View>
@@ -103,10 +138,22 @@ function MealCard({ item, index }: any) {
 // ── Screen ───────────────────────────────────────────────
 export default function MealsScreen() {
   const [meals, setMeals] = useState<any[]>([]);
+  const [toastVisible, setToastVisible] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
+  const toastTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     setMeals(mealsData);
   }, []);
+
+  const showToast = (itemName: string) => {
+    if (toastTimeout.current) clearTimeout(toastTimeout.current);
+    setToastMessage(`1 db ${itemName} sikeresen a kosárba rakva!`);
+    setToastVisible(true);
+    toastTimeout.current = setTimeout(() => {
+      setToastVisible(false);
+    }, 2500);
+  };
 
   return (
     <View style={styles.root}>
@@ -132,9 +179,12 @@ export default function MealsScreen() {
         columnWrapperStyle={{ gap: 16 }}
         contentContainerStyle={{ paddingBottom: 80 }}
         renderItem={({ item, index }) => (
-          <MealCard item={item} index={index} />
+          <MealCard item={item} index={index} onAddToCart={showToast} />
         )}
       />
+
+      {/* Toast */}
+      <Toast message={toastMessage} visible={toastVisible} />
     </View>
   );
 }
@@ -206,13 +256,42 @@ const styles = StyleSheet.create({
 
   cartBtn: {
     margin: 10,
-  padding: 10,
-  backgroundColor: COLORS.gold,
-  borderRadius: 10,
-  alignItems: "center",
+    padding: 10,
+    backgroundColor: COLORS.gold,
+    borderRadius: 10,
+    alignItems: "center",
   },
   cartBtnText: {
-  color: "#0f0e0c",
-  fontWeight: "800",
-},
+    color: "#0f0e0c",
+    fontWeight: "800",
+  },
+
+  // ── Toast styles ──
+  toast: {
+    position: "absolute",
+    bottom: 32,
+    alignSelf: "center",
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    backgroundColor: COLORS.green,
+    paddingHorizontal: 18,
+    paddingVertical: 12,
+    borderRadius: 14,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.4,
+    shadowRadius: 8,
+    elevation: 8,
+  },
+  toastIcon: {
+    color: "#fff",
+    fontWeight: "900",
+    fontSize: 16,
+  },
+  toastText: {
+    color: "#fff",
+    fontWeight: "700",
+    fontSize: 14,
+  },
 });

@@ -1,59 +1,70 @@
-import { createContext, useContext, useMemo, useState } from 'react';
+// client-app/cart-context.tsx
 
-export type CartItem = {
-  id: number;
-  name: string;
-  price: number;
-  quantity: number;
-};
+import React, {
+  createContext,
+  useContext,
+  useMemo,
+  useState,
+  useCallback,
+} from 'react';
+import { OrderItem } from './app/models/orderItem';
 
 type CartContextType = {
-  items: CartItem[];
-  addItem: (item: Omit<CartItem, 'quantity'>) => void;
-  removeItem: (id: number) => void;
+  items: OrderItem[];
+  addItem: (item: Omit<OrderItem, 'quantity'>) => void;
+  removeItem: (id: string) => void;
   clearCart: () => void;
   total: number;
 };
 
-export function clearCart() {
- clearCart();
-}
 const CartContext = createContext<CartContextType | null>(null);
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
-  const [items, setItems] = useState<CartItem[]>([]);
+  const [items, setItems] = useState<OrderItem[]>([]);
 
-  function addItem(item: Omit<CartItem, 'quantity'>) {
+  const addItem = useCallback((item: Omit<OrderItem, 'quantity'>) => {
     setItems(prev => {
       const existing = prev.find(x => x.id === item.id);
+
       if (existing) {
         return prev.map(x =>
-          x.id === item.id ? { ...x, quantity: x.quantity + 1 } : x
+          x.id === item.id
+            ? { ...x, quantity: x.quantity + 1 }
+            : x
         );
       }
+
       return [...prev, { ...item, quantity: 1 }];
     });
-  }
+  }, []);
 
-  function removeItem(id: number) {
+  const removeItem = useCallback((id: string) => {
     setItems(prev =>
       prev
-        .map(x => (x.id === id ? { ...x, quantity: x.quantity - 1 } : x))
+        .map(x =>
+          x.id === id ? { ...x, quantity: x.quantity - 1 } : x
+        )
         .filter(x => x.quantity > 0)
     );
-  }
+  }, []);
 
-  function clearCart() {
+  const clearCart = useCallback(() => {
     setItems([]);
-  }
+  }, []);
 
   const total = useMemo(
-    () => items.reduce((sum, item) => sum + item.price * item.quantity, 0),
+    () =>
+      items.reduce(
+        (sum, item) => sum + item.unit_price * item.quantity,
+        0
+      ),
     [items]
   );
 
   return (
-    <CartContext.Provider value={{ items, addItem, removeItem, clearCart, total }}>
+    <CartContext.Provider
+      value={{ items, addItem, removeItem, clearCart, total }}
+    >
       {children}
     </CartContext.Provider>
   );

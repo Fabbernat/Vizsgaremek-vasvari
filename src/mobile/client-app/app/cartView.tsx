@@ -1,7 +1,7 @@
 // client-app\app\cartView.tsx
 import { View, Pressable, Text, StyleSheet, FlatList, Alert } from "react-native";
 import { router } from "expo-router";
-import { useCart, clearGuestCart } from "./cartStore";
+import { useCart } from "./cartStore";
 import { clearCart } from "@/cart-context";
 
 const COLORS = {
@@ -28,14 +28,6 @@ export type CartItem = {
   quantity: number;
 };
 
-// ── Demo state (replace with your global store / context) ─────────────────────
-import { useState } from "react";
-
-const DEMO_ITEMS: CartItem[] = [
-  { id: "1", name: "Királyi Burger",   price: 2490, quantity: 2 },
-  { id: "2", name: "Arany Krumpli",    price:  890, quantity: 1 },
-  { id: "3", name: "Koronás Limonádé", price:  690, quantity: 3 },
-];
 
 // ── Component ──────────────────────────────────────────────────────────────────
 
@@ -44,7 +36,7 @@ export default function CartView() {
   const items = useCart();
   const total = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
 
-  const removeItem = (id: string) =>
+  const removeItem = () =>
     Alert.alert(
       "Tétel törlése",
       "Biztosan törölni szeretnéd ezt a tételt?",
@@ -56,16 +48,6 @@ export default function CartView() {
       ]
     );
 
-  const clearCartHandler = () => {
-    Alert.alert(
-      "Kosár kiürítése",
-      "Biztosan törölni szeretnéd?",
-      [
-        { text: "Mégse", style: "cancel" },
-        { text: "Kiürítés", style: "destructive", onPress: clearGuestCart },
-      ]
-    );
-  };
 
 
   return (
@@ -141,7 +123,7 @@ export default function CartView() {
                     {(item.price * item.quantity).toLocaleString("hu-HU")} Ft
                   </Text>
                   <Pressable
-                    onPress={() => removeItem(item.id)}
+                    onPress={() => removeItem()}
                     hitSlop={8}
                     style={({ pressed }) => [styles.removeBtn, pressed && styles.removeBtnPressed]}
                   >
