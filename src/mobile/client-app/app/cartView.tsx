@@ -1,6 +1,7 @@
 // client-app\app\cartView.tsx
 import { View, Pressable, Text, StyleSheet, FlatList, Alert } from "react-native";
 import { router } from "expo-router";
+import { useCart, removeFromCart, clearCart } from "./cartStore";
 
 const COLORS = {
   bg: "#0f0e0c",
