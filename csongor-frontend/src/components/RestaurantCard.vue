@@ -11,7 +11,7 @@
 })
 </script>
 <template>
-  <RouterLink class="container text-decoration-none text-dark m-1 bg-light border rounded pt-2" to="/test">
+  <RouterLink class="container text-decoration-none text-dark m-1 bg-light border rounded pt-2" :to="`/restaurants/${restaurant.id}`">
     <div class="restaurantcard rounded">
       <div class="imgdiv">
         <img

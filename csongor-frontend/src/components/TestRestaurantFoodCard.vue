@@ -1,6 +1,7 @@
 <script setup>
   import { useDeliveryStore } from "@/stores/delivery";
   const delivery = useDeliveryStore()
+  
   const props = defineProps({
   meal: {
     type: Object,

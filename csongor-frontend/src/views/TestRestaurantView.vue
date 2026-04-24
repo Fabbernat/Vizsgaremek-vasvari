@@ -2,14 +2,22 @@
 import TestRestaurantFoodCard from '@/components/TestRestaurantFoodCard.vue';
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 // import data from '../../../backend/data/meals.json'
 
 const meals = ref([]);
 
- onMounted(async () => {
-   const res = await fetch("http://localhost:3000/meals");
-   meals.value = await res.json();
- });
+const route = useRoute();
+
+onMounted(async () => {
+  const restaurantId = route.params.id;
+
+  const res = await fetch(`http://localhost:3000/restaurants/${restaurantId}/meals`);
+  meals.value = await res.json();
+
+
+});
+
 
 </script>
 
