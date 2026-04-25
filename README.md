@@ -60,8 +60,6 @@ eenshot (27)" src="https://github.com/user-attachments/assets/a5f367d1-42e7-4f3d
 
 ### [Desktop app](https://github.com/fabbernatvasvari/RoyalDelivery-desktop/)
 
-### [Hosztolt backend link](https://unpartible-saliently-elena.ngrok-free.dev)
-
 ### [Google Drive Mappa, amely mindent tartalmaz](https://drive.google.com/drive/folders/1aNDvjjkcXUT5B-rJQAADJJ4zBr0tpsjz?usp=sharing)
 
 ## Projekt generátor parancsok
