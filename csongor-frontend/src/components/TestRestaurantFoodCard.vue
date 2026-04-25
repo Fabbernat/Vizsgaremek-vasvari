@@ -23,7 +23,7 @@
         <h5 class="card-title">{{ meal.name }}</h5>
         <p class="card-text">Ár: {{ meal.price }}</p>
         <p>Leírás: {{ meal.description }}</p>
-        <button class="btn btn-primary" @click="delivery.addToCart(meal.id)">Kosárba</button>
+        <button class="btn btn-primary" @click="delivery.addToCart(meal)">Kosárba</button>
       </div>
 
       <div class="card-img-right row col-4" >

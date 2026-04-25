@@ -11,20 +11,23 @@
 })
 </script>
 <template>
-  <RouterLink class="container text-decoration-none text-dark m-1 bg-light border rounded pt-2" :to="`/restaurants/${restaurant.id}`">
-    <div class="restaurantcard rounded">
+  <RouterLink class="container text-decoration-none text-dark bg-light rounded p-2 pt-2" :to="`/restaurants/${restaurant.id}`">
+    <div class="restaurantcard rounded border h-100">
       <div class="imgdiv">
         <img
           class="col-12 rounded"
-          src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1b/8f/cf/a3/alabardos-bar-etterem.jpg"
+          :src="`/restaurants/${restaurant.id}.jpg`"
+          @error="e => e.target.src = '/default.jpg'"
           alt=""
         />
       </div>
-      <h5>{{ restaurant.name }}</h5>
-      <p class="m-0">{{ restaurant.description }}</p>
-      <p class="m-0">Elhelyezkedés</p>
-      <p class="m-0">Ár intervallum</p>
-      <p class="m-0">Kiszállítás</p>
+      <div class="p-1">
+        <h5>{{ restaurant.name }}</h5>
+        <p class="m-0">{{ restaurant.description }}</p>
+        <p class="m-0">Elhelyezkedés</p>
+        <p class="m-0">Ár intervallum</p>
+        <p class="m-0">Kiszállítás</p>
+      </div>
     </div>
   </RouterLink>
 </template>
