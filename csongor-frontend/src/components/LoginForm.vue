@@ -1,53 +1,112 @@
 <script setup>
-    import { useModalStore } from "@/stores/modal"
-    import RegisterForm from "./RegisterForm.vue"
-    const modal = useModalStore()
+import { reactive, nextTick } from "vue"
+import { useModalStore } from "@/stores/modal"
+import { useNotificationStore } from "@/stores/notification"
+import RegisterForm from "./RegisterForm.vue"
 
-    const onSubmit = async (e) => {
-        e.preventDefault();
-        const formData = new FormData(e.target);
+const modal = useModalStore()
+const notify = useNotificationStore()
 
-        if (!formData.get('email')) {
-            alert('Email hiányzik!')
-            return;
-        }
-        if (!formData.get('password')) {
-            alert('Password hiányzik!')
-            return;
-        }
+const form = reactive({
+  email: "",
+  password: ""
+})
 
+const touched = reactive({
+  email: false,
+  password: false
+})
 
-        const body = {
-            email: formData.get('email'),
-            password: formData.get('password')
-        };
-        const submitData = await fetch('http://localhost:3000/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(body)
-        });
-        const resp = await submitData.json();
+const onSubmit = async () => {
+  // minden mező touched lesz
+  Object.keys(touched).forEach(k => touched[k] = true)
 
-        const token = resp?.token;
-        sessionStorage.setItem('token', token);
-        modal.close()
+  await nextTick()
 
+  // validáció
+  const isValid =
+    form.email &&
+    form.password
+
+  if (!isValid) {
+    notify.notify("Tölts ki minden mezőt!", "error")
+    return
+  }
+
+  const body = {
+    email: form.email,
+    password: form.password
+  }
+
+  try {
+    const submitData = await fetch("http://localhost:3000/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(body)
+    })
+
+    if (submitData?.status === 200) {
+      const resp = await submitData.json()
+
+      sessionStorage.setItem("token", resp.token)
+
+      notify.notify("Sikeres bejelentkezés!", "success")
+
+      modal.close()
+    } else {
+      const resp = await submitData.json()
+      notify.notify(resp.message ?? "Hiba történt!", "error")
     }
+  } catch (err) {
+    notify.notify("Hálózati hiba!", "error")
+  }
+}
 
-    const openRegistration = () => {
-        modal.open(RegisterForm)
-    }
-    
-
+const openRegistration = () => {
+  modal.open(RegisterForm)
+}
 </script>
+
 <template>
-    <form @submit.prevent="onSubmit">
-          <!-- <input class="m-3 rounded" placeholder="Felhasználónév" type="text"> <br> -->
-          <input name="email" class="m-3 rounded" placeholder="Email cím" type="email"> <br>
-          <input name="password" class="m-3 rounded" placeholder="Jelszó" type="password">
-          <button class="btn btn-primary" type="submit">Bejelentkezés</button>
-          <button class="btn btn-primary" type="button" @click="openRegistration()">Regisztráció</button>
-    </form>
+  <form @submit.prevent="onSubmit">
+
+    <input
+      v-model="form.email"
+      @blur="touched.email = true"
+      type="email"
+      placeholder="Email cím"
+      :class="[
+        'form-control mt-3',
+        touched.email && (form.email ? 'is-valid' : 'is-invalid')
+      ]"
+    />
+
+    <input
+      v-model="form.password"
+      @blur="touched.password = true"
+      type="password"
+      placeholder="Jelszó"
+      :class="[
+        'form-control mt-3',
+        touched.password && (form.password ? 'is-valid' : 'is-invalid')
+      ]"
+    />
+
+    <div class="d-flex justify-content-end gap-2 mt-3">
+      <button class="btn btn-primary" type="submit">
+        Bejelentkezés
+      </button>
+
+      <button
+        class="btn  btn-outline-primary"
+        type="button"
+        @click="openRegistration"
+      >
+        Regisztráció
+      </button>
+    </div>
+
+  </form>
 </template>

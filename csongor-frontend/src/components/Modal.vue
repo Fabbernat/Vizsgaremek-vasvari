@@ -53,7 +53,7 @@ const modal = useModalStore()
   width: 50vw;
   max-width: 600px;
 
-  max-height: 50vh;
+  max-height: 60vh;
   overflow-y: auto;
 
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
