@@ -64,13 +64,7 @@
     <div class="total">
       Összesen: <strong>{{ delivery.totalPrice }} Ft</strong>
     </div>
-    <button
-      class="btn btn-success w-100 mt-2"
-      :disabled="delivery.cart.length === 0"
-      @click="placeOrder"
-    >
-        Rendelés leadása
-        </button>
+    <button class="btn btn-success w-100 mt-2" :disabled="delivery.cart.length === 0" @click="placeOrder">Rendelés leadása</button>
   </div>
 
 </div>
@@ -83,23 +77,32 @@ import { useDeliveryStore } from "@/stores/delivery"
 import LoginForm from "@/components/LoginForm.vue"
 import RegisterForm from "@/components/RegisterForm.vue"
 
+
+
 const delivery = useDeliveryStore()
 const showCart = ref(false)
 const isLoggedIn = ref(false)
+
 
 const toggleCart = () => {
   showCart.value = !showCart.value
 }
 
 const placeOrder = () => {
-  console.log("RENDELÉS:", delivery.cart)
+  const token = sessionStorage.getItem("token")
 
-  // ide később API hívás jön
+  if (!token) {
+    openModal()
+  } else {
+    console.log("RENDELÉS:", delivery.cart)
 
-  alert("Rendelés leadva!")
+    // ide később API hívás jön
 
-  delivery.cart = [] // kosár ürítése
-  showCart.value = false
+    alert("Rendelés leadva!")
+
+    delivery.cart = [] // kosár ürítése
+    showCart.value = false
+  }
 }
 
 
@@ -120,6 +123,7 @@ const login = () => {
 const logout = () => {
   isLoggedIn.value = false
 }
+
 </script>
 
 <style scoped>
