@@ -24,9 +24,6 @@
       <div class="p-1">
         <h5>{{ restaurant.name }}</h5>
         <p class="m-0">{{ restaurant.description }}</p>
-        <p class="m-0">Elhelyezkedés</p>
-        <p class="m-0">Ár intervallum</p>
-        <p class="m-0">Kiszállítás</p>
       </div>
     </div>
   </RouterLink>

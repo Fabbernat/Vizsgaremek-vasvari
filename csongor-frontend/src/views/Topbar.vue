@@ -1,8 +1,52 @@
 <template>
+  <!-- Login Modal -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Bejelentkezés</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <LoginForm/>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registerModal">Regisztráció</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Mégsem</button>
+        <button type="button" class="btn btn-primary">Bejelentkezés</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Login Modal -->
+
+<!-- Register Modal -->
+ <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Regisztráció</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <RegisterForm />
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Mégsem</button>
+        <button type="button" class="btn btn-primary">Regisztráció</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Register Modal -->
   <header class="topbar">
+
     <!-- BAL OLDAL -->
     <div class="left">
-      <img src="/logo.jpg" alt="Logo" class="logo" />
+      
+       <RouterLink id="lorem" class="link text-decoration-none text-dark m-3 rounded" to="/">
+        <img src="/logo.jpg" alt="Logo" class="logo" />
+      </RouterLink> 
     </div>
 
     <!-- JOBB OLDAL -->
@@ -17,8 +61,9 @@
 
       <!-- Login / Logout -->
       <div class="button-container">
-        <button class="btn btn-light" v-if="!isLoggedIn" @click="login">Login</button>
-        <button class="btn btn-light" v-else @click="logout">Logout</button>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
+        <!-- <button class="btn btn-light" v-if="!isLoggedIn" @click="login">Login</button> -->
+        <!-- <button class="btn btn-light" v-else @click="logout">Logout</button> -->
       </div>
     </div>
 
@@ -76,6 +121,8 @@
 <script setup>
 import { ref } from "vue"
 import { useDeliveryStore } from "@/stores/delivery"
+import LoginForm from "@/components/LoginForm.vue"
+import RegisterForm from "@/components/RegisterForm.vue"
 
 const delivery = useDeliveryStore()
 const showCart = ref(false)
@@ -106,6 +153,7 @@ const logout = () => {
 </script>
 
 <style scoped>
+
 .topbar {
   position: fixed;
   top: 0;
