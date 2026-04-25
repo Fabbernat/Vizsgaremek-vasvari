@@ -1,47 +1,5 @@
 <template>
-  <!-- Login Modal -->
-<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Bejelentkezés</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <LoginForm/>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registerModal">Regisztráció</button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Mégsem</button>
-        <button type="button" class="btn btn-primary">Bejelentkezés</button>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- Login Modal -->
-
-<!-- Register Modal -->
- <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Regisztráció</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <RegisterForm />
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Mégsem</button>
-        <button type="button" class="btn btn-primary">Regisztráció</button>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- Register Modal -->
   <header class="topbar">
-
-    <!-- BAL OLDAL -->
     <div class="left">
       
        <RouterLink id="lorem" class="link text-decoration-none text-dark m-3 rounded" to="/">
@@ -49,7 +7,6 @@
       </RouterLink> 
     </div>
 
-    <!-- JOBB OLDAL -->
     <div class="right">
       <!-- Kosár ikon -->
       <div class="cart" @click="toggleCart">
@@ -61,7 +18,9 @@
 
       <!-- Login / Logout -->
       <div class="button-container">
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
+      <!--  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button> -->
+
+        <button @click="openModal">Megnyit</button>
         <!-- <button class="btn btn-light" v-if="!isLoggedIn" @click="login">Login</button> -->
         <!-- <button class="btn btn-light" v-else @click="logout">Logout</button> -->
       </div>
@@ -142,6 +101,17 @@ const placeOrder = () => {
   delivery.cart = [] // kosár ürítése
   showCart.value = false
 }
+
+
+// --------------modal--------------
+import { useModalStore } from "@/stores/modal"
+const modal = useModalStore()
+
+const openModal = () => {
+  modal.isOpen = true
+  modal.open(LoginForm)
+}
+
 
 const login = () => {
   isLoggedIn.value = true

@@ -1,4 +1,8 @@
 <script setup>
+    import { useModalStore } from "@/stores/modal"
+    import RegisterForm from "./RegisterForm.vue"
+    const modal = useModalStore()
+
     const onSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData(e.target);
@@ -24,16 +28,18 @@
             },
             body: JSON.stringify(body)
         });
-        console.log(submitData);
         const resp = await submitData.json();
-        console.log(resp);
-        console.log(resp.token);
 
         const token = resp?.token;
         sessionStorage.setItem('token', token);
-
+        modal.close()
 
     }
+
+    const openRegistration = () => {
+        modal.open(RegisterForm)
+    }
+    
 
 </script>
 <template>
@@ -42,5 +48,6 @@
           <input name="email" class="m-3 rounded" placeholder="Email cím" type="email"> <br>
           <input name="password" class="m-3 rounded" placeholder="Jelszó" type="password">
           <button class="btn btn-primary" type="submit">Bejelentkezés</button>
+          <button class="btn btn-primary" type="button" @click="openRegistration()">Regisztráció</button>
     </form>
 </template>
