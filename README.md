@@ -1,5 +1,7 @@
 # Royal-Delivery
 ## Mobilapp
+
+### Fekvő mód:
 <img width="1920" height="1080" alt="Screenshot (25)" src="https://github.com/user-attachments/assets/a7e33b51-d8ea-4e54-876b-74742453e5a5" />
 <img width="1920" height="1080" alt="Screenshot (26)" src="https://github.com/user-attachments/assets/9c26c630-12f4-4f08-ad43-12f011985db1" />
 <img width="1920" height="1080" alt="Screenshot (28)" src="https://github.com/user-attachments/assets/14d9b2fa-ff74-4270-a420-4f25dc160c6e" />
@@ -19,6 +21,19 @@
 <img width="1920" height="1080" alt="Screenshot (42)" src="https://github.com/user-attachments/assets/1a7b5519-fad0-4cb9-95b3-b2b24a328277" />
 <img width="1920" height="1080" alt="Screenshot (43)" src="https://github.com/user-attachments/assets/0e34a827-e4cd-4aff-8659-0d1a9df2f38f" />
 <img width="1920" height="1080" alt="Screenshot (44)" src="https://github.com/user-attachments/assets/ee3850d5-ec37-44ea-b0b7-47e9735f7cf1" />
+
+### Álló mód:
+<img width="720" height="1600" alt="Screenshot_2026-04-24-14-41-03-723_host exp exponent" src="https://github.com/user-attachments/assets/d054c9b7-dac6-4044-a40e-a22368facb35" />
+<img width="720" height="1600" alt="Screenshot_2026-04-24-14-41-06-493_host exp exponent" src="https://github.com/user-attachments/assets/4b20ea2e-ae52-4da3-8b2f-03fbff307345" />
+<img width="720" height="1600" alt="Screenshot_2026-04-24-14-40-39-026_host exp exponent" src="https://github.com/user-attachments/assets/15ef1840-5638-463c-a564-512319cc2d15" />
+<img width="720" height="1600" alt="Screenshot_2026-04-24-14-40-31-286_host exp exponent" src="https://github.com/user-attachments/assets/341311b2-3358-49b6-91a1-4bb812810a25" />
+<img width="720" height="1600" alt="Screenshot_2026-04-24-14-40-43-839_host exp exponent" src="https://github.com/user-attachments/assets/5d94faaa-9000-4779-ae83-8cb364cf7f7a" />
+<img width="720" height="1600" alt="Screenshot_2026-04-24-14-40-53-929_host exp exponent" src="https://github.com/user-attachments/assets/329acdee-f08d-47f7-a810-a272c347f271" />
+<img width="720" height="1600" alt="Screenshot_2026-04-24-14-41-17-093_host exp exponent" src="https://github.com/user-attachments/assets/43648ed1-530a-4ea8-87c3-83a11f2f2f73" />
+<img width="720" height="1600" alt="Screenshot_2026-04-24-14-41-20-337_host exp exponent" src="https://github.com/user-attachments/assets/01e4375a-8d05-45a1-9d98-8331c808b539" />
+<img width="720" height="1600" alt="Screenshot_2026-04-24-14-42-02-034_com google android gms" src="https://github.com/user-attachments/assets/3a56a0a5-4387-4302-9915-b851d81b5ea8" />
+<img width="720" height="1600" alt="Screenshot_2026-04-24-14-41-38-785_host exp exponent" src="https://github.com/user-attachments/assets/3ab08d2e-6d06-46ec-8b48-bc6371a277b0" />
+<img width="720" height="1600" alt="Screenshot_2026-04-24-14-42-28-595_host exp exponent" src="https://github.com/user-attachments/assets/013f6614-c02e-4749-8e3e-72054632adb9" />
 
 
 
