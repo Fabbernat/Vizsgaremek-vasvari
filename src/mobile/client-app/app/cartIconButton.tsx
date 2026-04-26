@@ -1,6 +1,12 @@
-import { Pressable, View, StyleSheet, StyleProp, ViewStyle } from "react-native";
-import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+import { router } from "expo-router";
+import {
+    Pressable,
+    StyleProp,
+    StyleSheet,
+    View,
+    ViewStyle,
+} from "react-native";
 
 type Props = {
   style?: StyleProp<ViewStyle>;
@@ -10,11 +16,8 @@ export default function CartIconButton({ style }: Props) {
   return (
     <View style={[styles.wrapper, style]}>
       <Pressable
-        onPress={() => router.push("/cartView")}
-        style={({ pressed }) => [
-          styles.button,
-          pressed && styles.pressed,
-        ]}
+        onPress={() => router.push("/cartScreen")}
+        style={({ pressed }) => [styles.button, pressed && styles.pressed]}
       >
         <Ionicons name="cart-outline" size={26} color="#fff" />
       </Pressable>

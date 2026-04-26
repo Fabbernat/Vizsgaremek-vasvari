@@ -128,7 +128,7 @@ export default function ProfileScreen() {
     }
     setLoadingUsername(true);
     try {
-      const response = await fetch("http://10.0.2.2:54321/api/user/modify-username", {
+      const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/api/user/modify-username`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ newUsername }),
@@ -180,7 +180,8 @@ export default function ProfileScreen() {
         type: "image/jpeg",
       } as any);
 
-      const response = await fetch("http://10.0.2.2:54321/api/user/modify-avatar", {
+      const apiUrl = typeof process !== "undefined" ? (process as any).env?.EXPO_PUBLIC_API_URL : "";
+      const response = await fetch(`${apiUrl}/api/user/modify-avatar`, {
         method: "POST",
         headers: { "Content-Type": "multipart/form-data" },
         body: formData,

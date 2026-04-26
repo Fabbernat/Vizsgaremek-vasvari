@@ -1,4 +1,4 @@
-// client-app\app\cartView.tsx
+// client-app\app\cartScreen.tsx
 import { router } from "expo-router";
 import {
   Alert,
@@ -37,7 +37,7 @@ export type CartItem = {
 
 // ── Component ──────────────────────────────────────────────────────────────────
 
-export default function CartView() {
+export default function cartScreen() {
   const items = useCartStore((state) => state.items);
   const removeItem = useCartStore((state) => state.removeItem);
   const clearCart = useCartStore((state) => state.clearCart);
@@ -57,9 +57,9 @@ export default function CartView() {
   return (
     <View style={styles.root}>
       {/* Back */}
-            <Pressable onPress={() => router.back()} style={styles.backBtn}>
-              <Text style={styles.backText}>← Vissza</Text>
-            </Pressable>
+      <Pressable onPress={() => router.back()} style={styles.backBtn}>
+        <Text style={styles.backText}>← Vissza</Text>
+      </Pressable>
       {/* ── Brand header ── */}
       <View style={styles.brandRow}>
         <Image
@@ -67,7 +67,6 @@ export default function CartView() {
           style={styles.crown}
         />
       </View>
-      
 
       {/* ── Page title + clear button ── */}
       <View style={styles.titleRow}>
@@ -177,7 +176,6 @@ export default function CartView() {
           {/* ── Checkout button ── */}
           <Pressable
             onPress={() => {
-              console.log("Checkout button pressed");
               router.push("/checkoutScreen");
             }}
             style={({ pressed }) => [
