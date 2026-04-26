@@ -9,6 +9,7 @@ import {
   Platform,
   Alert,
   StyleSheet,
+  Image,
 } from "react-native";
 import { supabase } from "../supabase";
 import Toast from "react-native-toast-message";
@@ -181,7 +182,7 @@ export default function LoginScreen({ isLoggedIn, setIsLoggedIn }: Props) {
       >
         {/* Brand */}
         <View style={styles.brandRow}>
-          <Text style={styles.crown}>👑</Text>
+        <Image source={require("../assets/mine/icons/rd-logo.png")} style={styles.crown}  />
           <Text style={styles.brandName}>Royal Delivery</Text>
         </View>
 
@@ -277,7 +278,11 @@ const styles = StyleSheet.create({
   content: { flex: 1, paddingHorizontal: 24, paddingTop: 16 },
 
   brandRow: { flexDirection: "row", alignItems: "center", gap: 8, marginBottom: 32 },
-  crown: { fontSize: 22 },
+  crown: {
+  width: 100,
+  height: 100,
+  resizeMode: "contain",
+},
   brandName: { fontSize: 16, fontWeight: "700", color: COLORS.gold, letterSpacing: 0.5 },
 
   heading: {

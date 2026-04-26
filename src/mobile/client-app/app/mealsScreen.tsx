@@ -9,6 +9,7 @@ import {
   StyleSheet,
   Text,
   View,
+  Image,
 } from "react-native";
 import Toast from "react-native-toast-message";
 import { addToGuestCart } from "./cartStore";
@@ -225,7 +226,7 @@ export default function MealsScreen() {
         <Text style={styles.backText}>← Vissza</Text>
       </Pressable>
       <View style={styles.brandRow}>
-        <Text style={styles.crown}>👑</Text>
+        <Image source={require("../assets/mine/icons/rd-logo.png")} style={styles.crown}  />
         <Text style={styles.brandName}>Royal Delivery</Text>
       </View>
       <Text style={styles.heading}>Étlap</Text>
@@ -257,7 +258,11 @@ const styles = StyleSheet.create({
   backBtn: { marginBottom: 10 },
   backText: { color: COLORS.muted },
   brandRow: { flexDirection: "row", gap: 8, marginBottom: 20 },
-  crown: { fontSize: 22 },
+  crown: {
+  width: 100,
+  height: 100,
+  resizeMode: "contain",
+},
   brandName: { color: COLORS.gold, fontWeight: "700" },
   heading: { fontSize: 32, fontWeight: "900", color: COLORS.text },
   subheading: { color: COLORS.muted, marginBottom: 20 },

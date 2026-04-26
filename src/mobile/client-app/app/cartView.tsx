@@ -1,8 +1,15 @@
 // client-app\app\cartView.tsx
-import { View, Pressable, Text, StyleSheet, FlatList, Alert } from "react-native";
 import { router } from "expo-router";
-import { useCart } from "./cartStore";
-import { clearCart } from "@/cart-context";
+import {
+  Alert,
+  FlatList,
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
+import { useCartStore } from "./cartStore";
 
 const COLORS = {
   bg: "#0f0e0c",
@@ -24,39 +31,37 @@ const COLORS = {
 export type CartItem = {
   id: string;
   name: string;
-  price: number;       // HUF
+  price: number; // HUF
   quantity: number;
 };
-
 
 // ── Component ──────────────────────────────────────────────────────────────────
 
 export default function CartView() {
-  // const [items, setItems] = useState<CartItem[]>(DEMO_ITEMS);
-  const items = useCart();
+  const items = useCartStore((state) => state.items);
+  const removeItem = useCartStore((state) => state.removeItem);
+  const clearCart = useCartStore((state) => state.clearCart);
+
   const total = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
 
-  const removeItem = () =>
-    Alert.alert(
-      "Tétel törlése",
-      "Biztosan törölni szeretnéd ezt a tételt?",
-      [
-        { text: "Mégse", style: "cancel" },
-        { text: "Törlés", style: "destructive", onPress: () => {
-          // setItems((prev) => prev.filter((i) => i.id !== id));
-        } },
-      ]
-    );
-
-
+  const confirmRemove = (id: string) =>
+    Alert.alert("Tétel törlése", "Biztosan törölni szeretnéd ezt a tételt?", [
+      { text: "Mégse", style: "cancel" },
+      {
+        text: "Törlés",
+        style: "destructive",
+        onPress: () => removeItem(id), // ✅ passes the id, calls store action
+      },
+    ]);
 
   return (
     <View style={styles.root}>
-
       {/* ── Brand header ── */}
       <View style={styles.brandRow}>
-        <Text style={styles.crown}>👑</Text>
-        <Text style={styles.brandName}>Royal Delivery</Text>
+        <Image
+          source={require("../assets/mine/icons/rd-logo.png")}
+          style={styles.crown}
+        />
       </View>
 
       {/* ── Page title + clear button ── */}
@@ -64,16 +69,17 @@ export default function CartView() {
         <View>
           <Text style={styles.heading}>Kosár</Text>
           <Text style={styles.subheading}>
-            {items.length === 0
-              ? "A kosár üres"
-              : `${items.length} féle tétel`}
+            {items.length === 0 ? "A kosár üres" : `${items.length} féle tétel`}
           </Text>
         </View>
 
         {items.length > 0 && (
           <Pressable
             onPress={clearCart}
-            style={({ pressed }) => [styles.clearBtn, pressed && styles.clearBtnPressed]}
+            style={({ pressed }) => [
+              styles.clearBtn,
+              pressed && styles.clearBtnPressed,
+            ]}
           >
             <Text style={styles.clearBtnText}>🗑 Kiürítés</Text>
           </Pressable>
@@ -90,7 +96,10 @@ export default function CartView() {
           </Text>
           <Pressable
             onPress={() => router.back()}
-            style={({ pressed }) => [styles.backToMenuBtn, pressed && { opacity: 0.75 }]}
+            style={({ pressed }) => [
+              styles.backToMenuBtn,
+              pressed && { opacity: 0.75 },
+            ]}
           >
             <Text style={styles.backToMenuText}>← Vissza a menübe</Text>
           </Pressable>
@@ -123,9 +132,12 @@ export default function CartView() {
                     {(item.price * item.quantity).toLocaleString("hu-HU")} Ft
                   </Text>
                   <Pressable
-                    onPress={() => removeItem()}
+                    onPress={() => confirmRemove(item.id)}
                     hitSlop={8}
-                    style={({ pressed }) => [styles.removeBtn, pressed && styles.removeBtnPressed]}
+                    style={({ pressed }) => [
+                      styles.removeBtn,
+                      pressed && styles.removeBtnPressed,
+                    ]}
                   >
                     <Text style={styles.removeBtnText}>Törlés</Text>
                   </Pressable>
@@ -144,7 +156,9 @@ export default function CartView() {
             </View>
             <View style={styles.summaryRow}>
               <Text style={styles.summaryLabel}>Szállítás</Text>
-              <Text style={[styles.summaryValue, { color: COLORS.gold }]}>Ingyenes</Text>
+              <Text style={[styles.summaryValue, { color: COLORS.gold }]}>
+                Ingyenes
+              </Text>
             </View>
             <View style={styles.divider} />
             <View style={styles.summaryRow}>
@@ -192,7 +206,11 @@ const styles = StyleSheet.create({
     gap: 8,
     marginBottom: 28,
   },
-  crown: { fontSize: 22 },
+  crown: {
+    width: 100,
+    height: 100,
+    resizeMode: "contain",
+  },
   brandName: {
     fontSize: 16,
     fontWeight: "700",

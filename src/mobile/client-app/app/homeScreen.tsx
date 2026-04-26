@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Animated,
   StatusBar,
+  
 } from "react-native";
 import { router } from "expo-router";
 import { supabase } from "@/supabase";
@@ -172,7 +173,8 @@ export default function HomeScreen() {
       {/* Top bar */}
       <View style={HomeScreenStyles.topBar}>
         <Animated.View style={{ opacity: headerAnim, transform: [{ translateY: logoAnim }] }}>
-          <Text style={HomeScreenStyles.brandSmall}>👑</Text>
+                  <Image source={require("../assets/mine/icons/rd-logo.png")} style={HomeScreenStyles.crown}  />
+
         </Animated.View>
         <View style={HomeScreenStyles.topActions}>
           <Cart style={HomeScreenStyles.iconBtn} />
@@ -276,6 +278,11 @@ export const HomeScreenStyles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingBottom: 32,
   },
+  crown: {
+  width: 100,
+  height: 100,
+  resizeMode: "contain",
+},
 
   /* Top bar */
   topBar: {

@@ -1,56 +1,64 @@
-import { useState, useEffect } from "react";
+// client-app/app/cartStore.ts
+import { create } from "zustand";
 import { Meal } from "./models/meal";
 
+// ── Types ─────────────────────────────────────────────────────────────────────
+
+// CartItem extends Meal so mealsScreen can pass a Meal directly
 export type CartItem = Meal & { quantity: number };
 
-let guestCart: CartItem[] = [];
-let listeners: ((cart: CartItem[]) => void)[] = [];
+// ── Zustand store ─────────────────────────────────────────────────────────────
 
-function notify() {
-  listeners.forEach((l) => l([...guestCart]));
-}
+type CartStore = {
+  items: CartItem[];
+  addItem: (item: CartItem) => void;
+  removeItem: (id: string) => void;
+  clearCart: () => void;
+};
 
-//  ADD
+export const useCartStore = create<CartStore>((set) => ({
+  items: [],
+
+  addItem: (item) =>
+    set((state) => {
+      const existing = state.items.find((i) => i.id === item.id);
+      if (existing) {
+        return {
+          items: state.items.map((i) =>
+            i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i,
+          ),
+        };
+      }
+      return { items: [...state.items, { ...item, quantity: 1 }] };
+    }),
+
+  removeItem: (id) =>
+    set((state) => ({
+      items: state.items.filter((i) => i.id !== id),
+    })),
+
+  clearCart: () => set({ items: [] }),
+}));
+
+// ── Plain-function API (for use outside React components) ─────────────────────
+// mealsScreen.tsx imports addToGuestCart directly — it can't use hooks.
+// useCartStore.getState() gives us store actions without needing a component.
+
 export function addToGuestCart(meal: Meal) {
-  const existing = guestCart.find((i) => i.id === meal.id);
-
-  if (existing) {
-    existing.quantity += 1;
-  } else {
-    guestCart.push({ ...meal, quantity: 1 });
-  }
-
-  notify();
+  useCartStore.getState().addItem({ ...meal, quantity: 1 });
 }
 
-//  REMOVE
 export function removeFromCart(id: string) {
-  guestCart = guestCart.filter((i) => i.id !== id);
-  notify();
+  useCartStore.getState().removeItem(id);
 }
 
-//  CLEAR
 export function clearGuestCart() {
-  guestCart = [];
-  notify();
+  useCartStore.getState().clearCart();
 }
 
-//  HOOK
-export function useCart() {
-  const [state, setState] = useState<CartItem[]>(guestCart);
+// Aliases kept for any existing call sites
+export const remove = removeFromCart;
 
-  useEffect(() => {
-    if (!listeners.includes(setState)) {
-  listeners.push(setState);
-}
-    return () => {
-      listeners = listeners.filter((l) => l !== setState);
-    };
-  }, []);
+// ── Hook (convenience selector) ───────────────────────────────────────────────
 
-  return state;
-}
-
-export function remove(id: string) {
-  removeFromCart(id);
-}
+export const useCart = () => useCartStore((state) => state.items);
