@@ -1,5 +1,63 @@
 # Royal-Delivery
-## Mobilapp
+## Telepítés:
+```powershell
+git clone https://github.com/vizsgaremek-2025-2026-nappali-2-14b/royal-delivery-app-nalhi-gurban-fabian
+cd royal-delivery-app-nalhi-gurban-fabian
+```
+### `mobile` mappa
+```powershell
+cd mobile
+cd client-app
+npm i
+npx expo start
+```
+
+### `web` mappa 
+##### Ákos admin felülete
+```powershell
+cd react-admin-felulet-akos
+`npm i`
+`npm run dev`
+```
+##### Csongor frontend webalkalmazása
+```powershell
+`cd vue-frontend-csongor`
+`npm i`
+`npm run dev`
+```
+
+
+## Fontos linkek:
+
+
+### MySQL Adatbázis elérési útja:
+### C:\xampp\mysql\data\royaldelivery_db\
+
+### [Dokumentáció - Google Docs (jogosultsággal szerkeszthető)](https://docs.google.com/document/d/1ojhwJm34qvML5fOf8i9hJpa355ce6aKP/edit?usp=sharing&ouid=115331407599598307359&rtpof=true&sd=true)
+
+### [Követelményspecifikáció - Google Docs (jogosultsággal szerkeszthető)](https://docs.google.com/document/d/1tTPFeNGFQoAREoPDqRaQL0v3-o-OPWzRQ847onGc3uE/edit?usp=sharing)
+
+### [Részletes követelményleírás - Google Docs jogosultsággal (szerkeszthető)](https://docs.google.com/document/d/1zPlSvUvIQpHnXcfmNSJ8LxzYlk4Uv5YCd-s_0WlF-PM/edit?usp=sharing)
+
+### [Desktop app](https://github.com/fabbernatvasvari/RoyalDelivery-desktop/)
+
+### [Google Drive Mappa, amely mindent tartalmaz](https://drive.google.com/drive/folders/1aNDvjjkcXUT5B-rJQAADJJ4zBr0tpsjz?usp=sharing)
+
+## Projekt generátor parancsok
+React projekt generátor parancs:
+```powershell
+npm create vite@latest my-app -- --template react-ts
+```
+Vue projekt generátor parancs:
+```powershell
+npm create vite@latest my-app -- --template vue-ts
+```
+vagy csak egyszerűen (ugyanazt csinálja)
+```powershell
+npm create vue@latest
+```
+
+## Képek a mobilappról
 
 ### Fekvő mód:
 <img width="1920" height="1080" alt="Screenshot (25)" src="https://github.com/user-attachments/assets/a7e33b51-d8ea-4e54-876b-74742453e5a5" />
@@ -35,43 +93,14 @@
 <img width="720" height="1600" alt="Screenshot_2026-04-24-14-41-38-785_host exp exponent" src="https://github.com/user-attachments/assets/3ab08d2e-6d06-46ec-8b48-bc6371a277b0" />
 <img width="720" height="1600" alt="Screenshot_2026-04-24-14-42-28-595_host exp exponent" src="https://github.com/user-attachments/assets/013f6614-c02e-4749-8e3e-72054632adb9" />
 
-
-
-
-
-
-
-## Fontos linkek:
-### Supabase adatbázis:
-### https://supabase.com/dashboard/project/uqusahmtbaypepskpxxa
+### Supabase adatbázisunk URL-je: [https://supabase.com/dashboard/project/uqusahmtbaypepskpxxa](https://uqusahmtbaypepskpxxa.supabase.co)
+### Képek a Supabase adatbázisunkról:
 <img width="1581" height="1031" alt="Supabase schema" src="https://github.com/user-attachments/assets/9bd67b34-359b-4d3f-a89c-2b6b203eabde" />
 <img width="1920" height="1080" alt="Scr<img width="650" height="612" alt="Képernyőkép 2026-04-23 160452" src="https://github.com/user-attachments/assets/964a77bd-5549-4adc-b149-9d47e9c718b0" />
 <img width="1226" height="695" alt="Képernyőkép 2026-04-23 162246" src="https://github.com/user-attachments/assets/e7be4c81-1432-4236-a90f-3cbb5b2511d1" />
-eenshot (27)" src="https://github.com/user-attachments/assets/a5f367d1-42e7-4f3d-83c4-1a3dcde3d03c" />
 
-### MySQL Adatbázis elérési útja:
-### C:\xampp\mysql\data\royaldelivery_db\
 
-### [Dokumentáció - Google Docs (jogosultsággal szerkeszthető)](https://docs.google.com/document/d/1ojhwJm34qvML5fOf8i9hJpa355ce6aKP/edit?usp=sharing&ouid=115331407599598307359&rtpof=true&sd=true)
 
-### [Követelményspecifikáció - Google Docs (jogosultsággal szerkeszthető)](https://docs.google.com/document/d/1tTPFeNGFQoAREoPDqRaQL0v3-o-OPWzRQ847onGc3uE/edit?usp=sharing)
 
-### [Részletes követelményleírás - Google Docs jogosultsággal (szerkeszthető)](https://docs.google.com/document/d/1zPlSvUvIQpHnXcfmNSJ8LxzYlk4Uv5YCd-s_0WlF-PM/edit?usp=sharing)
 
-### [Desktop app](https://github.com/fabbernatvasvari/RoyalDelivery-desktop/)
 
-### [Google Drive Mappa, amely mindent tartalmaz](https://drive.google.com/drive/folders/1aNDvjjkcXUT5B-rJQAADJJ4zBr0tpsjz?usp=sharing)
-
-## Projekt generátor parancsok
-React projekt generátor parancs:
-```powershell
-npm create vite@latest my-app -- --template react-ts
-```
-Vue projekt generátor parancs:
-```powershell
-npm create vite@latest my-app -- --template vue-ts
-```
-vagy csak egyszerűen (ugyanazt csinálja)
-```powershell
-npm create vue@latest
-```
