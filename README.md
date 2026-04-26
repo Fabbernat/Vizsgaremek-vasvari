@@ -30,9 +30,7 @@ cd react-admin-felulet-akos
 ## Fontos linkek:
 
 
-### MySQL Adatbázis elérési útja:
-### C:\xampp\mysql\data\royaldelivery_db\
-
+### [Prezentáció](https://docs.google.com/document/d/1DTTBgHIsLV9EguguILuk95ncWmmCNuOcWJq_hV0kEDA/edit?usp=drive_link)
 ### [Dokumentáció - Google Docs (jogosultsággal szerkeszthető)](https://docs.google.com/document/d/1ojhwJm34qvML5fOf8i9hJpa355ce6aKP/edit?usp=sharing&ouid=115331407599598307359&rtpof=true&sd=true)
 
 ### [Követelményspecifikáció - Google Docs (jogosultsággal szerkeszthető)](https://docs.google.com/document/d/1tTPFeNGFQoAREoPDqRaQL0v3-o-OPWzRQ847onGc3uE/edit?usp=sharing)
@@ -99,6 +97,9 @@ npm create vue@latest
 <img width="1920" height="1080" alt="Scr<img width="650" height="612" alt="Képernyőkép 2026-04-23 160452" src="https://github.com/user-attachments/assets/964a77bd-5549-4adc-b149-9d47e9c718b0" />
 <img width="1226" height="695" alt="Képernyőkép 2026-04-23 162246" src="https://github.com/user-attachments/assets/e7be4c81-1432-4236-a90f-3cbb5b2511d1" />
 
+# XAMPP telepításhez segítség
+### MySQL Adatbázis elérési útja XAMPP-ban:
+### C:\xampp\mysql\data\royaldelivery_db\
 
 
 
