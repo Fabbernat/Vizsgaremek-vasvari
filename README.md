@@ -26,7 +26,43 @@ cd react-admin-felulet-akos
 `npm run dev`
 ```
 
-## Mobilapp
+
+## Fontos linkek:
+### Supabase adatbázis:
+### https://supabase.com/dashboard/project/uqusahmtbaypepskpxxa
+<img width="1581" height="1031" alt="Supabase schema" src="https://github.com/user-attachments/assets/9bd67b34-359b-4d3f-a89c-2b6b203eabde" />
+<img width="1920" height="1080" alt="Scr<img width="650" height="612" alt="Képernyőkép 2026-04-23 160452" src="https://github.com/user-attachments/assets/964a77bd-5549-4adc-b149-9d47e9c718b0" />
+<img width="1226" height="695" alt="Képernyőkép 2026-04-23 162246" src="https://github.com/user-attachments/assets/e7be4c81-1432-4236-a90f-3cbb5b2511d1" />
+eenshot (27)" src="https://github.com/user-attachments/assets/a5f367d1-42e7-4f3d-83c4-1a3dcde3d03c" />
+
+### MySQL Adatbázis elérési útja:
+### C:\xampp\mysql\data\royaldelivery_db\
+
+### [Dokumentáció - Google Docs (jogosultsággal szerkeszthető)](https://docs.google.com/document/d/1ojhwJm34qvML5fOf8i9hJpa355ce6aKP/edit?usp=sharing&ouid=115331407599598307359&rtpof=true&sd=true)
+
+### [Követelményspecifikáció - Google Docs (jogosultsággal szerkeszthető)](https://docs.google.com/document/d/1tTPFeNGFQoAREoPDqRaQL0v3-o-OPWzRQ847onGc3uE/edit?usp=sharing)
+
+### [Részletes követelményleírás - Google Docs jogosultsággal (szerkeszthető)](https://docs.google.com/document/d/1zPlSvUvIQpHnXcfmNSJ8LxzYlk4Uv5YCd-s_0WlF-PM/edit?usp=sharing)
+
+### [Desktop app](https://github.com/fabbernatvasvari/RoyalDelivery-desktop/)
+
+### [Google Drive Mappa, amely mindent tartalmaz](https://drive.google.com/drive/folders/1aNDvjjkcXUT5B-rJQAADJJ4zBr0tpsjz?usp=sharing)
+
+## Projekt generátor parancsok
+React projekt generátor parancs:
+```powershell
+npm create vite@latest my-app -- --template react-ts
+```
+Vue projekt generátor parancs:
+```powershell
+npm create vite@latest my-app -- --template vue-ts
+```
+vagy csak egyszerűen (ugyanazt csinálja)
+```powershell
+npm create vue@latest
+```
+
+## Képek a mobilappról
 
 ### Fekvő mód:
 <img width="1920" height="1080" alt="Screenshot (25)" src="https://github.com/user-attachments/assets/a7e33b51-d8ea-4e54-876b-74742453e5a5" />
@@ -68,37 +104,3 @@ cd react-admin-felulet-akos
 
 
 
-## Fontos linkek:
-### Supabase adatbázis:
-### https://supabase.com/dashboard/project/uqusahmtbaypepskpxxa
-<img width="1581" height="1031" alt="Supabase schema" src="https://github.com/user-attachments/assets/9bd67b34-359b-4d3f-a89c-2b6b203eabde" />
-<img width="1920" height="1080" alt="Scr<img width="650" height="612" alt="Képernyőkép 2026-04-23 160452" src="https://github.com/user-attachments/assets/964a77bd-5549-4adc-b149-9d47e9c718b0" />
-<img width="1226" height="695" alt="Képernyőkép 2026-04-23 162246" src="https://github.com/user-attachments/assets/e7be4c81-1432-4236-a90f-3cbb5b2511d1" />
-eenshot (27)" src="https://github.com/user-attachments/assets/a5f367d1-42e7-4f3d-83c4-1a3dcde3d03c" />
-
-### MySQL Adatbázis elérési útja:
-### C:\xampp\mysql\data\royaldelivery_db\
-
-### [Dokumentáció - Google Docs (jogosultsággal szerkeszthető)](https://docs.google.com/document/d/1ojhwJm34qvML5fOf8i9hJpa355ce6aKP/edit?usp=sharing&ouid=115331407599598307359&rtpof=true&sd=true)
-
-### [Követelményspecifikáció - Google Docs (jogosultsággal szerkeszthető)](https://docs.google.com/document/d/1tTPFeNGFQoAREoPDqRaQL0v3-o-OPWzRQ847onGc3uE/edit?usp=sharing)
-
-### [Részletes követelményleírás - Google Docs jogosultsággal (szerkeszthető)](https://docs.google.com/document/d/1zPlSvUvIQpHnXcfmNSJ8LxzYlk4Uv5YCd-s_0WlF-PM/edit?usp=sharing)
-
-### [Desktop app](https://github.com/fabbernatvasvari/RoyalDelivery-desktop/)
-
-### [Google Drive Mappa, amely mindent tartalmaz](https://drive.google.com/drive/folders/1aNDvjjkcXUT5B-rJQAADJJ4zBr0tpsjz?usp=sharing)
-
-## Projekt generátor parancsok
-React projekt generátor parancs:
-```powershell
-npm create vite@latest my-app -- --template react-ts
-```
-Vue projekt generátor parancs:
-```powershell
-npm create vite@latest my-app -- --template vue-ts
-```
-vagy csak egyszerűen (ugyanazt csinálja)
-```powershell
-npm create vue@latest
-```
