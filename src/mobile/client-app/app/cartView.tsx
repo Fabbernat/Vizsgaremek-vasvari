@@ -56,6 +56,10 @@ export default function CartView() {
 
   return (
     <View style={styles.root}>
+      {/* Back */}
+            <Pressable onPress={() => router.back()} style={styles.backBtn}>
+              <Text style={styles.backText}>← Vissza</Text>
+            </Pressable>
       {/* ── Brand header ── */}
       <View style={styles.brandRow}>
         <Image
@@ -63,6 +67,7 @@ export default function CartView() {
           style={styles.crown}
         />
       </View>
+      
 
       {/* ── Page title + clear button ── */}
       <View style={styles.titleRow}>
@@ -101,7 +106,7 @@ export default function CartView() {
               pressed && { opacity: 0.75 },
             ]}
           >
-            <Text style={styles.backToMenuText}>← Vissza a menübe</Text>
+            <Text style={styles.backToMenuText}>← Vissza a főoldalra</Text>
           </Pressable>
         </View>
       ) : (
@@ -198,7 +203,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingTop: 24,
   },
-
+  backText: { color: COLORS.muted, fontSize: 15, fontWeight: "500" },
+  backBtn: { paddingBottom: 12, paddingTop: 4 },
   // Brand
   brandRow: {
     flexDirection: "row",

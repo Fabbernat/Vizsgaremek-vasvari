@@ -202,6 +202,10 @@ export default function ProfileScreen() {
       contentContainerStyle={styles.scrollContent}
       showsVerticalScrollIndicator={false}
     >
+      {/* Back */}
+      <Pressable onPress={() => router.back()} style={styles.backBtn}>
+        <Text style={styles.backText}>← Vissza</Text>
+      </Pressable>
       {/* Brand */}
       <View style={styles.brandRow}>
         <FontAwesome5 name="crown" size={18} color={COLORS.gold} />
@@ -327,6 +331,8 @@ export default function ProfileScreen() {
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: COLORS.bg },
   scrollContent: { paddingHorizontal: 24, paddingBottom: 48, paddingTop: 24 },
+  backText: { color: COLORS.muted, fontSize: 15, fontWeight: "500" },
+  backBtn: { paddingBottom: 12, paddingTop: 4 },
 
   brandRow: { flexDirection: "row", alignItems: "center", gap: 8, marginBottom: 28 },
   brandName: { fontSize: 16, fontWeight: "700", color: COLORS.gold, letterSpacing: 0.5 },
