@@ -28,7 +28,7 @@ cd react-admin-felulet-akos
 
 
 ## Fontos linkek:
-### Supabase adatbázis:
+### Supabase adatbázisunk:
 ### https://supabase.com/dashboard/project/uqusahmtbaypepskpxxa
 <img width="1581" height="1031" alt="Supabase schema" src="https://github.com/user-attachments/assets/9bd67b34-359b-4d3f-a89c-2b6b203eabde" />
 <img width="1920" height="1080" alt="Scr<img width="650" height="612" alt="Képernyőkép 2026-04-23 160452" src="https://github.com/user-attachments/assets/964a77bd-5549-4adc-b149-9d47e9c718b0" />
