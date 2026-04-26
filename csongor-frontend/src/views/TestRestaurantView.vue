@@ -28,9 +28,11 @@ onMounted(async () => {
         <h4 class="m-1">Kosár</h4>
     </RouterLink>
   </nav>
-  <div id="testcon" class="container row bg-light">
+  <div id="testcon" class="container  bg-light">
       <h1 class="text-center">Test Restaurnat</h1>
-      <TestRestaurantFoodCard v-for="meal in meals" :key="meal.id" :meal="meal" class="col-5"/>
+      <div class="row">
+        <TestRestaurantFoodCard v-for="meal in meals" :key="meal.id" :meal="meal" class=" col-sm-12 col-lg-6"/>
+      </div>
     </div>
 </template>
 

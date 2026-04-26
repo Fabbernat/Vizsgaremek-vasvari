@@ -52,6 +52,8 @@ const onSubmit = async () => {
 
       sessionStorage.setItem("token", resp.token)
 
+      window.dispatchEvent(new Event("login-success"))
+
       notify.notify("Sikeres bejelentkezés!", "success")
 
       modal.close()

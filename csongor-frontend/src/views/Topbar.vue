@@ -20,9 +20,9 @@
       <div class="button-container">
       <!--  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button> -->
 
-        <button @click="openModal">Megnyit</button>
+        <button class="btn btn-primary" v-if="!isLoggedIn" @click="openModal">Megnyit</button>
         <!-- <button class="btn btn-light" v-if="!isLoggedIn" @click="login">Login</button> -->
-        <!-- <button class="btn btn-light" v-else @click="logout">Logout</button> -->
+         <button class="btn btn-light" v-else @click="logout">Logout</button> 
       </div>
     </div>
 
@@ -72,7 +72,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue"
+import { ref, computed, onMounted, onUnmounted} from "vue"
 import { useDeliveryStore } from "@/stores/delivery"
 import LoginForm from "@/components/LoginForm.vue"
 import RegisterForm from "@/components/RegisterForm.vue"
@@ -81,7 +81,36 @@ import RegisterForm from "@/components/RegisterForm.vue"
 
 const delivery = useDeliveryStore()
 const showCart = ref(false)
-const isLoggedIn = ref(false)
+
+
+//login/logout --------------------------------------------------------
+const isLoggedIn = ref(!!sessionStorage.getItem("token"))
+const updateLoginState = () => {
+  isLoggedIn.value = !!sessionStorage.getItem("token")
+}
+onMounted(() => {
+  window.addEventListener("login-success", updateLoginState)
+})
+
+onUnmounted(() => {
+  window.removeEventListener("login-success", updateLoginState)
+})
+const logout = () => {
+  sessionStorage.removeItem("token")
+  isLoggedIn.value = false  
+}
+const login = () => {
+  isLoggedIn.value = true
+}
+// const login = () => {
+  
+// }
+
+// const logout = () => {
+//   sessionStorage.removeItem("token")
+//   isLoggedIn.value = false
+// }
+//login/logout --------------------------------------------------------
 
 
 const toggleCart = () => {
@@ -96,17 +125,14 @@ const placeOrder = () => {
   } else {
     console.log("RENDELÉS:", delivery.cart)
 
-    // ide később API hívás jön
 
     alert("Rendelés leadva!")
 
-    delivery.cart = [] // kosár ürítése
+    delivery.cart = [] 
     showCart.value = false
   }
 }
 
-
-// --------------modal--------------
 import { useModalStore } from "@/stores/modal"
 const modal = useModalStore()
 
@@ -116,13 +142,7 @@ const openModal = () => {
 }
 
 
-const login = () => {
-  isLoggedIn.value = true
-}
 
-const logout = () => {
-  isLoggedIn.value = false
-}
 
 </script>
 

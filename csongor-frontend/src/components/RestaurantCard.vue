@@ -16,7 +16,7 @@
       <div class="imgdiv">
         <img
           class="col-12 rounded"
-          :src="`/restaurants/${restaurant.id}.jpg`"
+          :src="`/restaurants/${restaurant.id ?? 'default'}.jpg`"
           @error="e => e.target.src = '/default.jpg'"
           alt=""
         />
@@ -31,6 +31,8 @@
 
 <style scoped>
 .imgdiv {
+  height: 180px;
+  width: 100%;
   overflow: hidden;
 }
 
