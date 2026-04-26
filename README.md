@@ -98,8 +98,7 @@ npm create vue@latest
 <img width="1581" height="1031" alt="Supabase schema" src="https://github.com/user-attachments/assets/9bd67b34-359b-4d3f-a89c-2b6b203eabde" />
 <img width="1920" height="1080" alt="Scr<img width="650" height="612" alt="Képernyőkép 2026-04-23 160452" src="https://github.com/user-attachments/assets/964a77bd-5549-4adc-b149-9d47e9c718b0" />
 <img width="1226" height="695" alt="Képernyőkép 2026-04-23 162246" src="https://github.com/user-attachments/assets/e7be4c81-1432-4236-a90f-3cbb5b2511d1" />
-eenshot (27)" src="https://github.com/user-attachments/assets/a5f367d1-42e7-4f3d-83c4-1a3dcde3d03c" />
-
+<img width="1920" height="1080" alt="Screenshot (27)" src="https://github.com/user-attachments/assets/a5f367d1-42e7-4f3d-83c4-1a3dcde3d03c" />
 
 
 
