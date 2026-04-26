@@ -1,4 +1,27 @@
 # Royal-Delivery
+## Telepítés:
+```powershell
+git clone https://github.com/vizsgaremek-2025-2026-nappali-2-14b/royal-delivery-app-nalhi-gurban-fabian
+cd royal-delivery-app-nalhi-gurban-fabian
+```
+### `mobile` mappa
+`cd mobile`
+`cd client-app`
+`npm i`
+`npx expo start`
+
+### `web` mappa 
+##### Ákos admin felülete
+`cd react-admin-felulet-akos`
+`npm i`
+`npm run dev`
+
+##### Csongor frontend webalkalmazása
+`cd vue-frontend-csongor`
+`npm i`
+`npm run dev`
+
+
 ## Mobilapp
 
 ### Fekvő mód:
