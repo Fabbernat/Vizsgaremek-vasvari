@@ -6,14 +6,19 @@ cd royal-delivery-app-nalhi-gurban-fabian
 ```
 ### `mobile` mappa
 `cd mobile`
+
 `cd client-app`
+
 `npm i`
+
 `npx expo start`
 
 ### `web` mappa 
 ##### Ákos admin felülete
 `cd react-admin-felulet-akos`
+
 `npm i`
+
 `npm run dev`
 
 ##### Csongor frontend webalkalmazása
