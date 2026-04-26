@@ -28,12 +28,7 @@ cd react-admin-felulet-akos
 
 
 ## Fontos linkek:
-### Supabase adatbázisunk:
-### https://supabase.com/dashboard/project/uqusahmtbaypepskpxxa
-<img width="1581" height="1031" alt="Supabase schema" src="https://github.com/user-attachments/assets/9bd67b34-359b-4d3f-a89c-2b6b203eabde" />
-<img width="1920" height="1080" alt="Scr<img width="650" height="612" alt="Képernyőkép 2026-04-23 160452" src="https://github.com/user-attachments/assets/964a77bd-5549-4adc-b149-9d47e9c718b0" />
-<img width="1226" height="695" alt="Képernyőkép 2026-04-23 162246" src="https://github.com/user-attachments/assets/e7be4c81-1432-4236-a90f-3cbb5b2511d1" />
-eenshot (27)" src="https://github.com/user-attachments/assets/a5f367d1-42e7-4f3d-83c4-1a3dcde3d03c" />
+
 
 ### MySQL Adatbázis elérési útja:
 ### C:\xampp\mysql\data\royaldelivery_db\
@@ -97,6 +92,13 @@ npm create vue@latest
 <img width="720" height="1600" alt="Screenshot_2026-04-24-14-42-02-034_com google android gms" src="https://github.com/user-attachments/assets/3a56a0a5-4387-4302-9915-b851d81b5ea8" />
 <img width="720" height="1600" alt="Screenshot_2026-04-24-14-41-38-785_host exp exponent" src="https://github.com/user-attachments/assets/3ab08d2e-6d06-46ec-8b48-bc6371a277b0" />
 <img width="720" height="1600" alt="Screenshot_2026-04-24-14-42-28-595_host exp exponent" src="https://github.com/user-attachments/assets/013f6614-c02e-4749-8e3e-72054632adb9" />
+
+### Supabase adatbázisunk URL-je: [https://supabase.com/dashboard/project/uqusahmtbaypepskpxxa](https://uqusahmtbaypepskpxxa.supabase.co)
+### Képek a Supabase adatbázisunkról:
+<img width="1581" height="1031" alt="Supabase schema" src="https://github.com/user-attachments/assets/9bd67b34-359b-4d3f-a89c-2b6b203eabde" />
+<img width="1920" height="1080" alt="Scr<img width="650" height="612" alt="Képernyőkép 2026-04-23 160452" src="https://github.com/user-attachments/assets/964a77bd-5549-4adc-b149-9d47e9c718b0" />
+<img width="1226" height="695" alt="Képernyőkép 2026-04-23 162246" src="https://github.com/user-attachments/assets/e7be4c81-1432-4236-a90f-3cbb5b2511d1" />
+eenshot (27)" src="https://github.com/user-attachments/assets/a5f367d1-42e7-4f3d-83c4-1a3dcde3d03c" />
 
 
 
