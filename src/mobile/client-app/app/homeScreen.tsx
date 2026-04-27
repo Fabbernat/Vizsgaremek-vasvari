@@ -35,12 +35,12 @@ const COLORS = {
 };
 
 const fallbackData = [
-  { id: "1", name: "Étel 1", description: "Leírás 1", price: 1590, imageUrl: "" },
-  { id: "2", name: "Étel 2", description: "Leírás 2", price: 1990, imageUrl: "" },
-  { id: "3", name: "Étel 3", description: "Leírás 3", price: 2990, imageUrl: "" },
-  { id: "4", name: "Étel 4", description: "Leírás 4", price: 3990, imageUrl: "" },
-  { id: "5", name: "Étel 5", description: "Leírás 5", price: 3490, imageUrl: "" },
-  { id: "6", name: "Étel 6", description: "Leírás 6", price: 2490, imageUrl: "" },
+  { id: "1", name: "Margherita Pizza", description: "Friss paradicsom, mozzarella és bazsalikom", price: 1500, imageUrl: "placeholder.jpg" },
+  { id: "2", name: "Caesar Saláta", description: "Ropogós saláta csirkével és krutonnal", price: 1200, imageUrl: "placeholder.jpg" },
+  { id: "3", name: "Spaghetti Carbonara", description: "Klasszikus olasz tészta szalonnával és tojással", price: 1300, imageUrl: "placeholder.jpg" },
+  { id: "4", name: "Pepperoni Pizza", description: "Szaftos pepperoni és olvadt sajt", price: 1600, imageUrl: "placeholder.jpg" },
+  { id: "5", name: "Hawaii Pizza", description: "Ananász és sonka egy különleges kombinációban", price: 1700, imageUrl: "placeholder.jpg" },
+  { id: "6", name: "Vegetáriánus Pizza", description: "Friss zöldségek és sajt egy egészséges választás", price: 1400, imageUrl: "placeholder.jpg" },
 ];
 
 // Animated meal card
