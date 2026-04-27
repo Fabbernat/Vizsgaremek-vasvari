@@ -31,14 +31,7 @@ cd react-admin-felulet-akos
 
 
 ### [Prezentáció](https://docs.google.com/presentation/d/1sCbycWzKTGuvTsGm7b6RSliEWNnaCSsBRFpawD3Rd0c/edit?usp=drive_link)
-### [Dokumentáció - Google Docs (jogosultsággal szerkeszthető)](https://docs.google.com/document/d/1ojhwJm34qvML5fOf8i9hJpa355ce6aKP/edit?usp=sharing&ouid=115331407599598307359&rtpof=true&sd=true)
-
-### [Követelményspecifikáció - Google Docs (jogosultsággal szerkeszthető)](https://docs.google.com/document/d/1tTPFeNGFQoAREoPDqRaQL0v3-o-OPWzRQ847onGc3uE/edit?usp=sharing)
-
-### [Részletes követelményleírás - Google Docs jogosultsággal (szerkeszthető)](https://docs.google.com/document/d/1zPlSvUvIQpHnXcfmNSJ8LxzYlk4Uv5YCd-s_0WlF-PM/edit?usp=sharing)
-
-### [Desktop app](https://github.com/fabbernatvasvari/RoyalDelivery-desktop/)
-
+### [Dokumentáció](https://docs.google.com/document/d/1ojhwJm34qvML5fOf8i9hJpa355ce6aKP/edit?usp=sharing&ouid=115331407599598307359&rtpof=true&sd=true)
 ### [Google Drive Mappa, amely mindent tartalmaz](https://drive.google.com/drive/folders/1aNDvjjkcXUT5B-rJQAADJJ4zBr0tpsjz?usp=sharing)
 
 ## Projekt generátor parancsok
