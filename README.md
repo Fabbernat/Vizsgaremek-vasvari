@@ -1,4 +1,4 @@
-# Royal-Delivery
+# Royal Delivery
 ## Telepítés:
 ```powershell
 git clone https://github.com/vizsgaremek-2025-2026-nappali-2-14b/royal-delivery-app-nalhi-gurban-fabian
