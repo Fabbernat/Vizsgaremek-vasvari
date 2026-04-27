@@ -35,7 +35,6 @@ export const updateRestaurant = (id, name, description) =>
 
 // Delete restaurant
 export const deleteRestaurant = (id) => {
-  // first delete dependent meal rows to avoid FOREIGN KEY constraint errors
   deleteMealsByRestaurantId(id);
   return db.prepare(`DELETE FROM restaurants WHERE id = ?`).run(id);
 };

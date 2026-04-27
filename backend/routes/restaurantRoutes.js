@@ -37,7 +37,7 @@ routes.post("/add-restaurant", (req, res) => {
     });
   }
   const restaurant = Restaurants.createRestaurant(name, description);
-  res.status(201).json({ message: "Meal created!", restaurant });
+  res.status(201).json({ message: "Restaurant created!", restaurant });
 });
 
 routes.put("/restaurants/:id", (req, res) => {
@@ -51,7 +51,6 @@ routes.put("/restaurants/:id", (req, res) => {
     +req.params.id,
     name,
     description,
-    // ownerid,
   );
   if (!restaurant) {
     return res.status(404).json({ message: "Restaurant not found!" });

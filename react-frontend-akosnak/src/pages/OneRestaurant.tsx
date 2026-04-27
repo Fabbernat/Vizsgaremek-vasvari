@@ -31,6 +31,9 @@ const OneRestaurant = () => {
   return (
     <Container>
       <h1 className="mt-3">{restaurant.name}</h1>
+      <h3 className="mb-5 text-center" style={{ fontSize: 27 }}>
+        {restaurant.description}
+      </h3>
       <h2 className="mb-5 text-center">
         Choose a meal to <strong>edit</strong> or <strong>add</strong> a new one
       </h2>

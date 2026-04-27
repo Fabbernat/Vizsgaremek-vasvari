@@ -14,16 +14,6 @@ db.prepare(
 `,
 ).run();
 
-// Add available column if it doesn't exist
-try {
-  db.prepare(`ALTER TABLE meals ADD COLUMN available INTEGER DEFAULT 1`).run();
-} catch (e) {
-  // Column already exists
-}
-
-// Add restaurantid column if it doesn't exist
-// db.prepare(`ALTER TABLE meals ADD COLUMN restaurantid INTEGER REFERENCES restaurants(id)`).run();
-
 // Delete meals by restaurant id (used before deleting restaurant)
 export const deleteMealsByRestaurantId = (restaurantId) =>
   db.prepare(`DELETE FROM meals WHERE restaurantid = ?`).run(restaurantId);

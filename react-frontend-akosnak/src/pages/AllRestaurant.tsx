@@ -99,7 +99,7 @@ const AllRestaurant = () => {
 
   const leghtOfTheDescription = (
     description: string | null | undefined,
-    maxLength: number = 150,
+    maxLength: number = 250,
   ): string => {
     if (!description) {
       return "";

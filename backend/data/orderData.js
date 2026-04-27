@@ -7,6 +7,8 @@ db.prepare(
     restaurantid INTEGER,
     userid INTEGER,
     date TEXT,
+    orderedmeal TEXT,
+    payment REAL,
     FOREIGN KEY(restaurantid) REFERENCES restaurants(id),
     FOREIGN KEY(userid) REFERENCES users(id)
     )    
@@ -21,18 +23,27 @@ export const getOrdersById = (id) =>
   db.prepare(`SELECT * FROM orders WHERE id = ?`).get(id);
 
 // Create order
-export const createOrder = (restaurantid, userid, date) =>
-  db
-    .prepare(`INSERT INTO orders restaurantid, userid, date VALUES(?,?,?)`)
-    .run(restaurantid, userid, date);
-
-// Update order
-export const updateOrder = (id, restaurantid, userid, date) =>
+export const createOrder = (restaurantid, userid, date, orderedmeal, payment) =>
   db
     .prepare(
-      `UPDATE orders SET (restaurantid = ?, userid = ?, date = ?) WHERE id = ?`,
+      `INSERT INTO orders (restaurantid, userid, date, orderedmeal, payment) VALUES(?,?,?,?,?)`,
     )
-    .run(restaurantid, userid, date, id);
+    .run(restaurantid, userid, date, JSON.stringify(orderedmeal), payment);
+
+// Update order
+export const updateOrder = (
+  id,
+  restaurantid,
+  userid,
+  date,
+  orderedmeal,
+  payment,
+) =>
+  db
+    .prepare(
+      `UPDATE orders SET restaurantid = ?, userid = ?, date = ?, orderedmeal = ?, payment = ? WHERE id = ?`,
+    )
+    .run(restaurantid, userid, date, JSON.stringify(orderedmeal), payment, id);
 
 // Delete order
 export const deleteOrder = (id) =>

@@ -63,7 +63,7 @@ const RegisterOffcanvas = ({ show, onHide }: RegisterOffcanvasProps) => {
   return (
     <Offcanvas show={show} onHide={onHide} placement="end" data-bs-theme="dark">
       <Offcanvas.Header closeButton>
-        <Offcanvas.Title>Register</Offcanvas.Title>
+        <Offcanvas.Title>Regisztráció</Offcanvas.Title>
       </Offcanvas.Header>
       <Offcanvas.Body className="d-flex flex-column justify-content-start">
         <form
@@ -75,7 +75,7 @@ const RegisterOffcanvas = ({ show, onHide }: RegisterOffcanvasProps) => {
         >
           <div className="mb-3">
             <label htmlFor="register_username" className="d-block mb-2">
-              Username
+              Felhasználónév
             </label>
             <input
               className="w-100 ps-2 LoginInp"
@@ -90,7 +90,7 @@ const RegisterOffcanvas = ({ show, onHide }: RegisterOffcanvasProps) => {
 
           <div className="mb-3">
             <label htmlFor="register_firstName" className="d-block mb-2">
-              First Name
+              Keresztnév
             </label>
             <input
               className="w-100 ps-2 LoginInp"
@@ -105,7 +105,7 @@ const RegisterOffcanvas = ({ show, onHide }: RegisterOffcanvasProps) => {
 
           <div className="mb-3">
             <label htmlFor="register_lastName" className="d-block mb-2">
-              Last Name
+              Vezetéknév
             </label>
             <input
               className="w-100 ps-2 LoginInp"
@@ -135,7 +135,7 @@ const RegisterOffcanvas = ({ show, onHide }: RegisterOffcanvasProps) => {
 
           <div className="mb-3">
             <label htmlFor="register_password" className="d-block mb-2">
-              Password
+              Jelszó
             </label>
             <input
               className="w-100 ps-2 LoginInp"
@@ -149,7 +149,7 @@ const RegisterOffcanvas = ({ show, onHide }: RegisterOffcanvasProps) => {
           </div>
 
           <Button type="submit" className="login-submit-btn w-100">
-            Submit
+            Regisztráció
           </Button>
         </form>
       </Offcanvas.Body>
