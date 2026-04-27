@@ -30,7 +30,7 @@ cd react-admin-felulet-akos
 ## Fontos linkek:
 
 
-### [Prezentáció](https://docs.google.com/document/d/1DTTBgHIsLV9EguguILuk95ncWmmCNuOcWJq_hV0kEDA/edit?usp=drive_link)
+### [Prezentáció](https://docs.google.com/presentation/d/1sCbycWzKTGuvTsGm7b6RSliEWNnaCSsBRFpawD3Rd0c/edit?usp=drive_link)
 ### [Dokumentáció - Google Docs (jogosultsággal szerkeszthető)](https://docs.google.com/document/d/1ojhwJm34qvML5fOf8i9hJpa355ce6aKP/edit?usp=sharing&ouid=115331407599598307359&rtpof=true&sd=true)
 
 ### [Követelményspecifikáció - Google Docs (jogosultsággal szerkeszthető)](https://docs.google.com/document/d/1tTPFeNGFQoAREoPDqRaQL0v3-o-OPWzRQ847onGc3uE/edit?usp=sharing)
