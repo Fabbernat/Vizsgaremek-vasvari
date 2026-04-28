@@ -31,7 +31,7 @@ cd react-admin-felulet-akos
 
 
 ### [Prezentáció](https://docs.google.com/presentation/d/1sCbycWzKTGuvTsGm7b6RSliEWNnaCSsBRFpawD3Rd0c/edit?usp=drive_link)
-### [Dokumentáció](https://docs.google.com/document/d/1ojhwJm34qvML5fOf8i9hJpa355ce6aKP/edit?usp=sharing&ouid=115331407599598307359&rtpof=true&sd=true)
+### [Dokumentáció](https://docs.google.com/document/d/1ojhwJm34qvML5fOf8i9hJpa355ce6aKP/edit?usp=drive_link&ouid=115331407599598307359&rtpof=true&sd=true)
 ### [Google Drive Mappa, amely mindent tartalmaz](https://drive.google.com/drive/folders/1aNDvjjkcXUT5B-rJQAADJJ4zBr0tpsjz?usp=sharing)
 
 ## Projekt generátor parancsok
