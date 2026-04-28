@@ -1,98 +1,198 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Pressable, Image } from "react-native";
+import { Link, router } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
 
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+const categories = [
+  { id: "pizza", name: "Pizza", icon: "pizza-outline" },
+  { id: "burger", name: "Burger", icon: "fast-food-outline" },
+  { id: "sushi", name: "Sushi", icon: "fish-outline" },
+  { id: "dessert", name: "Dessert", icon: "ice-cream-outline" },
+];
+
+const restaurants = [
+  {
+    id: "1",
+    name: "Royal Burger",
+    image: "https://picsum.photos/600/300?1",
+    rating: 4.8,
+    deliveryTime: "25-35 min",
+  },
+  {
+    id: "2",
+    name: "Pizza Palace",
+    image: "https://picsum.photos/600/300?2",
+    rating: 4.5,
+    deliveryTime: "20-30 min",
+  },
+  {
+    id: "3",
+    name: "Sushi World",
+    image: "https://picsum.photos/600/300?3",
+    rating: 4.7,
+    deliveryTime: "30-40 min",
+  },
+];
 
 export default function HomeScreen() {
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+    <View style={styles.container}>
+      
+      {/* HEADER */}
+      <View style={styles.header}>
+        <View>
+          <Text style={styles.locationLabel}>Deliver to</Text>
+          <Text style={styles.location}>Szeged 📍</Text>
+        </View>
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+        <Pressable
+          style={styles.cartButton}
+          onPress={() => router.push("/cart")}
+        >
+          <Ionicons name="cart" size={22} color="white" />
+        </Pressable>
+      </View>
+
+      {/* BIG CATEGORY BAR */}
+      <FlatList
+        data={categories}
+        horizontal
+        keyExtractor={(item) => item.id}
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.categories}
+        renderItem={({ item }) => (
+          <Pressable
+            style={styles.categoryCard}
+            onPress={() => router.push(`/category/${item.id}`)}
+          >
+            <Ionicons name={item.icon as any} size={28} color="white" />
+            <Text style={styles.categoryText}>{item.name}</Text>
+          </Pressable>
+        )}
+      />
+
+      {/* RESTAURANTS */}
+      <FlatList
+        data={restaurants}
+        keyExtractor={(item) => item.id}
+        showsVerticalScrollIndicator={false}
+        renderItem={({ item }) => (
+          <Pressable
+            key={item.id}
+            style={styles.card}
+            onPress={() => router.push(`/restaurant/${item.id}`)}
+          >
+            <Image
+              source={{ uri: item.image }}
+              style={styles.image}
+              resizeMode="cover"
+            />
+
+            <View style={styles.overlay}>
+              <Text style={styles.title}>{item.name}</Text>
+
+              <View style={styles.row}>
+                <Text style={styles.rating}>⭐ {item.rating}</Text>
+                <Text style={styles.time}>{item.deliveryTime}</Text>
+              </View>
+            </View>
+          </Pressable>
+        )}
+      />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+  container: {
+    flex: 1,
+    backgroundColor: "#0f172a",
+    paddingTop: 50,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+
+  header: {
+    paddingHorizontal: 16,
+    marginBottom: 16,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
+
+  locationLabel: {
+    color: "#94a3b8",
+    fontSize: 12,
+  },
+
+  location: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+
+  cartButton: {
+    backgroundColor: "#ef4444",
+    padding: 12,
+    borderRadius: 14,
+  },
+
+  categories: {
+    paddingHorizontal: 16,
+    gap: 12,
+    marginBottom: 16,
+  },
+
+  categoryCard: {
+    backgroundColor: "#1e293b",
+    paddingVertical: 18,
+    paddingHorizontal: 22,
+    borderRadius: 16,
+    alignItems: "center",
+    justifyContent: "center",
+    minWidth: 100,
+  },
+
+  categoryText: {
+    color: "white",
+    marginTop: 6,
+    fontWeight: "600",
+  },
+
+  card: {
+    marginHorizontal: 16,
+    marginBottom: 18,
+    borderRadius: 18,
+    overflow: "hidden",
+  },
+
+  image: {
+    width: "100%",
+    height: 220, // ✅ capped under 250
+  },
+
+  overlay: {
+    position: "absolute",
     bottom: 0,
-    left: 0,
-    position: 'absolute',
+    width: "100%",
+    padding: 12,
+    backgroundColor: "rgba(0,0,0,0.55)",
+  },
+
+  title: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+
+  row: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 4,
+  },
+
+  rating: {
+    color: "#facc15",
+  },
+
+  time: {
+    color: "#e2e8f0",
   },
 });
