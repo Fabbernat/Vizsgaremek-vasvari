@@ -1,7 +1,20 @@
 {
-  "name": "client-app",
-  "main": "expo-router/entry",
+  "name": "x",
   "version": "1.0.0",
+  "private": true,
+  "description": "This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).",
+  "homepage": "https://github.com/vizsgaremek-2025-2026-nappali-2-14b/royal-delivery-app-nalhi-gurban-fabian#readme",
+  "bugs": {
+    "url": "https://github.com/vizsgaremek-2025-2026-nappali-2-14b/royal-delivery-app-nalhi-gurban-fabian/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vizsgaremek-2025-2026-nappali-2-14b/royal-delivery-app-nalhi-gurban-fabian.git"
+  },
+  "license": "ISC",
+  "author": "Bernát Fábián",
+  "type": "commonjs",
+  "main": "expo-router/entry",
   "scripts": {
     "start": "expo start",
     "reset-project": "node ./scripts/reset-project.js",
@@ -61,6 +74,5 @@
     "psql": "^0.0.1",
     "supabase": "^2.90.0",
     "typescript": "~5.9.2"
-  },
-  "private": true
+  }
 }
