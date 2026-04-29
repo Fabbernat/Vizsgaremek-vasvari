@@ -1,4 +1,4 @@
-import { StrictMode } from "react";
+import { StrictMode, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Slide, ToastContainer } from "react-toastify";
@@ -18,10 +18,12 @@ import AddRestaurant from "./pages/AddRestaurant";
 import NotFoundPage from "./pages/NotFound";
 import UserList from "./pages/UserList";
 
-createRoot(document.getElementById("root")!).render(
-  <StrictMode>
+const App = () => {
+  const [showLogin, setShowLogin] = useState(false);
+
+  return (
     <BrowserRouter>
-      <MyNavbar />
+      <MyNavbar showLogin={showLogin} setShowLogin={setShowLogin} />
 
       <div className="routes-container">
         <Routes>
@@ -39,9 +41,14 @@ createRoot(document.getElementById("root")!).render(
         </Routes>
       </div>
 
-      <Footer />
+      <Footer setShowLogin={setShowLogin} />
     </BrowserRouter>
+  );
+};
 
+createRoot(document.getElementById("root")!).render(
+  <StrictMode>
+    <App />
     <ToastContainer
       position="bottom-left"
       autoClose={3000}

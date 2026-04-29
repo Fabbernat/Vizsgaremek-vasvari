@@ -5,8 +5,12 @@ import userAuth from "../hook/UserAuth";
 import LoginOffcanvas from "./LoginOffcanvas";
 import RegisterOffcanvas from "./RegisterOffcanvas";
 
-const MyNavbar = () => {
-  const [showLogin, setShowLogin] = useState(false);
+interface MyNavbarProps {
+  showLogin: boolean;
+  setShowLogin: (show: boolean) => void;
+}
+
+const MyNavbar = ({ showLogin, setShowLogin }: MyNavbarProps) => {
   const [showRegister, setShowRegister] = useState(false);
   const navigate = useNavigate();
   const { isLoggedIn, username } = userAuth();
@@ -35,16 +39,52 @@ const MyNavbar = () => {
 
           <Navbar.Collapse className="justify-content-end">
             <Nav className="me-auto">
-              <Nav.Link as={Link} to="/restaurants">
+              <Nav.Link
+                as={Link}
+                to="/restaurants"
+                onClick={(e) => {
+                  if (!isLoggedIn) {
+                    e.preventDefault();
+                    setShowLogin(true);
+                  }
+                }}
+              >
                 Éttermek
               </Nav.Link>
-              <Nav.Link as={Link} to="/meals">
+              <Nav.Link
+                as={Link}
+                to="/meals"
+                onClick={(e) => {
+                  if (!isLoggedIn) {
+                    e.preventDefault();
+                    setShowLogin(true);
+                  }
+                }}
+              >
                 Ételek
               </Nav.Link>
-              <Nav.Link as={Link} to="/orders">
+              <Nav.Link
+                as={Link}
+                to="/orders"
+                onClick={(e) => {
+                  if (!isLoggedIn) {
+                    e.preventDefault();
+                    setShowLogin(true);
+                  }
+                }}
+              >
                 Rendelések
               </Nav.Link>
-              <Nav.Link as={Link} to="/users">
+              <Nav.Link
+                as={Link}
+                to="/users"
+                onClick={(e) => {
+                  if (!isLoggedIn) {
+                    e.preventDefault();
+                    setShowLogin(true);
+                  }
+                }}
+              >
                 Felhasználók
               </Nav.Link>
             </Nav>
