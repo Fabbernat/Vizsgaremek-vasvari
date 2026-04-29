@@ -1,14 +1,28 @@
 # Royal Delivery
+
 ## Telepítés:
 ```powershell
 git clone https://github.com/vizsgaremek-2025-2026-nappali-2-14b/royal-delivery-app-nalhi-gurban-fabian
 cd royal-delivery-app-nalhi-gurban-fabian
 ```
+
 ### `mobile` mappa
 ```powershell
 cd mobile
 cd client-app
 npm i
+```
+
+##### Supabase backend hozzákapcsolása
+```powershell
+npm install supabase --save-dev
+npx supabase init
+npx supabase start
+npx supabase link --project-ref uqusahmtbaypepskpxxa
+```
+
+##### Elindítás
+```powershell
 npx expo start
 ```
 
