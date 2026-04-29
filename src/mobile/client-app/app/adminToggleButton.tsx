@@ -1,8 +1,8 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { router } from "expo-router";
-import { supabase } from "@/supabase";
 import { Ionicons } from "@expo/vector-icons";
 import Toast from "react-native-toast-message";
+import { supabase } from "@/supabase";
 
 type Props = {
   style?: any;
