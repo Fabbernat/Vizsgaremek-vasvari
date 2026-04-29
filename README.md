@@ -47,7 +47,7 @@ cd react-admin-felulet-akos
 ### [Prezentáció](https://docs.google.com/presentation/d/1sCbycWzKTGuvTsGm7b6RSliEWNnaCSsBRFpawD3Rd0c/edit?usp=drive_link)
 ### [Dokumentáció](https://docs.google.com/document/d/1ojhwJm34qvML5fOf8i9hJpa355ce6aKP/edit?usp=drive_link&ouid=115331407599598307359&rtpof=true&sd=true)
 ### [Adatbázis-diagram](https://dbdiagram.io/d/Royal-Delivery-69c139edfb2db18e3be1be82)
-### [Az adatbázis export fájlja (dump)]()
+### [Az adatbázis export fájlja (dump)](https://www.google.com/search?q=how+to+create+a+refreshable+supabase+export+dump%3F&sca_esv=09c971a9c1a6e973&rlz=1C1GCEA_enHU1182HU1182&sxsrf=ANbL-n69mBWkOwbezxiVpnDXPJEgWkeC7Q%3A1777473815662&udm=50&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpV6Bbbmx4QVaoKkiRQ2jlwvCHF0Eqz8cUq4JjDCZnrJEJPua1MxnlJWIzg-ca3uHtcuA-CyYyXTIDPSeMBfznUFRyejet8H6aatoxNtF2UYN14QOQy7_TIBTpG1q3mMutJjS6sPSSRzVPOlc1NeciqwPRqAXe1q9wXbXGprxKpKSgCy2d&aep=1&ntc=1&sa=X&ved=2ahUKEwib84T7pZOUAxWq5AIHHQVfDqoQ2J8OegQIDhAI&biw=1920&bih=1073&dpr=1&mstk=AUtExfDuk2LJOjjvQ7i_DUsmZmY3_oWK1lAGz_H9X1VPiZw6quVPVZXkb0jDr9_K7CDk4LQXiaH-ds5MaiK0U4nxGpSDeaxg9C5Gemc6ImYTOpdTGmOILNQ4GYJe39Bej8QxoBvBczc3d8CL3RLRPWx7rYOqhpEv7WihTCm3Pmjb3DI7sM-4z-mkIfywxTVTwBoYRDDZ6HLVQP4KZUWCq_KymOjvFUEPbLVWEUi11hHlkEemtValOzypgUwNf5V5-wl9188Nza1yVY-DL_oOTzzKYbTyvc5Knn8nP59i_Y_5kOaN2M9lmgQ9MXZcohnGyboQcPSvYK0-HYJeX8qTJDwLQOkpShG733E2fA&csuir=1&mtid=GRnyacXDIsSOi-gPqo_EwAc)
 ### [Google Drive Mappa, amely mindent tartalmaz](https://drive.google.com/drive/folders/1aNDvjjkcXUT5B-rJQAADJJ4zBr0tpsjz?usp=sharing)
 
 ## Projekt generátor parancsok
