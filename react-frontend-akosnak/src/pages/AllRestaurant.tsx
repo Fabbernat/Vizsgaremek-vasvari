@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "../styles/AllRestaurantStyle.css";
 import type { Restaurant } from "../types/Restaurant.ts";
 import apiClient from "../api/apiClient.ts";
@@ -10,6 +10,8 @@ import {
   Row,
   Col,
   Button,
+  OverlayTrigger,
+  Tooltip,
   Modal,
   Offcanvas,
   Alert,
@@ -18,6 +20,7 @@ import {
 import TestImg from "./good-food.jpg";
 import { toast } from "react-toastify";
 import SearchBar from "../components/SearchBar.tsx";
+import AddRestaurantModal from "../components/AddRestaurantModal.tsx";
 
 const AllRestaurant = () => {
   const [restaurants, setRestaurants] = useState<Array<Restaurant>>([]);
@@ -30,6 +33,7 @@ const AllRestaurant = () => {
   const [editingRestaurant, setEditingRestaurant] = useState<Restaurant | null>(
     null,
   );
+  const [showAddModal, setShowAddModal] = useState(false);
 
   const filteredRestaurants = restaurants.filter((restaurant) => {
     const lowerQuery = searchTerm.toLowerCase();
@@ -40,7 +44,6 @@ const AllRestaurant = () => {
 
     return name.includes(lowerQuery) || description.includes(lowerQuery);
   });
-  const navigate = useNavigate();
 
   const handleOpenDeleteModal = (restaurant: Restaurant) => {
     setRestaurantToDelete(restaurant);
@@ -208,13 +211,45 @@ const AllRestaurant = () => {
           ))}
         </Row>
 
-        <Button
-          variant="info"
-          onClick={() => navigate(`/add-restaurant`)}
-          className="mt-5 mb-5 w-100 w-md-50 mx-auto d-block"
+        <Col xs={12} sm={6} md={4}>
+          <OverlayTrigger
+            overlay={<Tooltip className="mb-2 OvrlayTrgr">Új Étterem</Tooltip>}
+          >
+            <Button
+              variant="success"
+              className="d-flex align-items-center justify-content-center FloatBtn"
+              onClick={() => setShowAddModal(true)}
+            >
+              <i className="bi bi-plus-lg"></i>
+            </Button>
+          </OverlayTrigger>
+        </Col>
+
+        <Modal
+          size="lg"
+          show={showAddModal}
+          onHide={() => setShowAddModal(false)}
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+          data-bs-theme="dark"
         >
-          Add Restaurant
-        </Button>
+          <Modal.Header closeButton>
+            <Modal.Title id="contained-modal-title-vcenter">
+              Új étterem hozzáadása
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <AddRestaurantModal
+              onSuccess={() => {
+                setShowAddModal(false);
+                apiClient
+                  .get("/restaurants")
+                  .then((response) => setRestaurants(response.data))
+                  .catch((error) => console.error(error));
+              }}
+            />
+          </Modal.Body>
+        </Modal>
 
         <Modal
           show={showDeleteModal}
