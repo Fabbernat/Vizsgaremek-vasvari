@@ -46,7 +46,11 @@ cd react-admin-felulet-akos
 
 ### [Prezentáció](https://docs.google.com/presentation/d/1sCbycWzKTGuvTsGm7b6RSliEWNnaCSsBRFpawD3Rd0c/edit?usp=drive_link)
 ### [Dokumentáció](https://docs.google.com/document/d/1ojhwJm34qvML5fOf8i9hJpa355ce6aKP/edit?usp=drive_link&ouid=115331407599598307359&rtpof=true&sd=true)
-### [Google Drive Mappa, amely mindent tartalmaz](https://drive.google.com/drive/folders/1aNDvjjkcXUT5B-rJQAADJJ4zBr0tpsjz?usp=sharing)
+### [Adatbázis-diagram](https://dbdiagram.io/d/Royal-Delivery-69c139edfb2db18e3be1be82)
+### [Az adatbázis export fájlja (dump)](https://supabase.com/dashboard/project/uqusahmtbaypepskpxxa/editor/34169?schema=public)
+Ezt úgy kell, hogy 
+
+-> menj fel a https://supabase.com/dashboard/project/uqusahmtbaypepskpxxa/editor/34169?schema=public oldalra -> Katt a tábla nevére a bal oldali panelen -> katt a 3 pöttyre -> Export data -> Export table as SQL
 
 ## Projekt generátor parancsok
 React projekt generátor parancs:
