@@ -49,7 +49,8 @@ cd react-admin-felulet-akos
 ### [Adatbázis-diagram](https://dbdiagram.io/d/Royal-Delivery-69c139edfb2db18e3be1be82)
 ### [Az adatbázis export fájlja (dump)](https://supabase.com/dashboard/project/uqusahmtbaypepskpxxa/editor/34169?schema=public)
 Ezt úgy kell, hogy 
--> https://supabase.com/dashboard/project/uqusahmtbaypepskpxxa/editor/34169?schema=public -> Katt a tábla nevére a bal oldali panelen -> katt a 3 pöttyre -> Export data -> Export table as SQL
+
+-> menj fel a https://supabase.com/dashboard/project/uqusahmtbaypepskpxxa/editor/34169?schema=public oldalra -> Katt a tábla nevére a bal oldali panelen -> katt a 3 pöttyre -> Export data -> Export table as SQL
 
 ## Projekt generátor parancsok
 React projekt generátor parancs:
