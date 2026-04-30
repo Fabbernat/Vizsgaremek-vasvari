@@ -14,7 +14,6 @@ import OneMeal from "./pages/OneMeal";
 import EditMeal from "./pages/EditMeal";
 import AddMeal from "./pages/AddMeal";
 import HomePage from "./pages/Home";
-import AddRestaurant from "./pages/AddRestaurant";
 import NotFoundPage from "./pages/NotFound";
 import UserList from "./pages/UserList";
 
@@ -30,7 +29,6 @@ const App = () => {
           <Route path="/" element={<HomePage />} />
           <Route path="/restaurants" element={<AllRestaurant />} />
           <Route path="/restaurants/:id" element={<OneRestaurant />} />
-          <Route path="/add-restaurant" element={<AddRestaurant />} />
           <Route path="/meals" element={<AllMeal />} />
           <Route path="/meals/:id" element={<OneMeal />} />
           <Route path="/meals/:id/edit" element={<EditMeal />} />
