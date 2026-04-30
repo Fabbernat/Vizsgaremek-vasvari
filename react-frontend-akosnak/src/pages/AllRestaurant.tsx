@@ -17,10 +17,10 @@ import {
   Alert,
 } from "react-bootstrap";
 
-import TestImg from "./good-food.jpg";
 import { toast } from "react-toastify";
 import SearchBar from "../components/SearchBar.tsx";
 import AddRestaurantModal from "../components/AddRestaurantModal.tsx";
+import UploadPhoto from "../components/UploadPhoto.tsx";
 
 const AllRestaurant = () => {
   const [restaurants, setRestaurants] = useState<Array<Restaurant>>([]);
@@ -196,13 +196,44 @@ const AllRestaurant = () => {
                   className="card-link"
                   style={{ textDecoration: "none", color: "inherit" }}
                 >
-                  <Card.Img variant="top" src={TestImg} />
+                  {r.imageurl ? (
+                    <Card.Img
+                      variant="top"
+                      src={
+                        r.imageurl.startsWith("/uploads")
+                          ? `http://localhost:3000${r.imageurl}`
+                          : r.imageurl
+                      }
+                      alt={r.name}
+                      style={{
+                        height: "200px",
+                        width: "100%",
+                        objectFit: "contain",
+                        backgroundColor: "#111",
+                        borderTopLeftRadius: "20px",
+                        borderTopRightRadius: "20px",
+                      }}
+                    />
+                  ) : (
+                    <div
+                      style={{
+                        height: "200px",
+                        background: "#222",
+                        color: "#fff",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      Nincs kép
+                    </div>
+                  )}
                   <Card.Body className="RestCardBody">
                     <Card.Title>
                       <strong>{r.name}</strong>
                     </Card.Title>
                     <Card.Text>
-                      {leghtOfTheDescription(r.description, 50)}
+                      {leghtOfTheDescription(r.description, 150)}
                     </Card.Text>
                   </Card.Body>
                 </Link>
@@ -319,7 +350,24 @@ const AllRestaurant = () => {
                     />
                   </div>
                 </div>
-                <Button variant="primary" type="submit">
+
+                {editingRestaurant && (
+                  <div className="mt-4">
+                    <label htmlFor="photo" className="form-label">
+                      Étterm fotó feltöltése
+                    </label>
+                    <UploadPhoto
+                      restaurantId={editingRestaurant.id}
+                      onUploadSuccess={() => {
+                        apiClient
+                          .get("/restaurants")
+                          .then((response) => setRestaurants(response.data))
+                          .catch((error) => console.error(error));
+                      }}
+                    />
+                  </div>
+                )}
+                <Button variant="primary" type="submit" className="mt-3">
                   Étterem frissítése
                 </Button>
               </form>
