@@ -6,6 +6,7 @@ import multer from "multer";
 import mealRoutes from "./routes/mealRoutes.js";
 import restaurantRoutes from "./routes/restaurantRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import orderRoutes from "./routes/orderRoutes.js";
 import db from "./data/db.js";
 
 const app = express();
@@ -64,6 +65,7 @@ app.post("/upload-photo", upload.single("photo"), async (req, res) => {
 app.use("/", mealRoutes);
 app.use("/", restaurantRoutes);
 app.use("/", userRoutes);
+app.use("/", orderRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

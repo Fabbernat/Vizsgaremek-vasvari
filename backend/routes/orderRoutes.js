@@ -1,4 +1,5 @@
 import express from "express";
+import * as Orders from "../data/orderData.js";
 
 const route = express.Router();
 
@@ -56,3 +57,5 @@ route.delete("/orders/:id", (req, res) => {
   const order = Orders.deleteOrder(+req.params.id);
   res.status(200).json({ message: "Order deleted!", order });
 });
+
+export default route;

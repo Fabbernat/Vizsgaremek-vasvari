@@ -117,16 +117,55 @@ const toggleCart = () => {
   showCart.value = !showCart.value
 }
 
-const placeOrder = () => {
+const placeOrder = async () => {
   const token = sessionStorage.getItem("token")
 
   if (!token) {
     openModal()
   } else {
     console.log("RENDELÉS:", delivery.cart)
+    const user_id = sessionStorage.getItem("user_id")
+    const mealList = []
+    delivery.cart.map((data) => {
+      console.log('data', data);    
+        for (let i = 0; i < data.quantity; i++) {
+          mealList.push(data.id)
+        }
+    })
 
+    const payload = {
+      userid: user_id,
+      restaurantid: delivery.cart[0].restaurantid, 
+      date: new Date(Date.now()),
+      orderedmeal: mealList, 
+      payment: delivery.totalPrice,
+    }
+    console.log(payload);
+    
+    try {
+    const submitData = await fetch("http://localhost:3000/add-order", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    })
 
-    alert("Rendelés leadva!")
+    if (submitData?.status === 201) {
+      const resp = await submitData.json()
+
+      sessionStorage.setItem("token", resp.token)
+
+      notify.notify("Sikeres rendelés leadás!", "success")
+
+      modal.close()
+    } else {
+      const resp = await submitData.json()
+      notify.notify(resp.message ?? "Hiba történt!", "error")
+    }
+  } catch (err) {
+    notify.notify("Hálózati hiba!", "error")
+  }
 
     delivery.cart = [] 
     showCart.value = false

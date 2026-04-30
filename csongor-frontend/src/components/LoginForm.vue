@@ -51,6 +51,8 @@ const onSubmit = async () => {
       const resp = await submitData.json()
 
       sessionStorage.setItem("token", resp.token)
+      sessionStorage.setItem("username", resp.username)
+      sessionStorage.setItem("user_id", resp.user_id)
 
       window.dispatchEvent(new Event("login-success"))
 
