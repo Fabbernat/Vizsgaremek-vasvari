@@ -14,6 +14,7 @@ import {
 } from "react-native";
 import Toast from "react-native-toast-message";
 import { addToGuestCart } from "./cartStore";
+import { useMeals } from "./useMeals";
 
 const COLORS = {
   bg: "#0f0e0c",
@@ -204,7 +205,8 @@ function MealCard({ item, index, onAddToCart }: any) {
 
 // ── Screen ───────────────────────────────────────────────
 export default function MealsScreen() {
-  const [meals, setMeals] = useState<any[]>([]);
+  const { meals, loading, error } = useMeals();
+  const [inMemoryMeals, setMeals] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
 const [activeFilter, setActiveFilter] = useState<string | null>(null);
 const [sortOption, setSortOption] = useState<"none" | "priceAsc" | "priceDesc" | "name">("none");
@@ -223,7 +225,7 @@ const [sortOption, setSortOption] = useState<"none" | "priceAsc" | "priceDesc" |
     });
   };
 
-  const filteredMeals = meals
+  const filteredMeals = meals // vagy inmemoryMeals
   .filter((meal) => {
     const query = searchQuery.toLowerCase();
 

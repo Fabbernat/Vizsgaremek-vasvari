@@ -1,3 +1,4 @@
+// client-app\app\+not-found.tsx
 import { View, Text, Pressable } from 'react-native';
 import { router } from 'expo-router';
 

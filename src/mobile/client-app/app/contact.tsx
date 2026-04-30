@@ -1,3 +1,4 @@
+// client-app\app\contact.tsx
 import { View, Text } from "react-native";
 
 export default function Contact() {

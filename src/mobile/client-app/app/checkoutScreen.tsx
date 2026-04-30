@@ -1,4 +1,5 @@
-import { useState, useRef,} from "react";
+// client-app\app\checkoutScreen.tsx
+import { useState, useRef } from "react";
 import {
   Text,
   TextInput,
@@ -8,6 +9,7 @@ import {
   Animated,
   StyleSheet,
   Image,
+  Alert,
 } from "react-native";
 import { router } from "expo-router";
 
@@ -41,9 +43,17 @@ function AnimatedInput({
   const borderAnim = useRef(new Animated.Value(0)).current;
 
   const handleFocus = () =>
-    Animated.timing(borderAnim, { toValue: 1, duration: 200, useNativeDriver: false }).start();
+    Animated.timing(borderAnim, {
+      toValue: 1,
+      duration: 200,
+      useNativeDriver: false,
+    }).start();
   const handleBlur = () =>
-    Animated.timing(borderAnim, { toValue: 0, duration: 200, useNativeDriver: false }).start();
+    Animated.timing(borderAnim, {
+      toValue: 0,
+      duration: 200,
+      useNativeDriver: false,
+    }).start();
 
   const borderColor = borderAnim.interpolate({
     inputRange: [0, 1],
@@ -92,6 +102,80 @@ export default function CheckoutScreen() {
   const [cardNumber, setCardNumber] = useState("");
   const [expiry, setExpiry] = useState("");
   const [cvv, setCvv] = useState("");
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const validateForm = () => {
+    const newErrors: Record<string, string> = {};
+
+    if (!name) newErrors.name = "Kötelező mező";
+    if (!email) newErrors.email = "Kötelező mező";
+    if (!phone) newErrors.phone = "Kötelező mező";
+    if (!zip) newErrors.zip = "Kötelező mező";
+    if (!city) newErrors.city = "Kötelező mező";
+    if (!street) newErrors.street = "Kötelező mező";
+    if (!streetType) newErrors.streetType = "Kötelező mező";
+    if (!houseNumber) newErrors.houseNumber = "Kötelező mező";
+
+    const emailRegex = /\S+@\S+\.\S+/;
+    if (email && !emailRegex.test(email)) {
+      newErrors.email = "Érvénytelen e-mail";
+    }
+
+    if (phone && phone.length < 8) {
+      newErrors.phone = "Túl rövid telefonszám";
+    }
+
+    if (zip && !/^\d{4}$/.test(zip)) {
+      newErrors.zip = "4 számjegy szükséges";
+    }
+
+    if (!/^\d{16}$/.test(cardNumber.replace(/\s/g, ""))) {
+      newErrors.cardNumber = "16 számjegy";
+    }
+
+    if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(expiry)) {
+      newErrors.expiry = "MM/YY formátum";
+    }
+
+    if (!/^\d{3,4}$/.test(cvv)) {
+      newErrors.cvv = "3-4 számjegy";
+    }
+
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length > 0) {
+      Alert.alert("Hibás adatok", "Kérlek javítsd a pirossal jelölt mezőket.");
+      return false;
+    }
+
+    return true;
+  };
+
+  const formatCardNumber = (value: string) => {
+    const cleaned = value.replace(/\D/g, "").slice(0, 16);
+    const groups = cleaned.match(/.{1,4}/g);
+    return groups ? groups.join(" ") : cleaned;
+  };
+
+  const formatExpiry = (value: string) => {
+    const cleaned = value.replace(/\D/g, "").slice(0, 4);
+
+    if (cleaned.length <= 2) return cleaned;
+    return cleaned.slice(0, 2) + "/" + cleaned.slice(2);
+  };
+
+  const isFormValid =
+    name &&
+    email &&
+    phone &&
+    zip &&
+    city &&
+    street &&
+    streetType &&
+    houseNumber &&
+    /^\d{16}$/.test(cardNumber.replace(/\s/g, "")) &&
+    /^(0[1-9]|1[0-2])\/\d{2}$/.test(expiry) &&
+    /^\d{3,4}$/.test(cvv);
 
   return (
     <ScrollView
@@ -106,17 +190,28 @@ export default function CheckoutScreen() {
 
       {/* Brand */}
       <View style={styles.brandRow}>
-        <Image source={require("../assets/mine/icons/rd-logo.png")}  style={styles.crown} />
+        <Image
+          source={require("../assets/mine/icons/rd-logo.png")}
+          style={styles.crown}
+        />
         <Text style={styles.brandName}>Royal Delivery</Text>
       </View>
 
       <Text style={styles.heading}>Számlázási{"\n"}adatok</Text>
-      <Text style={styles.subheading}>Töltsd ki az alábbi mezőket a rendeléshez</Text>
+      <Text style={styles.subheading}>
+        Töltsd ki az alábbi mezőket a rendeléshez
+      </Text>
 
       {/* Personal info */}
       <View style={styles.card}>
         <SectionHeader icon="👤" title="Személyes adatok" />
-        <AnimatedInput value={name} onChangeText={setName} placeholder="Teljes név" icon="✏️" />
+        <AnimatedInput
+          value={name}
+          onChangeText={setName}
+          placeholder="Teljes név"
+          icon="✏️"
+        />
+        {errors.name && <Text style={styles.error}>{errors.name}</Text>}
         <AnimatedInput
           value={email}
           onChangeText={setEmail}
@@ -124,6 +219,7 @@ export default function CheckoutScreen() {
           icon="✉️"
           keyboardType="email-address"
         />
+        {errors.email && <Text style={styles.error}>{errors.email}</Text>}
         <AnimatedInput
           value={phone}
           onChangeText={setPhone}
@@ -131,6 +227,7 @@ export default function CheckoutScreen() {
           icon="📞"
           keyboardType="phone-pad"
         />
+        {errors.phone && <Text style={styles.error}>{errors.phone}</Text>}
       </View>
 
       {/* Address */}
@@ -147,7 +244,12 @@ export default function CheckoutScreen() {
             />
           </View>
           <View style={{ flex: 2 }}>
-            <AnimatedInput value={city} onChangeText={setCity} placeholder="Település" icon="🏙️" />
+            <AnimatedInput
+              value={city}
+              onChangeText={setCity}
+              placeholder="Település"
+              icon="🏙️"
+            />
           </View>
         </View>
         <AnimatedInput
@@ -187,19 +289,23 @@ export default function CheckoutScreen() {
         <SectionHeader icon="💳" title="Bankkártya adatok" />
         <AnimatedInput
           value={cardNumber}
-          onChangeText={setCardNumber}
+          onChangeText={(v) => setCardNumber(formatCardNumber(v))}
           placeholder="Kártyaszám"
           icon="💳"
           keyboardType="numeric"
         />
+        {errors.cardNumber && (
+          <Text style={styles.error}>{errors.cardNumber}</Text>
+        )}
         <View style={styles.row}>
           <View style={{ flex: 1 }}>
             <AnimatedInput
               value={expiry}
-              onChangeText={setExpiry}
-              placeholder="Lejárat (hó/év)"
+              onChangeText={(v) => setExpiry(formatExpiry(v))}
+              placeholder="Lejárat (MM/YY)"
               icon="📅"
             />
+            {errors.expiry && <Text style={styles.error}>{errors.expiry}</Text>}
           </View>
           <View style={{ flex: 1 }}>
             <AnimatedInput
@@ -210,14 +316,57 @@ export default function CheckoutScreen() {
               secureTextEntry
               keyboardType="numeric"
             />
+            {errors.cvv && <Text style={styles.error}>{errors.cvv}</Text>}
           </View>
         </View>
       </View>
 
+      <Pressable
+        onPress={() => {
+          setName("Teszt Elek");
+          setEmail("teszt@pelda.hu");
+          setPhone("06301234567");
+          setZip("6720");
+          setCity("Szeged");
+          setStreet("Kossuth Lajos");
+          setStreetType("utca");
+          setHouseNumber("12");
+          setExtra("2/5");
+          setCardNumber("4242424242424242");
+          setExpiry("12/30");
+          setCvv("123");
+        }}
+        style={({ pressed }) => [
+          {
+            backgroundColor: COLORS.surface,
+            borderWidth: 1,
+            borderColor: COLORS.border,
+            borderRadius: 12,
+            paddingVertical: 12,
+            alignItems: "center",
+            marginBottom: 10,
+            opacity: pressed ? 0.7 : 1,
+          },
+        ]}
+      >
+        <Text style={{ color: COLORS.text, fontWeight: "600" }}>
+          Kitöltés teszt adatokkal
+        </Text>
+      </Pressable>
+
       {/* Pay button */}
       <Pressable
-        onPress={() => router.push("/payingScreen")}
-        style={({ pressed }) => [styles.payBtn, pressed && styles.btnPressed]}
+        onPress={() => {
+          if (validateForm()) {
+            router.push("/payingScreen");
+          }
+        }}
+        style={({ pressed }) => [
+          styles.payBtn,
+          !isFormValid && { opacity: 0.4 },
+          pressed && styles.btnPressed,
+        ]}
+        disabled={!isFormValid}
       >
         <Text style={styles.payBtnText}>Fizetés →</Text>
         <Text style={styles.payBtnSub}>Biztonságos fizetési folyamat</Text>
@@ -225,7 +374,9 @@ export default function CheckoutScreen() {
 
       {/* Safety note */}
       <View style={styles.safetyRow}>
-        <Text style={styles.safetyText}>🔒  Adataid titkosítva kerülnek továbbításra</Text>
+        <Text style={styles.safetyText}>
+          🔒 Adataid titkosítva kerülnek továbbításra
+        </Text>
       </View>
     </ScrollView>
   );
@@ -238,13 +389,24 @@ const styles = StyleSheet.create({
   backBtn: { paddingTop: 20, paddingBottom: 8 },
   backText: { color: COLORS.muted, fontSize: 15, fontWeight: "500" },
 
-  brandRow: { flexDirection: "row", alignItems: "center", gap: 8, marginBottom: 28, marginTop: 8 },
+  brandRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    marginBottom: 28,
+    marginTop: 8,
+  },
   crown: {
-  width: 100,
-  height: 100,
-  resizeMode: "contain",
-},
-  brandName: { fontSize: 16, fontWeight: "700", color: COLORS.gold, letterSpacing: 0.5 },
+    width: 100,
+    height: 100,
+    resizeMode: "contain",
+  },
+  brandName: {
+    fontSize: 16,
+    fontWeight: "700",
+    color: COLORS.gold,
+    letterSpacing: 0.5,
+  },
 
   heading: {
     fontSize: 38,
@@ -276,7 +438,12 @@ const styles = StyleSheet.create({
     borderBottomColor: COLORS.border,
   },
   sectionIcon: { fontSize: 16 },
-  sectionTitle: { fontSize: 15, fontWeight: "700", color: COLORS.gold, letterSpacing: 0.2 },
+  sectionTitle: {
+    fontSize: 15,
+    fontWeight: "700",
+    color: COLORS.gold,
+    letterSpacing: 0.2,
+  },
 
   inputWrapper: {
     flexDirection: "row",
@@ -290,7 +457,12 @@ const styles = StyleSheet.create({
   },
   inputIcon: { fontSize: 15 },
   input: { flex: 1, fontSize: 15, color: COLORS.text, padding: 0 },
-  inputFilledDot: { width: 7, height: 7, borderRadius: 4, backgroundColor: COLORS.gold },
+  inputFilledDot: {
+    width: 7,
+    height: 7,
+    borderRadius: 4,
+    backgroundColor: COLORS.gold,
+  },
 
   row: { flexDirection: "row", gap: 10 },
 
@@ -319,4 +491,10 @@ const styles = StyleSheet.create({
 
   safetyRow: { alignItems: "center", marginBottom: 8 },
   safetyText: { fontSize: 13, color: COLORS.muted },
+  error: {
+    color: "#ff6b6b",
+    fontSize: 12,
+    marginTop: -6,
+    marginBottom: 4,
+  },
 });

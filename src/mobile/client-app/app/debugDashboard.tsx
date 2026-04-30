@@ -1,3 +1,4 @@
+// client-app\app\debugDashboard.tsx
 import React, { useEffect, useState } from "react";
 import { View, Text, ScrollView } from "react-native";
 import { supabase } from "@/supabase";
