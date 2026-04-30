@@ -1,3 +1,4 @@
+// client-app\app\homeScreen.tsx
 import {
   Image,
   View,
@@ -17,6 +18,7 @@ import Cart from "./cartIconButton";
 import { Meal } from "./models/meal";
 import ProfileIconButton from "./profileIconButton";
 import { useGlobalAuth , setGlobalIsLoggedIn } from "./authStore";
+import { addToGuestCart } from "./cartStore";
 
 import Toast from "react-native-toast-message";
 
@@ -44,8 +46,7 @@ const fallbackData = [
 ];
 
 // Animated meal card
-export function MealCard({ item, index }: { item: any; index: number }) {
-  const fadeAnim = useRef(new Animated.Value(0)).current;
+export function MealCard({ item, index, onAddToCart }: { item: any; index: number; onAddToCart: (name: string) => void }) {  const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(24)).current;
   const scaleAnim = useRef(new Animated.Value(1)).current;
 
@@ -113,6 +114,18 @@ export function MealCard({ item, index }: { item: any; index: number }) {
 
         {/* Gold accent line */}
         <View style={HomeScreenStyles.cardAccent} />
+        <Pressable
+  onPress={() => {
+    addToGuestCart(item);
+    onAddToCart(item.name);
+  }}
+  style={({ pressed }) => [
+    HomeScreenStyles.cartBtn,
+    pressed && { opacity: 0.8, transform: [{ scale: 0.97 }] },
+  ]}
+>
+  <Text style={HomeScreenStyles.cartBtnText}>+ Kosárba</Text>
+</Pressable>
       </Pressable>
     </Animated.View>
   );
@@ -165,6 +178,14 @@ export default function HomeScreen() {
       });
     }
   };
+
+  const showToast = (itemName: string) => {
+  Toast.show({
+    type: "success",
+    text1: "Siker!",
+    text2: `1 db ${itemName} sikeresen a kosárba rakva!`,
+  });
+};
 
   return (
     <View style={HomeScreenStyles.root}>
@@ -236,7 +257,7 @@ export default function HomeScreen() {
             </View>
           }
           renderItem={({ item, index }) => (
-            <MealCard item={item} index={index} />
+  <MealCard item={item} index={index} onAddToCart={showToast} />
           )}
         />
       )}
@@ -550,4 +571,17 @@ export const HomeScreenStyles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
     },
+    cartBtn: {
+  marginHorizontal: 12,
+  marginBottom: 12,
+  padding: 10,
+  backgroundColor: COLORS.gold,
+  borderRadius: 10,
+  alignItems: "center",
+},
+
+cartBtnText: {
+  color: "#0f0e0c",
+  fontWeight: "800",
+},
 });

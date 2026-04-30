@@ -1,3 +1,4 @@
+// client-app\app\registerScreen.tsx
 import { useState, useRef, useEffect } from "react";
 import {
   Text,
@@ -11,6 +12,7 @@ import {
   StyleSheet,
   ScrollView,
     Image,
+    ActivityIndicator,
 } from "react-native";
 import { supabase } from "../supabase";
 import Toast from "react-native-toast-message";
@@ -75,7 +77,7 @@ function AnimatedInput({
   );
 }
 
-export default function Register() {
+export default function RegisterScreen() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -84,6 +86,14 @@ export default function Register() {
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(40)).current;
+  
+  const isValidEmail = (email: string) => {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+};
+
+const isStrongPassword = (pw: string) => {
+  return pw.length >= 6;
+};
 
   useEffect(() => {
     Animated.parallel([
@@ -92,15 +102,16 @@ export default function Register() {
     ]).start();
   }, [fadeAnim, slideAnim]);
 
-  const isFormValid =
-    username.trim().length > 0 &&
-    email.trim().length > 0 &&
-    password.length > 0 &&
-    passwordRepeat.length > 0 &&
-    password === passwordRepeat;
+ const isFormValid =
+  username.trim().length > 0 &&
+  isValidEmail(email) &&
+  password.length > 0 &&
+  passwordRepeat.length > 0 &&
+  password === passwordRepeat;
 
   // ── Valódi Supabase regisztráció ──────────────────────────────────────────
   async function handleRegister() {
+    if (loading) return;
     if (!username || !email || !password || !passwordRepeat) {
       Alert.alert("Hiba!", "Minden mezőt ki kell tölteni!");
       return;
@@ -118,8 +129,20 @@ export default function Register() {
     setLoading(false);
 
     if (error) {
-      Toast.show({ type: "error", text1: "Hiba", text2: "Ezzel az email-címmel vagy felhasználónévvel már regisztráltak!" });
-    } else {
+  if (error.message.toLowerCase().includes("network")) {
+    Toast.show({
+      type: "error",
+      text1: "Hálózati hiba",
+      text2: "Ellenőrizd az internetkapcsolatot!",
+    });
+  } else {
+    Toast.show({
+      type: "error",
+      text1: "Hiba",
+      text2: "Ezzel az email-címmel vagy felhasználónévvel már regisztráltak!",
+    });
+  }
+} else {
       Toast.show({
         type: "success",
         text1: "Siker!",
@@ -202,6 +225,13 @@ export default function Register() {
               icon="🔑"
             />
 
+            {email.length > 0 && !isValidEmail(email) && (
+  <Text style={styles.errorText}>⚠️ Érvénytelen email cím</Text>
+)}
+{password.length > 0 && !isStrongPassword(password) && (
+  <Text style={styles.errorText}>⚠️ Legalább 6 karakter hosszú jelszó szükséges</Text>
+)}
+
             {/* Jelszó eltérés figyelmeztetés */}
             {passwordRepeat.length > 0 && password !== passwordRepeat && (
               <Text style={styles.errorText}>⚠️ A jelszavak nem egyeznek</Text>
@@ -218,8 +248,16 @@ export default function Register() {
               ]}
             >
               <Text style={styles.primaryBtnText}>
-                {loading ? "Regisztráció..." : "Regisztrálok →"}
-              </Text>
+  {loading ? "Regisztráció..." : "Regisztrálok →"}
+</Text>
+
+{loading && (
+  <ActivityIndicator
+    size="small"
+    color="#0f0e0c"
+    style={{ marginTop: 6 }}
+  />
+)}
             </Pressable>
 
             {/* Divider */}
