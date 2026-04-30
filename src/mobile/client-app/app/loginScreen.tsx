@@ -16,6 +16,7 @@ import { supabase } from "../supabase";
 import Toast from "react-native-toast-message";
 import { router } from "expo-router";
 import { setGlobalIsLoggedIn } from "./authStore";
+import HomeButton from "./HomeButton";
 
 const COLORS = {
   bg: "#0f0e0c",
@@ -174,6 +175,7 @@ export default function LoginScreen({ isLoggedIn, setIsLoggedIn }: Props) {
       style={styles.root}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
+      <HomeButton />
       <Pressable onPress={() => router.back()} style={styles.backBtn}>
         <Text style={styles.backText}>← Vissza</Text>
       </Pressable>
