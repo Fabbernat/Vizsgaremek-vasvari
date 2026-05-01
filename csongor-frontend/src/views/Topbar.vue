@@ -8,7 +8,7 @@
     </div>
 
     <div class="right">
-      <!-- Kosár ikon -->
+
       <div class="cart" @click="toggleCart">
         🛒
         <span v-if="delivery.cartCount > 0" class="badge">
@@ -16,17 +16,15 @@
         </span>
       </div>
 
-      <!-- Login / Logout -->
       <div class="button-container">
-      <!--  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button> -->
 
         <button class="btn btn-primary" v-if="!isLoggedIn" @click="openModal">Megnyit</button>
-        <!-- <button class="btn btn-light" v-if="!isLoggedIn" @click="login">Login</button> -->
+
          <button class="btn btn-light" v-else @click="logout">Logout</button> 
       </div>
     </div>
 
-    <!-- Kosár panel -->
+
     <div v-if="showCart" class="cart-panel">
 
   <div v-if="delivery.cart.length === 0">
@@ -45,12 +43,12 @@
         {{ item.price }} Ft × {{ item.quantity }}
       </div>
 
-      <!-- SUBTOTAL -->
+
       <div>
         <strong>{{ item.price * item.quantity }} Ft</strong>
       </div>
 
-      <!-- GOMBOK -->
+
       <div class="controls">
         <button @click="delivery.decrease(item.id)">-</button>
         <button @click="delivery.increase(item.id)">+</button>
@@ -60,7 +58,7 @@
 
     <hr>
 
-    <!-- TOTAL -->
+
     <div class="total">
       Összesen: <strong>{{ delivery.totalPrice }} Ft</strong>
     </div>
@@ -76,14 +74,13 @@ import { ref, computed, onMounted, onUnmounted} from "vue"
 import { useDeliveryStore } from "@/stores/delivery"
 import LoginForm from "@/components/LoginForm.vue"
 import RegisterForm from "@/components/RegisterForm.vue"
-
-
+import { useNotificationStore } from "@/stores/notification"
 
 const delivery = useDeliveryStore()
 const showCart = ref(false)
+const notify = useNotificationStore()
 
 
-//login/logout --------------------------------------------------------
 const isLoggedIn = ref(!!sessionStorage.getItem("token"))
 const updateLoginState = () => {
   isLoggedIn.value = !!sessionStorage.getItem("token")
@@ -102,16 +99,6 @@ const logout = () => {
 const login = () => {
   isLoggedIn.value = true
 }
-// const login = () => {
-  
-// }
-
-// const logout = () => {
-//   sessionStorage.removeItem("token")
-//   isLoggedIn.value = false
-// }
-//login/logout --------------------------------------------------------
-
 
 const toggleCart = () => {
   showCart.value = !showCart.value
@@ -199,7 +186,7 @@ const openModal = () => {
   padding: 2px;
   padding-left: 10px;
   padding-right: 10px;
-  background-image: linear-gradient(176deg, #fff 30%, #eeeeee 40%, #333333 100%);
+  background: rgb(24, 39, 61);
   color: white;
   border-bottom: 1px solid black;
 

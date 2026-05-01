@@ -11,7 +11,7 @@
 })
 </script>
 <template>
-  <RouterLink class="container text-decoration-none text-dark bg-light rounded p-2 pt-2" :to="`/restaurants/${restaurant.id}`">
+  <RouterLink class="container text-decoration-none text-dark rounded p-2 pt-2" :to="`/restaurants/${restaurant.id}`">
     <div class="restaurantcard rounded border h-100">
       <div class="imgdiv">
         <img
@@ -42,5 +42,11 @@ img {
 
 .restaurantcard:hover img {
   transform: scale(1.2);
+}
+.container{
+  background: rgb(24, 39, 61);
+}
+.restaurantcard{
+  background: #ffffff96;
 }
 </style>
