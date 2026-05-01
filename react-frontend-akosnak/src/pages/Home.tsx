@@ -4,17 +4,17 @@ const HomePage = () => {
   return (
     <Container className="mt-5 px-3">
       <h1 className="mt-5 fs-1 fs-md-2 text-center">
-        Welcome to the Royal Delivery's Admin Page
+        Üdvözlünk a Royal Delivery adminisztrációs oldalán!
       </h1>
       <Alert variant="info" data-bs-theme="dark">
         <Alert.Heading>
           <i className="bi bi-info-circle me-3"></i>
-          What can you do here?
+          Fontos információk
         </Alert.Heading>
-        This page made only for the <strong>ADMINS</strong>!
+        Ez az oldal csak az <strong>ADMIN</strong> számára készült!
         <br />
-        Here, you can <strong>ADD</strong>, <strong>EDIT</strong>,{" "}
-        <strong>DELETE</strong> the Restaurants and the meals.
+        Itt tudod <strong>HOZZÁADNI</strong>, <strong>SZERKESZTENI</strong>,{" "}
+        <strong>TÖRÖLNI</strong> a restauránsokat és az ételeket.
       </Alert>
       <div className="text-center mt-4">
         <img
@@ -26,9 +26,9 @@ const HomePage = () => {
       </div>
 
       <Alert data-bs-theme="dark">
-        <Alert.Heading>To get started:</Alert.Heading>
-        Click on the button below, or simply choose what would you like to see
-        on the navbar.
+        <Alert.Heading>Kezdéshez:</Alert.Heading>
+        Kattints az alábbi gombra, vagy egyszerűen válaszd ki, mit szeretnél
+        látni a navigációs sávban.
       </Alert>
 
       <Button
@@ -37,7 +37,7 @@ const HomePage = () => {
         className="justify-content-center p-3 mb-5 d-block mx-auto"
         href="/restaurants"
       >
-        View Restaurants
+        Éttermek megtekintése
       </Button>
     </Container>
   );

@@ -38,11 +38,8 @@ const AllRestaurant = () => {
   const filteredRestaurants = restaurants.filter((restaurant) => {
     const lowerQuery = searchTerm.toLowerCase();
     const name = restaurant.name ? restaurant.name.toLowerCase() : "";
-    const description = restaurant.description
-      ? restaurant.description.toLowerCase()
-      : "";
 
-    return name.includes(lowerQuery) || description.includes(lowerQuery);
+    return name.includes(lowerQuery);
   });
 
   const handleOpenDeleteModal = (restaurant: Restaurant) => {
