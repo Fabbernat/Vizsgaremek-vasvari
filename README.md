@@ -1,9 +1,11 @@
 # Royal Delivery
 **Ételrendelő rendszer mobilalkalmazással, webes felülettel, admin felülettel REST API végpontokkal és adatbázissal.**
 
-Készítették:
-[Fábián Bernát](https://github.com/Fabbernat), Gurbán Ákos, Nálhi Csongor
-
+## Készítették:
+- [Fábián Bernát](https://github.com/Fabbernat)
+- Gurbán Ákos
+- Nálhi Csongor
+  
 ⚠️Az alkalmazások kipróbálásához, használatához és telepítéséhez némi Git és JavaScript tudás szükséges!⚠️
 
 ## Fontos linkek:
