@@ -1,0 +1,32 @@
+{
+  "name": "csoportos-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.101.0",
+    "better-sqlite3": "^12.6.0",
+    "csv-parser": "^3.2.0",
+    "expo": "^55.0.11",
+    "express": "^5.2.1",
+    "firebase": "^12.8.0",
+    "vue": "^3.5.27"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.20.0",
+    "eslint": "^9.20.0",
+    "eslint-plugin-react": "^7.37.5",
+    "globals": "^15.14.0",
+    "typescript": "^5.7.0",
+    "typescript-eslint": "^8.24.0"
+  },
+  "packageManager": "yarn@4.13.0"
+}

@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "name": "Pizza Margherita",
+    "price": 2490,
+    "imageUrl": "/images/pizza-margherita.jpg",
+    "description": "Paradicsomszósz, mozzarella, bazsalikom"  },
+  {
+    "id": 2,
+    "name": "Hamburger",
+    "price": 2990,
+    "imageUrl": "/images/hamburger.jpg",
+    "description": "Marhahús, sajt, saláta, szósz"  },
+  {
+    "id": 3,
+    "name": "Caesar saláta",
+    "price": 2290,
+    "imageUrl": "/images/caesar-salad.jpg",
+    "description": "Csirkemell, parmezán, öntet"  }
+]
