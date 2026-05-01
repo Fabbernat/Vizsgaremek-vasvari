@@ -78,6 +78,14 @@ vagy csak egyszerűen (ugyanazt csinálja)
 ```powershell
 npm create vue@latest
 ```
+Expo generátor parancs:
+```powershell
+npx create-expo-app@latest
+```
+54-es verzióban:
+```powershell
+npx create-expo-app@latest --te,plate default@sdk-54
+```
 
 ## Képek a mobilappról
 
