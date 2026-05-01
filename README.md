@@ -31,17 +31,23 @@ npx expo start
 
 A többi app ugyanígy indítható a saját mappájából.
 
-### `web` mappa 
 ##### Ákos admin felülete
+Először el kell indítani a backendet:
 ```powershell
-cd src/web/react-admin-felulet-akos
-`npm i`
+node server.js
+```
+Majd 
+```powershell
 `npm run dev`
 ```
-##### Csongor frontend webalkalmazása
+
+##### Csongor webalkalmazása
+Szintén kell hozzá backend
 ```powershell
-`cd src/web/vue-frontend-csongor`
-`npm i`
+node server.js
+```
+Majd
+```powershell
 `npm run dev`
 ```
 
