@@ -20,6 +20,7 @@ routes.get("/restaurants/:id", (req, res) => {
     id: restaurants.id,
     name: restaurants.name,
     description: restaurants.description,
+    imageurl: restaurants.imageurl || null,
   };
   res.status(200).json({ message: "Restaurant loaded:", data });
 });
@@ -37,7 +38,11 @@ routes.post("/add-restaurant", (req, res) => {
     });
   }
   const restaurant = Restaurants.createRestaurant(name, description);
-  res.status(201).json({ message: "Meal created!", restaurant });
+  res.status(201).json({
+    message: "Restaurant created!",
+    restaurantId: restaurant.lastInsertRowid,
+    restaurant,
+  });
 });
 
 routes.put("/restaurants/:id", (req, res) => {
@@ -51,7 +56,6 @@ routes.put("/restaurants/:id", (req, res) => {
     +req.params.id,
     name,
     description,
-    // ownerid,
   );
   if (!restaurant) {
     return res.status(404).json({ message: "Restaurant not found!" });

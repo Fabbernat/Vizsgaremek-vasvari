@@ -6,7 +6,6 @@ import type { Restaurant } from "../types/Restaurant";
 import { toast } from "react-toastify";
 import { Button, Card, Container } from "react-bootstrap";
 
-// EditMeal component for editing meal details
 const EditMeal = () => {
   const { id } = useParams();
 
@@ -82,11 +81,11 @@ const EditMeal = () => {
       <Container className="mt-4" data-bs-theme="dark">
         <Card style={{ width: "20vw" }}>
           <Card.Body>
-            <Card.Title>Edit Meal</Card.Title>
+            <Card.Title>Étel szerkesztése</Card.Title>
             <form onSubmit={handleSubmit}>
               <div className="mb-3">
                 <label htmlFor="name" className="form-label">
-                  Name
+                  Név
                 </label>
                 <input
                   type="text"
@@ -100,7 +99,7 @@ const EditMeal = () => {
               </div>
               <div className="mb-3">
                 <label htmlFor="description" className="form-label">
-                  Description
+                  Leírás
                 </label>
                 <input
                   type="text"
@@ -114,7 +113,7 @@ const EditMeal = () => {
               </div>
               <div className="mb-3">
                 <label htmlFor="price" className="form-label">
-                  Price
+                  Ár
                 </label>
                 <input
                   type="number"
@@ -128,7 +127,7 @@ const EditMeal = () => {
               </div>
               <div className="mb-3">
                 <label htmlFor="restaurantId" className="form-label">
-                  Restaurant
+                  Étterem
                 </label>
                 <select
                   className="form-control"
@@ -137,7 +136,7 @@ const EditMeal = () => {
                   onChange={handleRestaurantChange}
                   required
                 >
-                  <option value="">Select a restaurant</option>
+                  <option value="">Válasszon éttermet</option>
                   {restaurants.map((restaurant) => (
                     <option key={restaurant.id} value={restaurant.id}>
                       {restaurant.name}
@@ -146,7 +145,7 @@ const EditMeal = () => {
                 </select>
               </div>
               <Button variant="primary" type="submit">
-                Update Meal
+                Étel frissítése
               </Button>
             </form>
           </Card.Body>

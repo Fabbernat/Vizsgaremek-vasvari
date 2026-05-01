@@ -21,6 +21,14 @@ export const getUsers = () => db.prepare(`SELECT * FROM users`).all();
 export const getUserById = (id) =>
   db.prepare(`SELECT * FROM users WHERE id=?`).get(id);
 
+// Get user by email
+export const getUserByEmail = (email) =>
+  db.prepare(`SELECT * FROM users WHERE email=?`).get(email);
+
+// Get user by username
+export const getUserByUsername = (username) =>
+  db.prepare(`SELECT * FROM users WHERE username=?`).get(username);
+
 // Create user
 export const createUser = (
   username,
@@ -48,7 +56,7 @@ export const updateUser = (
 ) =>
   db
     .prepare(
-      `UPDATE users SET username = ?, email = ?, password = ? WHERE id = ?`,
+      `UPDATE users SET username = ?, firstName = ?, lastName = ?, email = ?, password = ?, address = ? WHERE id = ?`,
     )
     .run(username, firstName, lastName, email, password, address, id);
 

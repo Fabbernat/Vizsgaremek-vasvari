@@ -13,13 +13,40 @@ db.prepare(
 `,
 ).run();
 
-// Get all restaurants
+// Get all restaurants with a single image URL if available
 export const getRestaurants = () =>
-  db.prepare(`SELECT * FROM restaurants`).all();
+  db
+    .prepare(
+      `SELECT
+        r.*,
+        (
+          SELECT image_url
+          FROM restaurant_images i
+          WHERE i.restaurant_id = r.id
+          ORDER BY i.sort_order ASC, i.id DESC
+          LIMIT 1
+        ) AS imageurl
+      FROM restaurants r`,
+    )
+    .all();
 
-// Get restaurant by id
+// Get restaurant by id with image URL
 export const getRestaurantById = (id) =>
-  db.prepare(`SELECT * FROM restaurants WHERE id = ?`).get(id);
+  db
+    .prepare(
+      `SELECT
+        r.*,
+        (
+          SELECT image_url
+          FROM restaurant_images i
+          WHERE i.restaurant_id = r.id
+          ORDER BY i.sort_order ASC, i.id DESC
+          LIMIT 1
+        ) AS imageurl
+      FROM restaurants r
+      WHERE r.id = ?`,
+    )
+    .get(id);
 
 // Create restaurant
 export const createRestaurant = (name, description) =>
@@ -35,7 +62,6 @@ export const updateRestaurant = (id, name, description) =>
 
 // Delete restaurant
 export const deleteRestaurant = (id) => {
-  // first delete dependent meal rows to avoid FOREIGN KEY constraint errors
   deleteMealsByRestaurantId(id);
   return db.prepare(`DELETE FROM restaurants WHERE id = ?`).run(id);
 };

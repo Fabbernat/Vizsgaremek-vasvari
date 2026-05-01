@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "../styles/AllRestaurantStyle.css";
 import type { Restaurant } from "../types/Restaurant.ts";
 import apiClient from "../api/apiClient.ts";
@@ -10,13 +10,17 @@ import {
   Row,
   Col,
   Button,
+  OverlayTrigger,
+  Tooltip,
   Modal,
   Offcanvas,
+  Alert,
 } from "react-bootstrap";
 
-import TestImg from "./good-food.jpg";
 import { toast } from "react-toastify";
 import SearchBar from "../components/SearchBar.tsx";
+import AddRestaurantModal from "../components/AddRestaurantModal.tsx";
+import UploadPhoto from "../components/UploadPhoto.tsx";
 
 const AllRestaurant = () => {
   const [restaurants, setRestaurants] = useState<Array<Restaurant>>([]);
@@ -29,6 +33,7 @@ const AllRestaurant = () => {
   const [editingRestaurant, setEditingRestaurant] = useState<Restaurant | null>(
     null,
   );
+  const [showAddModal, setShowAddModal] = useState(false);
 
   const filteredRestaurants = restaurants.filter((restaurant) => {
     const lowerQuery = searchTerm.toLowerCase();
@@ -39,7 +44,6 @@ const AllRestaurant = () => {
 
     return name.includes(lowerQuery) || description.includes(lowerQuery);
   });
-  const navigate = useNavigate();
 
   const handleOpenDeleteModal = (restaurant: Restaurant) => {
     setRestaurantToDelete(restaurant);
@@ -96,6 +100,19 @@ const AllRestaurant = () => {
     setEditingRestaurant(null);
   };
 
+  const leghtOfTheDescription = (
+    description: string | null | undefined,
+    maxLength: number = 50,
+  ): string => {
+    if (!description) {
+      return "";
+    }
+    if (description.length > maxLength) {
+      return description.substring(0, maxLength) + "...";
+    }
+    return description;
+  };
+
   const handleEditClose = () => {
     handleClose();
     apiClient
@@ -137,13 +154,13 @@ const AllRestaurant = () => {
 
   return (
     <>
-      <h1>Restaurants</h1>
+      <h1>Éttermek</h1>
 
       <Container>
         <SearchBar
           query={searchTerm}
           onQueryChange={setSearchTerm}
-          placeholder="Search..."
+          placeholder="Keresés..."
         />
         <Row>
           {filteredRestaurants.map((r) => (
@@ -151,7 +168,7 @@ const AllRestaurant = () => {
               <Card
                 style={{ width: "100%", minHeight: "300px" }}
                 data-bs-theme="dark"
-                className="RestCard h-100"
+                className="RestCard h-70"
               >
                 <Card.Header id="CardHeadR">
                   <Button
@@ -161,7 +178,7 @@ const AllRestaurant = () => {
                   >
                     <i className="bi bi-trash"></i>
                   </Button>
-                  <Card.Title className="m-1 p-1 DeleteTxt">Delete?</Card.Title>
+                  <Card.Title className="m-1 p-1 DeleteTxt">Törlöd?</Card.Title>
 
                   <Button
                     onClick={(e) => handleEdit(e, r)}
@@ -170,19 +187,54 @@ const AllRestaurant = () => {
                   >
                     <i className="bi bi-pen"></i>
                   </Button>
-                  <Card.Title className="m-1 p-1 EditTxt">Edit</Card.Title>
+                  <Card.Title className="m-1 p-1 EditTxt">
+                    Szerkesztés
+                  </Card.Title>
                 </Card.Header>
                 <Link
                   to={`/restaurants/${r.id}`}
                   className="card-link"
                   style={{ textDecoration: "none", color: "inherit" }}
                 >
-                  <Card.Img variant="top" src={TestImg} />
+                  {r.imageurl ? (
+                    <Card.Img
+                      variant="top"
+                      src={
+                        r.imageurl.startsWith("/uploads")
+                          ? `http://localhost:3000${r.imageurl}`
+                          : r.imageurl
+                      }
+                      alt={r.name}
+                      style={{
+                        height: "200px",
+                        width: "100%",
+                        objectFit: "contain",
+                        backgroundColor: "#111",
+                        borderTopLeftRadius: "20px",
+                        borderTopRightRadius: "20px",
+                      }}
+                    />
+                  ) : (
+                    <div
+                      style={{
+                        height: "200px",
+                        background: "#222",
+                        color: "#fff",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      Nincs kép
+                    </div>
+                  )}
                   <Card.Body className="RestCardBody">
                     <Card.Title>
                       <strong>{r.name}</strong>
                     </Card.Title>
-                    <Card.Text>{r.description}</Card.Text>
+                    <Card.Text>
+                      {leghtOfTheDescription(r.description, 100)}
+                    </Card.Text>
                   </Card.Body>
                 </Link>
               </Card>
@@ -190,13 +242,45 @@ const AllRestaurant = () => {
           ))}
         </Row>
 
-        <Button
-          variant="info"
-          onClick={() => navigate(`/add-restaurant`)}
-          className="mt-5 mb-5 w-100 w-md-50 mx-auto d-block"
+        <Col xs={12} sm={6} md={4}>
+          <OverlayTrigger
+            overlay={<Tooltip className="mb-2 OvrlayTrgr">Új Étterem</Tooltip>}
+          >
+            <Button
+              variant="success"
+              className="d-flex align-items-center justify-content-center FloatBtn"
+              onClick={() => setShowAddModal(true)}
+            >
+              <i className="bi bi-plus-lg"></i>
+            </Button>
+          </OverlayTrigger>
+        </Col>
+
+        <Modal
+          size="lg"
+          show={showAddModal}
+          onHide={() => setShowAddModal(false)}
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+          data-bs-theme="dark"
         >
-          Add Restaurant
-        </Button>
+          <Modal.Header closeButton>
+            <Modal.Title id="contained-modal-title-vcenter">
+              Új étterem hozzáadása
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <AddRestaurantModal
+              onSuccess={() => {
+                setShowAddModal(false);
+                apiClient
+                  .get("/restaurants")
+                  .then((response) => setRestaurants(response.data))
+                  .catch((error) => console.error(error));
+              }}
+            />
+          </Modal.Body>
+        </Modal>
 
         <Modal
           show={showDeleteModal}
@@ -205,38 +289,42 @@ const AllRestaurant = () => {
           data-bs-theme="dark"
         >
           <Modal.Header closeButton>
-            <Modal.Title>Delete restaurant</Modal.Title>
+            <Modal.Title>Étterem törlése</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            Are you sure you want to delete
+            Biztos, hogy ki akarod törölni ezt:
             <strong>
               {" "}
-              {restaurantToDelete?.name ?? "this restaurant"}
-            </strong>? <br />
+              {restaurantToDelete?.name ?? <i className="bi bi-bug"></i>}
+            </strong>
+            ? <br />
           </Modal.Body>
           <Modal.Body>
-            <strong className="fs-15 mt-1">This cannot be undone.</strong>
+            <Alert variant="danger">
+              <i className="bi bi-exclamation-circle me-3"></i>A törlés nem
+              vonható vissza!
+            </Alert>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleCloseDeleteModal}>
-              Cancel
+              Mégse
             </Button>
             <Button variant="danger" onClick={confirmDeleteRestaurant}>
-              Delete
+              Törlés
             </Button>
           </Modal.Footer>
         </Modal>
 
         <Offcanvas show={show} onHide={handleClose} data-bs-theme="dark">
           <Offcanvas.Header closeButton>
-            <Offcanvas.Title>Edit Restaurant</Offcanvas.Title>
+            <Offcanvas.Title>Étterem szerkesztése</Offcanvas.Title>
           </Offcanvas.Header>
           <Offcanvas.Body>
             {editingRestaurant && (
               <form onSubmit={handleEditSubmit}>
                 <div className="mb-3">
                   <label htmlFor="name" className="form-label">
-                    Name
+                    Név
                   </label>
                   <input
                     type="text"
@@ -249,7 +337,7 @@ const AllRestaurant = () => {
                   />
 
                   <label htmlFor="description" className="form-label mt-3">
-                    Description
+                    Leírás
                   </label>
                   <div className="mt-2">
                     <textarea
@@ -262,8 +350,25 @@ const AllRestaurant = () => {
                     />
                   </div>
                 </div>
-                <Button variant="primary" type="submit">
-                  Update Restaurant
+
+                {editingRestaurant && (
+                  <div className="mt-4">
+                    <label htmlFor="photo" className="form-label">
+                      Étterm fotó feltöltése
+                    </label>
+                    <UploadPhoto
+                      restaurantId={editingRestaurant.id}
+                      onUploadSuccess={() => {
+                        apiClient
+                          .get("/restaurants")
+                          .then((response) => setRestaurants(response.data))
+                          .catch((error) => console.error(error));
+                      }}
+                    />
+                  </div>
+                )}
+                <Button variant="primary" type="submit" className="mt-3">
+                  Étterem frissítése
                 </Button>
               </form>
             )}

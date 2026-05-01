@@ -10,7 +10,7 @@ type SearchBarProps = {
 const SearchBar = ({
   query,
   onQueryChange,
-  placeholder = "Search...",
+  placeholder = "Keresés...",
 }: SearchBarProps) => {
   return (
     <Form
@@ -21,7 +21,7 @@ const SearchBar = ({
       <Col xs={12} md={8} lg={6}>
         <h4>
           <i className="bi bi-search m-2"></i>
-          Find what you need
+          Keress rá valamire
         </h4>
         <div className="input-group">
           <input

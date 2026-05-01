@@ -51,39 +51,39 @@ const AddMeal = () => {
 
   return (
     <>
-      <h1>Add a new Meal</h1>
+      <h1>Új étel hozzáadása</h1>
 
       <Container className="d-flex justify-content-center">
         <Card style={{ width: "100%", maxWidth: "500px" }} data-bs-theme="dark">
           <Card.Body>
-            <Card.Title className="mt-3">Name</Card.Title>
+            <Card.Title className="mt-3">Név</Card.Title>
             <input
               type="text"
-              placeholder="Product name"
+              placeholder="Étel neve"
               className="form-control"
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
             />
-            <Card.Title className="mt-3">Description</Card.Title>
+            <Card.Title className="mt-3">Leírás</Card.Title>
             <input
               type="text"
-              placeholder="Product description"
+              placeholder="Étel leírása"
               className="form-control pb-5"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               required
             />
-            <Card.Title className="mt-3">Price</Card.Title>
+            <Card.Title className="mt-3">Ár</Card.Title>
             <input
               type="number"
-              placeholder="Product price"
+              placeholder="Étel ára"
               className="form-control"
               value={price}
               onChange={(e) => setPrice(e.target.valueAsNumber)}
               required
             />
-            <Card.Title className="mt-3">Restaurant</Card.Title>
+            <Card.Title className="mt-3">Étterem</Card.Title>
             <select
               className="form-control"
               value={restaurantId}
@@ -92,7 +92,7 @@ const AddMeal = () => {
               }
               required
             >
-              <option value="">Select a restaurant</option>
+              <option value="">Válasszon éttermet</option>
               {restaurants.map((restaurant) => (
                 <option key={restaurant.id} value={restaurant.id}>
                   {restaurant.name}
@@ -101,7 +101,7 @@ const AddMeal = () => {
             </select>
           </Card.Body>
           <Button variant="success" className="mb-3" onClick={handleSubmit}>
-            Add Meal
+            Étel hozzáadása
           </Button>
         </Card>
       </Container>

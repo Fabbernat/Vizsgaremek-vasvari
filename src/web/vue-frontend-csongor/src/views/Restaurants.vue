@@ -1,15 +1,23 @@
 <script setup>
   import RestaurantCard from '@/components/RestaurantCard.vue';
+  import { ref, onMounted } from 'vue';
+  const restaurants = ref([]);
+
+ onMounted(async () => {
+   const res = await fetch("http://localhost:3000/restaurants");
+   restaurants.value = await res.json();
+ });
 </script>
 
 <template class="">
-  <div id="container" class="container row  bg-light p-3">
-    <h1 class="text-center mt-0 m-5">Éttermek</h1>
-    <RestaurantCard class="col-3"/>
-    <RestaurantCard class="col-3"/>
-    <RestaurantCard class="col-3"/>
+  <div id="container" class="container bg-light p-3 m-0 mt-5 mx-auto">
+    <div class="row justify-content-center">
+      <h1 class="text-center mt-3 m-5">Éttermek</h1>
+    </div>
+    <div class="row mx-auto justify-content-center">
+      <RestaurantCard v-for="restaurant in restaurants" :key="restaurant.id" :restaurant="restaurant" class="col-md-4 col-xl-3" />
+    </div>
   </div>
-  
 </template>
 <style>
   #container{
