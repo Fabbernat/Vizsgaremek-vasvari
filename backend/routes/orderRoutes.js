@@ -58,4 +58,16 @@ route.delete("/orders/:id", (req, res) => {
   res.status(200).json({ message: "Order deleted!", order });
 });
 
+// Update order status
+route.patch("/orders/:id/status", (req, res) => {
+  const { status } = req.body;
+  if (!status || !["pending", "completed", "cancelled"].includes(status)) {
+    return res.status(400).json({
+      message: "Invalid status! Valid values: pending, completed, cancelled",
+    });
+  }
+  const order = Orders.updateOrderStatus(+req.params.id, status);
+  res.status(200).json({ message: "Order status updated!", order });
+});
+
 export default route;

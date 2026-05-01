@@ -37,3 +37,13 @@ export const updateOrderItem = (id, mealid, orderid, amount) =>
 // Delete order item
 export const deleteOrderItem = (id) =>
   db.prepare(`DELETE FROM orderitems WHERE id = ?`).run(id);
+
+// Delete order items for all orders that belong to a restaurant
+export const deleteOrderItemsByRestaurantId = (restaurantId) =>
+  db
+    .prepare(
+      `DELETE FROM orderitems WHERE orderid IN (
+        SELECT id FROM "orders" WHERE restaurantid = ?
+      )`,
+    )
+    .run(restaurantId);

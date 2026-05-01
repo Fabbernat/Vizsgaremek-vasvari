@@ -9,11 +9,21 @@ db.prepare(
     date TEXT,
     orderedmeal TEXT,
     payment REAL,
+    status TEXT DEFAULT 'pending',
     FOREIGN KEY(restaurantid) REFERENCES restaurants(id),
     FOREIGN KEY(userid) REFERENCES users(id)
     )    
 `,
 ).run();
+
+// Add status column if it doesn't exist
+try {
+  db.prepare(
+    `ALTER TABLE orders ADD COLUMN status TEXT DEFAULT 'pending'`,
+  ).run();
+} catch (e) {
+  // Column already exists
+}
 
 // Get all orders
 export const getOrders = () => db.prepare(`SELECT * FROM orders`).all();
@@ -48,3 +58,11 @@ export const updateOrder = (
 // Delete order
 export const deleteOrder = (id) =>
   db.prepare(`DELETE FROM orders WHERE id = ?`).run(id);
+
+// Delete orders by restaurant id
+export const deleteOrdersByRestaurantId = (restaurantid) =>
+  db.prepare(`DELETE FROM orders WHERE restaurantid = ?`).run(restaurantid);
+
+// Update order status
+export const updateOrderStatus = (id, status) =>
+  db.prepare(`UPDATE orders SET status = ? WHERE id = ?`).run(status, id);

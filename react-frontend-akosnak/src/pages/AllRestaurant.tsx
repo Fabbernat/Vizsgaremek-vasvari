@@ -102,7 +102,7 @@ const AllRestaurant = () => {
 
   const leghtOfTheDescription = (
     description: string | null | undefined,
-    maxLength: number = 250,
+    maxLength: number = 50,
   ): string => {
     if (!description) {
       return "";
@@ -233,7 +233,7 @@ const AllRestaurant = () => {
                       <strong>{r.name}</strong>
                     </Card.Title>
                     <Card.Text>
-                      {leghtOfTheDescription(r.description, 150)}
+                      {leghtOfTheDescription(r.description, 100)}
                     </Card.Text>
                   </Card.Body>
                 </Link>

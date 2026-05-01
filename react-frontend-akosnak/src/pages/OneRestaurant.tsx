@@ -25,7 +25,7 @@ const OneRestaurant = () => {
   }, [id]);
 
   if (!restaurant) {
-    return <div>Loading...</div>;
+    return <div>Betöltés...</div>;
   }
 
   return (
@@ -35,9 +35,10 @@ const OneRestaurant = () => {
         {restaurant.description}
       </h3>
       <h2 className="mb-5 text-center">
-        Choose a meal to <strong>edit</strong> or <strong>add</strong> a new one
+        Válasszon egy ételt a <strong>szerkesztéshez</strong> vagy{" "}
+        <strong>hozzáadásához</strong>
       </h2>
-      <h3 className="m-5">Meals</h3>
+      <h3 className="m-5 text-center">Ételek</h3>
       <Row>
         {meals.map((meal) => (
           <Col key={meal.id} md={4} className="mb-4">
@@ -61,7 +62,7 @@ const OneRestaurant = () => {
 
       <div className="text-center">
         <Button href={`/add-meal`} className="add-button m-2" variant="success">
-          Add Meal
+          Étel hozzáadása
         </Button>
 
         <Button
@@ -69,7 +70,7 @@ const OneRestaurant = () => {
           onClick={() => navigate(`/restaurants`)}
           className="m-2"
         >
-          Go back
+          Vissza az éttermekhez
         </Button>
       </div>
     </Container>

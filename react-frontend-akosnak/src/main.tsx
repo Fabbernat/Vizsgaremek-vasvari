@@ -16,6 +16,7 @@ import AddMeal from "./pages/AddMeal";
 import HomePage from "./pages/Home";
 import NotFoundPage from "./pages/NotFound";
 import UserList from "./pages/UserList";
+import Order from "./pages/Order";
 
 const App = () => {
   const [showLogin, setShowLogin] = useState(false);
@@ -34,7 +35,7 @@ const App = () => {
           <Route path="/meals/:id/edit" element={<EditMeal />} />
           <Route path="/add-meal" element={<AddMeal />} />
           <Route path="/users" element={<UserList />} />
-          {/* <Route path="/orders" element={<Order />} /> */}
+          <Route path="/orders" element={<Order />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </div>
