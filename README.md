@@ -128,7 +128,7 @@ npx create-expo-app@latest --te,plate default@sdk-54
 <img width="1581" height="1031" alt="Supabase schema" src="https://github.com/user-attachments/assets/9bd67b34-359b-4d3f-a89c-2b6b203eabde" />
 <img width="1226" height="695" alt="Képernyőkép 2026-04-23 162246" src="https://github.com/user-attachments/assets/e7be4c81-1432-4236-a90f-3cbb5b2511d1" />
 
-# XAMPP telepításhez segítség
+# XAMPP telepítéshez segítség
 ### MySQL Adatbázis elérési útja XAMPP-ban:
 ### C:\xampp\mysql\data\royaldelivery_db\
 
