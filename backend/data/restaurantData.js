@@ -7,7 +7,6 @@ db.prepare(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT,
     description TEXT,
-    ownerid INTEGER,
     FOREIGN KEY (ownerid) REFERENCES owners(id) ON DELETE SET NULL
     )
 `,
