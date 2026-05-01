@@ -149,14 +149,17 @@ const openLogin = () => {
       type="password"
     />
 
-    <div class="d-flex justify-content-end gap-2 mt-3">
+    <div class="row d-flex justify-content-end gap-2 mt-3">
+      <div class="col-sm-12">
         <button class="btn btn-primary" type="submit">
         Regisztráció
         </button>
-
+      </div>
+      <div class="col-sm-12">
         <button class="btn btn-outline-primary" type="button" @click="openLogin">
         Vissza a Login-ra
         </button>
+      </div>
     </div>
 
 

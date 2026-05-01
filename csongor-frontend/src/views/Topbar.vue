@@ -18,7 +18,7 @@
 
       <div class="button-container">
 
-        <button class="btn btn-primary" v-if="!isLoggedIn" @click="openModal">Megnyit</button>
+        <button class="btn btn-primary" v-if="!isLoggedIn" @click="openModal">Login</button>
 
          <button class="btn btn-light" v-else @click="logout">Logout</button> 
       </div>
