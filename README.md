@@ -88,9 +88,9 @@ Pár példa
 | Szerepkör | Email | Jelszó |
 |---|---|---|
 | Admin | teszt@gmail.com | jelszo12 |
-| Tulajdonos | te@email.com | jelszo12 |
-| Vásárló | example@email.com | jelszo12 |
-| Futár | example@email.com | jelszo12 |
+| Tulajdonos | teszt2@gmail.com | jelszo12 |
+| Vásárló | teszt3@gmail.com | jelszo12 |
+| Futár | teszt4@gmail.com | jelszo12 |
 
 ## Projekt generátor parancsok
 React projekt generátor parancs:
