@@ -96,18 +96,21 @@ const openRegistration = () => {
       ]"
     />
 
-    <div class="d-flex justify-content-end gap-2 mt-3">
-      <button class="btn btn-primary" type="submit">
-        Bejelentkezés
-      </button>
-
-      <button
-        class="btn  btn-outline-primary"
-        type="button"
-        @click="openRegistration"
-      >
-        Regisztráció
-      </button>
+    <div class="d-flex row justify-content-end gap-2 mt-3">
+      <div class="col-sm-12">
+        <button class="btn btn-primary" type="submit">
+          Bejelentkezés
+        </button>
+      </div>
+      <div class="col-sm-12">
+        <button
+          class="btn  btn-outline-primary"
+          type="button"
+          @click="openRegistration"
+        >
+          Regisztráció
+        </button>
+      </div>
     </div>
 
   </form>
