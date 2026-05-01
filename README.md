@@ -1,4 +1,9 @@
 # Royal Delivery
+**Ételrendelő app admin felülettel, mobil- és webalkalmazással és sok egyéb szolgáltatással**
+
+Készítették:
+[Fábián Bernát](https://github.com/Fabbernat), Gurbán Ákos, Nálhi Csongor
+
 ⚠️Az alkalmazások kipróbálásához, használatához és telepítéséhez némi Git és JavaScript tudás szükséges!⚠️
 ## Telepítés:
 ```powershell
