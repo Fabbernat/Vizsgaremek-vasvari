@@ -63,7 +63,7 @@ Majd
 ### [Az adatbázis export fájlja (dump)](https://supabase.com/dashboard/project/uqusahmtbaypepskpxxa/editor/34169?schema=public)
 Ezt úgy kell, hogy 
 
--> menj fel a https://supabase.com/dashboard/project/uqusahmtbaypepskpxxa/editor/34169?schema=public oldalra -> Katt a tábla nevére a bal oldali panelen -> katt a 3 pöttyre -> Export data -> Export table as SQL
+-> A https://supabase.com/dashboard/project/uqusahmtbaypepskpxxa/editor/34169?schema=public oldalon -> Katt a tábla nevére a bal oldali panelen -> katt a 3 pöttyre -> Export data -> Export table as SQL
 
 ## Projekt generátor parancsok
 React projekt generátor parancs:
