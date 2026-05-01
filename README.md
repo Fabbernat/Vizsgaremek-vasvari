@@ -5,13 +5,25 @@ Készítették:
 [Fábián Bernát](https://github.com/Fabbernat), Gurbán Ákos, Nálhi Csongor
 
 ⚠️Az alkalmazások kipróbálásához, használatához és telepítéséhez némi Git és JavaScript tudás szükséges!⚠️
+
+## Fontos linkek:
+### [Prezentáció](https://docs.google.com/presentation/d/1sCbycWzKTGuvTsGm7b6RSliEWNnaCSsBRFpawD3Rd0c/edit?usp=drive_link)
+### [Dokumentáció](https://docs.google.com/document/d/1ojhwJm34qvML5fOf8i9hJpa355ce6aKP/edit?usp=drive_link&ouid=115331407599598307359&rtpof=true&sd=true)
+### [Felhasználói Kézikönyv](https://docs.google.com/document/d/1o2DdXFC71gay2iLMsgSlr2i-bHmbJx-FD2b9MA-aVF0/edit?usp=sharing)
+### [Fejlesztői Dokumentáció](https://docs.google.com/document/d/1zt1tjP2g39yGNFi9i3kmKQTTUdugH_qad7wiUVNOMto/edit?usp=sharing)
+### [Adatbázis-diagram](https://dbdiagram.io/d/Royal-Delivery-69c139edfb2db18e3be1be82)
+### [Az adatbázis export fájlja (dump)](https://supabase.com/dashboard/project/uqusahmtbaypepskpxxa/editor/34169?schema=public)
+Ezt úgy kell, hogy 
+
+-> A https://supabase.com/dashboard/project/uqusahmtbaypepskpxxa/editor/34169?schema=public oldalon -> Katt a tábla nevére a bal oldali panelen -> katt a 3 pöttyre -> Export data -> Export table as SQL
+
 ## Telepítés:
 ```powershell
 git clone https://github.com/vizsgaremek-2025-2026-nappali-2-14b/royal-delivery-app-nalhi-gurban-fabian
 cd royal-delivery-app-nalhi-gurban-fabian
 ```
 
-## Mobilalkalmazás elindítása 
+### Mobilalkalmazás elindítása 
 1. függőségek telepítése az alkalmazás mappájában
 ```powershell
 cd src/mobile/client-app
@@ -36,7 +48,7 @@ npx expo start
 
 A többi app ugyanígy indítható a saját mappájából.
 
-##### Ákos admin felülete
+### Ákos admin felülete
 Először el kell indítani a backendet:
 ```powershell
 node server.js
@@ -46,7 +58,7 @@ Majd
 `npm run dev`
 ```
 
-##### Csongor webalkalmazása
+### Csongor webalkalmazása
 Szintén kell hozzá backend
 ```powershell
 node server.js
@@ -55,20 +67,13 @@ Majd
 ```powershell
 `npm run dev`
 ```
-
-
-## Fontos linkek:
-
-
-### [Prezentáció](https://docs.google.com/presentation/d/1sCbycWzKTGuvTsGm7b6RSliEWNnaCSsBRFpawD3Rd0c/edit?usp=drive_link)
-### [Dokumentáció](https://docs.google.com/document/d/1ojhwJm34qvML5fOf8i9hJpa355ce6aKP/edit?usp=drive_link&ouid=115331407599598307359&rtpof=true&sd=true)
-### [Felhasználói Kézikönyv](https://docs.google.com/document/d/1o2DdXFC71gay2iLMsgSlr2i-bHmbJx-FD2b9MA-aVF0/edit?usp=sharing)
-### [Fejlesztői Dokumentáció](https://docs.google.com/document/d/1zt1tjP2g39yGNFi9i3kmKQTTUdugH_qad7wiUVNOMto/edit?usp=sharing)
-### [Adatbázis-diagram](https://dbdiagram.io/d/Royal-Delivery-69c139edfb2db18e3be1be82)
-### [Az adatbázis export fájlja (dump)](https://supabase.com/dashboard/project/uqusahmtbaypepskpxxa/editor/34169?schema=public)
-Ezt úgy kell, hogy 
-
--> A https://supabase.com/dashboard/project/uqusahmtbaypepskpxxa/editor/34169?schema=public oldalon -> Katt a tábla nevére a bal oldali panelen -> katt a 3 pöttyre -> Export data -> Export table as SQL
+## Szükséges `.env` változók (titkosítva) Supabase használathoz
+```.env
+EXPO_PUBLIC_SUPABASE_URL=https://uqusahmtbaypepskpxxa.supabase.co
+EXPO_PUBLIC_SUPABASE_KEY=...
+EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY=...
+EXPO_PUBLIC_API_BASE_URL=http://192.168.1.114:54321
+```
 
 ## Projekt generátor parancsok
 React projekt generátor parancs:
