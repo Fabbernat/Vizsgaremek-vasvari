@@ -148,6 +148,8 @@ const mealsData = [
 
 // ── Card ─────────────────────────────────────────────────
 function MealCard({ item, index, onAddToCart }: any) {
+  const [quantity, setQuantity] = useState(1);
+
   const fade = useRef(new Animated.Value(0)).current;
   const slide = useRef(new Animated.Value(20)).current;
 
@@ -186,11 +188,30 @@ function MealCard({ item, index, onAddToCart }: any) {
           <Text style={styles.cardName}>{item.name}</Text>
           <Text style={styles.cardDesc}>{item.description}</Text>
         </View>
+        <View style={styles.quantityRow}>
+  <Pressable
+    onPress={() => setQuantity((q) => Math.max(1, q - 1))}
+    style={styles.quantityBtn}
+  >
+    <Text style={styles.quantityBtnText}>−</Text>
+  </Pressable>
+
+  <Text style={styles.quantityText}>{quantity} db</Text>
+
+  <Pressable
+    onPress={() => setQuantity((q) => Math.min(99, q + 1))}
+    style={styles.quantityBtn}
+  >
+    <Text style={styles.quantityBtnText}>+</Text>
+  </Pressable>
+</View>
         <Pressable
-          onPress={() => {
-            addToGuestCart(item);
-            onAddToCart(item.name);
-          }}
+   
+  onPress={() => {
+    addToGuestCart(item, quantity);
+    onAddToCart(item.name, quantity);
+    setQuantity(1);
+  }}
           style={({ pressed }) => [
             styles.cartBtn,
             pressed && { opacity: 0.8, transform: [{ scale: 0.97 }] },
@@ -208,8 +229,10 @@ export default function MealsScreen() {
   const { meals, loading, error } = useMeals();
   const [inMemoryMeals, setMeals] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
-const [activeFilter, setActiveFilter] = useState<string | null>(null);
-const [sortOption, setSortOption] = useState<"none" | "priceAsc" | "priceDesc" | "name">("none");
+  const [activeFilter, setActiveFilter] = useState<string | null>(null);
+  const [sortOption, setSortOption] = useState<
+    "none" | "priceAsc" | "priceDesc" | "name"
+  >("none");
 
   useEffect(() => {
     setMeals(mealsData);
@@ -217,40 +240,43 @@ const [sortOption, setSortOption] = useState<"none" | "priceAsc" | "priceDesc" |
 
   // ✅ Lean showToast: just delegate to the library.
   //    <Toast /> is already mounted once in your Layout — no need to render it here.
-  const showToast = (itemName: string) => {
-    Toast.show({
-      type: "success",
-      text1: "Siker!",
-      text2: `1 db ${itemName} sikeresen a kosárba rakva!`,
-    });
-  };
-
-  const filteredMeals = meals // vagy inmemoryMeals
-  .filter((meal) => {
-    const query = searchQuery.toLowerCase();
-
-    const matchesSearch =
-      meal.name.toLowerCase().includes(query) ||
-      meal.description.toLowerCase().includes(query);
-
-    const matchesFilter = activeFilter
-      ? meal.name.toLowerCase().includes(activeFilter)
-      : true;
-
-    return matchesSearch && matchesFilter;
-  })
-  .sort((a, b) => {
-    switch (sortOption) {
-      case "priceAsc":
-        return a.price - b.price;
-      case "priceDesc":
-        return b.price - a.price;
-      case "name":
-        return a.name.localeCompare(b.name);
-      default:
-        return 0;
-    }
+ const showToast = (itemName: string, quantity: number) => {
+  Toast.show({
+    type: "success",
+    text1: "Siker!",
+    text2: `${quantity} db ${itemName} sikeresen a kosárba rakva!`,
   });
+};
+
+  const sourceMeals =
+  meals && meals.length > 0 ? meals : inMemoryMeals;
+
+const filteredMeals = sourceMeals // vagy inmemoryMeals
+    .filter((meal) => {
+      const query = searchQuery.toLowerCase();
+
+      const matchesSearch =
+        meal.name.toLowerCase().includes(query) ||
+        meal.description.toLowerCase().includes(query);
+
+      const matchesFilter = activeFilter
+        ? meal.name.toLowerCase().includes(activeFilter)
+        : true;
+
+      return matchesSearch && matchesFilter;
+    })
+    .sort((a, b) => {
+      switch (sortOption) {
+        case "priceAsc":
+          return a.price - b.price;
+        case "priceDesc":
+          return b.price - a.price;
+        case "name":
+          return a.name.localeCompare(b.name);
+        default:
+          return 0;
+      }
+    });
 
   return (
     <View style={styles.root}>
@@ -259,49 +285,58 @@ const [sortOption, setSortOption] = useState<"none" | "priceAsc" | "priceDesc" |
         <Text style={styles.backText}>← Vissza</Text>
       </Pressable>
       <View style={styles.brandRow}>
-        <Image source={require("../assets/mine/icons/rd-logo.png")} style={styles.crown}  />
+        <Image
+          source={require("../assets/mine/icons/rd-logo.png")}
+          style={styles.crown}
+        />
         <Text style={styles.brandName}>Royal Delivery</Text>
       </View>
       <Text style={styles.heading}>Étlap</Text>
       <Text style={styles.subheading}>Válassz kedvenc ételeidből</Text>
 
       {/* 🔍 KERESŐ */}
-<TextInput
-  placeholder="Keresés..."
-  placeholderTextColor={COLORS.muted}
-  value={searchQuery}
-  onChangeText={setSearchQuery}
-  style={styles.searchInput}
-/>
+      <TextInput
+        placeholder="Keresés..."
+        placeholderTextColor={COLORS.muted}
+        value={searchQuery}
+        onChangeText={setSearchQuery}
+        style={styles.searchInput}
+      />
 
-{/* 🧩 SZŰRŐK */}
-<View style={styles.filterRow}>
-  {["pizza", "saláta", "sushi", "burger", "ital"].map((f) => (
-    <Pressable
-      key={f}
-      onPress={() => setActiveFilter(activeFilter === f ? null : f)}
-      style={[
-        styles.filterBtn,
-        activeFilter === f && styles.filterBtnActive,
-      ]}
-    >
-      <Text style={styles.filterText}>{f}</Text>
-    </Pressable>
-  ))}
-</View>
+      {/* 🧩 SZŰRŐK */}
+      <View style={styles.filterRow}>
+        {["pizza", "saláta", "sushi", "burger", "ital"].map((f) => (
+          <Pressable
+            key={f}
+            onPress={() => setActiveFilter(activeFilter === f ? null : f)}
+            style={[
+              styles.filterBtn,
+              activeFilter === f && styles.filterBtnActive,
+            ]}
+          >
+            <Text style={styles.filterText}>{f}</Text>
+          </Pressable>
+        ))}
+      </View>
 
-{/* 🔃 RENDEZÉS */}
-<View style={styles.sortRow}>
-  <Pressable onPress={() => setSortOption("priceAsc")} style={styles.sortBtn}>
-    <Text style={styles.sortText}>Ár ↑</Text>
-  </Pressable>
-  <Pressable onPress={() => setSortOption("priceDesc")} style={styles.sortBtn}>
-    <Text style={styles.sortText}>Ár ↓</Text>
-  </Pressable>
-  <Pressable onPress={() => setSortOption("name")} style={styles.sortBtn}>
-    <Text style={styles.sortText}>Név</Text>
-  </Pressable>
-</View>
+      {/* 🔃 RENDEZÉS */}
+      <View style={styles.sortRow}>
+        <Pressable
+          onPress={() => setSortOption("priceAsc")}
+          style={styles.sortBtn}
+        >
+          <Text style={styles.sortText}>Ár ↑</Text>
+        </Pressable>
+        <Pressable
+          onPress={() => setSortOption("priceDesc")}
+          style={styles.sortBtn}
+        >
+          <Text style={styles.sortText}>Ár ↓</Text>
+        </Pressable>
+        <Pressable onPress={() => setSortOption("name")} style={styles.sortBtn}>
+          <Text style={styles.sortText}>Név</Text>
+        </Pressable>
+      </View>
 
       <FlatList
         data={filteredMeals}
@@ -330,10 +365,10 @@ const styles = StyleSheet.create({
   backText: { color: COLORS.muted },
   brandRow: { flexDirection: "row", gap: 8, marginBottom: 20 },
   crown: {
-  width: 100,
-  height: 100,
-  resizeMode: "contain",
-},
+    width: 100,
+    height: 100,
+    resizeMode: "contain",
+  },
   brandName: { color: COLORS.gold, fontWeight: "700" },
   heading: { fontSize: 32, fontWeight: "900", color: COLORS.text },
   subheading: { color: COLORS.muted, marginBottom: 20 },
@@ -373,57 +408,90 @@ const styles = StyleSheet.create({
   },
   cartBtnText: { color: "#0f0e0c", fontWeight: "800" },
   searchInput: {
-  backgroundColor: COLORS.surface,
-  borderColor: COLORS.border,
-  borderWidth: 1,
-  borderRadius: 10,
-  padding: 10,
-  color: COLORS.text,
-  marginBottom: 12,
-},
+    backgroundColor: COLORS.surface,
+    borderColor: COLORS.border,
+    borderWidth: 1,
+    borderRadius: 10,
+    padding: 10,
+    color: COLORS.text,
+    marginBottom: 12,
+  },
 
-filterRow: {
+  filterRow: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 8,
+    marginBottom: 12,
+  },
+
+  filterBtn: {
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 20,
+    backgroundColor: COLORS.surface,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+  },
+
+  filterBtnActive: {
+    backgroundColor: COLORS.gold,
+  },
+
+  filterText: {
+    color: COLORS.text,
+    fontSize: 12,
+  },
+
+  sortRow: {
+    flexDirection: "row",
+    gap: 10,
+    marginBottom: 12,
+  },
+
+  sortBtn: {
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 8,
+    backgroundColor: COLORS.surface,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+  },
+
+  sortText: {
+    color: COLORS.text,
+    fontSize: 12,
+  },
+  quantityRow: {
   flexDirection: "row",
-  flexWrap: "wrap",
-  gap: 8,
-  marginBottom: 12,
-},
-
-filterBtn: {
-  paddingHorizontal: 10,
-  paddingVertical: 6,
-  borderRadius: 20,
-  backgroundColor: COLORS.surface,
-  borderWidth: 1,
-  borderColor: COLORS.border,
-},
-
-filterBtnActive: {
-  backgroundColor: COLORS.gold,
-},
-
-filterText: {
-  color: COLORS.text,
-  fontSize: 12,
-},
-
-sortRow: {
-  flexDirection: "row",
+  alignItems: "center",
+  justifyContent: "center",
   gap: 10,
-  marginBottom: 12,
+  marginHorizontal: 10,
+  marginTop: 6,
 },
 
-sortBtn: {
-  paddingHorizontal: 10,
-  paddingVertical: 6,
-  borderRadius: 8,
+quantityBtn: {
+  width: 30,
+  height: 30,
+  borderRadius: 15,
   backgroundColor: COLORS.surface,
   borderWidth: 1,
   borderColor: COLORS.border,
+  alignItems: "center",
+  justifyContent: "center",
 },
 
-sortText: {
+quantityBtnText: {
+  color: COLORS.gold,
+  fontSize: 18,
+  fontWeight: "900",
+},
+
+quantityText: {
   color: COLORS.text,
-  fontSize: 12,
+  fontSize: 13,
+  fontWeight: "700",
+  minWidth: 42,
+  textAlign: "center",
 },
 });

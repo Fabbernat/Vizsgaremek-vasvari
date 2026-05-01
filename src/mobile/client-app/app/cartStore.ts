@@ -20,17 +20,24 @@ export const useCartStore = create<CartStore>((set) => ({
   items: [],
 
   addItem: (item) =>
-    set((state) => {
-      const existing = state.items.find((i) => i.id === item.id);
-      if (existing) {
-        return {
-          items: state.items.map((i) =>
-            i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i,
-          ),
-        };
-      }
-      return { items: [...state.items, { ...item, quantity: 1 }] };
-    }),
+  set((state) => {
+    const quantityToAdd = item.quantity ?? 1;
+    const existing = state.items.find((i) => i.id === item.id);
+
+    if (existing) {
+      return {
+        items: state.items.map((i) =>
+          i.id === item.id
+            ? { ...i, quantity: i.quantity + quantityToAdd }
+            : i
+        ),
+      };
+    }
+
+    return {
+      items: [...state.items, { ...item, quantity: quantityToAdd }],
+    };
+  }),
 
   removeItem: (id) =>
     set((state) => ({
@@ -44,8 +51,8 @@ export const useCartStore = create<CartStore>((set) => ({
 // mealsScreen.tsx imports addToGuestCart directly — it can't use hooks.
 // useCartStore.getState() gives us store actions without needing a component.
 
-export function addToGuestCart(meal: Meal) {
-  useCartStore.getState().addItem({ ...meal, quantity: 1 });
+export function addToGuestCart(meal: Meal, quantity = 1) {
+  useCartStore.getState().addItem({ ...meal, quantity });
 }
 
 export function removeFromCart(id: string) {

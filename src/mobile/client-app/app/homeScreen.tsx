@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import { router } from "expo-router";
 import { supabase } from "@/supabase";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { useMeals } from "./useMeals";
 import Cart from "./cartIconButton";
 import { Meal } from "./models/meal";
@@ -46,7 +46,18 @@ const fallbackData = [
 ];
 
 // Animated meal card
-export function MealCard({ item, index, onAddToCart }: { item: any; index: number; onAddToCart: (name: string) => void }) {  const fadeAnim = useRef(new Animated.Value(0)).current;
+export function MealCard({
+  item,
+  index,
+  onAddToCart,
+}: {
+  item: any;
+  index: number;
+  onAddToCart: (name: string, quantity: number) => void;
+}) {
+  const [quantity, setQuantity] = useState(1);
+
+  const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(24)).current;
   const scaleAnim = useRef(new Animated.Value(1)).current;
 
@@ -114,10 +125,28 @@ export function MealCard({ item, index, onAddToCart }: { item: any; index: numbe
 
         {/* Gold accent line */}
         <View style={HomeScreenStyles.cardAccent} />
+        <View style={HomeScreenStyles.quantityRow}>
+  <Pressable
+    onPress={() => setQuantity((q) => Math.max(1, q - 1))}
+    style={HomeScreenStyles.quantityBtn}
+  >
+    <Text style={HomeScreenStyles.quantityBtnText}>−</Text>
+  </Pressable>
+
+  <Text style={HomeScreenStyles.quantityText}>{quantity} db</Text>
+
+  <Pressable
+    onPress={() => setQuantity((q) => Math.min(99, q + 1))}
+    style={HomeScreenStyles.quantityBtn}
+  >
+    <Text style={HomeScreenStyles.quantityBtnText}>+</Text>
+  </Pressable>
+</View>
         <Pressable
   onPress={() => {
-    addToGuestCart(item);
-    onAddToCart(item.name);
+    addToGuestCart(item, quantity);
+    onAddToCart(item.name, quantity);
+    setQuantity(1);
   }}
   style={({ pressed }) => [
     HomeScreenStyles.cartBtn,
@@ -179,11 +208,11 @@ export default function HomeScreen() {
     }
   };
 
-  const showToast = (itemName: string) => {
+  const showToast = (itemName: string, quantity: number) => {
   Toast.show({
     type: "success",
     text1: "Siker!",
-    text2: `1 db ${itemName} sikeresen a kosárba rakva!`,
+    text2: `${quantity} db ${itemName} sikeresen a kosárba rakva!`,
   });
 };
 
@@ -583,5 +612,38 @@ export const HomeScreenStyles = StyleSheet.create({
 cartBtnText: {
   color: "#0f0e0c",
   fontWeight: "800",
+},
+quantityRow: {
+  flexDirection: "row",
+  alignItems: "center",
+  justifyContent: "center",
+  gap: 10,
+  marginHorizontal: 12,
+  marginBottom: 10,
+},
+
+quantityBtn: {
+  width: 30,
+  height: 30,
+  borderRadius: 15,
+  backgroundColor: COLORS.surface,
+  borderWidth: 1,
+  borderColor: COLORS.border,
+  alignItems: "center",
+  justifyContent: "center",
+},
+
+quantityBtnText: {
+  color: COLORS.gold,
+  fontSize: 18,
+  fontWeight: "900",
+},
+
+quantityText: {
+  color: COLORS.text,
+  fontSize: 13,
+  fontWeight: "700",
+  minWidth: 42,
+  textAlign: "center",
 },
 });
