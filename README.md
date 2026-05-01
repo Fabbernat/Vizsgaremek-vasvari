@@ -12,10 +12,7 @@ Készítették:
 ### [Felhasználói Kézikönyv](https://docs.google.com/document/d/1o2DdXFC71gay2iLMsgSlr2i-bHmbJx-FD2b9MA-aVF0/edit?usp=sharing)
 ### [Fejlesztői Dokumentáció](https://docs.google.com/document/d/1zt1tjP2g39yGNFi9i3kmKQTTUdugH_qad7wiUVNOMto/edit?usp=sharing)
 ### [Adatbázis-diagram](https://dbdiagram.io/d/Royal-Delivery-69c139edfb2db18e3be1be82)
-### [Az adatbázis export fájlja (dump)](https://supabase.com/dashboard/project/uqusahmtbaypepskpxxa/editor/34169?schema=public)
-Ezt úgy kell, hogy 
-
--> A https://supabase.com/dashboard/project/uqusahmtbaypepskpxxa/editor/34169?schema=public oldalon -> Katt a tábla nevére a bal oldali panelen -> katt a 3 pöttyre -> Export data -> Export table as SQL
+### [Az adatbázis export fájlja (dump)](https://github.com/vizsgaremek-2025-2026-nappali-2-14b/royal-delivery-app-nalhi-gurban-fabian/blob/main/database/database-dumps/all-tables-supabase-database-dump-2026-05-01-22-24.sql)
 
 ## Telepítés:
 ```powershell
