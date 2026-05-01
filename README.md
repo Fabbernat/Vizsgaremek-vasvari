@@ -6,7 +6,7 @@ Készítették:
 
 ⚠️Az alkalmazások kipróbálásához, használatához és telepítéséhez némi Git és JavaScript tudás szükséges!⚠️
 
-## Fontos linkek:
+## Fontos linkek
 ### [Prezentáció](https://docs.google.com/presentation/d/1sCbycWzKTGuvTsGm7b6RSliEWNnaCSsBRFpawD3Rd0c/edit?usp=drive_link)
 ### [Dokumentáció](https://docs.google.com/document/d/1ojhwJm34qvML5fOf8i9hJpa355ce6aKP/edit?usp=drive_link&ouid=115331407599598307359&rtpof=true&sd=true)
 ### [Felhasználói Kézikönyv](https://docs.google.com/document/d/1o2DdXFC71gay2iLMsgSlr2i-bHmbJx-FD2b9MA-aVF0/edit?usp=sharing)
