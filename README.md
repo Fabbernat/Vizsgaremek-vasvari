@@ -6,14 +6,14 @@ git clone https://github.com/vizsgaremek-2025-2026-nappali-2-14b/royal-delivery-
 cd royal-delivery-app-nalhi-gurban-fabian
 ```
 
-### `mobile` mappa
+## Mobilalkalmazás elindítása 
+1. függőségek telepítése az alkalmazás mappájában
 ```powershell
-cd mobile
-cd client-app
+cd src/mobile/client-app
 npm i
 ```
 
-##### Supabase backend hozzákapcsolása
+2. Supabase backend hozzákapcsolása
 ```powershell
 npm install supabase --save-dev
 npx supabase init
@@ -21,21 +21,26 @@ npx supabase start
 npx supabase link --project-ref uqusahmtbaypepskpxxa
 ```
 
-##### Elindítás
+3. Elindítás
 ```powershell
 npx expo start
 ```
 
+4. Megnyitás (böngészőben): `w` gombot kell lenyomni terminálban.
+5. Megnyitás mobileszközön: Le kell tölteni a mobileszközre az "Expo Go" nevű alkalmazást.
+
+A többi app ugyanígy indítható a saját mappájából.
+
 ### `web` mappa 
 ##### Ákos admin felülete
 ```powershell
-cd react-admin-felulet-akos
+cd src/web/react-admin-felulet-akos
 `npm i`
 `npm run dev`
 ```
 ##### Csongor frontend webalkalmazása
 ```powershell
-`cd vue-frontend-csongor`
+`cd src/web/vue-frontend-csongor`
 `npm i`
 `npm run dev`
 ```
