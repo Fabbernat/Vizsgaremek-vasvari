@@ -49,6 +49,10 @@ onMounted(async () => {
     width: 80vw;
     justify-content: space-evenly;
     background: rgb(24, 39, 61);
+    @media screen and (max-width: 762px) {
+      
+      width: 100vw;
+    }
   }
   nav{
     width: 50%;
