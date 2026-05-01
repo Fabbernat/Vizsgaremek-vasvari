@@ -1,5 +1,5 @@
 # Royal Delivery
-**Ételrendelő app admin felülettel, mobil- és webalkalmazással és sok egyéb szolgáltatással**
+**Ételrendelő rendszer mobilalkalmazással, webes felülettel, admin felülettel REST API végpontokkal és adatbázissal.**
 
 Készítették:
 [Fábián Bernát](https://github.com/Fabbernat), Gurbán Ákos, Nálhi Csongor
