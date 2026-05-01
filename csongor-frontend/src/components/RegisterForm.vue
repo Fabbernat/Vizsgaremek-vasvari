@@ -26,12 +26,11 @@ const touched = reactive({
 })
 
 const onSubmit = async () => {
-  // minden mező érintetté válik
+
   Object.keys(touched).forEach(k => touched[k] = true)
 
-  await nextTick() // UI frissítés biztosítása
-
-  // validáció
+  await nextTick()
+  
   const isValid =
     form.userName &&
     form.firstName &&

@@ -18,12 +18,10 @@ const touched = reactive({
 })
 
 const onSubmit = async () => {
-  // minden mező touched lesz
   Object.keys(touched).forEach(k => touched[k] = true)
 
   await nextTick()
 
-  // validáció
   const isValid =
     form.email &&
     form.password

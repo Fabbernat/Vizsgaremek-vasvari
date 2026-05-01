@@ -28,7 +28,6 @@
 
       <div class="card-img-right row col-4 p-0" >
         <img :src="`/meals/${meal.id ?? 'default'}.jpg`"alt="Food" class="p-0 h-100 col-12" style="object-fit: cover;">
-        <!-- <img src="https://realgreekrecipes.com/wp-content/uploads/2018/07/Easy-Chicken-Gyro-Wraps.jpg"alt="Food" class="img-fluid h-100 col-12 rounded" style="object-fit: cover;"> -->
       </div>
     </div>
   </div>
@@ -37,6 +36,7 @@
 <style>
 .card {
   height: 300px;
+  background: #ffffff96;
   @media screen and (max-width: 762px) {
     height: 200px
   }
@@ -48,11 +48,7 @@
 
 .card-img-right{
     overflow: hidden;
-    /* min-width: 40%; */
-    /* width: 150px; */
-    /* min-height: 100%; */
     height: 100%;
-    /* height: 300px; */
     border-top-right-radius: 6px;
     border-bottom-right-radius: 6px;
     margin-right: 0px;

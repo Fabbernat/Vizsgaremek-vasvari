@@ -1,26 +1,3 @@
-// import { ref, computed } from 'vue'
-// import { defineStore } from 'pinia'
-
-// export const useDeliveryStore = defineStore('delivery', () => {
-//   const cart = ref([])
-
-//   const addToCart = (id) =>{
-//     let p = cart.value.find((p) => id == p.id)
-//     if(p != undefined){
-//       p.q+=1
-//     }
-//     else{
-//       cart.value.push({
-//         id: id,
-//         q: 1 
-//       })
-//     }
-//     console.log(cart.value);
-    
-//   }
-
-//   return { addToCart }
-// })
 import { defineStore } from 'pinia'
 
 export const useDeliveryStore = defineStore('delivery', {
@@ -46,7 +23,7 @@ export const useDeliveryStore = defineStore('delivery', {
       } else {
         this.cart.push({
           ...meal,
-          price: Number(meal.price), // 🔥 fontos
+          price: Number(meal.price), 
           quantity: 1
         })
       }
@@ -73,7 +50,7 @@ export const useDeliveryStore = defineStore('delivery', {
     removeItem(id) {
       const index = this.cart.findIndex(item => item.id === id)
       if (index !== -1) {
-        this.cart.splice(index, 1) // 🔥 EZ A FIX
+        this.cart.splice(index, 1) 
       }
     }
   }
