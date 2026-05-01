@@ -16,14 +16,19 @@
 ### [Adatbázis-diagram](https://dbdiagram.io/d/Royal-Delivery-69c139edfb2db18e3be1be82)
 ### [Az adatbázis export fájlja (dump)](https://github.com/vizsgaremek-2025-2026-nappali-2-14b/royal-delivery-app-nalhi-gurban-fabian/blob/main/database/database-dumps/all-tables-supabase-database-dump-2026-05-01-22-24.sql)
 
-## Telepítés:
+## Telepítés
 ```powershell
 git clone https://github.com/vizsgaremek-2025-2026-nappali-2-14b/royal-delivery-app-nalhi-gurban-fabian
 cd royal-delivery-app-nalhi-gurban-fabian
 ```
 
+- `src/mobile/client-app` – mobilalkalmazás
+- `src/web` – webalkalmazás
+- `database` – adatbázis dumpok és SQL fájlok
+- `docs` - dokumentáció
+
 ### Mobilalkalmazás elindítása 
-1. függőségek telepítése az alkalmazás mappájában
+1. Függőségek telepítése az alkalmazás mappájában
 ```powershell
 cd src/mobile/client-app
 npm i
@@ -73,6 +78,19 @@ EXPO_PUBLIC_SUPABASE_KEY=...
 EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY=...
 EXPO_PUBLIC_API_BASE_URL=http://192.168.1.114:54321
 ```
+
+## Tesztfelhasználók
+
+A teszteléshez használható felhasználói adatok az [Adatbázis dumpban]((https://github.com/vizsgaremek-2025-2026-nappali-2-14b/royal-delivery-app-nalhi-gurban-fabian/blob/main/database/database-dumps/all-tables-supabase-database-dump-2026-05-01-22-24.sql)) találhatók.
+
+Pár példa
+
+| Szerepkör | Email | Jelszó |
+|---|---|---|
+| Admin | teszt@gmail.com | jelszo12 |
+| Tulajdonos | te@email.com | jelszo12 |
+| Vásárló | example@email.com | jelszo12 |
+| Futár | example@email.com | jelszo12 |
 
 ## Projekt generátor parancsok
 React projekt generátor parancs:
@@ -132,7 +150,7 @@ npx create-expo-app@latest --te,plate default@sdk-54
 <img width="260" alt="Screenshot_2026-04-24-14-41-38-785_host exp exponent" src="https://github.com/user-attachments/assets/3ab08d2e-6d06-46ec-8b48-bc6371a277b0" />
 <img width="260" alt="Screenshot_2026-04-24-14-42-28-595_host exp exponent" src="https://github.com/user-attachments/assets/013f6614-c02e-4749-8e3e-72054632adb9" />
 
-### Supabase adatbázisunk URL-je: [https://supabase.com/dashboard/project/uqusahmtbaypepskpxxa](https://uqusahmtbaypepskpxxa.supabase.co)
+### Supabase adatbázisunk URL-je: [https://uqusahmtbaypepskpxxa.supabase.co](https://uqusahmtbaypepskpxxa.supabase.co)
 ### Képek a Supabase adatbázisunkról:
 <img width="1581" height="1031" alt="Supabase schema" src="https://github.com/user-attachments/assets/9bd67b34-359b-4d3f-a89c-2b6b203eabde" />
 <img width="1226" height="695" alt="Képernyőkép 2026-04-23 162246" src="https://github.com/user-attachments/assets/e7be4c81-1432-4236-a90f-3cbb5b2511d1" />
