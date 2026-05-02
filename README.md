@@ -49,6 +49,8 @@ npx expo start
 
 4. Megnyitás (böngészőben): `w` gombot kell lenyomni terminálban.
 5. Megnyitás mobileszközön: Le kell tölteni a mobileszközre az "Expo Go" nevű alkalmazást.
+6. Használat: <img width="667" height="912" alt="image" src="https://github.com/user-attachments/assets/701d9a9b-b1ff-48bb-9292-b8b2d68c2bc5" />
+
 
 A többi app ugyanígy indítható a saját mappájából.
 
