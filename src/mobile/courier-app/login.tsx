@@ -70,7 +70,7 @@ export default function LoginScreen() {
       />
 
       <Pressable
-        onPress={() => router.replace('/')}
+        onPress={() => router.push('/')}
         style={{
           backgroundColor: '#2563eb',
           paddingVertical: 14,

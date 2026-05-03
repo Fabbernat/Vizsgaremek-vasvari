@@ -1,4 +1,4 @@
-// client-app\app\checkoutScreen.tsx
+// client-app\(app)\app\(app)\checkoutScreen.tsx
 import { useState, useRef } from "react";
 import {
   Text,
@@ -191,7 +191,7 @@ export default function CheckoutScreen() {
       {/* Brand */}
       <View style={styles.brandRow}>
         <Image
-          source={require("../assets/mine/icons/rd-logo.png")}
+          source={require("../../assets/mine/icons/rd-logo.png")}
           style={styles.crown}
         />
         <Text style={styles.brandName}>Royal Delivery</Text>

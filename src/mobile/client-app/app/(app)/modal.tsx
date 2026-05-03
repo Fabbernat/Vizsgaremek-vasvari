@@ -1,4 +1,4 @@
-// client-app\app\modal.tsx
+// client-app\(app)\app\(app)\modal.tsx
 import { Link } from 'expo-router';
 import { StyleSheet } from 'react-native';
 

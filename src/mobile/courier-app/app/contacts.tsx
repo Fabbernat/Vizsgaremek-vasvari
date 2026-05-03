@@ -45,7 +45,7 @@ export default function ContactsScreen() {
     >
       <View style={{ flex: 1, justifyContent: "center" }}>
         <Pressable
-          onPress={() => router.replace("/")}
+          onPress={() => router.push("/")}
           style={{
             alignSelf: "flex-start",
             backgroundColor: "#e5e7eb",

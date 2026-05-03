@@ -20,7 +20,7 @@ export default function NotFoundScreen() {
       </Text>
 
       <Pressable
-        onPress={() => router.replace('/')}
+        onPress={() => router.push('/')}
         style={{
           backgroundColor: '#2563eb',
           padding: 12,

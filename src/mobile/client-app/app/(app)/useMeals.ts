@@ -7,7 +7,7 @@ Your app makes three independent Supabase queries for the same data:
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/supabase";
-import { Meal } from "./models/meal";
+import { Meal } from "../models/meal";
 
 export function useMeals() {
   const [meals, setMeals] = useState<Meal[]>([]);

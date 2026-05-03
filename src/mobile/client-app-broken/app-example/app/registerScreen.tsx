@@ -147,7 +147,7 @@ export default function Register() {
     }
     Toast.show({ type: "success", text1: "Teszt regisztráció", text2: "Gyors belépés sikeres" });
     setGlobalIsLoggedIn(true);
-    router.replace("/");
+    router.push("/");
   }
 
   return (

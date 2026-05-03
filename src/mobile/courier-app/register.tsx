@@ -103,7 +103,7 @@ export default function RegisterScreen() {
       />
 
       <Pressable
-        onPress={() => router.replace('/')}
+        onPress={() => router.push('/')}
         style={{
           backgroundColor: '#16a34a',
           paddingVertical: 14,

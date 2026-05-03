@@ -20,11 +20,11 @@ export default function AdminToggleButton({ style, isLoggedIn, setIsLoggedIn }: 
         text1: "Siker",
         text2: "Sikeresen kijelentkeztél az admin módból!",
       });
-      router.replace("/");
+      router.push("/");
     } else {
       const { data } = await supabase.auth.getSession();
       if (data.session) {
-        router.replace("/");
+        router.push("/");
       } else {
         Toast.show({
           type: "success",

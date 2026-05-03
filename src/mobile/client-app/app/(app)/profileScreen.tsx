@@ -1,4 +1,4 @@
-// client-app\app\profileScreen.tsx
+// client-app\(app)\app\(app)\profileScreen.tsx
 import { useState, useRef, useEffect } from "react";
 import {
   View,

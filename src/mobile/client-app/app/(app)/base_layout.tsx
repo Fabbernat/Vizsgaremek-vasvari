@@ -1,4 +1,4 @@
-// client-app\app\base_layout.tsx
+// client-app\(app)\app\(app)\base_layout.tsx
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';

@@ -1,4 +1,4 @@
-// client-app\app\registerScreen.tsx
+// client-app\(app)\app\(app)\registerScreen.tsx
 import { useState, useRef, useEffect } from "react";
 import {
   Text,
@@ -14,7 +14,7 @@ import {
     Image,
     ActivityIndicator,
 } from "react-native";
-import { supabase } from "../supabase";
+import { supabase } from "../../supabase";
 import Toast from "react-native-toast-message";
 import { router } from "expo-router";
 import { setGlobalIsLoggedIn } from "./authStore";
@@ -170,7 +170,7 @@ const isStrongPassword = (pw: string) => {
     }
     Toast.show({ type: "success", text1: "Teszt regisztráció", text2: "Gyors belépés sikeres" });
     setGlobalIsLoggedIn(true);
-    router.replace("/");
+    router.push("/");
   }
 
   return (
@@ -188,7 +188,7 @@ const isStrongPassword = (pw: string) => {
         >
           {/* Brand */}
           <View style={styles.brandRow}>
-        <Image source={require("../assets/mine/icons/rd-logo.png")} style={styles.crown}  />
+        <Image source={require("../../assets/mine/icons/rd-logo.png")} style={styles.crown}  />
             <Text style={styles.brandName}>Royal Delivery</Text>
           </View>
 

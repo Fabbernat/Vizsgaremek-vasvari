@@ -1,4 +1,4 @@
-// client-app\app\loginScreen.tsx
+// client-app\(app)\app\(app)\loginScreen.tsx
 import { useState, useRef, useEffect } from "react";
 import {
   Text,
@@ -12,7 +12,7 @@ import {
   StyleSheet,
   Image,
 } from "react-native";
-import { supabase } from "../supabase";
+import { supabase } from "../../supabase";
 import Toast from "react-native-toast-message";
 import { router } from "expo-router";
 import { setGlobalIsLoggedIn } from "./authStore";
@@ -124,7 +124,7 @@ export default function LoginScreen({ isLoggedIn, setIsLoggedIn }: Props) {
     } else {
       Toast.show({ type: "success", text1: "Üdvözlünk!", text2: "Sikeres bejelentkezés" });
       setGlobalIsLoggedIn(true);
-      router.replace("/");
+      router.push("/");
     }
   }
 
@@ -166,7 +166,7 @@ export default function LoginScreen({ isLoggedIn, setIsLoggedIn }: Props) {
     }
     Toast.show({ type: "success", text1: "Teszt belépés", text2: "Gyors login sikeres" });
     setGlobalIsLoggedIn(true);
-    router.replace("/");
+    router.push("/");
   }
 
   return (
@@ -183,7 +183,7 @@ export default function LoginScreen({ isLoggedIn, setIsLoggedIn }: Props) {
       >
         {/* Brand */}
         <View style={styles.brandRow}>
-        <Image source={require("../assets/mine/icons/rd-logo.png")} style={styles.crown}  />
+        <Image source={require("../../assets/mine/icons/rd-logo.png")} style={styles.crown}  />
           <Text style={styles.brandName}>Royal Delivery</Text>
         </View>
 

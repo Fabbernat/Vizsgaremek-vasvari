@@ -1,4 +1,4 @@
-// client-app\app\+not-found.tsx
+// client-app\(app)\app\(app)\+not-found.tsx
 import { View, Text, Pressable } from 'react-native';
 import { router } from 'expo-router';
 
@@ -21,7 +21,7 @@ export default function NotFoundScreen() {
       </Text>
 
       <Pressable
-        onPress={() => router.replace('/')}
+        onPress={() => router.push('/')}
         style={{
           backgroundColor: '#2563eb',
           padding: 12,

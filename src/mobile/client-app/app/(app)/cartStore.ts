@@ -1,6 +1,6 @@
 // client-app/app/cartStore.ts
 import { create } from "zustand";
-import { Meal } from "./models/meal";
+import { Meal } from "../models/meal";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 

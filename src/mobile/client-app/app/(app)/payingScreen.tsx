@@ -1,4 +1,4 @@
-// client-app\app\payingScreen.tsx
+// client-app\(app)\app\(app)\payingScreen.tsx
 import { router } from "expo-router";
 import { ScrollView, Text } from "react-native";
 import { useEffect } from "react";

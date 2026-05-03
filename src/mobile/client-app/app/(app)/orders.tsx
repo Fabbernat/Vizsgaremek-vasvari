@@ -1,8 +1,8 @@
-// client-app\app\orders.tsx
+// client-app\(app)\app\(app)\orders.tsx
 import React, { useEffect, useState } from "react";
 import { View, Text } from "react-native";
 import { supabase } from "@/supabase";
-import { OrderItem } from "./models/orderItem";
+import { OrderItem } from "../models/orderItem";
 export default function Orders() {
   const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
 

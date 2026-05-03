@@ -286,7 +286,7 @@ const filteredMeals = sourceMeals // vagy inmemoryMeals
       </Pressable>
       <View style={styles.brandRow}>
         <Image
-          source={require("../assets/mine/icons/rd-logo.png")}
+          source={require("../../assets/mine/icons/rd-logo.png")}
           style={styles.crown}
         />
         <Text style={styles.brandName}>Royal Delivery</Text>

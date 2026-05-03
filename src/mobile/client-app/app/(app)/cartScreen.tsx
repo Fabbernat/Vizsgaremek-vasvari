@@ -1,4 +1,4 @@
-// client-app\app\cartScreen.tsx
+// client-app\(app)\app\(app)\cartScreen.tsx
 import { router } from "expo-router";
 import {
   Alert,
@@ -63,7 +63,7 @@ export default function cartScreen() {
       {/* ── Brand header ── */}
       <View style={styles.brandRow}>
         <Image
-          source={require("../assets/mine/icons/rd-logo.png")}
+          source={require("../../assets/mine/icons/rd-logo.png")}
           style={styles.crown}
         />
       </View>

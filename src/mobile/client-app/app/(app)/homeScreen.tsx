@@ -1,4 +1,4 @@
-// client-app\app\homeScreen.tsx
+// client-app\(app)\app\(app)\homeScreen.tsx
 import {
   Image,
   View,
@@ -15,7 +15,7 @@ import { supabase } from "@/supabase";
 import { useRef, useEffect, useState } from "react";
 import { useMeals } from "./useMeals";
 import Cart from "./cartIconButton";
-import { Meal } from "./models/meal";
+import { Meal } from "../models/meal";
 import ProfileIconButton from "./profileIconButton";
 import { useGlobalAuth , setGlobalIsLoggedIn } from "./authStore";
 import { addToGuestCart } from "./cartStore";
@@ -223,7 +223,7 @@ export default function HomeScreen() {
       {/* Top bar */}
       <View style={HomeScreenStyles.topBar}>
         <Animated.View style={{ opacity: headerAnim, transform: [{ translateY: logoAnim }] }}>
-                  <Image source={require("../assets/mine/icons/rd-logo.png")} style={HomeScreenStyles.crown}  />
+                  <Image source={require("../../assets/mine/icons/rd-logo.png")} style={HomeScreenStyles.crown}  />
 
         </Animated.View>
         <View style={HomeScreenStyles.topActions}>

@@ -43,7 +43,7 @@ export default function ContactDetailsScreen() {
       }}
     >
       <Pressable
-        onPress={() => router.replace("/")}
+        onPress={() => router.push("/")}
         style={{
           alignSelf: "flex-start",
           backgroundColor: "#e5e7eb",
@@ -59,11 +59,11 @@ export default function ContactDetailsScreen() {
       <Text style={styles.title}>Kapcsolat & Segítség</Text>
 
       <View style={styles.iconRow}>
-        <Image source={require("../assets/mine/landline-phone.png")} style={styles.icon} />
-        <Image source={require("../assets/mine/email.png")} style={styles.icon} />
-        <Image source={require("../assets/mine/icons8-facebook-96.png")} style={styles.icon} />
-        <Image source={require("../assets/mine/icons8-instagram-480.png")} style={styles.icon} />
-        <Image source={require("../assets/mine/icons8-linkedin-96.png")} style={styles.icon} />
+        <Image source={require("../../assets/mine/landline-phone.png")} style={styles.icon} />
+        <Image source={require("../../assets/mine/email.png")} style={styles.icon} />
+        <Image source={require("../../assets/mine/icons8-facebook-96.png")} style={styles.icon} />
+        <Image source={require("../../assets/mine/icons8-instagram-480.png")} style={styles.icon} />
+        <Image source={require("../../assets/mine/icons8-linkedin-96.png")} style={styles.icon} />
       </View>
 
       <Text style={styles.subtitle}>
@@ -107,7 +107,7 @@ export default function ContactDetailsScreen() {
       />
 
       <Image
-        source={require("../assets/mine/5icons.png")}
+        source={require("../../assets/mine/5icons.png")}
         style={styles.bottomImage}
       />
     </ScrollView>

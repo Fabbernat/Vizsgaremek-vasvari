@@ -123,7 +123,7 @@ export default function LoginScreen({ isLoggedIn, setIsLoggedIn }: Props) {
     } else {
       Toast.show({ type: "success", text1: "Üdvözlünk!", text2: "Sikeres bejelentkezés" });
       setGlobalIsLoggedIn(true);
-      router.replace("/");
+      router.push("/");
     }
   }
 
@@ -165,7 +165,7 @@ export default function LoginScreen({ isLoggedIn, setIsLoggedIn }: Props) {
     }
     Toast.show({ type: "success", text1: "Teszt belépés", text2: "Gyors login sikeres" });
     setGlobalIsLoggedIn(true);
-    router.replace("/");
+    router.push("/");
   }
 
   return (
