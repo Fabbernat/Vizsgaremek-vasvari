@@ -1,0 +1,1 @@
+INSERT INTO "public"."shops" ("id", "name", "owner_id") VALUES (1, 'Royal Alapanyagbolt', 1), (2, 'Burger Kellék Shop', 2), (3, 'Sushi Supply Store', 3), (4, 'Vasvári Mini Market', 1);
