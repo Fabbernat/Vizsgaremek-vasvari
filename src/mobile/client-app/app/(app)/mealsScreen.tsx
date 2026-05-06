@@ -15,7 +15,7 @@ import {
 import Toast from "react-native-toast-message";
 import { addToGuestCart } from "./cartStore";
 import { useMeals } from "./useMeals";
-
+import SkeletonMealCard from "./skeletonMealCard";
 const COLORS = {
   bg: "#0f0e0c",
   surface: "#1c1a16",
@@ -31,6 +31,8 @@ const COLORS = {
   danger: "#ef4444",
   dangerFaint: "#2a1010",
 };
+
+ 
 
 const mealsData = [
   {
@@ -337,7 +339,17 @@ const filteredMeals = sourceMeals // vagy inmemoryMeals
           <Text style={styles.sortText}>Név</Text>
         </Pressable>
       </View>
-
+    {loading && (
+        <FlatList
+          data={Array(6).fill(null)}
+          keyExtractor={(_, i) => `skeleton-${i}`}
+          numColumns={2}
+          columnWrapperStyle={{ gap: 16 }}
+          contentContainerStyle={{ paddingBottom: 80 }}
+          renderItem={({ index }) => <SkeletonMealCard index={index} />}
+          scrollEnabled={false}
+        />
+      )}
       <FlatList
         data={filteredMeals}
         keyExtractor={(i) => i.id}
@@ -348,7 +360,6 @@ const filteredMeals = sourceMeals // vagy inmemoryMeals
           <MealCard item={item} index={index} onAddToCart={showToast} />
         )}
       />
-      {/* ❌ Do NOT render <Toast /> here — it lives in Layout already */}
     </View>
   );
 }
