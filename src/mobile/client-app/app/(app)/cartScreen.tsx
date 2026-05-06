@@ -176,7 +176,7 @@ export default function CartScreen() {
           {/* ── Checkout button ── */}
           <Pressable
             onPress={() => {
-              router.push("/checkoutScreen");
+              router.push("/CheckoutScreen");
             }}
             style={({ pressed }) => [
               styles.checkoutBtn,

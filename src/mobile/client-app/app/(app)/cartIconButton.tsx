@@ -17,7 +17,7 @@ export default function CartIconButton({ style }: Props) {
   return (
     <View style={[styles.wrapper, style]}>
       <Pressable
-        onPress={() => router.push("/cartScreen")}
+        onPress={() => router.push("/CartScreen")}
         style={({ pressed }) => [styles.button, pressed && styles.pressed]}
       >
         <Ionicons name="cart-outline" size={26} color="#fff" />

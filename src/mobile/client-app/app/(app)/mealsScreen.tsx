@@ -1,4 +1,4 @@
-// client-app/app/mealsScreen.tsx
+// client-app/app/MealsScreen.tsx
 import { router } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import {

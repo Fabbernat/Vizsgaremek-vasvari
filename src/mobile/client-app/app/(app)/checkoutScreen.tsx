@@ -358,7 +358,7 @@ export default function CheckoutScreen() {
       <Pressable
         onPress={() => {
           if (validateForm()) {
-            router.push("/payingScreen");
+            router.push("/PayingScreen");
           }
         }}
         style={({ pressed }) => [

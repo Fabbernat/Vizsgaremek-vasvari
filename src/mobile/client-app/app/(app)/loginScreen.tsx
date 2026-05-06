@@ -263,7 +263,7 @@ export default function LoginScreen({ isLoggedIn, setIsLoggedIn }: Props) {
         {/* Register link */}
         <View style={styles.registerRow}>
           <Text style={styles.registerPrompt}>Nincs még fiókod? </Text>
-          <Pressable onPress={() => router.push("/registerScreen")}>
+          <Pressable onPress={() => router.push("/RegisterScreen")}>
             <Text style={styles.registerLink}>Hozz létre egyet!</Text>
           </Pressable>
         </View>

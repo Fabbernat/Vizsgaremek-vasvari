@@ -320,7 +320,7 @@ export default function ProfileScreen() {
 
       {/* ── Checkout button ── */}
       <Pressable
-        onPress={() => router.push("/checkoutScreen")}
+        onPress={() => router.push("/CheckoutScreen")}
         style={({ pressed }) => [styles.primaryBtn, pressed && styles.btnPressed]}
       >
         <Text style={styles.primaryBtnText}>Megrendelés →</Text>

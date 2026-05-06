@@ -261,7 +261,7 @@ export default function HomeScreen() {
         </Text>
 
         <Pressable
-          onPress={() => router.push("/mealsScreen")}
+          onPress={() => router.push("/MealsScreen")}
           style={({ pressed }) => [
             HomeScreenStyles.heroCta,
             { backgroundColor: colors.gold },
@@ -315,13 +315,13 @@ export default function HomeScreen() {
         {!isLoggedIn ? (
           <View style={HomeScreenStyles.authRow}>
             <Pressable
-              onPress={() => router.push("/loginScreen")}
+              onPress={() => router.push("/LoginScreen")}
               style={({ pressed }) => [HomeScreenStyles.authBtn, { backgroundColor: colors.blue, borderColor: colors.blue }, pressed && HomeScreenStyles.btnPressed]}
             >
               <Text style={[HomeScreenStyles.authBtnText, { color: "#fff" }]}>Bejelentkezés</Text>
             </Pressable>
             <Pressable
-              onPress={() => router.push("/registerScreen")}
+              onPress={() => router.push("/RegisterScreen")}
               style={({ pressed }) => [HomeScreenStyles.authBtn, { backgroundColor: colors.green, borderColor: colors.green }, pressed && HomeScreenStyles.btnPressed]}
             >
               <Text style={[HomeScreenStyles.authBtnText, { color: "#fff" }]}>Regisztráció</Text>

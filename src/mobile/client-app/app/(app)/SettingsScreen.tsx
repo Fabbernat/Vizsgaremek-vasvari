@@ -180,7 +180,7 @@ export default function SettingsScreen() {
               icon="🧾"
               label="Rendeléseim"
               sublabel="Korábbi rendelések megtekintése"
-              onPress={() => router.push("/orders")}
+              onPress={() => router.push("/Orders")}
               colors={colors}
             />
 
@@ -188,7 +188,7 @@ export default function SettingsScreen() {
               icon="👤"
               label="Profil szerkesztése"
               sublabel="Adataim módosítása"
-              onPress={() => router.push("/profileScreen")}
+              onPress={() => router.push("/ProfileScreen")}
               colors={colors}
               isLast
             />
@@ -247,7 +247,7 @@ export default function SettingsScreen() {
             </Text>
             <View style={styles.guestBtnRow}>
               <Pressable
-                onPress={() => router.push("/loginScreen")}
+                onPress={() => router.push("/LoginScreen")}
                 style={({ pressed }) => [
                   styles.guestBtn,
                   { backgroundColor: colors.gold },
@@ -257,7 +257,7 @@ export default function SettingsScreen() {
                 <Text style={styles.guestBtnText}>Bejelentkezés</Text>
               </Pressable>
               <Pressable
-                onPress={() => router.push("/registerScreen")}
+                onPress={() => router.push("/RegisterScreen")}
                 style={({ pressed }) => [
                   styles.guestBtnOutline,
                   { borderColor: colors.goldDim },
@@ -284,7 +284,7 @@ export default function SettingsScreen() {
           <SettingRow
             icon="📞"
             label="Kapcsolat & Segítség"
-            onPress={() => router.push("/contact-details")}
+            onPress={() => router.push("/ContactDetails")}
             colors={colors}
             isLast
           />

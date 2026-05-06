@@ -290,7 +290,7 @@ const isStrongPassword = (pw: string) => {
           {/* Login link */}
           <View style={styles.loginRow}>
             <Text style={styles.loginPrompt}>Már van fiókod? </Text>
-            <Pressable onPress={() => router.push("/loginScreen")}>
+            <Pressable onPress={() => router.push("/LoginScreen")}>
               <Text style={styles.loginLink}>Jelentkezz be</Text>
             </Pressable>
           </View>

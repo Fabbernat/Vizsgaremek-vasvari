@@ -11,7 +11,7 @@ export default function ProfileIconButton({ style }: Props) {
   return (
     <View style={[styles.wrapper, style]}>
       <Pressable
-        onPress={() => router.push("/profileScreen")}
+        onPress={() => router.push("/ProfileScreen")}
         style={({ pressed }) => [
           styles.button,
           pressed && styles.pressed,

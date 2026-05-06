@@ -4,7 +4,7 @@ import { Meal } from "../../models/meal";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
-// CartItem extends Meal so mealsScreen can pass a Meal directly
+// CartItem extends Meal so MealsScreen can pass a Meal directly
 export type CartItem = Meal & { quantity: number };
 
 // ── Zustand store ─────────────────────────────────────────────────────────────
@@ -48,7 +48,7 @@ export const useCartStore = create<CartStore>((set) => ({
 }));
 
 // ── Plain-function API (for use outside React components) ─────────────────────
-// mealsScreen.tsx imports addToGuestCart directly — it can't use hooks.
+// MealsScreen.tsx imports addToGuestCart directly — it can't use hooks.
 // useCartStore.getState() gives us store actions without needing a component.
 
 export function addToGuestCart(meal: Meal, quantity = 1) {

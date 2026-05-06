@@ -4,7 +4,7 @@
 // Mirrors the exact dimensions of the real card so the layout
 // doesn't jump when content arrives.
 //
-// Usage in mealsScreen.tsx:
+// Usage in MealsScreen.tsx:
 //   import SkeletonMealCard from "@/components/skeletonMealCard";
 //   ...
 //   {loading && (

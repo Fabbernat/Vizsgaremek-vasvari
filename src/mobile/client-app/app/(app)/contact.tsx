@@ -22,7 +22,7 @@ export default function ContactPreview() {
       </Text>
 
       <Pressable
-        onPress={() => router.push("/contact-details")}
+        onPress={() => router.push("/ContactDetails")}
         style={{
           backgroundColor: "#2563eb",
           padding: 14,
