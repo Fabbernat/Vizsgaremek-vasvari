@@ -12,16 +12,19 @@ import {
     Text,
     View,
 } from "react-native";
-import { Meal } from "../models/meal";
-import { setGlobalIsLoggedIn, useGlobalAuth } from "./authStore";
-import Cart from "./cartIconButton";
-import { addToGuestCart } from "./cartStore";
-import ProfileIconButton from "./profileIconButton";
-import { useMeals } from "./useMeals";
+import { Meal } from "../../models/meal";
+import { setGlobalIsLoggedIn, useGlobalAuth } from "./AuthStore";
+import Cart from "./CartIconButton";
+import { addToGuestCart } from "./CartStore";
+import ProfileIconButton from "./ProfileIconButton";
+import { useMeals } from "./UseMeals";
 
 import Toast from "react-native-toast-message";
-import SkeletonMealCard from "./skeletonMealCard";
+import SettingsIconButton from "./SettingsIconButton";
+import SkeletonMealCard from "./SkeletonMealCard";
+import { useTheme } from "./ThemeContext";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const COLORS = {
   bg: "#0f0e0c",
   surface: "#1c1a16",
@@ -56,6 +59,7 @@ export function MealCard({
   onAddToCart: (name: string, quantity: number) => void;
 }) {
   const [quantity, setQuantity] = useState(1);
+  const { colors } = useTheme();
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(24)).current;
@@ -96,10 +100,10 @@ export function MealCard({
       <Pressable
         onPressIn={handlePressIn}
         onPressOut={handlePressOut}
-        style={HomeScreenStyles.card}
+        style={[HomeScreenStyles.card, { backgroundColor: colors.card, borderColor: colors.border }]}
       >
         {/* Image area */}
-        <View style={HomeScreenStyles.cardImageBox}>
+        <View style={[HomeScreenStyles.cardImageBox, { backgroundColor: colors.surface }]}>
           {item.imageUrl ? (
             <Image
               source={{ uri: item.imageUrl }}
@@ -107,62 +111,67 @@ export function MealCard({
               accessibilityLabel={`Egy kép erről: ${item.name}`}
             />
           ) : (
-            <View style={HomeScreenStyles.cardImagePlaceholder}>
+            <View style={[HomeScreenStyles.cardImagePlaceholder, { backgroundColor: colors.surface }]}>
               <Text style={HomeScreenStyles.cardImageEmoji}>🍽️</Text>
             </View>
           )}
           {/* Price badge */}
-          <View style={HomeScreenStyles.priceBadge}>
+          <View style={[HomeScreenStyles.priceBadge, { backgroundColor: colors.gold }]}>
             <Text style={HomeScreenStyles.priceText}>{item.price} Ft</Text>
           </View>
         </View>
 
         {/* Card body */}
         <View style={HomeScreenStyles.cardBody}>
-          <Text style={HomeScreenStyles.cardName} numberOfLines={1}>{item.name}</Text>
-          <Text style={HomeScreenStyles.cardDesc} numberOfLines={2}>{item.description}</Text>
+          <Text style={[HomeScreenStyles.cardName, { color: colors.text }]} numberOfLines={1}>{item.name}</Text>
+          <Text style={[HomeScreenStyles.cardDesc, { color: colors.muted }]} numberOfLines={2}>{item.description}</Text>
         </View>
 
         {/* Gold accent line */}
-        <View style={HomeScreenStyles.cardAccent} />
+        <View style={[HomeScreenStyles.cardAccent, { backgroundColor: colors.gold }]} />
+
+        {/* Quantity row */}
         <View style={HomeScreenStyles.quantityRow}>
-  <Pressable
-    onPress={() => setQuantity((q) => Math.max(1, q - 1))}
-    style={HomeScreenStyles.quantityBtn}
-  >
-    <Text style={HomeScreenStyles.quantityBtnText}>−</Text>
-  </Pressable>
+          <Pressable
+            onPress={() => setQuantity((q) => Math.max(1, q - 1))}
+            style={[HomeScreenStyles.quantityBtn, { backgroundColor: colors.surface, borderColor: colors.border }]}
+          >
+            <Text style={[HomeScreenStyles.quantityBtnText, { color: colors.gold }]}>−</Text>
+          </Pressable>
 
-  <Text style={HomeScreenStyles.quantityText}>{quantity} db</Text>
+          <Text style={[HomeScreenStyles.quantityText, { color: colors.text }]}>{quantity} db</Text>
 
-  <Pressable
-    onPress={() => setQuantity((q) => Math.min(99, q + 1))}
-    style={HomeScreenStyles.quantityBtn}
-  >
-    <Text style={HomeScreenStyles.quantityBtnText}>+</Text>
-  </Pressable>
-</View>
+          <Pressable
+            onPress={() => setQuantity((q) => Math.min(99, q + 1))}
+            style={[HomeScreenStyles.quantityBtn, { backgroundColor: colors.surface, borderColor: colors.border }]}
+          >
+            <Text style={[HomeScreenStyles.quantityBtnText, { color: colors.gold }]}>+</Text>
+          </Pressable>
+        </View>
+
         <Pressable
-  onPress={() => {
-    addToGuestCart(item, quantity);
-    onAddToCart(item.name, quantity);
-    setQuantity(1);
-  }}
-  style={({ pressed }) => [
-    HomeScreenStyles.cartBtn,
-    pressed && { opacity: 0.8, transform: [{ scale: 0.97 }] },
-  ]}
->
-  <Text style={HomeScreenStyles.cartBtnText}>+ Kosárba</Text>
-</Pressable>
+          onPress={() => {
+            addToGuestCart(item, quantity);
+            onAddToCart(item.name, quantity);
+            setQuantity(1);
+          }}
+          style={({ pressed }) => [
+            HomeScreenStyles.cartBtn,
+            { backgroundColor: colors.gold },
+            pressed && { opacity: 0.8, transform: [{ scale: 0.97 }] },
+          ]}
+        >
+          <Text style={HomeScreenStyles.cartBtnText}>+ Kosárba</Text>
+        </Pressable>
       </Pressable>
     </Animated.View>
   );
 }
 
 export default function HomeScreen() {
-  const { meals, loading, error } = useMeals();
+  const { meals, loading } = useMeals();
   const { isLoggedIn } = useGlobalAuth();
+  const { colors } = useTheme();
 
   const headerAnim = useRef(new Animated.Value(0)).current;
   const logoAnim = useRef(new Animated.Value(-20)).current;
@@ -217,18 +226,21 @@ export default function HomeScreen() {
 };
 
   return (
-    <View style={HomeScreenStyles.root}>
-      <StatusBar barStyle="light-content" backgroundColor={COLORS.bg} />
+    <View style={[HomeScreenStyles.root, { backgroundColor: colors.bg }]}>
+      <StatusBar
+        barStyle={colors.text === "#f5f0e8" ? "light-content" : "dark-content"}
+        backgroundColor={colors.bg}
+      />
 
       {/* Top bar */}
       <View style={HomeScreenStyles.topBar}>
         <Animated.View style={{ opacity: headerAnim, transform: [{ translateY: logoAnim }] }}>
-                  <Image source={require("../../assets/mine/icons/rd-logo.png")} style={HomeScreenStyles.crown}  />
-
+          <Image source={require("../../assets/mine/icons/rd-logo.png")} style={HomeScreenStyles.crown} />
         </Animated.View>
         <View style={HomeScreenStyles.topActions}>
           <Cart style={HomeScreenStyles.iconBtn} />
           <ProfileIconButton style={HomeScreenStyles.iconBtn} />
+          <SettingsIconButton style={HomeScreenStyles.iconBtn} />
         </View>
       </View>
 
@@ -242,9 +254,9 @@ export default function HomeScreen() {
           },
         ]}
       >
-        <Text style={HomeScreenStyles.heroEyebrow}>🚀 Gyors kiszállítás</Text>
-        <Text style={HomeScreenStyles.heroTitle}>Royal{"\n"}Delivery</Text>
-        <Text style={HomeScreenStyles.heroSubtitle}>
+        <Text style={[HomeScreenStyles.heroEyebrow, { color: colors.gold }]}>🚀 Gyors kiszállítás</Text>
+        <Text style={[HomeScreenStyles.heroTitle, { color: colors.text }]}>Royal{"\n"}Delivery</Text>
+        <Text style={[HomeScreenStyles.heroSubtitle, { color: colors.muted }]}>
           Kiszállítás olcsón és egyszerűen — egyenesen az ajtódhoz.
         </Text>
 
@@ -252,6 +264,7 @@ export default function HomeScreen() {
           onPress={() => router.push("/mealsScreen")}
           style={({ pressed }) => [
             HomeScreenStyles.heroCta,
+            { backgroundColor: colors.gold },
             pressed && { opacity: 0.85, transform: [{ scale: 0.97 }] },
           ]}
         >
@@ -261,23 +274,23 @@ export default function HomeScreen() {
 
       {/* Section header */}
       <View style={HomeScreenStyles.sectionHeader}>
-        <View style={HomeScreenStyles.sectionDot} />
-        <Text style={HomeScreenStyles.sectionTitle}>Ajánlott ételek</Text>
-        <View style={HomeScreenStyles.sectionLine} />
+        <View style={[HomeScreenStyles.sectionDot, { backgroundColor: colors.gold }]} />
+        <Text style={[HomeScreenStyles.sectionTitle, { color: colors.muted }]}>Ajánlott ételek</Text>
+        <View style={[HomeScreenStyles.sectionLine, { backgroundColor: colors.border }]} />
       </View>
 
-      {/* Meal grid */}
-         {loading && (
+      {/* Meal grid — skeleton while loading */}
+      {loading ? (
         <FlatList
           data={Array(6).fill(null)}
           keyExtractor={(_, i) => `skeleton-${i}`}
           numColumns={2}
-          columnWrapperStyle={{ gap: 16 }}
+          columnWrapperStyle={{ gap: 12 }}
           contentContainerStyle={{ paddingBottom: 80 }}
           renderItem={({ index }) => <SkeletonMealCard index={index} />}
           scrollEnabled={false}
         />
-      )} : (
+      ) : (
         <FlatList
           data={displayData}
           numColumns={2}
@@ -288,14 +301,14 @@ export default function HomeScreen() {
           ListEmptyComponent={
             <View style={HomeScreenStyles.emptyContainer}>
               <Text style={HomeScreenStyles.emptyIcon}>🍽</Text>
-              <Text style={HomeScreenStyles.emptyText}>Nincs étel</Text>
+              <Text style={[HomeScreenStyles.emptyText, { color: colors.muted }]}>Nincs étel</Text>
             </View>
           }
           renderItem={({ item, index }) => (
-  <MealCard item={item} index={index} onAddToCart={showToast} />
+            <MealCard item={item} index={index} onAddToCart={showToast} />
           )}
         />
-      )
+      )}
 
       {/* Auth buttons */}
       <View style={HomeScreenStyles.authSection}>
@@ -303,23 +316,23 @@ export default function HomeScreen() {
           <View style={HomeScreenStyles.authRow}>
             <Pressable
               onPress={() => router.push("/loginScreen")}
-              style={({ pressed }) => [HomeScreenStyles.authBtn, HomeScreenStyles.loginBtn, pressed && HomeScreenStyles.btnPressed]}
+              style={({ pressed }) => [HomeScreenStyles.authBtn, { backgroundColor: colors.blue, borderColor: colors.blue }, pressed && HomeScreenStyles.btnPressed]}
             >
-              <Text style={HomeScreenStyles.authBtnText}>Bejelentkezés</Text>
+              <Text style={[HomeScreenStyles.authBtnText, { color: "#fff" }]}>Bejelentkezés</Text>
             </Pressable>
             <Pressable
               onPress={() => router.push("/registerScreen")}
-              style={({ pressed }) => [HomeScreenStyles.authBtn, HomeScreenStyles.registerBtn, pressed && HomeScreenStyles.btnPressed]}
+              style={({ pressed }) => [HomeScreenStyles.authBtn, { backgroundColor: colors.green, borderColor: colors.green }, pressed && HomeScreenStyles.btnPressed]}
             >
-              <Text style={HomeScreenStyles.authBtnText}>Regisztráció</Text>
+              <Text style={[HomeScreenStyles.authBtnText, { color: "#fff" }]}>Regisztráció</Text>
             </Pressable>
           </View>
         ) : (
           <Pressable
             onPress={logout}
-            style={({ pressed }) => [HomeScreenStyles.authBtn, HomeScreenStyles.logoutBtn, pressed && HomeScreenStyles.btnPressed]}
+            style={({ pressed }) => [HomeScreenStyles.authBtn, { backgroundColor: colors.surface, borderColor: colors.border, flex: 0 }, pressed && HomeScreenStyles.btnPressed]}
           >
-            <Text style={[HomeScreenStyles.authBtnText, { color: COLORS.danger }]}>Kijelentkezés</Text>
+            <Text style={[HomeScreenStyles.authBtnText, { color: colors.danger }]}>Kijelentkezés</Text>
           </Pressable>
         )}
       </View>
@@ -330,7 +343,7 @@ export default function HomeScreen() {
 export const HomeScreenStyles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: COLORS.bg,
+    backgroundColor: "#0f0e0c",
     paddingHorizontal: 16,
     paddingBottom: 32,
   },
@@ -351,7 +364,7 @@ export const HomeScreenStyles = StyleSheet.create({
   brandSmall: {
     fontSize: 18,
     fontWeight: "800",
-    color: COLORS.gold,
+    color: "#f0b429",
     letterSpacing: 1,
   },
   topActions: {
@@ -359,11 +372,11 @@ export const HomeScreenStyles = StyleSheet.create({
     gap: 8,
   },
   iconBtn: {
-    backgroundColor: COLORS.surface,
+    backgroundColor: "#1c1a16",
     borderRadius: 12,
     padding: 8,
     borderWidth: 1,
-    borderColor: COLORS.border,
+    borderColor: "#2e2b22",
   },
 
   /* Hero */
@@ -374,7 +387,7 @@ export const HomeScreenStyles = StyleSheet.create({
   heroEyebrow: {
     fontSize: 13,
     fontWeight: "600",
-    color: COLORS.gold,
+    color: "#f0b429",
     letterSpacing: 2,
     textTransform: "uppercase",
     marginBottom: 10,
@@ -382,20 +395,20 @@ export const HomeScreenStyles = StyleSheet.create({
   heroTitle: {
     fontSize: 52,
     fontWeight: "900",
-    color: COLORS.text,
+    color: "#f5f0e8",
     lineHeight: 56,
     letterSpacing: -1,
     marginBottom: 14,
   },
   heroSubtitle: {
     fontSize: 15,
-    color: COLORS.muted,
+    color: "#9c9178",
     lineHeight: 22,
     marginBottom: 28,
     maxWidth: 280,
   },
   heroCta: {
-    backgroundColor: COLORS.gold,
+    backgroundColor: "#f0b429",
     paddingVertical: 15,
     paddingHorizontal: 28,
     borderRadius: 14,
@@ -419,19 +432,19 @@ export const HomeScreenStyles = StyleSheet.create({
     width: 8,
     height: 8,
     borderRadius: 4,
-    backgroundColor: COLORS.gold,
+    backgroundColor: "#f0b429",
   },
   sectionTitle: {
     fontSize: 13,
     fontWeight: "700",
-    color: COLORS.muted,
+    color: "#9c9178",
     letterSpacing: 1.5,
     textTransform: "uppercase",
   },
   sectionLine: {
     flex: 1,
     height: 1,
-    backgroundColor: COLORS.border,
+    backgroundColor: "#2e2b22",
   },
 
   /* Grid */
@@ -445,16 +458,16 @@ export const HomeScreenStyles = StyleSheet.create({
   /* Card */
   card: {
     flex: 1,
-    backgroundColor: COLORS.card,
+    backgroundColor: "#242018",
     borderRadius: 16,
     overflow: "hidden",
     borderWidth: 1,
-    borderColor: COLORS.border,
+    borderColor: "#2e2b22",
   },
   cardImageBox: {
     position: "relative",
     height: 110,
-    backgroundColor: COLORS.surface,
+    backgroundColor: "#1c1a16",
   },
   cardImage: {
     width: "100%",
@@ -464,7 +477,7 @@ export const HomeScreenStyles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: COLORS.surface,
+    backgroundColor: "#1c1a16",
   },
   cardImageEmoji: {
     fontSize: 36,
@@ -473,7 +486,7 @@ export const HomeScreenStyles = StyleSheet.create({
     position: "absolute",
     bottom: 8,
     right: 8,
-    backgroundColor: COLORS.gold,
+    backgroundColor: "#f0b429",
     borderRadius: 8,
     paddingHorizontal: 8,
     paddingVertical: 3,
@@ -489,17 +502,17 @@ export const HomeScreenStyles = StyleSheet.create({
   cardName: {
     fontSize: 14,
     fontWeight: "700",
-    color: COLORS.text,
+    color: "#f5f0e8",
     marginBottom: 4,
   },
   cardDesc: {
     fontSize: 12,
-    color: COLORS.muted,
+    color: "#9c9178",
     lineHeight: 17,
   },
   cardAccent: {
     height: 3,
-    backgroundColor: COLORS.gold,
+    backgroundColor: "#f0b429",
     marginHorizontal: 12,
     marginBottom: 12,
     borderRadius: 2,
@@ -513,7 +526,7 @@ export const HomeScreenStyles = StyleSheet.create({
   },
   loadingText: {
     fontSize: 16,
-    color: COLORS.muted,
+    color: "#9c9178",
   },
   emptyContainer: {
     alignItems: "center",
@@ -525,7 +538,7 @@ export const HomeScreenStyles = StyleSheet.create({
   },
   emptyText: {
     fontSize: 16,
-    color: COLORS.muted,
+    color: "#9c9178",
   },
 
   /* Auth */
@@ -542,22 +555,22 @@ export const HomeScreenStyles = StyleSheet.create({
     borderRadius: 14,
     alignItems: "center",
     borderWidth: 1,
-    borderColor: COLORS.border,
+    borderColor: "#2e2b22",
   },
   loginBtn: {
-    backgroundColor: COLORS.blue,
-    borderColor: COLORS.blue,
+    backgroundColor: "#3b82f6",
+    borderColor: "#3b82f6",
   },
   registerBtn: {
-    backgroundColor: COLORS.green,
-    borderColor: COLORS.green,
+    backgroundColor: "#22c55e",
+    borderColor: "#22c55e",
   },
   logoutBtn: {
-    backgroundColor: COLORS.surface,
+    backgroundColor: "#1c1a16",
     flex: 0,
   },
   authBtnText: {
-    color: COLORS.text,
+    color: "#f5f0e8",
     fontSize: 15,
     fontWeight: "700",
   },
@@ -610,7 +623,7 @@ export const HomeScreenStyles = StyleSheet.create({
   marginHorizontal: 12,
   marginBottom: 12,
   padding: 10,
-  backgroundColor: COLORS.gold,
+  backgroundColor: "#f0b429",
   borderRadius: 10,
   alignItems: "center",
 },
@@ -632,21 +645,21 @@ quantityBtn: {
   width: 30,
   height: 30,
   borderRadius: 15,
-  backgroundColor: COLORS.surface,
+  backgroundColor: "#1c1a16",
   borderWidth: 1,
-  borderColor: COLORS.border,
+  borderColor: "#2e2b22",
   alignItems: "center",
   justifyContent: "center",
 },
 
 quantityBtnText: {
-  color: COLORS.gold,
+  color: "#f0b429",
   fontSize: 18,
   fontWeight: "900",
 },
 
 quantityText: {
-  color: COLORS.text,
+  color: "#f5f0e8",
   fontSize: 13,
   fontWeight: "700",
   minWidth: 42,

@@ -6,7 +6,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { Pressable, StyleProp, StyleSheet, View, ViewStyle } from "react-native";
-import { useTheme } from "../themeContext";
+import { useTheme } from "./ThemeContext";
 
 type Props = {
   style?: StyleProp<ViewStyle>;
@@ -18,7 +18,7 @@ export default function SettingsIconButton({ style }: Props) {
   return (
     <View style={[styles.wrapper, style]}>
       <Pressable
-        onPress={() => router.push("/settingsScreen")}
+onPress={() => router.push("/(app)/SettingsScreen")}
         style={({ pressed }) => [
           styles.button,
           { backgroundColor: colors.surface, borderColor: colors.border },

@@ -13,9 +13,9 @@ import {
   TextInput,
 } from "react-native";
 import Toast from "react-native-toast-message";
-import { addToGuestCart } from "./cartStore";
-import { useMeals } from "./useMeals";
-import SkeletonMealCard from "./skeletonMealCard";
+import { addToGuestCart } from "./CartStore";
+import { useMeals } from "./UseMeals";
+import SkeletonMealCard from "./SkeletonMealCard";
 const COLORS = {
   bg: "#0f0e0c",
   surface: "#1c1a16",
@@ -228,6 +228,7 @@ function MealCard({ item, index, onAddToCart }: any) {
 
 // ── Screen ───────────────────────────────────────────────
 export default function MealsScreen() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { meals, loading, error } = useMeals();
   const [inMemoryMeals, setMeals] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState("");

@@ -17,7 +17,7 @@ import {
 import { supabase } from "../../supabase";
 import Toast from "react-native-toast-message";
 import { router } from "expo-router";
-import { setGlobalIsLoggedIn } from "./authStore";
+import { setGlobalIsLoggedIn } from "./AuthStore";
 
 const COLORS = {
   bg: "#0f0e0c",

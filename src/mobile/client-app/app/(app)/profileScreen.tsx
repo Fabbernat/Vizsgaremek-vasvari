@@ -12,10 +12,10 @@ import {
 } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
-import Orders from "./orders";
+import Orders from "./Orders";
 import { router } from "expo-router";
 import Toast from "react-native-toast-message";
-import { getGlobalUsername, setGlobalUsername } from "./authStore";
+import { getGlobalUsername, setGlobalUsername } from "./AuthStore";
 
 const COLORS = {
   bg: "#0f0e0c",

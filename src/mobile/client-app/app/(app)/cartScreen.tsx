@@ -1,4 +1,4 @@
-// client-app\(app)\app\(app)\cartScreen.tsx
+// client-app\(app)\app\(app)\CartScreen.tsx
 import { router } from "expo-router";
 import {
   Alert,
@@ -9,7 +9,7 @@ import {
   Text,
   View,
 } from "react-native";
-import { useCartStore } from "./cartStore";
+import { useCartStore } from "./CartStore";
 
 const COLORS = {
   bg: "#0f0e0c",
@@ -37,7 +37,7 @@ export type CartItem = {
 
 // ── Component ──────────────────────────────────────────────────────────────────
 
-export default function cartScreen() {
+export default function CartScreen() {
   const items = useCartStore((state) => state.items);
   const removeItem = useCartStore((state) => state.removeItem);
   const clearCart = useCartStore((state) => state.clearCart);

@@ -18,8 +18,8 @@ import {
     View,
 } from "react-native";
 import { supabase } from "../../supabase";
-import { useTheme } from "../themeContext";
-import { useGlobalAuth } from "./authStore";
+import { useGlobalAuth } from "./AuthStore";
+import { useTheme } from "./ThemeContext";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Sub-components
@@ -109,7 +109,7 @@ export default function SettingsScreen() {
       Animated.timing(fadeAnim, { toValue: 1, duration: 400, useNativeDriver: true }),
       Animated.timing(slideAnim, { toValue: 0, duration: 400, useNativeDriver: true }),
     ]).start();
-  }, []);
+  }, [fadeAnim, slideAnim]);
 
   const switchThumbColor = isDark ? colors.gold : colors.gold;
   const switchTrackOn = isDark ? "#7a5c15" : "#e8c56a";

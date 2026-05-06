@@ -1,4 +1,4 @@
-// client-app\(app)\app\(app)\checkoutScreen.tsx
+// client-app\(app)\app\(app)\CheckoutScreen.tsx
 import { useState, useRef } from "react";
 import {
   Text,

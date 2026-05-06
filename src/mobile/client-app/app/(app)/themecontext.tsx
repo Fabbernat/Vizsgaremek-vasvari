@@ -1,14 +1,11 @@
 // app/themeContext.tsx
-//
-// Single source of truth for the app's color theme.
-// Wrap the root layout with <ThemeProvider> and consume
-// colors anywhere with:  const { colors, toggleTheme, isDark } = useTheme();
-//
-// Install dep if needed:
-//   npx expo install @react-native-async-storage/async-storage
-
+/* Single Source of Truth */
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { createContext, useContext, useEffect, useState } from "react";
+
+export const colors_I_use = [
+    "#2563eb", "#16a34a", "#178b42", "#555", "#888", "#ccc", "#fff", "#888", "#ddd", "#f9c9c9"
+];
 
 export type Theme = "dark" | "light";
 
