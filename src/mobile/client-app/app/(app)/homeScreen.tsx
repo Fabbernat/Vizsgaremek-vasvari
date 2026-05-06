@@ -1,26 +1,26 @@
 // client-app\(app)\app\(app)\homeScreen.tsx
-import {
-  Image,
-  View,
-  Text,
-  Pressable,
-  FlatList,
-  StyleSheet,
-  Animated,
-  StatusBar,
-  
-} from "react-native";
-import { router } from "expo-router";
 import { supabase } from "@/supabase";
-import { useRef, useEffect, useState } from "react";
-import { useMeals } from "./useMeals";
-import Cart from "./cartIconButton";
+import { router } from "expo-router";
+import React, { useEffect, useRef, useState } from "react";
+import {
+    Animated,
+    FlatList,
+    Image,
+    Pressable,
+    StatusBar,
+    StyleSheet,
+    Text,
+    View,
+} from "react-native";
 import { Meal } from "../models/meal";
-import ProfileIconButton from "./profileIconButton";
-import { useGlobalAuth , setGlobalIsLoggedIn } from "./authStore";
+import { setGlobalIsLoggedIn, useGlobalAuth } from "./authStore";
+import Cart from "./cartIconButton";
 import { addToGuestCart } from "./cartStore";
+import ProfileIconButton from "./profileIconButton";
+import { useMeals } from "./useMeals";
 
 import Toast from "react-native-toast-message";
+import SkeletonMealCard from "./skeletonMealCard";
 
 const COLORS = {
   bg: "#0f0e0c",
@@ -161,7 +161,7 @@ export function MealCard({
 }
 
 export default function HomeScreen() {
-  const { meals, loading } = useMeals();
+  const { meals, loading, error } = useMeals();
   const { isLoggedIn } = useGlobalAuth();
 
   const headerAnim = useRef(new Animated.Value(0)).current;
@@ -267,11 +267,17 @@ export default function HomeScreen() {
       </View>
 
       {/* Meal grid */}
-      {loading ? (
-        <View style={HomeScreenStyles.loadingBox}>
-          <Text style={HomeScreenStyles.loadingText}>⏳ Ételek betöltése...</Text>
-        </View>
-      ) : (
+         {loading && (
+        <FlatList
+          data={Array(6).fill(null)}
+          keyExtractor={(_, i) => `skeleton-${i}`}
+          numColumns={2}
+          columnWrapperStyle={{ gap: 16 }}
+          contentContainerStyle={{ paddingBottom: 80 }}
+          renderItem={({ index }) => <SkeletonMealCard index={index} />}
+          scrollEnabled={false}
+        />
+      )} : (
         <FlatList
           data={displayData}
           numColumns={2}
@@ -289,7 +295,7 @@ export default function HomeScreen() {
   <MealCard item={item} index={index} onAddToCart={showToast} />
           )}
         />
-      )}
+      )
 
       {/* Auth buttons */}
       <View style={HomeScreenStyles.authSection}>

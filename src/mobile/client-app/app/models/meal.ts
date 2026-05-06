@@ -3,6 +3,6 @@ export interface Meal {
   name: string;
   description: string;
   price: number;
-  imageUrl: string | undefined;
   restaurant_id: number;
+  image_url: string;
 }

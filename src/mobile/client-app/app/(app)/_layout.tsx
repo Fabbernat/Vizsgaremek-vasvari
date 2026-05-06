@@ -3,6 +3,7 @@ import { router, Stack } from "expo-router";
 import Toast from "react-native-toast-message";
 import { Pressable, Text } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { ThemeProvider } from "./themecontext";
 
 function HomeIcon() {
   return (
@@ -21,7 +22,7 @@ function HomeIcon() {
 
 export default function Layout() {
   return (
-    <>
+    <ThemeProvider>
       <Stack
         screenOptions={({ route }) => ({
           headerShown: true,
@@ -35,6 +36,6 @@ export default function Layout() {
         })}
       />
       <Toast />
-    </>
+    </ThemeProvider>
   );
 }
