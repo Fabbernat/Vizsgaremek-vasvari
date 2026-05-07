@@ -24,7 +24,7 @@ import SkeletonMealCard from "./SkeletonMealCard";
 import { useTheme } from "./ThemeContext";
 import { getMealImage } from "./mealImages";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+ 
 const COLORS = {
   bg: "#0f0e0c",
   surface: "#1c1a16",
@@ -495,10 +495,13 @@ export const HomeScreenStyles = StyleSheet.create({
     borderColor: "#2e2b22",
   },
   cardImageBox: {
-    position: "relative",
-    height: 110,
-    backgroundColor: "#1c1a16",
-  },
+  height: 260,
+  maxHeight: 600,
+  width: "100%",
+  justifyContent: "center",
+  alignItems: "center",
+  backgroundColor: COLORS.surface,
+},
   cardImage: {
     width: "100%",
     height: "100%",
@@ -698,6 +701,7 @@ quantityText: {
 mealImage: {
   width: "100%",
   height: "100%",
+  maxHeight: 600,
   resizeMode: "cover",
 },
 });

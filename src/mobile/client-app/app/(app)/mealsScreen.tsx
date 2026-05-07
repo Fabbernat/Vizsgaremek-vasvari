@@ -150,6 +150,40 @@ const mealsData = [
   },
 ];
 
+const imageById: Record<string, string> = {
+  "1": "margherita-pizza.jpg",
+  "2": "caesar-salata.jpg",
+  "3": "carbonara.jpg",
+  "4": "pepperoni-pizza.jpg",
+  "5": "hawaii-pizza.jpg",
+  "6": "vegetarianus-pizza.jpg",
+  "7": "california-roll.jpg",
+  "8": "spicy-tuna-roll.jpg",
+  "9": "salmon-nigiri.jpg",
+  "10": "gyros-tal.jpg",
+  "11": "hamburger.jpg",
+  "12": "sult-csirke.jpg",
+  "13": "rantott-sajt.jpg",
+  "14": "lazac-steak.jpg",
+  "15": "vegetarianus-lasagne.jpg",
+  "16": "sult-zoldsegek.jpg",
+  "17": "sult-krumpli.jpg",
+  "18": "kola.jpg",
+  "26": "kiralyi-burger.jpg",
+  "27": "arany-krumpli.jpg",
+  "28": "koronas-limonade.jpg",
+};
+
+const normalizeMeal = (meal: any) => ({
+  ...meal,
+  id: meal.id.toString(),
+  imageUrl:
+    meal.imageUrl ??
+    meal.image_url ??
+    imageById[meal.id.toString()] ??
+    "placeholder.jpg",
+});
+
 // ── Card ─────────────────────────────────────────────────
 function MealCard({ item, index, onAddToCart }: any) {
   const [quantity, setQuantity] = useState(1);
@@ -183,10 +217,10 @@ function MealCard({ item, index, onAddToCart }: any) {
     >
       <View style={styles.card}>
         <View style={styles.cardImageBox}>
-          <Image
-  source={getMealImage(item.image_url ?? item.imageUrl)}
+         <Image
+  source={getMealImage(item.imageUrl)}
   style={styles.mealImage}
-          />
+/>
           <View style={styles.priceBadge}>
             <Text style={styles.priceText}>{item.price} Ft</Text>
           </View>
@@ -256,8 +290,9 @@ export default function MealsScreen() {
   });
 };
 
-  const sourceMeals =
-  meals && meals.length > 0 ? meals : inMemoryMeals;
+  const sourceMeals = (meals && meals.length > 0 ? meals : inMemoryMeals).map(
+  normalizeMeal
+);
 
 const filteredMeals = sourceMeals // vagy inmemoryMeals
     .filter((meal) => {
@@ -398,11 +433,13 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   cardImageBox: {
-    height: 110,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: COLORS.surface,
-  },
+  height: 260,
+  maxHeight: 600,
+  width: "100%",
+  justifyContent: "center",
+  alignItems: "center",
+  backgroundColor: COLORS.surface,
+},
   cardImageEmoji: { fontSize: 36 },
   priceBadge: {
     position: "absolute",
@@ -514,6 +551,7 @@ quantityText: {
 mealImage: {
   width: "100%",
   height: "100%",
+  maxHeight: 600,
   resizeMode: "cover",
 },
 });
