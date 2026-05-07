@@ -1,4 +1,4 @@
-// client-app\(app)\app\(app)\payingScreen.tsx
+// client-app\(app)\app\(app)\PayingScreen.tsx
 import { router } from "expo-router";
 import { ScrollView, Text } from "react-native";
 import { useEffect } from "react";
@@ -21,9 +21,7 @@ export default function PayingScreen() {
                 alignItems: "center"
             }}
         >
-            <Text style={{ fontSize: 24, fontWeight: "bold" }}>
-                Fizetés folyamatban...
-            </Text>
+            
         </ScrollView>
     );
 }

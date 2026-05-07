@@ -1,22 +1,22 @@
 // client-app\(app)\app\(app)\registerScreen.tsx
-import { useState, useRef, useEffect } from "react";
-import {
-  Text,
-  TextInput,
-  View,
-  Pressable,
-  Animated,
-  KeyboardAvoidingView,
-  Platform,
-  Alert,
-  StyleSheet,
-  ScrollView,
-    Image,
-    ActivityIndicator,
-} from "react-native";
-import { supabase } from "../../supabase";
-import Toast from "react-native-toast-message";
 import { router } from "expo-router";
+import { useEffect, useRef, useState } from "react";
+import {
+    ActivityIndicator,
+    Alert,
+    Animated,
+    Image,
+    KeyboardAvoidingView,
+    Platform,
+    Pressable,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextInput,
+    View,
+} from "react-native";
+import Toast from "react-native-toast-message";
+import { supabase } from "../../supabase";
 import { setGlobalIsLoggedIn } from "./AuthStore";
 
 const COLORS = {
@@ -112,10 +112,6 @@ const isStrongPassword = (pw: string) => {
   // ── Valódi Supabase regisztráció ──────────────────────────────────────────
   async function handleRegister() {
     if (loading) return;
-    if (!username || !email || !password || !passwordRepeat) {
-      Alert.alert("Hiba!", "Minden mezőt ki kell tölteni!");
-      return;
-    }
     if (password !== passwordRepeat) {
       Alert.alert("Hiba!", "A jelszavak nem egyeznek!");
       return;
@@ -164,10 +160,6 @@ const isStrongPassword = (pw: string) => {
 
   // ── Fake regisztráció — Supabase nélkül, egyből belép ────────────────────
   function handleQuickRegister() {
-    if (!isFormValid) {
-      Alert.alert("Hiba!", "Minden mezőt ki kell tölteni!");
-      return;
-    }
     Toast.show({ type: "success", text1: "Teszt regisztráció", text2: "Gyors belépés sikeres" });
     setGlobalIsLoggedIn(true);
     router.push("/");

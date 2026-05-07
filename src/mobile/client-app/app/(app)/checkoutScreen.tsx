@@ -1,17 +1,18 @@
 // client-app\(app)\app\(app)\CheckoutScreen.tsx
-import { useState, useRef } from "react";
-import {
-  Text,
-  TextInput,
-  Pressable,
-  ScrollView,
-  View,
-  Animated,
-  StyleSheet,
-  Image,
-  Alert,
-} from "react-native";
 import { router } from "expo-router";
+import { useRef, useState } from "react";
+import {
+    Alert,
+    Animated,
+    Image,
+    Pressable,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextInput,
+    View,
+} from "react-native";
+import Toast from "react-native-toast-message";
 
 const COLORS = {
   bg: "#0f0e0c",
@@ -332,7 +333,7 @@ export default function CheckoutScreen() {
           setStreetType("utca");
           setHouseNumber("12");
           setExtra("2/5");
-          setCardNumber("4242424242424242");
+          setCardNumber("5000333641352301");
           setExpiry("12/30");
           setCvv("123");
         }}
@@ -358,7 +359,11 @@ export default function CheckoutScreen() {
       <Pressable
         onPress={() => {
           if (validateForm()) {
+            Toast.show({ type: "success", text1: "Sikeres fizetés", text2: "Köszönjük a rendelést!" });
             router.push("/PayingScreen");
+          } else {
+            Toast.show({ type: "error", text1: "Hibás adatok", text2: "Kérlek javítsd a pirossal jelölt mezőket." });
+            
           }
         }}
         style={({ pressed }) => [

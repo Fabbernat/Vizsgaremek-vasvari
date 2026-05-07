@@ -1,20 +1,20 @@
 // client-app\(app)\app\(app)\loginScreen.tsx
-import { useState, useRef, useEffect } from "react";
-import {
-  Text,
-  TextInput,
-  View,
-  Pressable,
-  Animated,
-  KeyboardAvoidingView,
-  Platform,
-  Alert,
-  StyleSheet,
-  Image,
-} from "react-native";
-import { supabase } from "../../supabase";
-import Toast from "react-native-toast-message";
 import { router } from "expo-router";
+import { useEffect, useRef, useState } from "react";
+import {
+    Alert,
+    Animated,
+    Image,
+    KeyboardAvoidingView,
+    Platform,
+    Pressable,
+    StyleSheet,
+    Text,
+    TextInput,
+    View,
+} from "react-native";
+import Toast from "react-native-toast-message";
+import { supabase } from "../../supabase";
 import { setGlobalIsLoggedIn } from "./AuthStore";
 
 const COLORS = {
@@ -100,20 +100,19 @@ export default function LoginScreen({ isLoggedIn, setIsLoggedIn }: Props) {
   const isFormValid = email.trim().length > 0 && password.length > 0;
 
   // ── Real Supabase login (with signUp workaround) ──────────────────────────
-  async function handleLogin() {
-    if (!isFormValid) {
-      Alert.alert("Hiba!", "Minden mezőt ki kell tölteni!");
-      return;
-    }
+async function handleLogin(overrideEmail?: string, overridePass?: string) {
+  const _email = overrideEmail ?? (email ?? "");
+  const _password = overridePass ?? (password ?? "");
+
     setLoading(true);
 
     // Workaround: ensure test user exists in Supabase before signing in
     await supabase.auth.signUp({
-      email: "teszt@gmail.com",
-      password: "jelszo12",
+      email:  process.env.EXPO_PUBLIC_TEST_EMAIL,
+      password: process.env.EXPO_PUBLIC_TEST_PASSWORD,
     });
 
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    const { error } = await supabase.auth.signInWithPassword({ email: _email, password: _password });
     setLoading(false);
 
     if (error) {
@@ -150,20 +149,19 @@ export default function LoginScreen({ isLoggedIn, setIsLoggedIn }: Props) {
   }
 
   // ── Fill fields + auto-trigger real login after state settles ─────────────
-  function fillAndLogin() {
-    setEmail("teszt@gmail.com");
-    setPassword("jelszo12");
+  async function fillAndLogin() {
+    const testEmail = process.env.EXPO_PUBLIC_TEST_EMAIL;
+    const testPassword = process.env.EXPO_PUBLIC_TEST_PASSWORD;
+
+    setEmail(testEmail);
+    setPassword(testPassword);
     Toast.show({ type: "info", text1: "Teszt adatok betöltve" });
-    // Small delay so React flushes state before handleLogin reads it
-    setTimeout(handleLogin, 100);
+    if (__DEV__) await supabase.auth.signUp({ email: testEmail, password: testPassword });
+    await handleLogin(testEmail, testPassword);
   }
 
   // ── Fake/bypass login — no Supabase call needed ───────────────────────────
   function handleQuickLogin() {
-    if (!isFormValid) {
-      Alert.alert("Hiba!", "Minden mezőt ki kell tölteni!");
-      return;
-    }
     Toast.show({ type: "success", text1: "Teszt belépés", text2: "Gyors login sikeres" });
     setGlobalIsLoggedIn(true);
     router.push("/");
@@ -220,7 +218,7 @@ export default function LoginScreen({ isLoggedIn, setIsLoggedIn }: Props) {
 
           {/* Primary login button */}
           <Pressable
-            onPress={handleLogin}
+            onPress={() => handleLogin()}
             disabled={!isFormValid || loading}
             style={({ pressed }) => [
               styles.primaryBtn,
