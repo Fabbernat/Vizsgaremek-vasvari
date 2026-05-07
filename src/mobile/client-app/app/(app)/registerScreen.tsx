@@ -153,7 +153,7 @@ const isStrongPassword = (pw: string) => {
     setEmail("teszt@gmail.com");
     setPassword("jelszo12");
     setPasswordRepeat("jelszo12");
-    Toast.show({ type: "info", text1: "Teszt adatok betöltve" });
+    Toast.show({ type: "info", text1: "Teszt adatok betöltése sikeres" });
     // Delay szükséges, hogy a React state frissüljön handleRegister előtt
     setTimeout(handleRegister, 100);
   }

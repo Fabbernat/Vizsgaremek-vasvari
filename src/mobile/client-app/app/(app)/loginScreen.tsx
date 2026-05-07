@@ -155,7 +155,7 @@ async function handleLogin(overrideEmail?: string, overridePass?: string) {
 
     setEmail(testEmail);
     setPassword(testPassword);
-    Toast.show({ type: "info", text1: "Teszt adatok betöltve" });
+    Toast.show({ type: "info", text1: "Teszt adatok betöltése sikeres" });
     if (__DEV__) await supabase.auth.signUp({ email: testEmail, password: testPassword });
     await handleLogin(testEmail, testPassword);
   }

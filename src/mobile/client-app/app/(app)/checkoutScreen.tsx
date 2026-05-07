@@ -2,9 +2,10 @@
 import { router } from "expo-router";
 import { useRef, useState } from "react";
 import {
-    Alert,
     Animated,
     Image,
+    KeyboardAvoidingView,
+    Platform,
     Pressable,
     ScrollView,
     StyleSheet,
@@ -20,10 +21,60 @@ const COLORS = {
   card: "#242018",
   border: "#2e2b22",
   gold: "#f0b429",
-  goldDim: "#7a5c15",
+  goldDark: "#c58f12",
   text: "#f5f0e8",
   muted: "#9c9178",
   placeholder: "#5a5545",
+  error: "#ff6b6b",
+  success: "#4ade80",
+};
+
+const onlyDigits = (v: string) => v.replace(/\D/g, "");
+
+const luhnCheck = (card: string) => {
+  const digits = onlyDigits(card);
+  if (digits.length < 13 || digits.length > 19) return false;
+
+  let sum = 0;
+  let shouldDouble = false;
+
+  for (let i = digits.length - 1; i >= 0; i--) {
+    let digit = Number(digits[i]);
+
+    if (shouldDouble) {
+      digit *= 2;
+      if (digit > 9) digit -= 9;
+    }
+
+    sum += digit;
+    shouldDouble = !shouldDouble;
+  }
+
+  return sum % 10 === 0;
+};
+
+const isFutureExpiry = (value: string) => {
+  if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(value)) return false;
+
+  const [mm, yy] = value.split("/");
+  const month = Number(mm);
+  const year = 2000 + Number(yy);
+
+  const now = new Date();
+  const expiryEnd = new Date(year, month, 0, 23, 59, 59);
+
+  return expiryEnd >= now;
+};
+
+const formatCardNumber = (value: string) => {
+  const cleaned = onlyDigits(value).slice(0, 19);
+  return cleaned.match(/.{1,4}/g)?.join(" ") ?? cleaned;
+};
+
+const formatExpiry = (value: string) => {
+  const cleaned = onlyDigits(value).slice(0, 4);
+  if (cleaned.length <= 2) return cleaned;
+  return `${cleaned.slice(0, 2)}/${cleaned.slice(2)}`;
 };
 
 function AnimatedInput({
@@ -31,6 +82,7 @@ function AnimatedInput({
   onChangeText,
   placeholder,
   icon,
+  error,
   secureTextEntry = false,
   keyboardType = "default",
 }: {
@@ -38,6 +90,7 @@ function AnimatedInput({
   onChangeText: (v: string) => void;
   placeholder: string;
   icon: string;
+  error?: string;
   secureTextEntry?: boolean;
   keyboardType?: "default" | "email-address" | "phone-pad" | "numeric";
 }) {
@@ -46,46 +99,74 @@ function AnimatedInput({
   const handleFocus = () =>
     Animated.timing(borderAnim, {
       toValue: 1,
-      duration: 200,
+      duration: 180,
       useNativeDriver: false,
     }).start();
+
   const handleBlur = () =>
     Animated.timing(borderAnim, {
       toValue: 0,
-      duration: 200,
+      duration: 180,
       useNativeDriver: false,
     }).start();
 
-  const borderColor = borderAnim.interpolate({
-    inputRange: [0, 1],
-    outputRange: [COLORS.border, COLORS.gold],
-  });
+  const borderColor = error
+    ? COLORS.error
+    : borderAnim.interpolate({
+        inputRange: [0, 1],
+        outputRange: [COLORS.border, COLORS.gold],
+      });
 
   return (
-    <Animated.View style={[styles.inputWrapper, { borderColor }]}>
-      <Text style={styles.inputIcon}>{icon}</Text>
-      <TextInput
-        value={value}
-        onChangeText={onChangeText}
-        placeholder={placeholder}
-        placeholderTextColor={COLORS.placeholder}
-        secureTextEntry={secureTextEntry}
-        keyboardType={keyboardType}
-        autoCapitalize="none"
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-        style={styles.input}
-      />
-      {value.length > 0 && <View style={styles.inputFilledDot} />}
-    </Animated.View>
+    <View>
+      <Animated.View style={[styles.inputWrapper, { borderColor }]}>
+        <Text style={styles.inputIcon}>{icon}</Text>
+
+        <TextInput
+          value={value}
+          onChangeText={onChangeText}
+          placeholder={placeholder}
+          placeholderTextColor={COLORS.placeholder}
+          secureTextEntry={secureTextEntry}
+          keyboardType={keyboardType}
+          autoCapitalize="none"
+          autoCorrect={false}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          style={styles.input}
+        />
+
+        {value.length > 0 && (
+          <Text style={[styles.inputStatus, error && styles.inputStatusError]}>
+            {error ? "!" : "✓"}
+          </Text>
+        )}
+      </Animated.View>
+
+      {!!error && <Text style={styles.error}>{error}</Text>}
+    </View>
   );
 }
 
-function SectionHeader({ icon, title }: { icon: string; title: string }) {
+function SectionHeader({
+  icon,
+  title,
+  subtitle,
+}: {
+  icon: string;
+  title: string;
+  subtitle: string;
+}) {
   return (
     <View style={styles.sectionHeader}>
-      <Text style={styles.sectionIcon}>{icon}</Text>
-      <Text style={styles.sectionTitle}>{title}</Text>
+      <View style={styles.sectionIconBox}>
+        <Text style={styles.sectionIcon}>{icon}</Text>
+      </View>
+
+      <View style={{ flex: 1 }}>
+        <Text style={styles.sectionTitle}>{title}</Text>
+        <Text style={styles.sectionSubtitle}>{subtitle}</Text>
+      </View>
     </View>
   );
 }
@@ -104,25 +185,25 @@ export default function CheckoutScreen() {
   const [expiry, setExpiry] = useState("");
   const [cvv, setCvv] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
 
-    if (!name) newErrors.name = "Kötelező mező";
-    if (!email) newErrors.email = "Kötelező mező";
-    if (!phone) newErrors.phone = "Kötelező mező";
-    if (!zip) newErrors.zip = "Kötelező mező";
-    if (!city) newErrors.city = "Kötelező mező";
-    if (!street) newErrors.street = "Kötelező mező";
-    if (!streetType) newErrors.streetType = "Kötelező mező";
-    if (!houseNumber) newErrors.houseNumber = "Kötelező mező";
+    if (!name.trim()) newErrors.name = "Kötelező mező";
+    if (!email.trim()) newErrors.email = "Kötelező mező";
+    if (!phone.trim()) newErrors.phone = "Kötelező mező";
+    if (!zip.trim()) newErrors.zip = "Kötelező mező";
+    if (!city.trim()) newErrors.city = "Kötelező mező";
+    if (!street.trim()) newErrors.street = "Kötelező mező";
+    if (!streetType.trim()) newErrors.streetType = "Kötelező mező";
+    if (!houseNumber.trim()) newErrors.houseNumber = "Kötelező mező";
 
-    const emailRegex = /\S+@\S+\.\S+/;
-    if (email && !emailRegex.test(email)) {
+    if (email && !/\S+@\S+\.\S+/.test(email)) {
       newErrors.email = "Érvénytelen e-mail";
     }
 
-    if (phone && phone.length < 8) {
+    if (phone && onlyDigits(phone).length < 8) {
       newErrors.phone = "Túl rövid telefonszám";
     }
 
@@ -130,12 +211,12 @@ export default function CheckoutScreen() {
       newErrors.zip = "4 számjegy szükséges";
     }
 
-    if (!/^\d{16}$/.test(cardNumber.replace(/\s/g, ""))) {
-      newErrors.cardNumber = "16 számjegy";
+    if (!luhnCheck(cardNumber)) {
+      newErrors.cardNumber = "Érvénytelen kártyaszám";
     }
 
-    if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(expiry)) {
-      newErrors.expiry = "MM/YY formátum";
+    if (!isFutureExpiry(expiry)) {
+      newErrors.expiry = "Érvénytelen vagy lejárt kártya";
     }
 
     if (!/^\d{3,4}$/.test(cvv)) {
@@ -143,363 +224,510 @@ export default function CheckoutScreen() {
     }
 
     setErrors(newErrors);
-
-    if (Object.keys(newErrors).length > 0) {
-      Alert.alert("Hibás adatok", "Kérlek javítsd a pirossal jelölt mezőket.");
-      return false;
-    }
-
-    return true;
-  };
-
-  const formatCardNumber = (value: string) => {
-    const cleaned = value.replace(/\D/g, "").slice(0, 16);
-    const groups = cleaned.match(/.{1,4}/g);
-    return groups ? groups.join(" ") : cleaned;
-  };
-
-  const formatExpiry = (value: string) => {
-    const cleaned = value.replace(/\D/g, "").slice(0, 4);
-
-    if (cleaned.length <= 2) return cleaned;
-    return cleaned.slice(0, 2) + "/" + cleaned.slice(2);
+    return Object.keys(newErrors).length === 0;
   };
 
   const isFormValid =
-    name &&
-    email &&
-    phone &&
-    zip &&
-    city &&
-    street &&
-    streetType &&
-    houseNumber &&
-    /^\d{16}$/.test(cardNumber.replace(/\s/g, "")) &&
-    /^(0[1-9]|1[0-2])\/\d{2}$/.test(expiry) &&
+    !!name.trim() &&
+    /\S+@\S+\.\S+/.test(email) &&
+    onlyDigits(phone).length >= 8 &&
+    /^\d{4}$/.test(zip) &&
+    !!city.trim() &&
+    !!street.trim() &&
+    !!streetType.trim() &&
+    !!houseNumber.trim() &&
+    luhnCheck(cardNumber) &&
+    isFutureExpiry(expiry) &&
     /^\d{3,4}$/.test(cvv);
 
+  const handlePay = () => {
+    if (isSubmitting) return;
+
+    if (!validateForm()) {
+      Toast.show({
+        type: "error",
+        text1: "Hibás adatok",
+        text2: "Kérlek javítsd ki a hibás adatokat!",
+        position: "bottom",
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+    setCvv("");
+
+    Toast.show({
+      type: "success",
+      text1: "Sikeres ellenőrzés",
+      text2: "Átirányítás a fizetés feldolgozásához...",
+      position: "bottom",
+    });
+
+    setTimeout(() => {
+      router.replace("/PayingScreen");
+    }, 600);
+  };
+
   return (
-    <ScrollView
+    <KeyboardAvoidingView
       style={styles.root}
-      contentContainerStyle={styles.scrollContent}
-      showsVerticalScrollIndicator={false}
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
     >
-      {/* Back */}
-      <Pressable onPress={() => router.back()} style={styles.backBtn}>
-        <Text style={styles.backText}>← Vissza</Text>
-      </Pressable>
+      <ScrollView
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
+      >
+        <Pressable onPress={() => router.back()} style={styles.backBtn}>
+          <Text style={styles.backText}>← Vissza</Text>
+        </Pressable>
 
-      {/* Brand */}
-      <View style={styles.brandRow}>
-        <Image
-          source={require("../../assets/mine/icons/rd-logo.png")}
-          style={styles.crown}
-        />
-        <Text style={styles.brandName}>Royal Delivery</Text>
-      </View>
+        <View style={styles.hero}>
+          <View style={styles.brandRow}>
+            <Image
+              source={require("../../assets/mine/icons/rd-logo.png")}
+              style={styles.logo}
+            />
 
-      <Text style={styles.heading}>Számlázási{"\n"}adatok</Text>
-      <Text style={styles.subheading}>
+            <View>
+              <Text style={styles.brandName}>Royal Delivery</Text>
+              <Text style={styles.brandSub}>Gyors, elegáns, biztonságos</Text>
+            </View>
+          </View>
+
+          <Text style={styles.heading}>Rendelés véglegesítése</Text>
+          <Text style={styles.subheading}>
         Töltsd ki az alábbi mezőket a rendeléshez
-      </Text>
+          </Text>
 
-      {/* Personal info */}
-      <View style={styles.card}>
-        <SectionHeader icon="👤" title="Személyes adatok" />
-        <AnimatedInput
-          value={name}
-          onChangeText={setName}
-          placeholder="Teljes név"
-          icon="✏️"
-        />
-        {errors.name && <Text style={styles.error}>{errors.name}</Text>}
-        <AnimatedInput
-          value={email}
-          onChangeText={setEmail}
-          placeholder="E-mail cím"
-          icon="✉️"
-          keyboardType="email-address"
-        />
-        {errors.email && <Text style={styles.error}>{errors.email}</Text>}
-        <AnimatedInput
-          value={phone}
-          onChangeText={setPhone}
-          placeholder="Telefonszám"
-          icon="📞"
-          keyboardType="phone-pad"
-        />
-        {errors.phone && <Text style={styles.error}>{errors.phone}</Text>}
-      </View>
-
-      {/* Address */}
-      <View style={styles.card}>
-        <SectionHeader icon="📍" title="Szállítási cím" />
-        <View style={styles.row}>
-          <View style={{ flex: 1 }}>
-            <AnimatedInput
-              value={zip}
-              onChangeText={setZip}
-              placeholder="Irányítószám"
-              icon="🔢"
-              keyboardType="numeric"
-            />
-          </View>
-          <View style={{ flex: 2 }}>
-            <AnimatedInput
-              value={city}
-              onChangeText={setCity}
-              placeholder="Település"
-              icon="🏙️"
-            />
+          <View style={styles.progressWrap}>
+            <View style={styles.progressActive} />
+            <View style={styles.progressActive} />
+            <View style={styles.progressActive} />
           </View>
         </View>
-        <AnimatedInput
-          value={street}
-          onChangeText={setStreet}
-          placeholder="Közterület neve"
-          icon="🛣️"
-        />
-        <AnimatedInput
-          value={streetType}
-          onChangeText={setStreetType}
-          placeholder="Közterület jellege (utca, út…)"
-          icon="🗺️"
-        />
-        <View style={styles.row}>
-          <View style={{ flex: 1 }}>
-            <AnimatedInput
-              value={houseNumber}
-              onChangeText={setHouseNumber}
-              placeholder="Házszám"
-              icon="🏠"
-            />
+
+        <View style={styles.card}>
+          <SectionHeader
+            icon="👤"
+            title="Személyes adatok"
+            subtitle="Személyes adatok"
+          />
+
+          <AnimatedInput
+            value={name}
+            onChangeText={setName}
+            placeholder="Teljes név"
+            icon="✏️"
+            error={errors.name}
+          />
+
+          <AnimatedInput
+            value={email}
+            onChangeText={setEmail}
+            placeholder="E-mail cím"
+            icon="✉️"
+            keyboardType="email-address"
+            error={errors.email}
+          />
+
+          <AnimatedInput
+            value={phone}
+            onChangeText={(v) => setPhone(v.slice(0, 20))}
+            placeholder="Telefonszám"
+            icon="📞"
+            keyboardType="phone-pad"
+            error={errors.phone}
+          />
+        </View>
+
+        <View style={styles.card}>
+          <SectionHeader
+            icon="📍"
+            title="Szállítási cím"
+            subtitle="Szállítási cím"
+          />
+
+          <View style={styles.row}>
+            <View style={{ flex: 1 }}>
+              <AnimatedInput
+                value={zip}
+                onChangeText={(v) => setZip(onlyDigits(v).slice(0, 4))}
+                placeholder="Irányítószám"
+                icon="🔢"
+                keyboardType="numeric"
+                error={errors.zip}
+              />
+            </View>
+
+            <View style={{ flex: 2 }}>
+              <AnimatedInput
+                value={city}
+                onChangeText={setCity}
+                placeholder="Település"
+                icon="🏙️"
+                error={errors.city}
+              />
+            </View>
           </View>
-          <View style={{ flex: 2 }}>
-            <AnimatedInput
-              value={extra}
-              onChangeText={setExtra}
-              placeholder="Emelet, ajtó, stb."
-              icon="🚪"
-            />
+
+          <AnimatedInput
+            value={street}
+            onChangeText={setStreet}
+            placeholder="Közterület neve"
+            icon="🛣️"
+            error={errors.street}
+          />
+
+          <AnimatedInput
+            value={streetType}
+            onChangeText={setStreetType}
+            placeholder="Közterület jellege"
+            icon="🗺️"
+            error={errors.streetType}
+          />
+
+          <View style={styles.row}>
+            <View style={{ flex: 1 }}>
+              <AnimatedInput
+                value={houseNumber}
+                onChangeText={setHouseNumber}
+                placeholder="Házszám"
+                icon="🏠"
+                error={errors.houseNumber}
+              />
+            </View>
+
+            <View style={{ flex: 2 }}>
+              <AnimatedInput
+                value={extra}
+                onChangeText={setExtra}
+                placeholder="Emelet, ajtó, stb."
+                icon="🚪"
+              />
+            </View>
           </View>
         </View>
-      </View>
 
-      {/* Card info */}
-      <View style={styles.card}>
-        <SectionHeader icon="💳" title="Bankkártya adatok" />
-        <AnimatedInput
-          value={cardNumber}
-          onChangeText={(v) => setCardNumber(formatCardNumber(v))}
-          placeholder="Kártyaszám"
-          icon="💳"
-          keyboardType="numeric"
-        />
-        {errors.cardNumber && (
-          <Text style={styles.error}>{errors.cardNumber}</Text>
+        <View style={styles.card}>
+          <SectionHeader
+            icon="💳"
+            title="Bankkártya"
+            subtitle="Demo fizetéshez tesztkártya ajánlott"
+          />
+
+          <AnimatedInput
+            value={cardNumber}
+            onChangeText={(v) => setCardNumber(formatCardNumber(v))}
+            placeholder="Kártyaszám"
+            icon="💳"
+            keyboardType="numeric"
+            error={errors.cardNumber}
+          />
+
+          <View style={styles.row}>
+            <View style={{ flex: 1 }}>
+              <AnimatedInput
+                value={expiry}
+                onChangeText={(v) => setExpiry(formatExpiry(v))}
+                placeholder="Lejárat (MM/YY)"
+                icon="📅"
+                keyboardType="numeric"
+                error={errors.expiry}
+              />
+            </View>
+
+            <View style={{ flex: 1 }}>
+              <AnimatedInput
+                value={cvv}
+                onChangeText={(v) => setCvv(onlyDigits(v).slice(0, 4))}
+                placeholder="CVV"
+                icon="🔒"
+                secureTextEntry
+                keyboardType="numeric"
+                error={errors.cvv}
+              />
+            </View>
+          </View>
+        </View>
+
+        {__DEV__ && (
+          <Pressable
+            onPress={() => {
+              setName("Teszt Elek");
+              setEmail("teszt@pelda.hu");
+              setPhone("06301234567");
+              setZip("6720");
+              setCity("Szeged");
+              setStreet("Kossuth Lajos");
+              setStreetType("utca");
+              setHouseNumber("12");
+              setExtra("2/5");
+              setCardNumber("1234 5678 9012 3456");
+              setExpiry("12/30");
+              setCvv("123");
+              setErrors({});
+
+              Toast.show({
+                type: "info",
+                text1: "Teszt adatok betöltése sikeres",
+                position: "bottom",
+              });
+            }}
+            style={({ pressed }) => [
+              styles.testBtn,
+              pressed && styles.btnPressed,
+            ]}
+          >
+            <Text style={styles.testBtnText}>Kitöltés teszt adatokkal</Text>
+          </Pressable>
         )}
-        <View style={styles.row}>
-          <View style={{ flex: 1 }}>
-            <AnimatedInput
-              value={expiry}
-              onChangeText={(v) => setExpiry(formatExpiry(v))}
-              placeholder="Lejárat (MM/YY)"
-              icon="📅"
-            />
-            {errors.expiry && <Text style={styles.error}>{errors.expiry}</Text>}
-          </View>
-          <View style={{ flex: 1 }}>
-            <AnimatedInput
-              value={cvv}
-              onChangeText={setCvv}
-              placeholder="CVV/CVC"
-              icon="🔒"
-              secureTextEntry
-              keyboardType="numeric"
-            />
-            {errors.cvv && <Text style={styles.error}>{errors.cvv}</Text>}
-          </View>
-        </View>
-      </View>
 
-      <Pressable
-        onPress={() => {
-          setName("Teszt Elek");
-          setEmail("teszt@pelda.hu");
-          setPhone("06301234567");
-          setZip("6720");
-          setCity("Szeged");
-          setStreet("Kossuth Lajos");
-          setStreetType("utca");
-          setHouseNumber("12");
-          setExtra("2/5");
-          setCardNumber("5000333641352301");
-          setExpiry("12/30");
-          setCvv("123");
-        }}
-        style={({ pressed }) => [
-          {
-            backgroundColor: COLORS.surface,
-            borderWidth: 1,
-            borderColor: COLORS.border,
-            borderRadius: 12,
-            paddingVertical: 12,
-            alignItems: "center",
-            marginBottom: 10,
-            opacity: pressed ? 0.7 : 1,
-          },
-        ]}
-      >
-        <Text style={{ color: COLORS.text, fontWeight: "600" }}>
-          Kitöltés teszt adatokkal
-        </Text>
-      </Pressable>
+        <Pressable
+          onPress={handlePay}
+          disabled={!isFormValid || isSubmitting}
+          style={({ pressed }) => [
+            styles.payBtn,
+            (!isFormValid || isSubmitting) && styles.payBtnDisabled,
+            pressed && styles.btnPressed,
+          ]}
+        >
+          <Text style={styles.payBtnText}>
+            {isSubmitting ? "Feldolgozás..." : "Fizetés →"}
+          </Text>
+          <Text style={styles.payBtnSub}>Biztonságos fizetési folyamat</Text>
+        </Pressable>
 
-      {/* Pay button */}
-      <Pressable
-        onPress={() => {
-          if (validateForm()) {
-            Toast.show({ type: "success", text1: "Sikeres fizetés", text2: "Köszönjük a rendelést!" });
-            router.push("/PayingScreen");
-          } else {
-            Toast.show({ type: "error", text1: "Hibás adatok", text2: "Kérlek javítsd a pirossal jelölt mezőket." });
-            
-          }
-        }}
-        style={({ pressed }) => [
-          styles.payBtn,
-          !isFormValid && { opacity: 0.4 },
-          pressed && styles.btnPressed,
-        ]}
-        disabled={!isFormValid}
-      >
-        <Text style={styles.payBtnText}>Fizetés →</Text>
-        <Text style={styles.payBtnSub}>Biztonságos fizetési folyamat</Text>
-      </Pressable>
-
-      {/* Safety note */}
-      <View style={styles.safetyRow}>
-        <Text style={styles.safetyText}>
-          🔒 Adataid titkosítva kerülnek továbbításra
-        </Text>
-      </View>
-    </ScrollView>
+        
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
-  root: { flex: 1, backgroundColor: COLORS.bg },
-  scrollContent: { paddingHorizontal: 24, paddingBottom: 48 },
+  root: {
+    flex: 1,
+    backgroundColor: COLORS.bg,
+  },
+  scrollContent: {
+    paddingHorizontal: 20,
+    paddingBottom: 44,
+  },
 
-  backBtn: { paddingTop: 20, paddingBottom: 8 },
-  backText: { color: COLORS.muted, fontSize: 15, fontWeight: "500" },
+  backBtn: {
+    paddingTop: 20,
+    paddingBottom: 10,
+  },
+  backText: {
+    color: COLORS.muted,
+    fontSize: 15,
+    fontWeight: "700",
+  },
 
+  hero: {
+    marginBottom: 18,
+  },
   brandRow: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 8,
-    marginBottom: 28,
+    gap: 12,
     marginTop: 8,
+    marginBottom: 26,
   },
-  crown: {
-    width: 100,
-    height: 100,
+  logo: {
+    width: 72,
+    height: 72,
     resizeMode: "contain",
   },
   brandName: {
-    fontSize: 16,
-    fontWeight: "700",
+    fontSize: 18,
+    fontWeight: "900",
     color: COLORS.gold,
-    letterSpacing: 0.5,
+    letterSpacing: 0.3,
   },
-
+  brandSub: {
+    color: COLORS.muted,
+    fontSize: 12,
+    marginTop: 2,
+  },
   heading: {
-    fontSize: 38,
+    fontSize: 36,
     fontWeight: "900",
     color: COLORS.text,
-    lineHeight: 44,
-    letterSpacing: -0.5,
-    marginBottom: 8,
+    lineHeight: 40,
+    letterSpacing: -0.7,
   },
-  subheading: { fontSize: 14, color: COLORS.muted, marginBottom: 28 },
+  subheading: {
+    fontSize: 14,
+    color: COLORS.muted,
+    lineHeight: 20,
+    marginTop: 10,
+    marginBottom: 18,
+  },
+  progressWrap: {
+    flexDirection: "row",
+    gap: 8,
+  },
+  progressActive: {
+    flex: 1,
+    height: 5,
+    borderRadius: 999,
+    backgroundColor: COLORS.gold,
+  },
 
   card: {
     backgroundColor: COLORS.card,
-    borderRadius: 20,
+    borderRadius: 24,
     borderWidth: 1,
     borderColor: COLORS.border,
-    padding: 18,
+    padding: 16,
     gap: 12,
     marginBottom: 16,
+    shadowColor: "#000",
+    shadowOpacity: 0.22,
+    shadowRadius: 12,
+    shadowOffset: { width: 0, height: 8 },
+    elevation: 5,
   },
 
   sectionHeader: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 8,
-    marginBottom: 4,
-    paddingBottom: 10,
+    gap: 12,
+    paddingBottom: 12,
+    marginBottom: 2,
     borderBottomWidth: 1,
     borderBottomColor: COLORS.border,
   },
-  sectionIcon: { fontSize: 16 },
+  sectionIconBox: {
+    width: 38,
+    height: 38,
+    borderRadius: 14,
+    backgroundColor: COLORS.surface,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  sectionIcon: {
+    fontSize: 18,
+  },
   sectionTitle: {
-    fontSize: 15,
-    fontWeight: "700",
-    color: COLORS.gold,
-    letterSpacing: 0.2,
+    fontSize: 16,
+    fontWeight: "900",
+    color: COLORS.text,
+  },
+  sectionSubtitle: {
+    color: COLORS.muted,
+    fontSize: 12,
+    marginTop: 2,
   },
 
   inputWrapper: {
+    minHeight: 52,
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: COLORS.surface,
-    borderRadius: 12,
+    borderRadius: 16,
     borderWidth: 1.5,
     paddingHorizontal: 14,
-    paddingVertical: 13,
     gap: 10,
   },
-  inputIcon: { fontSize: 15 },
-  input: { flex: 1, fontSize: 15, color: COLORS.text, padding: 0 },
-  inputFilledDot: {
-    width: 7,
-    height: 7,
-    borderRadius: 4,
-    backgroundColor: COLORS.gold,
+  inputIcon: {
+    fontSize: 16,
+  },
+  input: {
+    flex: 1,
+    fontSize: 15,
+    color: COLORS.text,
+    padding: 0,
+  },
+  inputStatus: {
+    color: COLORS.success,
+    fontSize: 14,
+    fontWeight: "900",
+  },
+  inputStatusError: {
+    color: COLORS.error,
   },
 
-  row: { flexDirection: "row", gap: 10 },
+  row: {
+    flexDirection: "row",
+    gap: 10,
+  },
+
+  error: {
+    color: COLORS.error,
+    fontSize: 12,
+    fontWeight: "700",
+    marginTop: 6,
+    marginLeft: 4,
+  },
+
+  testBtn: {
+    backgroundColor: COLORS.surface,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    borderRadius: 16,
+    paddingVertical: 14,
+    alignItems: "center",
+    marginBottom: 12,
+  },
+  testBtnText: {
+    color: COLORS.text,
+    fontWeight: "800",
+  },
 
   payBtn: {
     backgroundColor: COLORS.gold,
-    borderRadius: 16,
+    borderRadius: 20,
     paddingVertical: 18,
     alignItems: "center",
-    marginTop: 4,
-    marginBottom: 16,
+    marginTop: 2,
+    marginBottom: 14,
+    shadowColor: COLORS.gold,
+    shadowOpacity: 0.28,
+    shadowRadius: 14,
+    shadowOffset: { width: 0, height: 8 },
+    elevation: 6,
+  },
+  payBtnDisabled: {
+    opacity: 0.45,
+    shadowOpacity: 0,
   },
   payBtnText: {
-    color: "#0f0e0c",
-    fontSize: 17,
-    fontWeight: "800",
+    color: COLORS.bg,
+    fontSize: 18,
+    fontWeight: "900",
     letterSpacing: 0.2,
   },
   payBtnSub: {
-    color: "#0f0e0c",
+    color: COLORS.bg,
     fontSize: 12,
-    fontWeight: "500",
-    opacity: 0.6,
-    marginTop: 3,
+    fontWeight: "700",
+    opacity: 0.62,
+    marginTop: 4,
   },
-  btnPressed: { opacity: 0.82, transform: [{ scale: 0.97 }] },
+  btnPressed: {
+    opacity: 0.82,
+    transform: [{ scale: 0.98 }],
+  },
 
-  safetyRow: { alignItems: "center", marginBottom: 8 },
-  safetyText: { fontSize: 13, color: COLORS.muted },
-  error: {
-    color: "#ff6b6b",
+  safetyCard: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+    backgroundColor: COLORS.surface,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    padding: 14,
+  },
+  safetyIcon: {
+    fontSize: 18,
+  },
+  safetyText: {
+    flex: 1,
     fontSize: 12,
-    marginTop: -6,
-    marginBottom: 4,
+    lineHeight: 17,
+    color: COLORS.muted,
   },
 });
