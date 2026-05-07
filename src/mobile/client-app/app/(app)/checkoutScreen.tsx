@@ -285,7 +285,7 @@ export default function CheckoutScreen() {
         <View style={styles.hero}>
           <View style={styles.brandRow}>
             <Image
-              source={require("../../assets/mine/icons/rd-logo.png")}
+              source={require("../../assets/mine/icons/royal-delivery-logo.png")}
               style={styles.crown}
             />
 

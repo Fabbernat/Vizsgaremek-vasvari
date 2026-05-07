@@ -131,7 +131,7 @@ export default function SettingsScreen() {
         style={[styles.brandRow, { opacity: fadeAnim, transform: [{ translateY: slideAnim }] }]}
       >
         <Image
-          source={require("../../assets/mine/icons/rd-logo.png")}
+          source={require("../../assets/mine/icons/royal-delivery-logo.png")}
           style={styles.crown}
         />
         <View>

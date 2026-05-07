@@ -180,7 +180,7 @@ const isStrongPassword = (pw: string) => {
         >
           {/* Brand */}
           <View style={styles.brandRow}>
-        <Image source={require("../../assets/mine/icons/rd-logo.png")} style={styles.crown}  />
+        <Image source={require("../../assets/mine/icons/royal-delivery-logo.png")} style={styles.crown}  />
             <Text style={styles.brandName}>Royal Delivery</Text>
           </View>
 

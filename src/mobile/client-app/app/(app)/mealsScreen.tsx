@@ -2,20 +2,22 @@
 import { router } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import {
-  Animated,
-  FlatList,
-  Pressable,
-  StatusBar,
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TextInput,
+    Animated,
+    FlatList,
+    Image,
+    Pressable,
+    StatusBar,
+    StyleSheet,
+    Text,
+    TextInput,
+    View,
 } from "react-native";
 import Toast from "react-native-toast-message";
 import { addToGuestCart } from "./CartStore";
-import { useMeals } from "./UseMeals";
 import SkeletonMealCard from "./SkeletonMealCard";
+import { useMeals } from "./UseMeals";
+import { getMealImage } from "./mealImages";
+
 const COLORS = {
   bg: "#0f0e0c",
   surface: "#1c1a16",
@@ -181,7 +183,10 @@ function MealCard({ item, index, onAddToCart }: any) {
     >
       <View style={styles.card}>
         <View style={styles.cardImageBox}>
-          <Text style={styles.cardImageEmoji}>🍽️</Text>
+          <Image
+  source={getMealImage(item.image_url ?? item.imageUrl)}
+  style={styles.mealImage}
+          />
           <View style={styles.priceBadge}>
             <Text style={styles.priceText}>{item.price} Ft</Text>
           </View>
@@ -289,7 +294,7 @@ const filteredMeals = sourceMeals // vagy inmemoryMeals
       </Pressable>
       <View style={styles.brandRow}>
         <Image
-          source={require("../../assets/mine/icons/rd-logo.png")}
+          source={require("../../assets/mine/icons/royal-delivery-logo.png")}
           style={styles.crown}
         />
         <Text style={styles.brandName}>Royal Delivery</Text>
@@ -505,5 +510,10 @@ quantityText: {
   fontWeight: "700",
   minWidth: 42,
   textAlign: "center",
+},
+mealImage: {
+  width: "100%",
+  height: "100%",
+  resizeMode: "cover",
 },
 });

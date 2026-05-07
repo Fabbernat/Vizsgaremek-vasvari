@@ -1,13 +1,13 @@
 // client-app\(app)\app\(app)\CartScreen.tsx
 import { router } from "expo-router";
 import {
-  Alert,
-  FlatList,
-  Image,
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
+    Alert,
+    FlatList,
+    Image,
+    Pressable,
+    StyleSheet,
+    Text,
+    View,
 } from "react-native";
 import { useCartStore } from "./CartStore";
 
@@ -63,7 +63,7 @@ export default function CartScreen() {
       {/* ── Brand header ── */}
       <View style={styles.brandRow}>
         <Image
-          source={require("../../assets/mine/icons/rd-logo.png")}
+          source={require("../../assets/mine/icons/royal-delivery-logo.png")}
           style={styles.crown}
         />
       </View>

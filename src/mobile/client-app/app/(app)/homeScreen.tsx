@@ -12,7 +12,6 @@ import {
     Text,
     View,
 } from "react-native";
-import { Meal } from "../../models/meal";
 import { setGlobalIsLoggedIn, useGlobalAuth } from "./AuthStore";
 import Cart from "./CartIconButton";
 import { addToGuestCart } from "./CartStore";
@@ -23,6 +22,7 @@ import Toast from "react-native-toast-message";
 import SettingsIconButton from "./SettingsIconButton";
 import SkeletonMealCard from "./SkeletonMealCard";
 import { useTheme } from "./ThemeContext";
+import { getMealImage } from "./mealImages";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const COLORS = {
@@ -40,12 +40,48 @@ const COLORS = {
 };
 
 const fallbackData = [
-  { id: "1", name: "Margherita Pizza", description: "Friss paradicsom, mozzarella és bazsalikom", price: 1500, imageUrl: "placeholder.jpg" },
-  { id: "2", name: "Caesar Saláta", description: "Ropogós saláta csirkével és krutonnal", price: 1200, imageUrl: "placeholder.jpg" },
-  { id: "3", name: "Spaghetti Carbonara", description: "Klasszikus olasz tészta szalonnával és tojással", price: 1300, imageUrl: "placeholder.jpg" },
-  { id: "4", name: "Pepperoni Pizza", description: "Szaftos pepperoni és olvadt sajt", price: 1600, imageUrl: "placeholder.jpg" },
-  { id: "5", name: "Hawaii Pizza", description: "Ananász és sonka egy különleges kombinációban", price: 1700, imageUrl: "placeholder.jpg" },
-  { id: "6", name: "Vegetáriánus Pizza", description: "Friss zöldségek és sajt egy egészséges választás", price: 1400, imageUrl: "placeholder.jpg" },
+  {
+    id: "1",
+    name: "Margherita Pizza",
+    description: "Friss paradicsom, mozzarella és bazsalikom",
+    price: 1500,
+    imageUrl: "margherita-pizza.jpg",
+  },
+  {
+    id: "2",
+    name: "Caesar Saláta",
+    description: "Ropogós saláta csirkével és krutonnal",
+    price: 1200,
+    imageUrl: "caesar-salata.jpg",
+  },
+  {
+    id: "3",
+    name: "Spaghetti Carbonara",
+    description: "Klasszikus olasz tészta szalonnával és tojással",
+    price: 1300,
+    imageUrl: "carbonara.jpg",
+  },
+  {
+    id: "4",
+    name: "Pepperoni Pizza",
+    description: "Szaftos pepperoni és olvadt sajt",
+    price: 1600,
+    imageUrl: "pepperoni-pizza.jpg",
+  },
+  {
+    id: "5",
+    name: "Hawaii Pizza",
+    description: "Ananász és sonka egy különleges kombinációban",
+    price: 1700,
+    imageUrl: "hawaii-pizza.jpg",
+  },
+  {
+    id: "6",
+    name: "Vegetáriánus Pizza",
+    description: "Friss zöldségek és sajt egy egészséges választás",
+    price: 1400,
+    imageUrl: "vegetarianus-pizza.jpg",
+  },
 ];
 
 // Animated meal card
@@ -104,17 +140,10 @@ export function MealCard({
       >
         {/* Image area */}
         <View style={[HomeScreenStyles.cardImageBox, { backgroundColor: colors.surface }]}>
-          {item.imageUrl ? (
-            <Image
-              source={{ uri: item.imageUrl }}
-              style={HomeScreenStyles.cardImage}
-              accessibilityLabel={`Egy kép erről: ${item.name}`}
-            />
-          ) : (
-            <View style={[HomeScreenStyles.cardImagePlaceholder, { backgroundColor: colors.surface }]}>
-              <Text style={HomeScreenStyles.cardImageEmoji}>🍽️</Text>
-            </View>
-          )}
+         <Image
+  source={getMealImage(item.image_url ?? item.imageUrl)}
+  style={HomeScreenStyles.mealImage}
+/>
           {/* Price badge */}
           <View style={[HomeScreenStyles.priceBadge, { backgroundColor: colors.gold }]}>
             <Text style={HomeScreenStyles.priceText}>{item.price} Ft</Text>
@@ -192,10 +221,11 @@ export default function HomeScreen() {
     ]).start();
   }, [headerAnim, logoAnim]);
 
-  const dataToShow = (meals ?? []).map((meal: Meal) => ({
-    ...meal,
-    id: meal.id.toString(),
-  }));
+  const dataToShow = (meals ?? []).map((meal: any) => ({
+  ...meal,
+  id: meal.id.toString(),
+  imageUrl: meal.image_url,
+}));
   const displayData = dataToShow.length > 0 ? dataToShow : fallbackData;
 
   const logout = async () => {
@@ -235,7 +265,7 @@ export default function HomeScreen() {
       {/* Top bar */}
       <View style={HomeScreenStyles.topBar}>
         <Animated.View style={{ opacity: headerAnim, transform: [{ translateY: logoAnim }] }}>
-          <Image source={require("../../assets/mine/icons/rd-logo.png")} style={HomeScreenStyles.crown} />
+          <Image source={require("../../assets/mine/icons/royal-delivery-logo.png")} style={HomeScreenStyles.crown} />
         </Animated.View>
         <View style={HomeScreenStyles.topActions}>
           <Cart style={HomeScreenStyles.iconBtn} />
@@ -664,5 +694,10 @@ quantityText: {
   fontWeight: "700",
   minWidth: 42,
   textAlign: "center",
+},
+mealImage: {
+  width: "100%",
+  height: "100%",
+  resizeMode: "cover",
 },
 });
