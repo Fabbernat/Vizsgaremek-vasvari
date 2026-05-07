@@ -286,7 +286,7 @@ export default function CheckoutScreen() {
           <View style={styles.brandRow}>
             <Image
               source={require("../../assets/mine/icons/rd-logo.png")}
-              style={styles.logo}
+              style={styles.crown}
             />
 
             <View>
@@ -297,7 +297,7 @@ export default function CheckoutScreen() {
 
           <Text style={styles.heading}>Rendelés véglegesítése</Text>
           <Text style={styles.subheading}>
-        Töltsd ki az alábbi mezőket a rendeléshez
+            Töltsd ki az alábbi mezőket a rendeléshez
           </Text>
 
           <View style={styles.progressWrap}>
@@ -463,7 +463,7 @@ export default function CheckoutScreen() {
               setStreetType("utca");
               setHouseNumber("12");
               setExtra("2/5");
-              setCardNumber("1234 5678 9012 3456");
+              setCardNumber("4242 4242 4242 4242");
               setExpiry("12/30");
               setCvv("123");
               setErrors({});
@@ -497,8 +497,6 @@ export default function CheckoutScreen() {
           </Text>
           <Text style={styles.payBtnSub}>Biztonságos fizetési folyamat</Text>
         </Pressable>
-
-        
       </ScrollView>
     </KeyboardAvoidingView>
   );
@@ -515,8 +513,10 @@ const styles = StyleSheet.create({
   },
 
   backBtn: {
+    alignSelf: "flex-start",
     paddingTop: 20,
     paddingBottom: 10,
+    paddingRight: 16,
   },
   backText: {
     color: COLORS.muted,
@@ -534,9 +534,9 @@ const styles = StyleSheet.create({
     marginTop: 8,
     marginBottom: 26,
   },
-  logo: {
-    width: 72,
-    height: 72,
+  crown: {
+    width: 100,
+    height: 100,
     resizeMode: "contain",
   },
   brandName: {
