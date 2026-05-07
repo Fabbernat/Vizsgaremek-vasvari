@@ -1,22 +1,22 @@
 id,name,description,price,restaurant_id,image_url
-1,Margherita Pizza,"Friss paradicsom, mozzarella és bazsalikom",1500,1,placeholder.jpg
-2,Caesar Saláta,Ropogós saláta csirkével és krutonnal,1200,2,placeholder.jpg
-3,Spaghetti Carbonara,Klasszikus olasz tészta szalonnával és tojással,1300,3,placeholder.jpg
-4,Pepperoni Pizza,Szaftos pepperoni és olvadt sajt,1600,4,placeholder.jpg
-5,Hawaii Pizza,Ananász és sonka egy különleges kombinációban,1700,5,placeholder.jpg
-6,Vegetáriánus Pizza,Friss zöldségek és sajt egy egészséges választás,1400,6,placeholder.jpg
-7,California Roll,"Rák, avokádó és uborka egy finom tekercsben",2000,7,placeholder.jpg
-8,Spicy Tuna Roll,Fűszeres tonhal és avokádó egy ízletes kombinációban,2200,8,placeholder.jpg
-9,Salmon Nigiri,Friss lazac egy szelet rizs tetején,1800,1,placeholder.jpg
-10,Gyros tál,"Fűszeres csirkehús, sült burgonya, friss saláta és tzatziki",1500,1,placeholder.jpg
-11,Hamburger,"Marhahúspogácsa, cheddar sajt, saláta, paradicsom és burger szósz",1800,1,placeholder.jpg
-12,Sült csirke,Ropogós bundában sült csirkemell hasábburgonyával,2200,1,placeholder.jpg
-13,Rántott sajt,Aranybarnára sütött sajt tartármártással és rizzsel,1700,1,placeholder.jpg
-14,Lazac steak,Grillezett lazac friss salátával és citromos öntettel,3000,1,placeholder.jpg
-15,Vegetáriánus lasagne,"Rétegezett tészta zöldségekkel, paradicsomszósszal és sajttal",2500,4,placeholder.jpg
-16,Sült zöldségek,Kemencében sült idényzöldségek fokhagymás fűszerezéssel,1200,6,placeholder.jpg
-17,Sült krumpli,"Frissen sült, ropogós hasábburgonya enyhén sózva",500,7,placeholder.jpg
-18,Kóla,"Jéghideg szénsavas üdítőital 0,5 literes kiszerelésben",1000,8,placeholder.jpg
-26,Királyi Burger,"Frissen készített, ízletes fogás",2490,14,placeholder.jpg
-27,Arany Krumpli,"Frissen készített, ízletes fogás",890,13,placeholder.jpg
-28,Koronás Limonádé,"Frissen készített, ízletes fogás",690,12,placeholder.jpg
+1,Margherita Pizza,"Friss paradicsom, mozzarella és bazsalikom",1500,1,margherita-pizza.jpg
+2,Caesar Saláta,Ropogós saláta csirkével és krutonnal,1200,2,caesar-salata.jpg
+3,Spaghetti Carbonara,Klasszikus olasz tészta szalonnával és tojással,1300,3,carbonara.jpg
+4,Pepperoni Pizza,Szaftos pepperoni és olvadt sajt,1600,4,pepperoni-pizza.jpg
+5,Hawaii Pizza,Ananász és sonka egy különleges kombinációban,1700,5,hawaii-pizza.jpg
+6,Vegetáriánus Pizza,Friss zöldségek és sajt egy egészséges választás,1400,6,vegetarianus-pizza.jpg
+7,California Roll,"Rák, avokádó és uborka egy finom tekercsben",2000,7,california-roll.jpg
+8,Spicy Tuna Roll,Fűszeres tonhal és avokádó egy ízletes kombinációban,2200,8,spicy-tuna-roll.jpg
+9,Salmon Nigiri,Friss lazac egy szelet rizs tetején,1800,1,salmon-nigiri.jpg
+10,Gyros tál,"Fűszeres csirkehús, sült burgonya, friss saláta és tzatziki",1500,1,gyros-tal.jpg
+11,Hamburger,"Marhahúspogácsa, cheddar sajt, saláta, paradicsom és burger szósz",1800,1,hamburger.jpg
+12,Sült csirke,Ropogós bundában sült csirkemell hasábburgonyával,2200,1,sult-csirke.jpg
+13,Rántott sajt,Aranybarnára sütött sajt tartármártással és rizzsel,1700,1,rantott-sajt.jpg
+14,Lazac steak,Grillezett lazac friss salátával és citromos öntettel,3000,1,lazac-steak.jpg
+15,Vegetáriánus lasagne,"Rétegezett tészta zöldségekkel, paradicsomszósszal és sajttal",2500,4,vegetarianus-lasagne.jpg
+16,Sült zöldségek,Kemencében sült idényzöldségek fokhagymás fűszerezéssel,1200,6,sult-zoldsegek.jpg
+17,Sült krumpli,"Frissen sült, ropogós hasábburgonya enyhén sózva",500,7,sult-krumpli.jpg
+18,Kóla,"Jéghideg szénsavas üdítőital 0,5 literes kiszerelésben",1000,8,kola.jpg
+26,Királyi Burger,"Frissen készített, ízletes fogás",2490,14,kiralyi-burger.jpg
+27,Arany Krumpli,"Frissen készített, ízletes fogás",890,13,arany-krumpli.jpg
+28,Koronás Limonádé,"Frissen készített, ízletes fogás",690,12,koronas-limonade.jpg
