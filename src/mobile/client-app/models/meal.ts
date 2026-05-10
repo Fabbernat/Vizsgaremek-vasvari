@@ -4,5 +4,5 @@ export interface Meal {
   description: string;
   price: number;
   restaurant_id: string;
-  image_url: string;
+  image_url?: string;
 }

@@ -1,16 +1,16 @@
 // client-app\(app)\app\(app)\homeScreen.tsx
 import { supabase } from "@/supabase";
 import { router } from "expo-router";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
-    Animated,
-    FlatList,
-    Image,
-    Pressable,
-    StatusBar,
-    StyleSheet,
-    Text,
-    View,
+  Animated,
+  FlatList,
+  Image,
+  Pressable,
+  StatusBar,
+  StyleSheet,
+  Text,
+  View,
 } from "react-native";
 import { setGlobalIsLoggedIn, useGlobalAuth } from "./AuthStore";
 import Cart from "./CartIconButton";
@@ -24,7 +24,6 @@ import SkeletonMealCard from "./SkeletonMealCard";
 import { useTheme } from "./ThemeContext";
 import { getMealImage } from "./mealImages";
 
- 
 const COLORS = {
   bg: "#0f0e0c",
   surface: "#1c1a16",
@@ -39,7 +38,16 @@ const COLORS = {
   danger: "#ef4444",
 };
 
-const fallbackData = [
+type HomeMeal = {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  imageUrl?: string;
+  image_url?: string;
+};
+
+const fallbackData: HomeMeal[] = [
   {
     id: "1",
     name: "Margherita Pizza",
@@ -90,7 +98,7 @@ export function MealCard({
   index,
   onAddToCart,
 }: {
-  item: any;
+  item: HomeMeal;
   index: number;
   onAddToCart: (name: string, quantity: number) => void;
 }) {
@@ -119,7 +127,10 @@ export function MealCard({
   }, [fadeAnim, index, slideAnim]);
 
   const handlePressIn = () => {
-    Animated.spring(scaleAnim, { toValue: 0.96, useNativeDriver: true }).start();
+    Animated.spring(scaleAnim, {
+      toValue: 0.96,
+      useNativeDriver: true,
+    }).start();
   };
   const handlePressOut = () => {
     Animated.spring(scaleAnim, { toValue: 1, useNativeDriver: true }).start();
@@ -136,45 +147,89 @@ export function MealCard({
       <Pressable
         onPressIn={handlePressIn}
         onPressOut={handlePressOut}
-        style={[HomeScreenStyles.card, { backgroundColor: colors.card, borderColor: colors.border }]}
+        style={[
+          HomeScreenStyles.card,
+          { backgroundColor: colors.card, borderColor: colors.border },
+        ]}
       >
         {/* Image area */}
-        <View style={[HomeScreenStyles.cardImageBox, { backgroundColor: colors.surface }]}>
-         <Image
-  source={getMealImage(item.image_url ?? item.imageUrl)}
-  style={HomeScreenStyles.mealImage}
-/>
+        <View
+          style={[
+            HomeScreenStyles.cardImageBox,
+            { backgroundColor: colors.surface },
+          ]}
+        >
+          <Image
+            source={getMealImage(item.imageUrl)}
+            style={HomeScreenStyles.mealImage}
+          />
           {/* Price badge */}
-          <View style={[HomeScreenStyles.priceBadge, { backgroundColor: colors.gold }]}>
+          <View
+            style={[
+              HomeScreenStyles.priceBadge,
+              { backgroundColor: colors.gold },
+            ]}
+          >
             <Text style={HomeScreenStyles.priceText}>{item.price} Ft</Text>
           </View>
         </View>
 
         {/* Card body */}
         <View style={HomeScreenStyles.cardBody}>
-          <Text style={[HomeScreenStyles.cardName, { color: colors.text }]} numberOfLines={1}>{item.name}</Text>
-          <Text style={[HomeScreenStyles.cardDesc, { color: colors.muted }]} numberOfLines={2}>{item.description}</Text>
+          <Text
+            style={[HomeScreenStyles.cardName, { color: colors.text }]}
+            numberOfLines={1}
+          >
+            {item.name}
+          </Text>
+          <Text
+            style={[HomeScreenStyles.cardDesc, { color: colors.muted }]}
+            numberOfLines={2}
+          >
+            {item.description}
+          </Text>
         </View>
 
         {/* Gold accent line */}
-        <View style={[HomeScreenStyles.cardAccent, { backgroundColor: colors.gold }]} />
+        <View
+          style={[
+            HomeScreenStyles.cardAccent,
+            { backgroundColor: colors.gold },
+          ]}
+        />
 
         {/* Quantity row */}
         <View style={HomeScreenStyles.quantityRow}>
           <Pressable
             onPress={() => setQuantity((q) => Math.max(1, q - 1))}
-            style={[HomeScreenStyles.quantityBtn, { backgroundColor: colors.surface, borderColor: colors.border }]}
+            style={[
+              HomeScreenStyles.quantityBtn,
+              { backgroundColor: colors.surface, borderColor: colors.border },
+            ]}
           >
-            <Text style={[HomeScreenStyles.quantityBtnText, { color: colors.gold }]}>−</Text>
+            <Text
+              style={[HomeScreenStyles.quantityBtnText, { color: colors.gold }]}
+            >
+              −
+            </Text>
           </Pressable>
 
-          <Text style={[HomeScreenStyles.quantityText, { color: colors.text }]}>{quantity} db</Text>
+          <Text style={[HomeScreenStyles.quantityText, { color: colors.text }]}>
+            {quantity} db
+          </Text>
 
           <Pressable
             onPress={() => setQuantity((q) => Math.min(99, q + 1))}
-            style={[HomeScreenStyles.quantityBtn, { backgroundColor: colors.surface, borderColor: colors.border }]}
+            style={[
+              HomeScreenStyles.quantityBtn,
+              { backgroundColor: colors.surface, borderColor: colors.border },
+            ]}
           >
-            <Text style={[HomeScreenStyles.quantityBtnText, { color: colors.gold }]}>+</Text>
+            <Text
+              style={[HomeScreenStyles.quantityBtnText, { color: colors.gold }]}
+            >
+              +
+            </Text>
           </Pressable>
         </View>
 
@@ -196,6 +251,12 @@ export function MealCard({
     </Animated.View>
   );
 }
+
+const normalizeMeal = (meal: HomeMeal): HomeMeal => ({
+  ...meal,
+  id: String(meal.id),
+  imageUrl: meal.imageUrl ?? meal.image_url ?? "placeholder.jpg",
+});
 
 export default function HomeScreen() {
   const { meals, loading } = useMeals();
@@ -221,13 +282,7 @@ export default function HomeScreen() {
     ]).start();
   }, [headerAnim, logoAnim]);
 
-  const dataToShow = (meals ?? []).map((meal: any) => ({
-  ...meal,
-  id: meal.id.toString(),
-  imageUrl: meal.image_url,
-}));
-
-  const displayData = dataToShow.length > 0 ? dataToShow : fallbackData;
+  const displayData = (meals?.length ? meals : fallbackData).map(normalizeMeal);
 
   const logout = async () => {
     const { error } = await supabase.auth.signOut();
@@ -249,12 +304,12 @@ export default function HomeScreen() {
   };
 
   const showToast = (itemName: string, quantity: number) => {
-  Toast.show({
-    type: "success",
-    text1: "Siker!",
-    text2: `${quantity} db ${itemName} sikeresen a kosárba rakva!`,
-  });
-};
+    Toast.show({
+      type: "success",
+      text1: "Siker!",
+      text2: `${quantity} db ${itemName} sikeresen a kosárba rakva!`,
+    });
+  };
 
   return (
     <View style={[HomeScreenStyles.root, { backgroundColor: colors.bg }]}>
@@ -265,8 +320,13 @@ export default function HomeScreen() {
 
       {/* Top bar */}
       <View style={HomeScreenStyles.topBar}>
-        <Animated.View style={{ opacity: headerAnim, transform: [{ translateY: logoAnim }] }}>
-          <Image source={require("../../assets/mine/icons/royal-delivery-logo.png")} style={HomeScreenStyles.crown} />
+        <Animated.View
+          style={{ opacity: headerAnim, transform: [{ translateY: logoAnim }] }}
+        >
+          <Image
+            source={require("../../assets/mine/icons/royal-delivery-logo.png")}
+            style={HomeScreenStyles.crown}
+          />
         </Animated.View>
         <View style={HomeScreenStyles.topActions}>
           <Cart style={HomeScreenStyles.iconBtn} />
@@ -285,8 +345,12 @@ export default function HomeScreen() {
           },
         ]}
       >
-        <Text style={[HomeScreenStyles.heroEyebrow, { color: colors.gold }]}>🚀 Gyors kiszállítás</Text>
-        <Text style={[HomeScreenStyles.heroTitle, { color: colors.text }]}>Royal{"\n"}Delivery</Text>
+        <Text style={[HomeScreenStyles.heroEyebrow, { color: colors.gold }]}>
+          🚀 Gyors kiszállítás
+        </Text>
+        <Text style={[HomeScreenStyles.heroTitle, { color: colors.text }]}>
+          Royal{"\n"}Delivery
+        </Text>
         <Text style={[HomeScreenStyles.heroSubtitle, { color: colors.muted }]}>
           Kiszállítás olcsón és egyszerűen — egyenesen az ajtódhoz.
         </Text>
@@ -305,9 +369,21 @@ export default function HomeScreen() {
 
       {/* Section header */}
       <View style={HomeScreenStyles.sectionHeader}>
-        <View style={[HomeScreenStyles.sectionDot, { backgroundColor: colors.gold }]} />
-        <Text style={[HomeScreenStyles.sectionTitle, { color: colors.muted }]}>Ajánlott ételek</Text>
-        <View style={[HomeScreenStyles.sectionLine, { backgroundColor: colors.border }]} />
+        <View
+          style={[
+            HomeScreenStyles.sectionDot,
+            { backgroundColor: colors.gold },
+          ]}
+        />
+        <Text style={[HomeScreenStyles.sectionTitle, { color: colors.muted }]}>
+          Ajánlott ételek
+        </Text>
+        <View
+          style={[
+            HomeScreenStyles.sectionLine,
+            { backgroundColor: colors.border },
+          ]}
+        />
       </View>
 
       {/* Meal grid — skeleton while loading */}
@@ -332,7 +408,11 @@ export default function HomeScreen() {
           ListEmptyComponent={
             <View style={HomeScreenStyles.emptyContainer}>
               <Text style={HomeScreenStyles.emptyIcon}>🍽</Text>
-              <Text style={[HomeScreenStyles.emptyText, { color: colors.muted }]}>Nincs étel</Text>
+              <Text
+                style={[HomeScreenStyles.emptyText, { color: colors.muted }]}
+              >
+                Nincs étel
+              </Text>
             </View>
           }
           renderItem={({ item, index }) => (
@@ -347,23 +427,47 @@ export default function HomeScreen() {
           <View style={HomeScreenStyles.authRow}>
             <Pressable
               onPress={() => router.push("/LoginScreen")}
-              style={({ pressed }) => [HomeScreenStyles.authBtn, { backgroundColor: colors.blue, borderColor: colors.blue }, pressed && HomeScreenStyles.btnPressed]}
+              style={({ pressed }) => [
+                HomeScreenStyles.authBtn,
+                { backgroundColor: colors.blue, borderColor: colors.blue },
+                pressed && HomeScreenStyles.btnPressed,
+              ]}
             >
-              <Text style={[HomeScreenStyles.authBtnText, { color: "#fff" }]}>Bejelentkezés</Text>
+              <Text style={[HomeScreenStyles.authBtnText, { color: "#fff" }]}>
+                Bejelentkezés
+              </Text>
             </Pressable>
             <Pressable
               onPress={() => router.push("/RegisterScreen")}
-              style={({ pressed }) => [HomeScreenStyles.authBtn, { backgroundColor: colors.green, borderColor: colors.green }, pressed && HomeScreenStyles.btnPressed]}
+              style={({ pressed }) => [
+                HomeScreenStyles.authBtn,
+                { backgroundColor: colors.green, borderColor: colors.green },
+                pressed && HomeScreenStyles.btnPressed,
+              ]}
             >
-              <Text style={[HomeScreenStyles.authBtnText, { color: "#fff" }]}>Regisztráció</Text>
+              <Text style={[HomeScreenStyles.authBtnText, { color: "#fff" }]}>
+                Regisztráció
+              </Text>
             </Pressable>
           </View>
         ) : (
           <Pressable
             onPress={logout}
-            style={({ pressed }) => [HomeScreenStyles.authBtn, { backgroundColor: colors.surface, borderColor: colors.border, flex: 0 }, pressed && HomeScreenStyles.btnPressed]}
+            style={({ pressed }) => [
+              HomeScreenStyles.authBtn,
+              {
+                backgroundColor: colors.surface,
+                borderColor: colors.border,
+                flex: 0,
+              },
+              pressed && HomeScreenStyles.btnPressed,
+            ]}
           >
-            <Text style={[HomeScreenStyles.authBtnText, { color: colors.danger }]}>Kijelentkezés</Text>
+            <Text
+              style={[HomeScreenStyles.authBtnText, { color: colors.danger }]}
+            >
+              Kijelentkezés
+            </Text>
           </Pressable>
         )}
       </View>
@@ -379,10 +483,10 @@ export const HomeScreenStyles = StyleSheet.create({
     paddingBottom: 32,
   },
   crown: {
-  width: 100,
-  height: 100,
-  resizeMode: "contain",
-},
+    width: 100,
+    height: 100,
+    resizeMode: "contain",
+  },
 
   /* Top bar */
   topBar: {
@@ -391,12 +495,6 @@ export const HomeScreenStyles = StyleSheet.create({
     alignItems: "center",
     paddingTop: 16,
     paddingBottom: 8,
-  },
-  brandSmall: {
-    fontSize: 18,
-    fontWeight: "800",
-    color: "#f0b429",
-    letterSpacing: 1,
   },
   topActions: {
     flexDirection: "row",
@@ -496,26 +594,14 @@ export const HomeScreenStyles = StyleSheet.create({
     borderColor: "#2e2b22",
   },
   cardImageBox: {
-  height: 260,
-  maxHeight: 600,
-  width: "100%",
-  justifyContent: "center",
-  alignItems: "center",
-  backgroundColor: COLORS.surface,
-},
-  cardImage: {
+    height: 260,
+    maxHeight: 600,
     width: "100%",
-    height: "100%",
-  },
-  cardImagePlaceholder: {
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#1c1a16",
+    backgroundColor: COLORS.surface,
   },
-  cardImageEmoji: {
-    fontSize: 36,
-  },
+
   priceBadge: {
     position: "absolute",
     bottom: 8,
@@ -554,14 +640,7 @@ export const HomeScreenStyles = StyleSheet.create({
   },
 
   /* Loading / empty */
-  loadingBox: {
-    paddingVertical: 40,
-    alignItems: "center",
-  },
-  loadingText: {
-    fontSize: 16,
-    color: "#9c9178",
-  },
+
   emptyContainer: {
     alignItems: "center",
     paddingVertical: 48,
@@ -591,18 +670,7 @@ export const HomeScreenStyles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#2e2b22",
   },
-  loginBtn: {
-    backgroundColor: "#3b82f6",
-    borderColor: "#3b82f6",
-  },
-  registerBtn: {
-    backgroundColor: "#22c55e",
-    borderColor: "#22c55e",
-  },
-  logoutBtn: {
-    backgroundColor: "#1c1a16",
-    flex: 0,
-  },
+
   authBtnText: {
     color: "#f5f0e8",
     fontSize: 15,
@@ -612,97 +680,56 @@ export const HomeScreenStyles = StyleSheet.create({
     opacity: 0.8,
     transform: [{ scale: 0.97 }],
   },
-   container: {
-        flex: 1,
-        padding: 20,
-        backgroundColor: '#fff',
-        gap: 20,
-    },
-    header: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginBottom: 10,
-    },
-    section: {
-        marginBottom: 20,
-    },
-    formGroup: {
-        marginBottom: 10,
-    },
-    formLabel: {
-        fontSize: 14,
-        fontWeight: 'bold',
-        marginBottom: 5,
-    },
-    input: {
-        borderWidth: 1,
-        borderColor: '#ccc',
-        borderRadius: 5,
-        paddingHorizontal: 10,
-        fontSize: 14,
-    },
-    button: {
-        backgroundColor: '#007aff',
-        borderRadius: 5,
-        paddingVertical: 10,
-        paddingHorizontal: 20,
-        alignItems: 'center',
-    },
-    buttonText: {
-        color: '#fff',
-        fontSize: 16,
-        fontWeight: 'bold',
-    },
-    cartBtn: {
-  marginHorizontal: 12,
-  marginBottom: 12,
-  padding: 10,
-  backgroundColor: "#f0b429",
-  borderRadius: 10,
-  alignItems: "center",
-},
+  cartBtn: {
+    marginHorizontal: 12,
+    marginBottom: 12,
+    padding: 10,
+    backgroundColor: "#f0b429",
+    borderRadius: 10,
+    alignItems: "center",
+  },
 
-cartBtnText: {
-  color: "#0f0e0c",
-  fontWeight: "800",
-},
-quantityRow: {
-  flexDirection: "row",
-  alignItems: "center",
-  justifyContent: "center",
-  gap: 10,
-  marginHorizontal: 12,
-  marginBottom: 10,
-},
+  cartBtnText: {
+    color: "#0f0e0c",
+    fontWeight: "800",
+  },
+  quantityRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 10,
+    marginHorizontal: 12,
+    marginBottom: 10,
+  },
 
-quantityBtn: {
-  width: 30,
-  height: 30,
-  borderRadius: 15,
-  backgroundColor: "#1c1a16",
-  borderWidth: 1,
-  borderColor: "#2e2b22",
-  alignItems: "center",
-  justifyContent: "center",
-},
+  quantityBtn: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    backgroundColor: "#1c1a16",
+    borderWidth: 1,
+    borderColor: "#2e2b22",
+    alignItems: "center",
+    justifyContent: "center",
+  },
 
-quantityBtnText: {
-  color: "#f0b429",
-  fontSize: 18,
-  fontWeight: "900",
-},
+  quantityBtnText: {
+    color: "#f0b429",
+    fontSize: 18,
+    fontWeight: "900",
+  },
 
-quantityText: {
-  color: "#f5f0e8",
-  fontSize: 13,
-  fontWeight: "700",
-  minWidth: 42,
-  textAlign: "center",
-},
-mealImage: {
-  width: "100%",
-  height: "100%",
-  maxHeight: 600,
-  resizeMode: "cover",
-},
+  quantityText: {
+    color: "#f5f0e8",
+    fontSize: 13,
+    fontWeight: "700",
+    minWidth: 42,
+    textAlign: "center",
+  },
+  mealImage: {
+    width: "100%",
+    height: "100%",
+    maxHeight: 600,
+    resizeMode: "cover",
+  },
 });
