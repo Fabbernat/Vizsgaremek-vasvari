@@ -226,6 +226,7 @@ export default function HomeScreen() {
   id: meal.id.toString(),
   imageUrl: meal.image_url,
 }));
+
   const displayData = dataToShow.length > 0 ? dataToShow : fallbackData;
 
   const logout = async () => {
