@@ -230,15 +230,12 @@ const normalizeMeal = (meal: MealItem): MealItem => {
   return {
     ...meal,
     id,
-    imageUrl: meal.imageUrl ?? meal.image_url ?? imageById[id] ?? "placeholder.jpg",
+    imageUrl:
+      meal.imageUrl ?? meal.image_url ?? imageById[id] ?? "placeholder.jpg",
   };
 };
 
-function MealCard({
-  item,
-  index,
-  onAddToCart,
-}: MealCardProps) {
+function MealCard({ item, index, onAddToCart }: MealCardProps) {
   const [quantity, setQuantity] = useState(1);
 
   const fade = useRef(new Animated.Value(0)).current;
@@ -276,7 +273,10 @@ function MealCard({
     >
       <View style={styles.card}>
         <View style={styles.cardImageBox}>
-          <Image source={getMealImage(item.imageUrl)} style={styles.mealImage} />
+          <Image
+            source={getMealImage(item.imageUrl)}
+            style={styles.mealImage}
+          />
 
           <View style={styles.priceBadge}>
             <Text style={styles.priceText}>{item.price} Ft</Text>
@@ -340,8 +340,8 @@ export default function MealsScreen() {
   };
 
   const sourceMeals = (meals?.length ? meals : inMemoryMeals).map(
-  normalizeMeal
-);
+    normalizeMeal,
+  );
 
   const filteredMeals = sourceMeals
     .filter((meal) => {
