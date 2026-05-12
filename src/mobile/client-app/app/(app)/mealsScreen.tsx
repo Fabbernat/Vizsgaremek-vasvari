@@ -2,15 +2,15 @@
 import { router } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import {
-    Animated,
-    FlatList,
-    Image,
-    Pressable,
-    StatusBar,
-    StyleSheet,
-    Text,
-    TextInput,
-    View,
+  Animated,
+  FlatList,
+  Image,
+  Pressable,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
 } from "react-native";
 import Toast from "react-native-toast-message";
 import { addToGuestCart } from "./CartStore";
@@ -30,123 +30,173 @@ const COLORS = {
   greenDim: "#14532d",
   text: "#f5f0e8",
   muted: "#9c9178",
-  danger: "#ef4444",
-  dangerFaint: "#2a1010",
 };
 
- 
+type MealItem = {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  restaurant_id?: string | number;
+  image_url?: string;
+  imageUrl?: string;
+};
 
-const mealsData = [
+type MealCardProps = {
+  item: MealItem;
+  index: number;
+  onAddToCart: (name: string, quantity: number) => void;
+};
+
+type SortOption = "none" | "priceAsc" | "priceDesc" | "name";
+
+const mealsData: MealItem[] = [
   {
     id: "1",
     name: "Margherita Pizza",
     description: "Friss paradicsom, mozzarella és bazsalikom",
     price: 1500,
+    imageUrl: "margherita-pizza.jpg",
   },
   {
     id: "2",
     name: "Caesar Saláta",
     description: "Ropogós saláta csirkével és krutonnal",
     price: 1200,
+    imageUrl: "caesar-salata.jpg",
   },
   {
     id: "3",
     name: "Spaghetti Carbonara",
     description: "Klasszikus olasz tészta szalonnával és tojással",
     price: 1300,
+    imageUrl: "carbonara.jpg",
   },
   {
     id: "4",
     name: "Pepperoni Pizza",
     description: "Szaftos pepperoni és olvadt sajt",
     price: 1600,
+    imageUrl: "pepperoni-pizza.jpg",
   },
   {
     id: "5",
     name: "Hawaii Pizza",
     description: "Ananász és sonka",
     price: 1700,
+    imageUrl: "hawaii-pizza.jpg",
   },
   {
     id: "6",
     name: "Vegetáriánus Pizza",
     description: "Friss zöldségek és sajt",
     price: 1400,
+    imageUrl: "vegetarianus-pizza.jpg",
   },
   {
     id: "7",
     name: "California Roll",
     description: "Rák, avokádó, uborka",
     price: 2000,
+    imageUrl: "california-roll.jpg",
   },
   {
     id: "8",
     name: "Spicy Tuna Roll",
     description: "Fűszeres tonhal",
     price: 2200,
+    imageUrl: "spicy-tuna-roll.jpg",
   },
   {
     id: "9",
     name: "Salmon Nigiri",
     description: "Friss lazac rizsen",
     price: 1800,
+    imageUrl: "salmon-nigiri.jpg",
   },
   {
     id: "10",
     name: "Gyros tál",
     description: "Csirke, krumpli, tzatziki",
     price: 1500,
+    imageUrl: "gyros-tal.jpg",
   },
   {
     id: "11",
     name: "Hamburger",
     description: "Marhahús, cheddar",
     price: 1800,
+    imageUrl: "hamburger.jpg",
   },
   {
     id: "12",
     name: "Sült csirke",
     description: "Ropogós bundában",
     price: 2200,
+    imageUrl: "sult-csirke.jpg",
   },
-  { id: "13", name: "Rántott sajt", description: "Tartárral", price: 1700 },
+  {
+    id: "13",
+    name: "Rántott sajt",
+    description: "Tartárral",
+    price: 1700,
+    imageUrl: "rantott-sajt.jpg",
+  },
   {
     id: "14",
     name: "Lazac steak",
     description: "Grillezett lazac",
     price: 3000,
+    imageUrl: "lazac-steak.jpg",
   },
   {
     id: "15",
     name: "Vegetáriánus lasagne",
     description: "Zöldséges tészta",
     price: 2500,
+    imageUrl: "vegetarianus-lasagne.jpg",
   },
   {
     id: "16",
     name: "Sült zöldségek",
     description: "Kemencében sült",
     price: 1200,
+    imageUrl: "sult-zoldsegek.jpg",
   },
-  { id: "17", name: "Sült krumpli", description: "Ropogós", price: 500 },
-  { id: "18", name: "Kóla", description: "0.5L", price: 1000 },
+  {
+    id: "17",
+    name: "Sült krumpli",
+    description: "Ropogós",
+    price: 500,
+    imageUrl: "sult-krumpli.jpg",
+  },
+  {
+    id: "18",
+    name: "Kóla",
+    description: "0.5L",
+    price: 1000,
+    imageUrl: "kola.jpg",
+  },
   {
     id: "26",
     name: "Királyi Burger",
     description: "Frissen készített, ízletes fogás",
     price: 2490,
+    imageUrl: "kiralyi-burger.jpg",
   },
   {
     id: "27",
     name: "Arany Krumpli",
     description: "Frissen készített, ízletes fogás",
     price: 890,
+    imageUrl: "arany-krumpli.jpg",
   },
   {
     id: "28",
     name: "Koronás Limonádé",
     description: "Frissen készített, ízletes fogás",
     price: 690,
+    imageUrl: "koronas-limonade.jpg",
   },
 ];
 
@@ -174,18 +224,21 @@ const imageById: Record<string, string> = {
   "28": "koronas-limonade.jpg",
 };
 
-const normalizeMeal = (meal: any) => ({
-  ...meal,
-  id: meal.id.toString(),
-  imageUrl:
-    meal.imageUrl ??
-    meal.image_url ??
-    imageById[meal.id.toString()] ??
-    "placeholder.jpg",
-});
+const normalizeMeal = (meal: MealItem): MealItem => {
+  const id = String(meal.id);
 
-// ── Card ─────────────────────────────────────────────────
-function MealCard({ item, index, onAddToCart }: any) {
+  return {
+    ...meal,
+    id,
+    imageUrl: meal.imageUrl ?? meal.image_url ?? imageById[id] ?? "placeholder.jpg",
+  };
+};
+
+function MealCard({
+  item,
+  index,
+  onAddToCart,
+}: MealCardProps) {
   const [quantity, setQuantity] = useState(1);
 
   const fade = useRef(new Animated.Value(0)).current;
@@ -208,6 +261,12 @@ function MealCard({ item, index, onAddToCart }: any) {
     ]).start();
   }, [fade, index, slide]);
 
+  const handleAddToCart = () => {
+    addToGuestCart(item, quantity);
+    onAddToCart(item.name, quantity);
+    setQuantity(1);
+  };
+
   return (
     <Animated.View
       style={[
@@ -217,45 +276,45 @@ function MealCard({ item, index, onAddToCart }: any) {
     >
       <View style={styles.card}>
         <View style={styles.cardImageBox}>
-         <Image
-  source={getMealImage(item.imageUrl)}
-  style={styles.mealImage}
-/>
+          <Image source={getMealImage(item.imageUrl)} style={styles.mealImage} />
+
           <View style={styles.priceBadge}>
             <Text style={styles.priceText}>{item.price} Ft</Text>
           </View>
         </View>
+
         <View style={styles.cardBody}>
-          <Text style={styles.cardName}>{item.name}</Text>
-          <Text style={styles.cardDesc}>{item.description}</Text>
+          <Text style={styles.cardName} numberOfLines={1}>
+            {item.name}
+          </Text>
+          <Text style={styles.cardDesc} numberOfLines={2}>
+            {item.description}
+          </Text>
         </View>
+
         <View style={styles.quantityRow}>
-  <Pressable
-    onPress={() => setQuantity((q) => Math.max(1, q - 1))}
-    style={styles.quantityBtn}
-  >
-    <Text style={styles.quantityBtnText}>−</Text>
-  </Pressable>
+          <Pressable
+            onPress={() => setQuantity((q) => Math.max(1, q - 1))}
+            style={styles.quantityBtn}
+          >
+            <Text style={styles.quantityBtnText}>−</Text>
+          </Pressable>
 
-  <Text style={styles.quantityText}>{quantity} db</Text>
+          <Text style={styles.quantityText}>{quantity} db</Text>
 
-  <Pressable
-    onPress={() => setQuantity((q) => Math.min(99, q + 1))}
-    style={styles.quantityBtn}
-  >
-    <Text style={styles.quantityBtnText}>+</Text>
-  </Pressable>
-</View>
+          <Pressable
+            onPress={() => setQuantity((q) => Math.min(99, q + 1))}
+            style={styles.quantityBtn}
+          >
+            <Text style={styles.quantityBtnText}>+</Text>
+          </Pressable>
+        </View>
+
         <Pressable
-   
-  onPress={() => {
-    addToGuestCart(item, quantity);
-    onAddToCart(item.name, quantity);
-    setQuantity(1);
-  }}
+          onPress={handleAddToCart}
           style={({ pressed }) => [
             styles.cartBtn,
-            pressed && { opacity: 0.8, transform: [{ scale: 0.97 }] },
+            pressed && styles.btnPressed,
           ]}
         >
           <Text style={styles.cartBtnText}>+ Kosárba</Text>
@@ -265,36 +324,26 @@ function MealCard({ item, index, onAddToCart }: any) {
   );
 }
 
-// ── Screen ───────────────────────────────────────────────
 export default function MealsScreen() {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { meals, loading, error } = useMeals();
+  const { meals, loading } = useMeals();
   const [inMemoryMeals, setMeals] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
-  const [sortOption, setSortOption] = useState<
-    "none" | "priceAsc" | "priceDesc" | "name"
-  >("none");
+  const [sortOption, setSortOption] = useState<SortOption>("none");
 
-  useEffect(() => {
-    setMeals(mealsData);
-  }, []);
+  const showToast = (itemName: string, quantity: number) => {
+    Toast.show({
+      type: "success",
+      text1: "Siker!",
+      text2: `${quantity} db ${itemName} sikeresen a kosárba rakva!`,
+    });
+  };
 
-  // ✅ Lean showToast: just delegate to the library.
-  //    <Toast /> is already mounted once in your Layout — no need to render it here.
- const showToast = (itemName: string, quantity: number) => {
-  Toast.show({
-    type: "success",
-    text1: "Siker!",
-    text2: `${quantity} db ${itemName} sikeresen a kosárba rakva!`,
-  });
-};
-
-  const sourceMeals = (meals && meals.length > 0 ? meals : inMemoryMeals).map(
+  const sourceMeals = (meals?.length ? meals : inMemoryMeals).map(
   normalizeMeal
 );
 
-const filteredMeals = sourceMeals // vagy inmemoryMeals
+  const filteredMeals = sourceMeals
     .filter((meal) => {
       const query = searchQuery.toLowerCase();
 
@@ -324,9 +373,11 @@ const filteredMeals = sourceMeals // vagy inmemoryMeals
   return (
     <View style={styles.root}>
       <StatusBar barStyle="light-content" />
+
       <Pressable onPress={() => router.back()} style={styles.backBtn}>
         <Text style={styles.backText}>← Vissza</Text>
       </Pressable>
+
       <View style={styles.brandRow}>
         <Image
           source={require("../../assets/mine/icons/royal-delivery-logo.png")}
@@ -334,10 +385,10 @@ const filteredMeals = sourceMeals // vagy inmemoryMeals
         />
         <Text style={styles.brandName}>Royal Delivery</Text>
       </View>
+
       <Text style={styles.heading}>Étlap</Text>
       <Text style={styles.subheading}>Válassz kedvenc ételeidből</Text>
 
-      {/* 🔍 KERESŐ */}
       <TextInput
         placeholder="Keresés..."
         placeholderTextColor={COLORS.muted}
@@ -346,23 +397,23 @@ const filteredMeals = sourceMeals // vagy inmemoryMeals
         style={styles.searchInput}
       />
 
-      {/* 🧩 SZŰRŐK */}
       <View style={styles.filterRow}>
-        {["pizza", "saláta", "sushi", "burger", "ital"].map((f) => (
+        {["pizza", "saláta", "sushi", "burger", "ital"].map((filter) => (
           <Pressable
-            key={f}
-            onPress={() => setActiveFilter(activeFilter === f ? null : f)}
+            key={filter}
+            onPress={() =>
+              setActiveFilter(activeFilter === filter ? null : filter)
+            }
             style={[
               styles.filterBtn,
-              activeFilter === f && styles.filterBtnActive,
+              activeFilter === filter && styles.filterBtnActive,
             ]}
           >
-            <Text style={styles.filterText}>{f}</Text>
+            <Text style={styles.filterText}>{filter}</Text>
           </Pressable>
         ))}
       </View>
 
-      {/* 🔃 RENDEZÉS */}
       <View style={styles.sortRow}>
         <Pressable
           onPress={() => setSortOption("priceAsc")}
@@ -370,42 +421,45 @@ const filteredMeals = sourceMeals // vagy inmemoryMeals
         >
           <Text style={styles.sortText}>Ár ↑</Text>
         </Pressable>
+
         <Pressable
           onPress={() => setSortOption("priceDesc")}
           style={styles.sortBtn}
         >
           <Text style={styles.sortText}>Ár ↓</Text>
         </Pressable>
+
         <Pressable onPress={() => setSortOption("name")} style={styles.sortBtn}>
           <Text style={styles.sortText}>Név</Text>
         </Pressable>
       </View>
-    {loading && (
+
+      {loading ? (
         <FlatList
           data={Array(6).fill(null)}
-          keyExtractor={(_, i) => `skeleton-${i}`}
+          keyExtractor={(_, index) => `skeleton-${index}`}
           numColumns={2}
           columnWrapperStyle={{ gap: 16 }}
           contentContainerStyle={{ paddingBottom: 80 }}
           renderItem={({ index }) => <SkeletonMealCard index={index} />}
           scrollEnabled={false}
         />
+      ) : (
+        <FlatList
+          data={filteredMeals}
+          keyExtractor={(item) => item.id}
+          numColumns={2}
+          columnWrapperStyle={{ gap: 16 }}
+          contentContainerStyle={{ paddingBottom: 80 }}
+          renderItem={({ item, index }) => (
+            <MealCard item={item} index={index} onAddToCart={showToast} />
+          )}
+        />
       )}
-      <FlatList
-        data={filteredMeals}
-        keyExtractor={(i) => i.id}
-        numColumns={2}
-        columnWrapperStyle={{ gap: 16 }}
-        contentContainerStyle={{ paddingBottom: 80 }}
-        renderItem={({ item, index }) => (
-          <MealCard item={item} index={index} onAddToCart={showToast} />
-        )}
-      />
     </View>
   );
 }
 
-// ── Styles ───────────────────────────────────────────────
 const styles = StyleSheet.create({
   root: {
     flex: 1,
@@ -413,54 +467,35 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingTop: 24,
   },
-  backBtn: { marginBottom: 10 },
-  backText: { color: COLORS.muted },
-  brandRow: { flexDirection: "row", gap: 8, marginBottom: 20 },
+  backBtn: {
+    marginBottom: 10,
+  },
+  backText: {
+    color: COLORS.muted,
+  },
+  brandRow: {
+    flexDirection: "row",
+    gap: 8,
+    marginBottom: 20,
+  },
   crown: {
     width: 100,
     height: 100,
     resizeMode: "contain",
   },
-  brandName: { color: COLORS.gold, fontWeight: "700" },
-  heading: { fontSize: 32, fontWeight: "900", color: COLORS.text },
-  subheading: { color: COLORS.muted, marginBottom: 20 },
-  cardWrapper: { flex: 1, marginBottom: 16 },
-  card: {
-    backgroundColor: COLORS.card,
-    borderRadius: 16,
-    borderWidth: 1,
-    borderColor: COLORS.border,
-    overflow: "hidden",
+  brandName: {
+    color: COLORS.gold,
+    fontWeight: "700",
   },
-  cardImageBox: {
-  height: 260,
-  maxHeight: 600,
-  width: "100%",
-  justifyContent: "center",
-  alignItems: "center",
-  backgroundColor: COLORS.surface,
-},
-  cardImageEmoji: { fontSize: 36 },
-  priceBadge: {
-    position: "absolute",
-    bottom: 6,
-    right: 6,
-    backgroundColor: COLORS.gold,
-    borderRadius: 6,
-    paddingHorizontal: 6,
+  heading: {
+    fontSize: 32,
+    fontWeight: "900",
+    color: COLORS.text,
   },
-  priceText: { fontWeight: "800" },
-  cardBody: { padding: 10 },
-  cardName: { color: COLORS.text, fontWeight: "800", fontSize: 14 },
-  cardDesc: { color: COLORS.muted, fontSize: 12 },
-  cartBtn: {
-    margin: 10,
-    padding: 10,
-    backgroundColor: COLORS.gold,
-    borderRadius: 10,
-    alignItems: "center",
+  subheading: {
+    color: COLORS.muted,
+    marginBottom: 20,
   },
-  cartBtnText: { color: "#0f0e0c", fontWeight: "800" },
   searchInput: {
     backgroundColor: COLORS.surface,
     borderColor: COLORS.border,
@@ -470,14 +505,12 @@ const styles = StyleSheet.create({
     color: COLORS.text,
     marginBottom: 12,
   },
-
   filterRow: {
     flexDirection: "row",
     flexWrap: "wrap",
     gap: 8,
     marginBottom: 12,
   },
-
   filterBtn: {
     paddingHorizontal: 10,
     paddingVertical: 6,
@@ -486,22 +519,18 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: COLORS.border,
   },
-
   filterBtnActive: {
     backgroundColor: COLORS.gold,
   },
-
   filterText: {
     color: COLORS.text,
     fontSize: 12,
   },
-
   sortRow: {
     flexDirection: "row",
     gap: 10,
     marginBottom: 12,
   },
-
   sortBtn: {
     paddingHorizontal: 10,
     paddingVertical: 6,
@@ -510,48 +539,102 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: COLORS.border,
   },
-
   sortText: {
     color: COLORS.text,
     fontSize: 12,
   },
+  cardWrapper: {
+    flex: 1,
+    marginBottom: 16,
+  },
+  card: {
+    backgroundColor: COLORS.card,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    overflow: "hidden",
+  },
+  cardImageBox: {
+    height: 260,
+    maxHeight: 600,
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: COLORS.surface,
+  },
+  mealImage: {
+    width: "100%",
+    height: "100%",
+    maxHeight: 600,
+    resizeMode: "cover",
+  },
+  priceBadge: {
+    position: "absolute",
+    bottom: 6,
+    right: 6,
+    backgroundColor: COLORS.gold,
+    borderRadius: 6,
+    paddingHorizontal: 6,
+  },
+  priceText: {
+    color: COLORS.bg,
+    fontWeight: "800",
+  },
+  cardBody: {
+    padding: 10,
+  },
+  cardName: {
+    color: COLORS.text,
+    fontWeight: "800",
+    fontSize: 14,
+  },
+  cardDesc: {
+    color: COLORS.muted,
+    fontSize: 12,
+  },
   quantityRow: {
-  flexDirection: "row",
-  alignItems: "center",
-  justifyContent: "center",
-  gap: 10,
-  marginHorizontal: 10,
-  marginTop: 6,
-},
-
-quantityBtn: {
-  width: 30,
-  height: 30,
-  borderRadius: 15,
-  backgroundColor: COLORS.surface,
-  borderWidth: 1,
-  borderColor: COLORS.border,
-  alignItems: "center",
-  justifyContent: "center",
-},
-
-quantityBtnText: {
-  color: COLORS.gold,
-  fontSize: 18,
-  fontWeight: "900",
-},
-
-quantityText: {
-  color: COLORS.text,
-  fontSize: 13,
-  fontWeight: "700",
-  minWidth: 42,
-  textAlign: "center",
-},
-mealImage: {
-  width: "100%",
-  height: "100%",
-  maxHeight: 600,
-  resizeMode: "cover",
-},
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 10,
+    marginHorizontal: 10,
+    marginTop: 6,
+  },
+  quantityBtn: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    backgroundColor: COLORS.surface,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  quantityBtnText: {
+    color: COLORS.gold,
+    fontSize: 18,
+    fontWeight: "900",
+  },
+  quantityText: {
+    color: COLORS.text,
+    fontSize: 13,
+    fontWeight: "700",
+    minWidth: 42,
+    textAlign: "center",
+  },
+  cartBtn: {
+    margin: 10,
+    padding: 10,
+    backgroundColor: COLORS.gold,
+    borderRadius: 10,
+    alignItems: "center",
+  },
+  cartBtnText: {
+    color: COLORS.bg,
+    fontWeight: "800",
+  },
+  btnPressed: {
+    opacity: 0.8,
+    transform: [{ scale: 0.97 }],
+  },
 });
