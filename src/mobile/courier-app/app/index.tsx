@@ -1,23 +1,33 @@
+import { useEffect } from "react";
 import { router } from "expo-router";
-import {
-  ScrollView} from "react-native";
-import { Button } from "react-native";
-
+import { ActivityIndicator, View } from "react-native";
+import { useCourierAuth } from "./stores/CourierAuthStore";
+import { useTheme } from "./context/CourierThemeContext";
 
 export default function App() {
+  const { isLoggedIn, loading } = useCourierAuth();
+  const { colors } = useTheme();
 
-  
-
-  
+  useEffect(() => {
+    if (!loading) {
+      if (isLoggedIn) {
+        router.replace("/home");
+      } else {
+        router.replace("/login");
+      }
+    }
+  }, [isLoggedIn, loading]);
 
   return (
-    <ScrollView>
-      <Button title="Bejelentkezés"/>
-      <Button title="Regisztráció"/>
-      <Button title="Kapcsolat"
-        onPress={() => router.push("/contacts")}
-        />
-      </ScrollView>
-
+    <View
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: colors.bg,
+      }}
+    >
+      <ActivityIndicator size="large" color={colors.gold} />
+    </View>
   );
 }
