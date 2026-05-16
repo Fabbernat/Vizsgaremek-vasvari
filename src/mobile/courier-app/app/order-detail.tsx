@@ -14,9 +14,8 @@ import { useCourierAuth } from "../stores/CourierAuthStore";
 import { useCourierOrderStore } from "../stores/OrderStore";
 import { useTheme } from "../context/CourierThemeContext";
 import { StatusBadge } from "../components/StatusBadge";
-import { supabase } from "@/supabase";
 import { DeliveryOrder, DeliveryStatus } from "../models/deliveryOrder";
-
+import { supabase } from "../supabase"
 export default function OrderDetailScreen() {
   const { orderId, status: initialStatus } = useLocalSearchParams();
   const { courier } = useCourierAuth();

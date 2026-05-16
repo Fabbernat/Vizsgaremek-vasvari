@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { router } from "expo-router";
 import { ActivityIndicator, View } from "react-native";
-import { useCourierAuth } from "./stores/CourierAuthStore";
-import { useTheme } from "./context/CourierThemeContext";
+import { useCourierAuth } from "../stores/CourierAuthStore";
+import { useTheme } from "../context/CourierThemeContext";
 
 export default function App() {
   const { isLoggedIn, loading } = useCourierAuth();
