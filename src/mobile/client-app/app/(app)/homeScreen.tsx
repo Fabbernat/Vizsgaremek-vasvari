@@ -22,7 +22,7 @@ import Toast from "react-native-toast-message";
 import SettingsIconButton from "./SettingsIconButton";
 import SkeletonMealCard from "./SkeletonMealCard";
 import { useTheme } from "./ThemeContext";
-import { getMealImage } from "./mealImages";
+import { getMealImage } from "./MealImages";
 
 const COLORS = {
   bg: "#0f0e0c",

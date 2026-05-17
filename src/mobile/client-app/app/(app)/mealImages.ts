@@ -1,4 +1,4 @@
-// client-app\(app)\app\(app)\mealImages.ts
+// client-app\(app)\app\(app)\MealImages.ts
 export const mealImages: Record<string, any> = {
   "margherita-pizza.jpg": require("../../assets/mine/margherita-pizza.jpg"),
   "caesar-salata.jpg": require("../../assets/mine/caesar-salata.jpg"),
