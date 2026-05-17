@@ -13,10 +13,10 @@ import {
   View,
 } from "react-native";
 import Toast from "react-native-toast-message";
-import { addToGuestCart } from "./CartStore";
+import { addToGuestCart } from "@/stores/CartStore";
 import SkeletonMealCard from "./SkeletonMealCard";
-import { useMeals } from "./UseMeals";
-import { getMealImage } from "./MealImages";
+import { useMeals } from "@/hooks/useMeals";
+import { getMealImage } from "@/utils/mealImages";
 
 const COLORS = {
   bg: "#0f0e0c",

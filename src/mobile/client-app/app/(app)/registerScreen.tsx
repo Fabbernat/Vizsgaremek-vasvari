@@ -17,7 +17,7 @@ import {
 } from "react-native";
 import Toast from "react-native-toast-message";
 import { supabase } from "../../supabase";
-import { setGlobalIsLoggedIn } from "./AuthStore";
+import { setGlobalIsLoggedIn } from "@/stores/AuthStore";
 
 const COLORS = {
   bg: "#0f0e0c",

@@ -12,17 +12,17 @@ import {
   Text,
   View,
 } from "react-native";
-import { setGlobalIsLoggedIn, useGlobalAuth } from "./AuthStore";
+import { setGlobalIsLoggedIn, useGlobalAuth } from "@/stores/AuthStore";
 import Cart from "./CartIconButton";
-import { addToGuestCart } from "./CartStore";
+import { addToGuestCart } from "@/stores/CartStore";
 import ProfileIconButton from "./ProfileIconButton";
-import { useMeals } from "./UseMeals";
+import { useMeals } from "@/hooks/useMeals";
 
 import Toast from "react-native-toast-message";
 import SettingsIconButton from "./SettingsIconButton";
 import SkeletonMealCard from "./SkeletonMealCard";
-import { useTheme } from "./ThemeContext";
-import { getMealImage } from "./MealImages";
+import { useTheme } from "@/context/ThemeContext";
+import { getMealImage } from "@/utils/mealImages";
 
 const COLORS = {
   bg: "#0f0e0c",

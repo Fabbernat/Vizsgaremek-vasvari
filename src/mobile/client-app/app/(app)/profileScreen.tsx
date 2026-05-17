@@ -15,7 +15,7 @@ import * as ImagePicker from "expo-image-picker";
 import Orders from "./Orders";
 import { router } from "expo-router";
 import Toast from "react-native-toast-message";
-import { getGlobalUsername, setGlobalUsername } from "./AuthStore";
+import { getGlobalUsername, setGlobalUsername } from "@/stores/AuthStore";
 
 const COLORS = {
   bg: "#0f0e0c",

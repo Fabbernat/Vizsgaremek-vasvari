@@ -9,7 +9,7 @@ import {
     Text,
     View,
 } from "react-native";
-import { useCartStore } from "./CartStore";
+import { useCartStore } from "@/stores/CartStore";
 
 const COLORS = {
   bg: "#0f0e0c",
