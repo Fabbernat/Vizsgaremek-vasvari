@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "courier-app-jav",
-    "slug": "courier-app-jav",
+    "name": "futar-app",
+    "slug": "futar-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -20,13 +20,13 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "edgeToEdgeEnabled": true
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
+      "expo-secure-store",
       "expo-router"
     ]
   }
