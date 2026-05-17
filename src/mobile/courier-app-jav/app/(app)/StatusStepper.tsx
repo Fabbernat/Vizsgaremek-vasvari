@@ -1,3 +1,6 @@
+import { View, Text } from "react-native";
+import { useTheme } from "./ThemeContext";
+
 // components/StatusStepper.tsx
 const STEPS = ["Új", "Készül", "Futárnak átadva", "Kiszállítás alatt", "Kézbesítve"];
 
