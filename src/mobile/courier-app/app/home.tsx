@@ -6,7 +6,6 @@ import {
   FlatList,
   Pressable,
   StatusBar,
-  ScrollView,
   ActivityIndicator,
 } from "react-native";
 import { router } from "expo-router";

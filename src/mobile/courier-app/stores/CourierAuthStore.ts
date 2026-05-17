@@ -1,6 +1,6 @@
 import { create } from "zustand";
-import { supabase } from "@/supabase";
-import { Courier } from "./deliveryOrder";
+import { supabase } from "../supabase";
+import { Courier } from "../models/deliveryOrder";
 
 interface CourierAuthStore {
   courier: Courier | null;

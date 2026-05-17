@@ -1,5 +1,5 @@
 // client-app\(app)\app\(app)\homeScreen.tsx
-import { supabase } from "@/supabase";
+import { supabase } from "./supabase";
 import { router } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import {

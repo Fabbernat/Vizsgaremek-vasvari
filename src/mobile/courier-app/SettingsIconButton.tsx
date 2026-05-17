@@ -2,11 +2,11 @@
 //
 // Gear icon button for the home screen top bar.
 // Matches the visual style of cartIconButton and profileIconButton.
-
-import { Ionicons } from "@expo/vector-icons";
+import { Pressable, View, StyleSheet, StyleProp, ViewStyle } from "react-native";
 import { router } from "expo-router";
-import { Pressable, StyleProp, StyleSheet, View, ViewStyle } from "react-native";
+import React from "react";
 import { useTheme } from "./ThemeContext";
+
 
 type Props = {
   style?: StyleProp<ViewStyle>;

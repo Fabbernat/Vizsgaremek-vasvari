@@ -30,6 +30,7 @@
     "react-native-toast-message": "^2.3.3",
     "react-native-url-polyfill": "^3.0.0",
     "react-native-web": "^0.21.0",
+    "vector-icons": "^0.1.0",
     "zod": "^4.3.6",
     "zustand": "^5.0.13"
   },
