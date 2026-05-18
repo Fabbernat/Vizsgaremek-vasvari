@@ -1,9 +1,9 @@
 // client-app\(app)\_layout.tsx
+import { ThemeProvider } from "@/contexts/ThemeContext";
 import { Ionicons } from "@expo/vector-icons";
 import { router, Stack } from "expo-router";
 import { Pressable } from "react-native";
 import Toast from "react-native-toast-message";
-import { ThemeProvider } from "@/context/ThemeContext";
 
 function HomeIcon() {
   return (

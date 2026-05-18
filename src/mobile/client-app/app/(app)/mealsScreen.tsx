@@ -16,7 +16,7 @@ import Toast from "react-native-toast-message";
 import { addToGuestCart } from "@/stores/CartStore";
 import SkeletonMealCard from "./SkeletonMealCard";
 import { useMeals } from "@/hooks/useMeals";
-import { getMealImage } from "@/utils/mealImages";
+import { getMealImage } from "@/constants/MealImages";
 
 const COLORS = {
   bg: "#0f0e0c",

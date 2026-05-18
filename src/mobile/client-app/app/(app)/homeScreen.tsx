@@ -21,8 +21,9 @@ import { useMeals } from "@/hooks/useMeals";
 import Toast from "react-native-toast-message";
 import SettingsIconButton from "./SettingsIconButton";
 import SkeletonMealCard from "./SkeletonMealCard";
-import { useTheme } from "@/context/ThemeContext";
-import { getMealImage } from "@/utils/mealImages";
+import { getMealImage } from "@/constants/MealImages";
+import { useTheme } from "@react-navigation/native";
+import { Meal } from "@/models/meal";
 
 const COLORS = {
   bg: "#0f0e0c",
@@ -103,7 +104,24 @@ export function MealCard({
   onAddToCart: (name: string, quantity: number) => void;
 }) {
   const [quantity, setQuantity] = useState(1);
-  const { colors } = useTheme();
+
+  interface ExtendedColors extends Record<string, string> {
+  surface: string;
+}
+
+  const colors: ExtendedColors = {
+  bg: "#0f0e0c",
+  surface: "#1c1a16",
+  card: "#242018",
+  border: "#2e2b22",
+  gold: "#f0b429",
+  goldLight: "#fcd34d",
+  green: "#22c55e",
+  blue: "#3b82f6",
+  text: "#f5f0e8",
+  muted: "#9c9178",
+  danger: "#ef4444",
+};
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(24)).current;
@@ -235,7 +253,7 @@ export function MealCard({
 
         <Pressable
           onPress={() => {
-            addToGuestCart(item, quantity);
+            addToGuestCart(item as Meal, quantity);
             onAddToCart(item.name, quantity);
             setQuantity(1);
           }}

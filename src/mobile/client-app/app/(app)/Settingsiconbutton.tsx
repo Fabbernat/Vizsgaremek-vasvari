@@ -6,7 +6,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { Pressable, StyleProp, StyleSheet, View, ViewStyle } from "react-native";
-import { useTheme } from "@/context/ThemeContext";
+import { useTheme } from "@/contextw/ThemeContext";
 
 type Props = {
   style?: StyleProp<ViewStyle>;
