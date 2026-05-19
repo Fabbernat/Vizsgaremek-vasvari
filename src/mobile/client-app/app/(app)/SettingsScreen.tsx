@@ -19,7 +19,7 @@ import {
 } from "react-native";
 import { supabase } from "../../supabase";
 import { useGlobalAuth } from "@/stores/AuthStore";
-import { useTheme } from "@/contextw/ThemeContext";
+import { useTheme } from "@/context/ThemeContext";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Sub-components
