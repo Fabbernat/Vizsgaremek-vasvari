@@ -24,6 +24,7 @@ import SkeletonMealCard from "./SkeletonMealCard";
 import { getMealImage } from "@/constants/MealImages";
 import { useTheme } from "@react-navigation/native";
 import { Meal } from "@/models/meal";
+import SettingsIconButton from "./SettingsIconButton";
 
 const COLORS = {
   bg: "#0f0e0c",
