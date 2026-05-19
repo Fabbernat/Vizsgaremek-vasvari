@@ -24,7 +24,6 @@ import SkeletonMealCard from "./SkeletonMealCard";
 import { getMealImage } from "@/constants/MealImages";
 import { useTheme } from "@react-navigation/native";
 import { Meal } from "@/models/meal";
-import SettingsIconButton from "./SettingsIconButton";
 
 const COLORS = {
   bg: "#0f0e0c",
@@ -38,6 +37,20 @@ const COLORS = {
   text: "#f5f0e8",
   muted: "#9c9178",
   danger: "#ef4444",
+};
+
+interface ExtendedColors extends Record<string, string> {
+  bg: string;
+}
+
+const colors: ExtendedColors = {
+  primary: COLORS.gold,
+  background: COLORS.bg,
+  card: COLORS.card,
+  text: COLORS.text,
+  border: COLORS.border,
+  notification: COLORS.gold,
+  bg: COLORS.bg,
 };
 
 type HomeMeal = {
@@ -280,7 +293,6 @@ const normalizeMeal = (meal: HomeMeal): HomeMeal => ({
 export default function HomeScreen() {
   const { meals, loading } = useMeals();
   const { isLoggedIn } = useGlobalAuth();
-  const { colors } = useTheme();
 
   const headerAnim = useRef(new Animated.Value(0)).current;
   const logoAnim = useRef(new Animated.Value(-20)).current;
