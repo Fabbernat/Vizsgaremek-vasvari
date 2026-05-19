@@ -1,5 +1,5 @@
 // client-app\(app)\_layout.tsx
-import { ThemeProvider } from "@/contexts/ThemeContext";
+import { ThemeProvider } from "@/context/ThemeContext";
 import { Ionicons } from "@expo/vector-icons";
 import { router, Stack } from "expo-router";
 import { Pressable } from "react-native";
