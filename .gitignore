@@ -418,3 +418,4 @@ FodyWeavers.xsd
 *.msp
 
 react-admin-felulet/TODO.gitignore
+src/mobile/client-app/.expo/types/router.d.ts
