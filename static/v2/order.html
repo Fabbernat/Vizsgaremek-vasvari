@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Royal Delivery - Megrendelés</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="navbar"><div class="nav-inner"><div class="logo">👑 Royal Delivery</div><ul><li><a class="" href="index.html">Főoldal</a></li><li><a class="" href="restaurants.html">Éttermek</a></li><li><a class="" href="meals.html">Ételek</a></li><li><a class="active" href="cart.html">Kosár</a></li><li><a class="" href="auth.html#login">Bejelentkezés</a></li></ul></div></nav>
+<header class="hero">
+    <h1>Royal Delivery</h1>
+    <p>Rendelési űrlap, kicsit össze-vissza, de vállalható.</p>
+    
+</header>
+<main>
+
+<h2 class="section-title">Ez a megrendelés oldal</h2>
+<div class="grid two">
+    <form>
+        <h3>Számlázási adatok</h3>
+        <label>Teljes név</label><input type="text" value="Gipsz Jakab">
+        <label>Email</label><input type="email" value="gipszjakab@gmail.com">
+        <label>Telefon</label><input type="tel" value="+36 30 1234567">
+        <h3>Cím</h3>
+        <div class="form-row"><div><label>Irányítószám</label><input value="6720"></div><div><label>Település</label><input value="Szeged"></div></div>
+        <label>Közterület neve</label><input value="Rákóczi">
+        <div class="form-row"><div><label>Jellege</label><input value="utca"></div><div><label>Házszám</label><input value="453."></div></div>
+        <label>Megjegyzés</label><textarea rows="3">Csengő rossz, telefonálj pls</textarea>
+    </form>
+    <div class="card">
+        <h3>Bankkártya adatok</h3>
+        <label>Kártyaszám</label><input value="1234 5678 9012 3456">
+        <div class="form-row"><div><label>Lejárat</label><input value="12/29"></div><div><label>CVV</label><input value="123"></div></div>
+        <div class="notice">Biztonságos fizetés 🔒</div>
+        <h3>Összeg: 5 760 Ft</h3>
+        <a class="btn orange" href="checkout.html">Tovább a fizetéshez</a>
+        <button onclick="history.back(); return false;">Vissza</button>
+    </div>
+</div>
+
+</main>
+<footer id="contact">
+    <h2>Kapcsolat</h2>
+    <p>Email: <a href="mailto:info@royaldelivery.com">info@royaldelivery.com</a> &nbsp; | &nbsp; Telefon: +36 123 4567</p>
+    <p>Cím: 1234 Budapest, Király utca 1.</p>
+</footer>
+
+</body>
+</html>

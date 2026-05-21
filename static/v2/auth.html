@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Royal Delivery - Bejelentkezés</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="navbar"><div class="nav-inner"><div class="logo">👑 Royal Delivery</div><ul><li><a class="" href="index.html">Főoldal</a></li><li><a class="" href="restaurants.html">Éttermek</a></li><li><a class="" href="meals.html">Ételek</a></li><li><a class="" href="cart.html">Kosár</a></li><li><a class="active" href="auth.html#login">Bejelentkezés</a></li></ul></div></nav>
+<header class="hero">
+    <h1>Royal Delivery fiók</h1>
+    <p>Bejelentkezés és regisztráció ugyanabban az auth.html fájlban.</p>
+</header>
+<main>
+    <div class="auth-tabs">
+        <a class="btn" href="#login">Bejelentkezés</a>
+        <a class="btn orange" href="#register">Regisztráció</a>
+    </div>
+    <section class="auth-wrap auth-login">
+        <form>
+            <h2>Ez a bejelentkezés oldal</h2>
+            <label>Felhasználónév:</label>
+            <input type="text" value="teszt_king">
+            <label>Jelszó:</label>
+            <input type="password" value="12345678">
+            <button type="button">Bejelentkezés</button>
+            <p>Még nincs fiókod? <a href="#register">Regisztráció</a></p>
+        </form>
+    </section>
+    <section class="auth-wrap auth-register">
+        <form>
+            <h2>Ez a regisztráció oldal</h2>
+            <label>Felhasználónév:</label>
+            <input type="text" value="uj_futar_01">
+            <label>Email:</label>
+            <input type="email" value="ujuser@email.hu">
+            <label>Jelszó:</label>
+            <input type="password" value="12345678">
+            <button type="button">Regisztráció</button>
+            <p>Már van fiókod? <a href="#login">Bejelentkezés</a></p>
+        </form>
+    </section>
+</main>
+<footer id="contact">
+    <h2>Kapcsolat</h2>
+    <p>Email: <a href="mailto:info@royaldelivery.com">info@royaldelivery.com</a> &nbsp; | &nbsp; Telefon: +36 123 4567</p>
+    <p>Cím: 1234 Budapest, Király utca 1.</p>
+</footer>
+<script src="script.js"></script>
+</body>
+</html>
