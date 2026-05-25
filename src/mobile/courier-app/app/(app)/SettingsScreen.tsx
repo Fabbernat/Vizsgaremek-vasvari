@@ -18,8 +18,8 @@ import {
     View,
 } from "react-native";
 import { supabase } from "../../supabase";
-import { useGlobalAuth } from "./AuthStore";
 import { useTheme } from "./ThemeContext";
+import { User } from "../../models/user";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Sub-components
@@ -95,8 +95,8 @@ export default function SettingsScreen() {
 
   useEffect(() => {
     if (isLoggedIn) {
-      supabase.auth.getUser().then(({ data }) => {
-        setUserEmail(data.user?.email ?? null);
+      supabase.auth.getUser().then(({response}: {response: {user?: User} }) => {
+        setUserEmail(response.user?.email ?? null);
       });
     }
   }, [isLoggedIn]);
@@ -382,3 +382,7 @@ const styles = StyleSheet.create({
   },
   guestBtnOutlineText: { fontWeight: "700", fontSize: 14 },
 });
+
+function useGlobalAuth(): { isLoggedIn: any; } {
+  throw new Error("Function not implemented.");
+}
