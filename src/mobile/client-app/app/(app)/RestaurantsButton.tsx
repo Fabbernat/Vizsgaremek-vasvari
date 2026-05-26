@@ -1,8 +1,16 @@
 // client-app\app\(app)\RestaurantsButton.tsx
-import { Text, Pressable, View, StyleSheet, StyleProp, ViewStyle } from "react-native";
-import { router } from "expo-router";
+
 import { Ionicons } from "@expo/vector-icons";
+import { router } from "expo-router";
 import React from "react";
+import {
+  Pressable,
+  StyleProp,
+  StyleSheet,
+  Text,
+  View,
+  ViewStyle,
+} from "react-native";
 
 type Props = {
   style?: StyleProp<ViewStyle>;
@@ -18,9 +26,8 @@ export default function RestaurantsButton({ style }: Props) {
           pressed && styles.pressed,
         ]}
       >
-
-        <Ionicons name="restaurant" size={26} color="#fff" />
-        <Text>Éttermek</Text>
+        <Ionicons name="restaurant-outline" size={20} color="#0f0e0c" />
+        <Text style={styles.text}>Éttermek</Text>
       </Pressable>
     </View>
   );
@@ -31,23 +38,35 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+
   button: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    backgroundColor: "#111827", // dark but distinct from background
+    flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
+    gap: 8,
+
+    minWidth: 118,
+    height: 44,
+    paddingHorizontal: 16,
+
+    borderRadius: 999,
+    backgroundColor: "#f0b429",
 
     shadowColor: "#000",
     shadowOpacity: 0.25,
     shadowRadius: 6,
     shadowOffset: { width: 0, height: 3 },
-
     elevation: 4,
   },
+
+  text: {
+    color: "#0f0e0c",
+    fontSize: 14,
+    fontWeight: "800",
+  },
+
   pressed: {
-    opacity: 0.75,
+    opacity: 0.8,
     transform: [{ scale: 0.96 }],
   },
 });
