@@ -460,7 +460,7 @@ restaurantSection: {
 },
 
 restaurantHeaderCard: {
-  height: 190,
+  height: 700,
   borderRadius: 20,
   overflow: "hidden",
   backgroundColor: COLORS.card,
@@ -505,7 +505,7 @@ mealGrid: {
 },
 
 mealCard: {
-  width: "48%",
+  width: "32%",
   backgroundColor: COLORS.card,
   borderRadius: 16,
   overflow: "hidden",
@@ -515,7 +515,7 @@ mealCard: {
 
 mealImage: {
   width: "100%",
-  height: 1000,
+  height: 700,
   resizeMode: "cover",
   backgroundColor: COLORS.surface,
 },
