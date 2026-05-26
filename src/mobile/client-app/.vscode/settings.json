@@ -1,7 +1,12 @@
 {
-  "editor.codeActionsOnSave": {
-    "source.fixAll": "explicit",
-    "source.organizeImports": "explicit",
-    "source.sortMembers": "explicit"
-  }
+    "editor.tabSize": 4,
+    "editor.mouseWheelZoom": true,
+
+    "editor.formatOnSave": true,
+    "files.autoSave": "afterDelay",
+
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "workbrench.iconTheme": "material-icon-theme"
 }

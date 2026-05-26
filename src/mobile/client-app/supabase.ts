@@ -1,4 +1,4 @@
-// import AsyncStorage from '@react-native-async-storage/async-storage'
+// supabase.ts
 import { createClient } from "@supabase/supabase-js";
 import * as SecureStore from "expo-secure-store";
 import { Platform } from "react-native";

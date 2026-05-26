@@ -292,9 +292,33 @@ const normalizeMeal = (meal: HomeMeal): HomeMeal => ({
 export default function HomeScreen() {
   const { meals, loading } = useMeals();
   const { isLoggedIn } = useGlobalAuth();
+  const [authReady, setAuthReady] = useState(false);
 
   const headerAnim = useRef(new Animated.Value(0)).current;
   const logoAnim = useRef(new Animated.Value(-20)).current;
+
+  useEffect(() => {
+    let mounted = true;
+
+    supabase.auth.getSession().then(({ data: { session } }) => {
+    if (!mounted) return;
+
+    setGlobalIsLoggedIn(!!session);
+    setAuthReady(true);
+  });
+
+  const { data: { subscription } } = supabase.auth.onAuthStateChange(
+    (_event, session) => {
+      setGlobalIsLoggedIn(!!session);
+      setAuthReady(true);
+    }
+  );
+
+  return () => {
+    mounted = false;
+    subscription.unsubscribe();
+  };
+}, []);
 
   useEffect(() => {
     Animated.parallel([
@@ -453,8 +477,8 @@ export default function HomeScreen() {
 
       {/* Auth buttons */}
       <View style={HomeScreenStyles.authSection}>
-        {!isLoggedIn ? (
-          <View style={HomeScreenStyles.authRow}>
+{!authReady ? null : !isLoggedIn ? (
+            <View style={HomeScreenStyles.authRow}>
             <Pressable
               onPress={() => router.push("/LoginScreen")}
               style={({ pressed }) => [
@@ -482,18 +506,21 @@ export default function HomeScreen() {
           </View>
         ) : (
           <Pressable
-            onPress={logout}
-            style={({ pressed }) => [
-              HomeScreenStyles.authBtn,
-              {
-                backgroundColor: colors.surface,
-                borderColor: colors.border,
-                flex: 0,
-              },
-              pressed && HomeScreenStyles.btnPressed,
-            ]}
-          >
+  onPress={logout}
+  style={({ pressed }) => [
+    HomeScreenStyles.authBtn,
+    HomeScreenStyles.logoutBtn,
+    {
+      backgroundColor: colors.surface,
+      borderColor: colors.border,
+    },
+    pressed && HomeScreenStyles.btnPressed,
+  ]}
+>
             <Text
+              numberOfLines={1}
+              adjustsFontSizeToFit
+              minimumFontScale={0.85}
               style={[HomeScreenStyles.authBtnText, { color: colors.danger }]}
             >
               Kijelentkezés
@@ -762,4 +789,9 @@ export const HomeScreenStyles = StyleSheet.create({
     maxHeight: 600,
     resizeMode: "cover",
   },
+  logoutBtn: {
+  alignSelf: "stretch",
+  flex: 0,
+  paddingHorizontal: 16,
+},
 });
