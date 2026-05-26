@@ -4,17 +4,18 @@ import { setGlobalIsLoggedIn, useGlobalAuth } from "@/stores/AuthStore";
 import { addToGuestCart } from "@/stores/CartStore";
 import { supabase } from "@/supabase";
 import { router } from "expo-router";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
-    Animated,
-    FlatList,
-    Image,
-    Pressable,
-    StatusBar,
-    StyleSheet,
-    Text,
-    View,
+  Animated,
+  FlatList,
+  Image,
+  Pressable,
+  StatusBar,
+  StyleSheet,
+  Text,
+  View,
 } from "react-native";
+import RestaurantsButton from "./RestaurantsButton";
 import Cart from "./CartIconButton";
 import ProfileIconButton from "./ProfileIconButton";
 
@@ -38,22 +39,10 @@ const COLORS = {
   danger: "#ef4444",
 };
 
-interface ExtendedColors extends Record<string, string> {
-  bg: string;
-}
-
-const colors: ExtendedColors = {
-  primary: COLORS.gold,
-  background: COLORS.bg,
-  card: COLORS.card,
-  text: COLORS.text,
-  border: COLORS.border,
-  notification: COLORS.gold,
-  bg: COLORS.bg,
-};
+const colors = COLORS;
 
 type HomeMeal = {
-  id: string;
+  id: string | number;
   name: string;
   description: string;
   price: number;
@@ -117,24 +106,6 @@ export function MealCard({
   onAddToCart: (name: string, quantity: number) => void;
 }) {
   const [quantity, setQuantity] = useState(1);
-
-  interface ExtendedColors extends Record<string, string> {
-  surface: string;
-}
-
-  const colors: ExtendedColors = {
-  bg: "#0f0e0c",
-  surface: "#1c1a16",
-  card: "#242018",
-  border: "#2e2b22",
-  gold: "#f0b429",
-  goldLight: "#fcd34d",
-  green: "#22c55e",
-  blue: "#3b82f6",
-  text: "#f5f0e8",
-  muted: "#9c9178",
-  danger: "#ef4444",
-};
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(24)).current;
@@ -383,6 +354,7 @@ export default function HomeScreen() {
           />
         </Animated.View>
         <View style={HomeScreenStyles.topActions}>
+          <RestaurantsButton style={HomeScreenStyles.iconBtn} />
           <Cart style={HomeScreenStyles.iconBtn} />
           <ProfileIconButton style={HomeScreenStyles.iconBtn} />
           <SettingsIconButton style={HomeScreenStyles.iconBtn} />
@@ -477,7 +449,7 @@ export default function HomeScreen() {
 
       {/* Auth buttons */}
       <View style={HomeScreenStyles.authSection}>
-{!authReady ? null : !isLoggedIn ? (
+        {!authReady ? null : !isLoggedIn ? (
             <View style={HomeScreenStyles.authRow}>
             <Pressable
               onPress={() => router.push("/LoginScreen")}
@@ -506,17 +478,17 @@ export default function HomeScreen() {
           </View>
         ) : (
           <Pressable
-  onPress={logout}
-  style={({ pressed }) => [
-    HomeScreenStyles.authBtn,
-    HomeScreenStyles.logoutBtn,
-    {
-      backgroundColor: colors.surface,
-      borderColor: colors.border,
-    },
-    pressed && HomeScreenStyles.btnPressed,
-  ]}
->
+            onPress={logout}
+            style={({ pressed }) => [
+              HomeScreenStyles.authBtn,
+              HomeScreenStyles.logoutBtn,
+              {
+                backgroundColor: colors.surface,
+                borderColor: colors.border,
+              },
+              pressed && HomeScreenStyles.btnPressed,
+            ]}
+          >
             <Text
               numberOfLines={1}
               adjustsFontSizeToFit
@@ -555,7 +527,9 @@ export const HomeScreenStyles = StyleSheet.create({
   },
   topActions: {
     flexDirection: "row",
+    alignItems: "center",
     gap: 8,
+    flexShrink: 0,
   },
   iconBtn: {
     backgroundColor: "#1c1a16",
@@ -793,5 +767,7 @@ export const HomeScreenStyles = StyleSheet.create({
   alignSelf: "stretch",
   flex: 0,
   paddingHorizontal: 16,
+  minHeight: 50,
+  justifyContent: "center",
 },
 });
