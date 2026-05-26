@@ -1,7 +1,7 @@
 // client-app\(app)\app\(app)\debugDashboard.tsx
 import React, { useEffect, useState } from "react";
 import { View, Text, ScrollView } from "react-native";
-import { supabase } from "@/supabase";
+import { supabase } from "../../supabase";
 
 export default function DebugDashboard() {
   const [meals, setMeals] = useState<any[]>([]);
@@ -45,7 +45,7 @@ export default function DebugDashboard() {
         setError(e);
       }
 
-      // BACKEND PING (optional)
+      // BACKEND PING CHECK
       try {
         log("🌐 Pinging backend...");
 
