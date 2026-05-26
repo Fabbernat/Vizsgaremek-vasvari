@@ -1,29 +1,28 @@
 // client-app\(app)\app\(app)\homeScreen.tsx
+import { useMeals } from "@/hooks/useMeals";
+import { setGlobalIsLoggedIn, useGlobalAuth } from "@/stores/AuthStore";
+import { addToGuestCart } from "@/stores/CartStore";
 import { supabase } from "@/supabase";
 import { router } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import {
-  Animated,
-  FlatList,
-  Image,
-  Pressable,
-  StatusBar,
-  StyleSheet,
-  Text,
-  View,
+    Animated,
+    FlatList,
+    Image,
+    Pressable,
+    StatusBar,
+    StyleSheet,
+    Text,
+    View,
 } from "react-native";
-import { setGlobalIsLoggedIn, useGlobalAuth } from "@/stores/AuthStore";
 import Cart from "./CartIconButton";
-import { addToGuestCart } from "@/stores/CartStore";
 import ProfileIconButton from "./ProfileIconButton";
-import { useMeals } from "@/hooks/useMeals";
 
+import { getMealImage } from "@/constants/MealImages";
+import { Meal } from "@/models/meal";
 import Toast from "react-native-toast-message";
 import SettingsIconButton from "./SettingsIconButton";
 import SkeletonMealCard from "./SkeletonMealCard";
-import { getMealImage } from "@/constants/MealImages";
-import { useTheme } from "@react-navigation/native";
-import { Meal } from "@/models/meal";
 
 const COLORS = {
   bg: "#0f0e0c",
