@@ -1,19 +1,17 @@
 // client-app/app/RestaurantsScreen.tsx
 import { router } from "expo-router";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import {
-  Animated,
-  FlatList,
   Image,
+  Platform,
   Pressable,
+  ScrollView,
   StatusBar,
   StyleSheet,
   Text,
   TextInput,
   View,
 } from "react-native";
-import Toast from "react-native-toast-message";
-import { addToGuestCart } from "@/stores/CartStore";
 
 const COLORS = {
   bg: "#0f0e0c",
@@ -29,378 +27,257 @@ const COLORS = {
   muted: "#9c9178",
 };
 
-type RestaurantItem = {
+
+
+type RestaurantGroup = {
   id: string;
   name: string;
   description: string;
-  price: number;
-  restaurant_id?: string | number;
-  image_url?: string;
-  imageUrl?: string;
+  imageId: number;
+  mealImageIds: number[];
 };
 
-type RestaurantCardProps = {
-  item: RestaurantItem;
-  index: number;
-  onAddToCart: (name: string, quantity: number) => void;
+const imageUri = (folder: "meals" | "restaurants", id: number) => {
+  return Platform.OS === "web"
+    ? `/${folder}/${id}.jpg`
+    : `../../public/${folder}/${id}.jpg`;
 };
 
-type SortOption = "none" | "priceAsc" | "priceDesc" | "name";
+const createMealRange = (start: number, end: number) =>
+  Array.from({ length: end - start + 1 }, (_, i) => start + i);
 
-const restaurantsData: RestaurantItem[] = [
+const restaurants: RestaurantGroup[] = [
   {
-    id: "1",
-    name: "Margherita Pizza",
-    description: "Friss paradicsom, mozzarella és bazsalikom",
-    price: 1500,
-    imageUrl: "margherita-pizza.jpg",
+    id: "mcdonalds",
+    name: "McDonald's",
+    description:
+      "A világ legismertebb gyorsétterme, ikonikus Big Mac, hamburger és sült krumpli.",
+    imageId: 21,
+    mealImageIds: createMealRange(33, 42),
   },
   {
-    id: "2",
-    name: "Caesar Saláta",
-    description: "Ropogós saláta csirkével és krutonnal",
-    price: 1200,
-    imageUrl: "caesar-salata.jpg",
+    id: "kfc",
+    name: "KFC",
+    description:
+      "Ropogós, fűszeres sült csirke specialistája, az eredeti recepttel.",
+    imageId: 22,
+    mealImageIds: createMealRange(43, 52),
   },
   {
-    id: "3",
-    name: "Spaghetti Carbonara",
-    description: "Klasszikus olasz tészta szalonnával és tojással",
-    price: 1300,
-    imageUrl: "carbonara.jpg",
+    id: "burger-king",
+    name: "Burger King",
+    description:
+      "A Whopper burgereiről híres, lángon sült húsos gyorsétterem.",
+    imageId: 23,
+    mealImageIds: createMealRange(53, 62),
   },
   {
-    id: "4",
-    name: "Pepperoni Pizza",
-    description: "Szaftos pepperoni és olvadt sajt",
-    price: 1600,
-    imageUrl: "pepperoni-pizza.jpg",
+    id: "subway",
+    name: "Subway",
+    description:
+      "Friss szendvicsek és wrapek, saját összeállítással.",
+    imageId: 24,
+    mealImageIds: createMealRange(63, 72),
   },
   {
-    id: "5",
-    name: "Hawaii Pizza",
-    description: "Ananász és sonka",
-    price: 1700,
-    imageUrl: "hawaii-pizza.jpg",
+    id: "pizza-hut",
+    name: "Pizza Hut",
+    description:
+      "Vastag és vékony tésztás pizzák, klasszikus családi pizzaélmény.",
+    imageId: 25,
+    mealImageIds: createMealRange(73, 82),
   },
   {
-    id: "6",
-    name: "Vegetáriánus Pizza",
-    description: "Friss zöldségek és sajt",
-    price: 1400,
-    imageUrl: "vegetarianus-pizza.jpg",
+    id: "dominos",
+    name: "Domino's Pizza",
+    description:
+      "Gyors házhozszállításra specializált pizzalánc.",
+    imageId: 26,
+    mealImageIds: createMealRange(83, 92),
   },
   {
-    id: "7",
-    name: "California Roll",
-    description: "Rák, avokádó, uborka",
-    price: 2000,
-    imageUrl: "california-roll.jpg",
+    id: "starbucks",
+    name: "Starbucks",
+    description:
+      "Kávézólánc szendvicsekkel, péksüteményekkel és italokkal.",
+    imageId: 27,
+    mealImageIds: createMealRange(93, 102),
   },
   {
-    id: "8",
-    name: "Spicy Tuna Roll",
-    description: "Fűszeres tonhal",
-    price: 2200,
-    imageUrl: "spicy-tuna-roll.jpg",
+    id: "taco-bell",
+    name: "Taco Bell",
+    description:
+      "Mexikói ihletésű tacos, burritók és quesadillák.",
+    imageId: 28,
+    mealImageIds: createMealRange(103, 112),
   },
   {
-    id: "9",
-    name: "Salmon Nigiri",
-    description: "Friss lazac rizsen",
-    price: 1800,
-    imageUrl: "salmon-nigiri.jpg",
+    id: "wendys",
+    name: "Wendy's",
+    description:
+      "Friss, négyzet alakú hamburgerek és csirkés szendvicsek.",
+    imageId: 29,
+    mealImageIds: createMealRange(113, 122),
   },
   {
-    id: "10",
-    name: "Gyros tál",
-    description: "Csirke, krumpli, tzatziki",
-    price: 1500,
-    imageUrl: "gyros-tal.jpg",
-  },
-  {
-    id: "11",
-    name: "Hamburger",
-    description: "Marhahús, cheddar",
-    price: 1800,
-    imageUrl: "hamburger.jpg",
-  },
-  {
-    id: "12",
-    name: "Sült csirke",
-    description: "Ropogós bundában",
-    price: 2200,
-    imageUrl: "sult-csirke.jpg",
-  },
-  {
-    id: "13",
-    name: "Rántott sajt",
-    description: "Tartárral",
-    price: 1700,
-    imageUrl: "rantott-sajt.jpg",
-  },
-  {
-    id: "14",
-    name: "Lazac steak",
-    description: "Grillezett lazac",
-    price: 3000,
-    imageUrl: "lazac-steak.jpg",
-  },
-  {
-    id: "15",
-    name: "Vegetáriánus lasagne",
-    description: "Zöldséges tészta",
-    price: 2500,
-    imageUrl: "vegetarianus-lasagne.jpg",
-  },
-  {
-    id: "16",
-    name: "Sült zöldségek",
-    description: "Kemencében sült",
-    price: 1200,
-    imageUrl: "sult-zoldsegek.jpg",
-  },
-  {
-    id: "17",
-    name: "Sült krumpli",
-    description: "Ropogós",
-    price: 500,
-    imageUrl: "sult-krumpli.jpg",
-  },
-  {
-    id: "18",
-    name: "Kóla",
-    description: "0.5L",
-    price: 1000,
-    imageUrl: "kola.jpg",
-  },
-  {
-    id: "26",
-    name: "Királyi Burger",
-    description: "Frissen készített, ízletes fogás",
-    price: 2490,
-    imageUrl: "kiralyi-burger.jpg",
-  },
-  {
-    id: "27",
-    name: "Arany Krumpli",
-    description: "Frissen készített, ízletes fogás",
-    price: 890,
-    imageUrl: "arany-krumpli.jpg",
-  },
-  {
-    id: "28",
-    name: "Koronás Limonádé",
-    description: "Frissen készített, ízletes fogás",
-    price: 690,
-    imageUrl: "koronas-limonade.jpg",
+    id: "chick-fil-a",
+    name: "Chick-fil-A",
+    description:
+      "Csirkés szendvicsek specialistája, főleg az USA-ban népszerű.",
+    imageId: 30,
+    mealImageIds: createMealRange(123, 132),
   },
 ];
 
-const imageById: Record<string, string> = {
-  "1": "margherita-pizza.jpg",
-  "2": "caesar-salata.jpg",
-  "3": "carbonara.jpg",
-  "4": "pepperoni-pizza.jpg",
-  "5": "hawaii-pizza.jpg",
-  "6": "vegetarianus-pizza.jpg",
-  "7": "california-roll.jpg",
-  "8": "spicy-tuna-roll.jpg",
-  "9": "salmon-nigiri.jpg",
-  "10": "gyros-tal.jpg",
-  "11": "hamburger.jpg",
-  "12": "sult-csirke.jpg",
-  "13": "rantott-sajt.jpg",
-  "14": "lazac-steak.jpg",
-  "15": "vegetarianus-lasagne.jpg",
-  "16": "sult-zoldsegek.jpg",
-  "17": "sult-krumpli.jpg",
-  "18": "kola.jpg",
-  "26": "kiralyi-burger.jpg",
-  "27": "arany-krumpli.jpg",
-  "28": "koronas-limonade.jpg",
-};
 
-const normalizeRestaurant = (restaurant: RestaurantItem): RestaurantItem => {
-  const id = String(restaurant.id);
 
-  return {
-    ...restaurant,
-    id,
-    imageUrl:
-      restaurant.imageUrl ?? restaurant.image_url ?? imageById[id] ?? "placeholder.jpg",
-  };
-};
-
-function RestaurantCard({ item, index, onAddToCart }: RestaurantCardProps) {
-  const [quantity, setQuantity] = useState(1);
-
-  const fade = useRef(new Animated.Value(0)).current;
-  const slide = useRef(new Animated.Value(20)).current;
-
-  useEffect(() => {
-    Animated.parallel([
-      Animated.timing(fade, {
-        toValue: 1,
-        duration: 300,
-        delay: index * 60,
-        useNativeDriver: true,
-      }),
-      Animated.timing(slide, {
-        toValue: 0,
-        duration: 300,
-        delay: index * 60,
-        useNativeDriver: true,
-      }),
-    ]).start();
-  }, [fade, index, slide]);
-
-  const handleAddToCart = () => {
-    
-    onAddToCart(item.name, quantity);
-    setQuantity(1);
-  };
-
-  return (
-    <Animated.View
-      style={[
-        styles.cardWrapper,
-        { opacity: fade, transform: [{ translateY: slide }] },
-      ]}
-    >
-      <View style={styles.card}>
-        <View style={styles.cardImageBox}>
-          <Image
-            style={styles.restaurantImage}
-          />
-
-          <View style={styles.priceBadge}>
-            <Text style={styles.priceText}>{item.price} Ft</Text>
-          </View>
-        </View>
-
-        <View style={styles.cardBody}>
-          <Text style={styles.cardName} numberOfLines={1}>
-            {item.name}
-          </Text>
-          <Text style={styles.cardDesc} numberOfLines={2}>
-            {item.description}
-          </Text>
-        </View>
-
-        <View style={styles.quantityRow}>
-          <Pressable
-            onPress={() => setQuantity((q) => Math.max(1, q - 1))}
-            style={styles.quantityBtn}
-          >
-            <Text style={styles.quantityBtnText}>−</Text>
-          </Pressable>
-
-          <Text style={styles.quantityText}>{quantity} db</Text>
-
-          <Pressable
-            onPress={() => setQuantity((q) => Math.min(99, q + 1))}
-            style={styles.quantityBtn}
-          >
-            <Text style={styles.quantityBtnText}>+</Text>
-          </Pressable>
-        </View>
-
-        <Pressable
-          onPress={handleAddToCart}
-          style={({ pressed }) => [
-            styles.cartBtn,
-            pressed && styles.btnPressed,
-          ]}
-        >
-          <Text style={styles.cartBtnText}>+ Kosárba</Text>
-        </Pressable>
-      </View>
-    </Animated.View>
-  );
-}
 
 export default function RestaurantsScreen() {
-  const [inMemoryRestaurants, setRestaurants] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [activeFilter, setActiveFilter] = useState<string | null>(null);
-  const [sortOption, setSortOption] = useState<SortOption>("none");
+const [selectedRestaurantId, setSelectedRestaurantId] = useState<string | null>(
+  null
+);
 
-  const showToast = (itemName: string, quantity: number) => {
-    Toast.show({
-      type: "success",
-      text1: "Siker!",
-      text2: `${quantity} db ${itemName} sikeresen a kosárba rakva!`,
-    });
-  };
+const filteredRestaurants = restaurants.filter((restaurant) => {
+  const matchesSearch =
+    restaurant.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    restaurant.description.toLowerCase().includes(searchQuery.toLowerCase());
+
+  const matchesSelected =
+    !selectedRestaurantId || restaurant.id === selectedRestaurantId;
+
+  return matchesSearch && matchesSelected;
+});
+
 
 
 
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle="light-content" />
+    <StatusBar barStyle="light-content" backgroundColor={COLORS.bg} />
 
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={styles.content}
+    >
       <Pressable onPress={() => router.back()} style={styles.backBtn}>
-        <Text style={styles.backText}>← Vissza</Text>
+        <Text style={styles.backText}>← Back</Text>
       </Pressable>
 
-      <View style={styles.brandRow}>
-        <Image
-          source={require("../../assets/mine/icons/royal-delivery-logo.png")}
-          style={styles.crown}
-        />
-        <Text style={styles.brandName}>Royal Delivery</Text>
+      <View style={styles.hero}>
+        <Text style={styles.eyebrow}>Restaurants</Text>
+        <Text style={styles.heading}>Choose a restaurant</Text>
+        <Text style={styles.subheading}>
+          Browse meals grouped by restaurant. Tap a restaurant filter to focus
+          on one menu.
+        </Text>
       </View>
 
-      <Text style={styles.heading}>Étlap</Text>
-      <Text style={styles.subheading}>Válassz kedvenc ételeidből</Text>
-
       <TextInput
-        placeholder="Keresés..."
+        placeholder="Search restaurants..."
         placeholderTextColor={COLORS.muted}
         value={searchQuery}
         onChangeText={setSearchQuery}
         style={styles.searchInput}
       />
 
-      <View style={styles.filterRow}>
-        {["pizza", "saláta", "sushi", "burger", "ital"].map((filter) => (
-          <Pressable
-            key={filter}
-            onPress={() =>
-              setActiveFilter(activeFilter === filter ? null : filter)
-            }
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.restaurantNav}
+      >
+        <Pressable
+          onPress={() => setSelectedRestaurantId(null)}
+          style={[
+            styles.navChip,
+            selectedRestaurantId === null && styles.navChipActive,
+          ]}
+        >
+          <Text
             style={[
-              styles.filterBtn,
-              activeFilter === filter && styles.filterBtnActive,
+              styles.navChipText,
+              selectedRestaurantId === null && styles.navChipTextActive,
             ]}
           >
-            <Text style={styles.filterText}>{filter}</Text>
+            All
+          </Text>
+        </Pressable>
+
+        {restaurants.map((restaurant) => (
+          <Pressable
+            key={restaurant.id}
+            onPress={() => setSelectedRestaurantId(restaurant.id)}
+            style={[
+              styles.navChip,
+              selectedRestaurantId === restaurant.id && styles.navChipActive,
+            ]}
+          >
+            <Text
+              style={[
+                styles.navChipText,
+                selectedRestaurantId === restaurant.id &&
+                  styles.navChipTextActive,
+              ]}
+            >
+              {restaurant.name}
+            </Text>
           </Pressable>
         ))}
-      </View>
+      </ScrollView>
 
-      <View style={styles.sortRow}>
-        <Pressable
-          onPress={() => setSortOption("priceAsc")}
-          style={styles.sortBtn}
-        >
-          <Text style={styles.sortText}>Ár ↑</Text>
-        </Pressable>
+      <Text style={styles.resultText}>
+        Showing {filteredRestaurants.length} restaurant
+        {filteredRestaurants.length === 1 ? "" : "s"}
+      </Text>
 
-        <Pressable
-          onPress={() => setSortOption("priceDesc")}
-          style={styles.sortBtn}
-        >
-          <Text style={styles.sortText}>Ár ↓</Text>
-        </Pressable>
+      {filteredRestaurants.map((restaurant) => (
+        <View key={restaurant.id} style={styles.restaurantSection}>
+          <View style={styles.restaurantHeaderCard}>
+            <Image
+              source={{ uri: imageUri("restaurants", restaurant.imageId) }}
+              style={styles.restaurantCover}
+            />
 
-        <Pressable onPress={() => setSortOption("name")} style={styles.sortBtn}>
-          <Text style={styles.sortText}>Név</Text>
-        </Pressable>
-      </View>
-      </View>
+            <View style={styles.restaurantHeaderOverlay}>
+              <Text style={styles.restaurantTitle}>{restaurant.name}</Text>
+              <Text style={styles.restaurantDescription} numberOfLines={3}>
+                {restaurant.description}
+              </Text>
+              <Text style={styles.restaurantCount}>
+                {restaurant.mealImageIds.length} meals available
+              </Text>
+            </View>
+          </View>
+
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>{restaurant.name} menu</Text>
+            <Text style={styles.sectionMeta}>
+              {restaurant.mealImageIds.length} items
+            </Text>
+          </View>
+
+          <View style={styles.mealGrid}>
+            {restaurant.mealImageIds.map((imageId, index) => (
+              <View key={imageId} style={styles.mealCard}>
+                <Image
+                  source={{ uri: imageUri("meals", imageId) }}
+                  style={styles.mealImage}
+                />
+
+                <View style={styles.mealCardBody}>
+                  <Text style={styles.mealName} numberOfLines={1}>
+                    {restaurant.name} meal #{index + 1}
+                  </Text>
+                  <Text style={styles.mealMeta}>Image ID: {imageId}</Text>
+                </View>
+              </View>
+            ))}
+          </View>
+        </View>
+      ))}
+    </ScrollView>
+  </View>
   );
 }
       
@@ -432,15 +309,7 @@ const styles = StyleSheet.create({
     color: COLORS.gold,
     fontWeight: "700",
   },
-  heading: {
-    fontSize: 32,
-    fontWeight: "900",
-    color: COLORS.text,
-  },
-  subheading: {
-    color: COLORS.muted,
-    marginBottom: 20,
-  },
+
   searchInput: {
     backgroundColor: COLORS.surface,
     borderColor: COLORS.border,
@@ -582,4 +451,181 @@ const styles = StyleSheet.create({
     opacity: 0.8,
     transform: [{ scale: 0.97 }],
   },
+  restaurantList: {
+  paddingBottom: 32,
+},
+
+restaurantSection: {
+  marginBottom: 32,
+},
+
+restaurantHeaderCard: {
+  height: 190,
+  borderRadius: 20,
+  overflow: "hidden",
+  backgroundColor: COLORS.card,
+  borderWidth: 1,
+  borderColor: COLORS.border,
+  marginBottom: 14,
+},
+
+restaurantCover: {
+  width: "100%",
+  height: "100%",
+  resizeMode: "cover",
+},
+
+restaurantHeaderOverlay: {
+  position: "absolute",
+  left: 0,
+  right: 0,
+  bottom: 0,
+  padding: 16,
+  backgroundColor: "rgba(0,0,0,0.68)",
+},
+
+restaurantTitle: {
+  color: COLORS.text,
+  fontSize: 24,
+  fontWeight: "900",
+  marginBottom: 5,
+},
+
+restaurantDescription: {
+  color: COLORS.text,
+  opacity: 0.86,
+  fontSize: 13,
+  lineHeight: 18,
+},
+
+mealGrid: {
+  flexDirection: "row",
+  flexWrap: "wrap",
+  gap: 12,
+},
+
+mealCard: {
+  width: "48%",
+  backgroundColor: COLORS.card,
+  borderRadius: 16,
+  overflow: "hidden",
+  borderWidth: 1,
+  borderColor: COLORS.border,
+},
+
+mealImage: {
+  width: "100%",
+  height: 1000,
+  resizeMode: "cover",
+  backgroundColor: COLORS.surface,
+},
+
+mealCardBody: {
+  padding: 10,
+},
+
+mealName: {
+  color: COLORS.text,
+  fontSize: 13,
+  fontWeight: "800",
+},
+
+mealMeta: {
+  color: COLORS.muted,
+  fontSize: 11,
+  marginTop: 3,
+},
+
+content: {
+  paddingHorizontal: 20,
+  paddingTop: 24,
+  paddingBottom: 40,
+},
+
+hero: {
+  marginBottom: 18,
+},
+
+eyebrow: {
+  color: COLORS.gold,
+  fontSize: 13,
+  fontWeight: "800",
+  letterSpacing: 1.5,
+  textTransform: "uppercase",
+  marginBottom: 8,
+},
+
+heading: {
+  fontSize: 34,
+  fontWeight: "900",
+  color: COLORS.text,
+  marginBottom: 8,
+},
+
+subheading: {
+  color: COLORS.muted,
+  fontSize: 15,
+  lineHeight: 22,
+},
+
+restaurantNav: {
+  gap: 8,
+  paddingBottom: 14,
+},
+
+navChip: {
+  paddingHorizontal: 14,
+  paddingVertical: 9,
+  borderRadius: 999,
+  backgroundColor: COLORS.surface,
+  borderWidth: 1,
+  borderColor: COLORS.border,
+},
+
+navChipActive: {
+  backgroundColor: COLORS.gold,
+  borderColor: COLORS.gold,
+},
+
+navChipText: {
+  color: COLORS.text,
+  fontSize: 13,
+  fontWeight: "700",
+},
+
+navChipTextActive: {
+  color: COLORS.bg,
+},
+
+resultText: {
+  color: COLORS.muted,
+  fontSize: 13,
+  marginBottom: 16,
+},
+
+sectionHeader: {
+  flexDirection: "row",
+  justifyContent: "space-between",
+  alignItems: "center",
+  marginBottom: 10,
+},
+
+sectionTitle: {
+  color: COLORS.text,
+  fontSize: 18,
+  fontWeight: "900",
+},
+
+sectionMeta: {
+  color: COLORS.gold,
+  fontSize: 12,
+  fontWeight: "800",
+},
+
+restaurantCount: {
+  color: COLORS.gold,
+  fontSize: 12,
+  fontWeight: "800",
+  marginTop: 8,
+},
 });
