@@ -14,7 +14,7 @@ const HomePage = () => {
         Ez az oldal csak az <strong>ADMIN</strong> számára készült!
         <br />
         Itt tudod <strong>HOZZÁADNI</strong>, <strong>SZERKESZTENI</strong>,{" "}
-        <strong>TÖRÖLNI</strong> a restauránsokat és az ételeket.
+        <strong>TÖRÖLNI</strong> az éttermeket és az ételeket.
       </Alert>
       <div className="text-center mt-4">
         <img
