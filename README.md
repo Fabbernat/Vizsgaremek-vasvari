@@ -6,7 +6,7 @@
 - Gurbán Ákos
 - Nálhi Csongor
   
-⚠️Az alkalmazások kipróbálásához, használatához és telepítéséhez némi Git és JavaScript tudás szükséges!⚠️
+⚠️Az alkalmazások kipróbálásához, használatához és telepítéséhez némi Git és JavaScript (TypeScript, node, npm, npx) tudás szükséges!⚠️
 
 ## Fontos linkek
 ### [Prezentáció](https://docs.google.com/presentation/d/1sCbycWzKTGuvTsGm7b6RSliEWNnaCSsBRFpawD3Rd0c/edit?usp=drive_link)
@@ -22,10 +22,7 @@ git clone https://github.com/vizsgaremek-2025-2026-nappali-2-14b/royal-delivery-
 cd royal-delivery-app-nalhi-gurban-fabian
 ```
 
-- `src/mobile/client-app` – mobilalkalmazás
-- `src/web` – webalkalmazás
-- `database` – adatbázis dumpok és SQL fájlok
-- `docs` - dokumentáció
+## A `src/mobile/client-app` útvonalon van a mobil app, `npx expo install` majd `npx expo start` parancsokkal lehet elindítani az emulátort.
 
 ### Mobilalkalmazás elindítása 
 1. Függőségek telepítése az alkalmazás mappájában
