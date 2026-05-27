@@ -1,9 +1,8 @@
 body {
   margin: 0;
   font-family: "Segoe UI", system-ui, sans-serif;
-  background: #222831;
-  background: linear-gradient(360deg,#222831 0%, #393E46 100%);
   color: #FFFFFF;
+  background: #045191 !important;
 }
 
 .app {
@@ -117,7 +116,7 @@ body {
 .hero {
   padding: 3rem 2rem;
   text-align: center;
-  color: #443627;
+  color: #c07525;
 }
 
 @media (max-width: 768px) {
@@ -146,7 +145,7 @@ body {
   padding: 2rem;
   max-width: 1200px;
   margin: auto;
-  color: #A0A0A0;
+  color: #bd2f2f;
 }
 
 @media (max-width: 768px) {
@@ -220,3 +219,4 @@ body {
   transition: all 0.2s ease-out;
   transform: scale(1);
 }
+

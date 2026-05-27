@@ -93,7 +93,7 @@ const isSite = computed(() => true)
 </script>
 
 <template style="color: white;">
-  <Navbar v-if="showNavbar" />
+  <Navbar/>
 
 
   <div v-if="isHome" class="app bg-white text-black">
@@ -101,7 +101,6 @@ const isSite = computed(() => true)
     <nav class="navbar bg-white text-black">
       <div class="logo-text flex items-center text-black font-semibold">Royal Delivery</div>
       <!-- Aktuális oldal komponense -->
-      <component style="color: white;" :is="currentView" :cart="cart" />
       <div class="nav-items">
         <span>Étlap</span>
         <span>Profil</span>
@@ -115,6 +114,7 @@ const isSite = computed(() => true)
 
       </div>
     </nav>
+    <component style="color: white;" :is="currentView" :cart="cart" />
 
     <!-- HOME tartalom -->
     <header class="hero">
