@@ -29,12 +29,19 @@ const COLORS = {
 
 
 
+type MealItem = {
+  name: string;
+  price: number;
+  description: string;
+  imageId: number;
+};
+
 type RestaurantGroup = {
   id: string;
   name: string;
   description: string;
   imageId: number;
-  mealImageIds: number[];
+  meals: MealItem[];
 };
 
 const imageUri = (folder: "meals" | "restaurants", id: number) => {
@@ -43,8 +50,14 @@ const imageUri = (folder: "meals" | "restaurants", id: number) => {
     : `../../public/${folder}/${id}.jpg`;
 };
 
-const createMealRange = (start: number, end: number) =>
-  Array.from({ length: end - start + 1 }, (_, i) => start + i);
+const withImageIds = (
+  startImageId: number,
+  meals: Omit<MealItem, "imageId">[]
+): MealItem[] =>
+  meals.map((meal, index) => ({
+    ...meal,
+    imageId: startImageId + index,
+  }));
 
 const restaurants: RestaurantGroup[] = [
   {
@@ -53,7 +66,60 @@ const restaurants: RestaurantGroup[] = [
     description:
       "A világ legismertebb gyorsétterme, ikonikus Big Mac, hamburger és sült krumpli.",
     imageId: 21,
-    mealImageIds: createMealRange(33, 42),
+    meals: withImageIds(33, [
+      {
+        name: "Big Mac",
+        price: 1890,
+        description:
+          "Két marhahús pogácsa, speciális szósz, sajt, saláta, uborka és hagyma",
+      },
+      {
+        name: "Cheeseburger",
+        price: 1190,
+        description:
+          "Marhahús pogácsa, cheddar sajt, mustár, ketchup, hagyma és savanyú uborka",
+      },
+      {
+        name: "McChicken",
+        price: 1490,
+        description: "Ropogós csirkefilé, saláta és majonéz",
+      },
+      {
+        name: "McNuggets 9 db",
+        price: 1590,
+        description: "Aranybarna ropogós csirkehús falatkák",
+      },
+      {
+        name: "Nagy sült krumpli",
+        price: 890,
+        description: "Frissen sütött, sós burgonyahasábok",
+      },
+      {
+        name: "Coca-Cola 0,5l",
+        price: 690,
+        description: "Klasszikus Coca-Cola",
+      },
+      {
+        name: "Filet-O-Fish",
+        price: 1690,
+        description: "Hal filé, sajt és tartár szósz",
+      },
+      {
+        name: "Double Cheeseburger",
+        price: 1790,
+        description: "Két marhahús pogácsa dupla sajttal",
+      },
+      {
+        name: "McRoyal",
+        price: 1990,
+        description: "Marhahús, bacon, sajt, saláta és speciális szósz",
+      },
+      {
+        name: "Apple Pie",
+        price: 890,
+        description: "Meleg almás pite vaníliás öntettel",
+      },
+    ]),
   },
   {
     id: "kfc",
@@ -61,23 +127,176 @@ const restaurants: RestaurantGroup[] = [
     description:
       "Ropogós, fűszeres sült csirke specialistája, az eredeti recepttel.",
     imageId: 22,
-    mealImageIds: createMealRange(43, 52),
+    meals: withImageIds(43, [
+      {
+        name: "Original Recipe Csirke (3 db)",
+        price: 2290,
+        description:
+          "A híres 11 fűszeres titkos recept szerint panírozott csirke",
+      },
+      {
+        name: "Zinger Burger",
+        price: 1890,
+        description: "Fűszeres ropogós csirkefilé, saláta és mayo",
+      },
+      {
+        name: "Twister",
+        price: 1690,
+        description: "Csíkokra vágott csirke, zöldségek és szósz wrapben",
+      },
+      {
+        name: "Hot Wings 6 db",
+        price: 1590,
+        description: "Fűszeres csirkeszárnyak",
+      },
+      {
+        name: "Csirkefalatok 8 db",
+        price: 1490,
+        description: "Ropogós csirke nuggets",
+      },
+      {
+        name: "Kentucky Burger",
+        price: 2190,
+        description: "Nagyobb méretű Original csirke filé burger",
+      },
+      {
+        name: "Coleslaw",
+        price: 690,
+        description: "Káposztasaláta majonézes öntettel",
+      },
+      {
+        name: "Nagy sült krumpli",
+        price: 890,
+        description: "KFC stílusú hasábkrumpli",
+      },
+      {
+        name: "Csokoládés muffin",
+        price: 790,
+        description: "Puha csokoládés muffin",
+      },
+      {
+        name: "Pepsi 0,5l",
+        price: 690,
+        description: "Frissítő Pepsi",
+      },
+    ]),
   },
   {
     id: "burger-king",
     name: "Burger King",
-    description:
-      "A Whopper burgereiről híres, lángon sült húsos gyorsétterem.",
+    description: "A Whopper burgereiről híres, lángon sült húsos gyorsétterem.",
     imageId: 23,
-    mealImageIds: createMealRange(53, 62),
+    meals: withImageIds(53, [
+      {
+        name: "Whopper",
+        price: 2190,
+        description:
+          "Lángon sütött marhahús, saláta, paradicsom, hagyma, savanyú uborka és mayo",
+      },
+      {
+        name: "Cheese Whopper",
+        price: 2390,
+        description: "Whopper extra cheddar sajttal",
+      },
+      {
+        name: "Chicken Royale",
+        price: 1890,
+        description: "Ropogós csirkefilé, saláta és mayo",
+      },
+      {
+        name: "Double Whopper",
+        price: 2790,
+        description: "Dupla marhahús pogácsa",
+      },
+      {
+        name: "BK Nuggets 9 db",
+        price: 1490,
+        description: "Ropogós csirke nuggets",
+      },
+      {
+        name: "Steakhouse Burger",
+        price: 2490,
+        description: "Lángon sütött hús, bacon és BBQ szósz",
+      },
+      {
+        name: "Nagy sült krumpli",
+        price: 890,
+        description: "Sós, ropogós hasábkrumpli",
+      },
+      {
+        name: "Onion Rings",
+        price: 990,
+        description: "Ropogós hagymakarikák",
+      },
+      {
+        name: "King Shake Vanília",
+        price: 1090,
+        description: "Krémesség shake vanília ízben",
+      },
+      {
+        name: "Coca-Cola 0,5l",
+        price: 690,
+        description: "Klasszikus üdítő",
+      },
+    ]),
   },
   {
     id: "subway",
     name: "Subway",
-    description:
-      "Friss szendvicsek és wrapek, saját összeállítással.",
+    description: "Friss szendvicsek és wrapek, saját összeállítással.",
     imageId: 24,
-    mealImageIds: createMealRange(63, 72),
+    meals: withImageIds(63, [
+      {
+        name: "Italian B.M.T.",
+        price: 2190,
+        description: "Pepperoni, szalámi, sonka, sajt, zöldségek",
+      },
+      {
+        name: "Chicken Teriyaki",
+        price: 2290,
+        description: "Édes teriyaki mártásos csirke, zöldségek",
+      },
+      {
+        name: "Tuna",
+        price: 1990,
+        description: "Tonhal saláta, sajt és zöldségek",
+      },
+      {
+        name: "Veggie Delite",
+        price: 1690,
+        description: "Friss zöldségek és sajt",
+      },
+      {
+        name: "Steak & Cheese",
+        price: 2390,
+        description: "Marhasült, olvasztott sajt és zöldségek",
+      },
+      {
+        name: "Chicken Classic",
+        price: 2090,
+        description: "Grillezett csirke filé",
+      },
+      {
+        name: "Cookies 3 db",
+        price: 790,
+        description: "Csokis keksz",
+      },
+      {
+        name: "Chips",
+        price: 590,
+        description: "Klasszikus krumplichips",
+      },
+      {
+        name: "Coca-Cola 0,5l",
+        price: 690,
+        description: "Üdítőital",
+      },
+      {
+        name: "6 inch Szendvics menü",
+        price: 2690,
+        description: "Bármely 6 inch szendvics + ital + chips",
+      },
+    ]),
   },
   {
     id: "pizza-hut",
@@ -85,47 +304,350 @@ const restaurants: RestaurantGroup[] = [
     description:
       "Vastag és vékony tésztás pizzák, klasszikus családi pizzaélmény.",
     imageId: 25,
-    mealImageIds: createMealRange(73, 82),
+    meals: withImageIds(73, [
+      {
+        name: "Margherita Pizza (közepes)",
+        price: 2490,
+        description: "Paradicsomszósz, mozzarella és bazsalikom",
+      },
+      {
+        name: "Pepperoni Pizza (közepes)",
+        price: 2890,
+        description: "Bőséges pepperoni és mozzarella",
+      },
+      {
+        name: "Hawaii Pizza (közepes)",
+        price: 2790,
+        description: "Sonka, ananász és sajt",
+      },
+      {
+        name: "Meat Lovers (közepes)",
+        price: 3190,
+        description: "Négyféle hús és extra sajt",
+      },
+      {
+        name: "Csirke BBQ Pizza (közepes)",
+        price: 2990,
+        description: "BBQ szósz, grillezett csirke és vöröshagyma",
+      },
+      {
+        name: "Garlic Breadsticks",
+        price: 1190,
+        description: "Fokhagymás kenyér rudak",
+      },
+      {
+        name: "Caesar Saláta",
+        price: 1490,
+        description: "Ropogós saláta, parmezán és kruton",
+      },
+      {
+        name: "Tiramisu",
+        price: 890,
+        description: "Klasszikus olasz desszert",
+      },
+      {
+        name: "Cola 0,5l",
+        price: 690,
+        description: "Üdítő",
+      },
+      {
+        name: "Cheese Sticks",
+        price: 1390,
+        description: "Ropogós sajtos rudak",
+      },
+    ]),
   },
   {
     id: "dominos",
     name: "Domino's Pizza",
-    description:
-      "Gyors házhozszállításra specializált pizzalánc.",
+    description: "Gyors házhozszállításra specializált pizzalánc.",
     imageId: 26,
-    mealImageIds: createMealRange(83, 92),
+    meals: withImageIds(83, [
+      {
+        name: "Extravaganzza",
+        price: 3290,
+        description: "Pepperoni, kolbász, sonka, gomba, paprika, hagyma",
+      },
+      {
+        name: "Magyaros",
+        price: 2990,
+        description: "Kolbász, szalonna, hagyma, paprika és sajt",
+      },
+      {
+        name: "Hawaii",
+        price: 2790,
+        description: "Sonka és ananász",
+      },
+      {
+        name: "BBQ Csirke",
+        price: 3090,
+        description: "BBQ szósz, grillezett csirke és vöröshagyma",
+      },
+      {
+        name: "Quattro Formaggi",
+        price: 2890,
+        description: "Négyféle sajt",
+      },
+      {
+        name: "Fűszeres Csirke",
+        price: 2990,
+        description: "Csirke, jalapeño, hagyma és csípős szósz",
+      },
+      {
+        name: "Garlic Dip",
+        price: 490,
+        description: "Fokhagymás mártogatós",
+      },
+      {
+        name: "Coca-Cola 0,5l",
+        price: 690,
+        description: "Üdítő",
+      },
+      {
+        name: "Csokis Brownie",
+        price: 990,
+        description: "Meleg csokis süti",
+      },
+      {
+        name: "Cheesy Bread",
+        price: 1490,
+        description: "Sajtos kenyér",
+      },
+    ]),
   },
   {
     id: "starbucks",
     name: "Starbucks",
-    description:
-      "Kávézólánc szendvicsekkel, péksüteményekkel és italokkal.",
+    description: "Kávézólánc szendvicsekkel, péksüteményekkel és italokkal.",
     imageId: 27,
-    mealImageIds: createMealRange(93, 102),
+    meals: withImageIds(93, [
+      {
+        name: "Grilled Chicken & Avocado Wrap",
+        price: 1890,
+        description: "Grillezett csirke, avocado és zöldségek",
+      },
+      {
+        name: "Turkey & Cheese Croissant",
+        price: 1590,
+        description: "Pulyka és sajt croissantban",
+      },
+      {
+        name: "Egg & Cheese Sandwich",
+        price: 1390,
+        description: "Rántotta és sajt szendvics",
+      },
+      {
+        name: "Blueberry Muffin",
+        price: 890,
+        description: "Áfonyás muffin",
+      },
+      {
+        name: "Chocolate Chip Cookie",
+        price: 790,
+        description: "Csokis keksz",
+      },
+      {
+        name: "Greek Yogurt Parfait",
+        price: 1290,
+        description: "Görög joghurt, granola és gyümölcs",
+      },
+      {
+        name: "Ham & Cheese Panini",
+        price: 1690,
+        description: "Sonka és sajt panini",
+      },
+      {
+        name: "Caesar Salad",
+        price: 1790,
+        description: "Caesar saláta grillezett csirkével",
+      },
+      {
+        name: "Banana Bread",
+        price: 990,
+        description: "Banános kenyér",
+      },
+      {
+        name: "Matcha Cake Pop",
+        price: 690,
+        description: "Matcha ízű mini torta",
+      },
+    ]),
   },
   {
     id: "taco-bell",
     name: "Taco Bell",
-    description:
-      "Mexikói ihletésű tacos, burritók és quesadillák.",
+    description: "Mexikói ihletésű tacos, burritók és quesadillák.",
     imageId: 28,
-    mealImageIds: createMealRange(103, 112),
+    meals: withImageIds(103, [
+      {
+        name: "Crunchy Taco",
+        price: 890,
+        description: "Ropogós taco marhahússal, sajttal és salátával",
+      },
+      {
+        name: "Burrito Supreme",
+        price: 1590,
+        description: "Nagy burrito babbal, hússal, sajttal és szószokkal",
+      },
+      {
+        name: "Quesadilla",
+        price: 1390,
+        description: "Grillezett tortilla sajttal és csirkével",
+      },
+      {
+        name: "Nachos BellGrande",
+        price: 1690,
+        description: "Nagy adag nachos sajttal, babbal és jalapeñoval",
+      },
+      {
+        name: "Cheesy Gordita Crunch",
+        price: 1490,
+        description: "Puha és ropogós tortilla extra sajttal",
+      },
+      {
+        name: "7-Layer Burrito",
+        price: 1390,
+        description: "Hét rétegű vegetáriánus burrito",
+      },
+      {
+        name: "Cinnamon Twists",
+        price: 690,
+        description: "Fahéjas édes csavart csíkok",
+      },
+      {
+        name: "Chips & Guacamole",
+        price: 890,
+        description: "Nachos guacamoléval",
+      },
+      {
+        name: "Mountain Dew 0,5l",
+        price: 690,
+        description: "Üdítő",
+      },
+      {
+        name: "Crunchwrap Supreme",
+        price: 1690,
+        description: "Tortilla wrap ropogós réteggel",
+      },
+    ]),
   },
   {
     id: "wendys",
     name: "Wendy's",
-    description:
-      "Friss, négyzet alakú hamburgerek és csirkés szendvicsek.",
+    description: "Friss, négyzet alakú hamburgerek és csirkés szendvicsek.",
     imageId: 29,
-    mealImageIds: createMealRange(113, 122),
+    meals: withImageIds(113, [
+      {
+        name: "Dave's Single",
+        price: 2190,
+        description:
+          "Négyzet alakú marhahús, sajt, saláta, paradicsom és mayo",
+      },
+      {
+        name: "Spicy Chicken Sandwich",
+        price: 1990,
+        description: "Fűszeres ropogós csirke szendvics",
+      },
+      {
+        name: "Baconator",
+        price: 2790,
+        description: "Dupla hús, sok bacon és sajt",
+      },
+      {
+        name: "Chicken Nuggets 10 db",
+        price: 1590,
+        description: "Ropogós csirke nuggets",
+      },
+      {
+        name: "Chili",
+        price: 1490,
+        description: "Húsos babos chili",
+      },
+      {
+        name: "French Fries",
+        price: 890,
+        description: "Sós hasábkrumpli",
+      },
+      {
+        name: "Baked Potato",
+        price: 1290,
+        description: "Sült krumpli tejföllel és sajttal",
+      },
+      {
+        name: "Frosty Vanília",
+        price: 1090,
+        description: "Krémfagyi shake",
+      },
+      {
+        name: "Apple Bites",
+        price: 690,
+        description: "Almafalatkák",
+      },
+      {
+        name: "Caesar Salad",
+        price: 1790,
+        description: "Caesar saláta grillezett csirkével",
+      },
+    ]),
   },
   {
     id: "chick-fil-a",
     name: "Chick-fil-A",
-    description:
-      "Csirkés szendvicsek specialistája, főleg az USA-ban népszerű.",
+    description: "Csirkés szendvicsek specialistája, főleg az USA-ban népszerű.",
     imageId: 30,
-    mealImageIds: createMealRange(123, 132),
+    meals: withImageIds(123, [
+      {
+        name: "Chicken Sandwich",
+        price: 1890,
+        description:
+          "Ropogós csirkefilé, savanyú uborka és speciális szósz",
+      },
+      {
+        name: "Spicy Chicken Sandwich",
+        price: 1990,
+        description: "Fűszeres változat a klasszikus szendvicsből",
+      },
+      {
+        name: "Chicken Nuggets 8 db",
+        price: 1590,
+        description: "Extra ropogós csirke falatkák",
+      },
+      {
+        name: "Chicken Deluxe Sandwich",
+        price: 2190,
+        description: "Csirke szendvics salátával, paradicsommal és sajttal",
+      },
+      {
+        name: "Waffle Fries",
+        price: 990,
+        description: "Rácsos formájú sült krumpli",
+      },
+      {
+        name: "Grilled Chicken Sandwich",
+        price: 1990,
+        description: "Grillezett csirkefilé szendvics",
+      },
+      {
+        name: "Chicken Biscuit",
+        price: 1490,
+        description: "Csirke reggeli kekszben",
+      },
+      {
+        name: "Mac & Cheese",
+        price: 1290,
+        description: "Krémés sajtos tészta",
+      },
+      {
+        name: "Lemonade",
+        price: 790,
+        description: "Friss házi limonádé",
+      },
+      {
+        name: "Chocolate Chunk Cookie",
+        price: 890,
+        description: "Nagy csokidarabos keksz",
+      },
+    ]),
   },
 ];
 
@@ -245,7 +767,7 @@ const filteredRestaurants = restaurants.filter((restaurant) => {
                 {restaurant.description}
               </Text>
               <Text style={styles.restaurantCount}>
-                {restaurant.mealImageIds.length} meals available
+                {restaurant.meals.length} meals available
               </Text>
             </View>
           </View>
@@ -253,26 +775,31 @@ const filteredRestaurants = restaurants.filter((restaurant) => {
           <View style={styles.sectionHeader}>
             <Text style={styles.sectionTitle}>{restaurant.name} menu</Text>
             <Text style={styles.sectionMeta}>
-              {restaurant.mealImageIds.length} items
+              {restaurant.meals.length} items
             </Text>
           </View>
 
           <View style={styles.mealGrid}>
-            {restaurant.mealImageIds.map((imageId, index) => (
-              <View key={imageId} style={styles.mealCard}>
-                <Image
-                  source={{ uri: imageUri("meals", imageId) }}
-                  style={styles.mealImage}
-                />
+            {restaurant.meals.map((meal) => (
+  <View key={meal.imageId} style={styles.mealCard}>
+    <Image
+      source={{ uri: imageUri("meals", meal.imageId) }}
+      style={styles.mealImage}
+    />
 
-                <View style={styles.mealCardBody}>
-                  <Text style={styles.mealName} numberOfLines={1}>
-                    {restaurant.name} meal #{index + 1}
-                  </Text>
-                  <Text style={styles.mealMeta}>Image ID: {imageId}</Text>
-                </View>
-              </View>
-            ))}
+    <View style={styles.mealCardBody}>
+      <Text style={styles.mealName} numberOfLines={1}>
+        {meal.name}
+      </Text>
+
+      <Text style={styles.mealDescription} numberOfLines={2}>
+        {meal.description}
+      </Text>
+
+      <Text style={styles.mealPrice}>{meal.price} Ft</Text>
+    </View>
+  </View>
+))}
           </View>
         </View>
       ))}
@@ -626,6 +1153,19 @@ restaurantCount: {
   color: COLORS.gold,
   fontSize: 12,
   fontWeight: "800",
+  marginTop: 8,
+},
+mealDescription: {
+  color: COLORS.muted,
+  fontSize: 11,
+  lineHeight: 15,
+  marginTop: 4,
+},
+
+mealPrice: {
+  color: COLORS.gold,
+  fontSize: 13,
+  fontWeight: "900",
   marginTop: 8,
 },
 });

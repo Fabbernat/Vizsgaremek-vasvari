@@ -22,8 +22,8 @@ import ProfileIconButton from "./ProfileIconButton";
 import { getMealImage } from "@/constants/MealImages";
 import { Meal } from "@/models/meal";
 import Toast from "react-native-toast-message";
-import SettingsIconButton from "./SettingsIconButton";
 import SkeletonMealCard from "./SkeletonMealCard";
+import SettingsIconButton from "./SettingsIconButton";
 
 const COLORS = {
   bg: "#0f0e0c",

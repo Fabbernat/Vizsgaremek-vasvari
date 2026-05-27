@@ -1,8 +1,8 @@
 {
   "name": "courier-app-jav",
   "version": "1.0.0",
-  "main": "expo-router/entry"
-,  "scripts": {
+  "main": "expo-router/entry",
+  "scripts": {
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
@@ -21,6 +21,7 @@
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "react-native": "0.83.6",
+    "react-native-toast-message": "^2.3.3",
     "react-native-web": "^0.21.0",
     "react-router-dom": "^7.15.1",
     "react-toastify": "^11.1.0"

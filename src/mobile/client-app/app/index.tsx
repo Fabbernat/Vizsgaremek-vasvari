@@ -1,8 +1,8 @@
 // client-app\app\index.tsx
 import { Stack } from "expo-router";
 import { ScrollView } from "react-native";
-import HomeScreen from "./(app)/HomeScreen";
 import Contact from "./(app)/Contact";
+import HomeScreen from "./(app)/HomeScreen";
 
 export default function Index() {
   return (
