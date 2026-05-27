@@ -1,10 +1,14 @@
 // client-app\app\index.tsx
 import { Stack } from "expo-router";
-import { ScrollView } from "react-native";
+import { ScrollView} from "react-native";
 import Contact from "./(app)/Contact";
 import HomeScreen from "./(app)/HomeScreen";
 
+
 export default function Index() {
+  
+  
+  
   return (
     <ScrollView>
       {/* <DebugDashboard /> */}
@@ -17,6 +21,7 @@ export default function Index() {
           headerRight: undefined, // explicitly no home button
         }}
       />
+      
       <HomeScreen />
       <Contact />
     </ScrollView>

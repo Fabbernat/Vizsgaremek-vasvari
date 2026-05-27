@@ -320,10 +320,11 @@ const styles = StyleSheet.create({
   brandSub: { fontSize: 13, fontWeight: "500", marginTop: 2 },
 
   card: {
-    borderRadius: 18,
+    borderRadius: 16,
     borderWidth: 1,
     overflow: "hidden",
     marginBottom: 16,
+    padding: 20
   },
 
   sectionHeader: {

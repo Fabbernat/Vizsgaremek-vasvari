@@ -15,15 +15,11 @@ import {
   Text,
   View,
 } from "react-native";
-import RestaurantsButton from "./RestaurantsButton";
-import Cart from "./CartIconButton";
-import ProfileIconButton from "./ProfileIconButton";
 
 import { getMealImage } from "@/constants/MealImages";
 import { Meal } from "@/models/meal";
 import Toast from "react-native-toast-message";
 import SkeletonMealCard from "./SkeletonMealCard";
-import SettingsIconButton from "./SettingsIconButton";
 
 const COLORS = {
   bg: "#0f0e0c",
@@ -353,12 +349,7 @@ export default function HomeScreen() {
             style={HomeScreenStyles.crown}
           />
         </Animated.View>
-        <View style={HomeScreenStyles.topActions}>
-          <RestaurantsButton style={HomeScreenStyles.iconBtn} />
-          <Cart style={HomeScreenStyles.iconBtn} />
-          <ProfileIconButton style={HomeScreenStyles.iconBtn} />
-          <SettingsIconButton style={HomeScreenStyles.iconBtn} />
-        </View>
+        
       </View>
 
       {/* Hero section */}
