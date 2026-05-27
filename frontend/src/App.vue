@@ -118,8 +118,6 @@ const isSite = computed(() => true)
 
     <!-- HOME tartalom -->
     <header class="hero">
-      <h1>Mit ennél ma?</h1>
-      <h2>Rendelj gyorsan és egyszerűen kedvenc ételeid közül</h2>
     </header>
 
     <main class="menu">
