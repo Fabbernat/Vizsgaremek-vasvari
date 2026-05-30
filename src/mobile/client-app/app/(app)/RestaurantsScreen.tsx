@@ -29,7 +29,7 @@ const COLORS = {
 
 
 
-type MealItem = {
+type ThisFilesMealItem = {
   name: string;
   price: number;
   description: string;
@@ -41,7 +41,7 @@ type RestaurantGroup = {
   name: string;
   description: string;
   imageId: number;
-  meals: MealItem[];
+  meals: ThisFilesMealItem[];
 };
 
 const imageUri = (folder: "meals" | "restaurants", id: number) => {
@@ -52,14 +52,14 @@ const imageUri = (folder: "meals" | "restaurants", id: number) => {
 
 const withImageIds = (
   startImageId: number,
-  meals: Omit<MealItem, "imageId">[]
-): MealItem[] =>
+  meals: Omit<ThisFilesMealItem, "imageId">[]
+): ThisFilesMealItem[] =>
   meals.map((meal, index) => ({
     ...meal,
     imageId: startImageId + index,
   }));
 
-const restaurants: RestaurantGroup[] = [
+export const restaurants: RestaurantGroup[] = [
   {
     id: "mcdonalds",
     name: "McDonald's",

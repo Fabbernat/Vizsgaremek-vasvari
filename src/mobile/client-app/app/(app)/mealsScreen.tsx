@@ -1,4 +1,4 @@
-// client-app/app/MealsScreen.tsx
+// client-app\app\(app)\MealsScreen.tsx
 import { router } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import {
@@ -18,6 +18,7 @@ import SkeletonMealCard from './SkeletonMealCard';
 import { useMeals } from '@/hooks/useMeals';
 import { getMealImage } from '@/constants/MealImages';
 import { Meal } from '@/models/meal';
+import { restaurants } from './RestaurantsScreen';
 
 const COLORS = {
     bg: '#0f0e0c',
@@ -33,7 +34,7 @@ const COLORS = {
     muted: '#9c9178',
 };
 
-type MealItem = {
+export type MealItem = {
     id: string;
     name: string;
     description: string;
@@ -336,7 +337,7 @@ export default function MealsScreen() {
         });
     };
 
-    const sourceMeals = (meals?.length ? meals : inMemoryMeals).map(normalizeMeal);
+    const sourceMeals = [...mealsData, ...inMemoryMeals, ...meals, ...restaurants.flatMap((r) => r.meals)].map(normalizeMeal);
 
     const filteredMeals = sourceMeals
         .filter((meal) => {
