@@ -1,4 +1,4 @@
-// client-app\(app)\app\(app)\homeScreen.tsx
+// client-app\app\(app)\homeScreen.tsx
 import { useMeals } from "@/hooks/useMeals";
 import { setGlobalIsLoggedIn, useGlobalAuth } from "@/stores/AuthStore";
 import { addToGuestCart } from "@/stores/CartStore";
@@ -466,6 +466,7 @@ export default function HomeScreen() {
         ) : (
           <View>
             <Pressable 
+            onPress={() => router.push("/SubscriptionScreen")}
             style={({ pressed }) => [
               HomeScreenStyles.authBtn,
               HomeScreenStyles.logoutBtn,
