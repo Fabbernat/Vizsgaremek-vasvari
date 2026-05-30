@@ -5,7 +5,6 @@ import {
     ActivityIndicator,
     Alert,
     Animated,
-    Image,
     KeyboardAvoidingView,
     Platform,
     Pressable,

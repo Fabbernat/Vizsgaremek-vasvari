@@ -324,7 +324,7 @@ function MealCard({ item, index, onAddToCart }: MealCardProps) {
 
 export default function MealsScreen() {
     const { meals, loading } = useMeals();
-    const [inMemoryMeals, setMeals] = useState<any[]>([]);
+    const [inMemoryMeals] = useState<any[]>([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [activeFilter, setActiveFilter] = useState<string | null>(null);
     const [sortOption, setSortOption] = useState<SortOption>('none');

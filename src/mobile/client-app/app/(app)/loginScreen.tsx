@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from 'react';
 import {
     Alert,
     Animated,
-    Image,
     KeyboardAvoidingView,
     Platform,
     Pressable,
@@ -27,12 +26,6 @@ const COLORS = {
     text: '#f5f0e8',
     muted: '#9c9178',
     placeholder: '#5a5545',
-};
-
-type Props = {
-    style?: any;
-    isLoggedIn: boolean;
-    setIsLoggedIn: (v: boolean) => void;
 };
 
 function AnimatedInput({
@@ -81,7 +74,7 @@ function AnimatedInput({
     );
 }
 
-export default function LoginScreen({ isLoggedIn, setIsLoggedIn }: Props) {
+export default function LoginScreen() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);

@@ -3,7 +3,6 @@ import { router } from "expo-router";
 import {
     Alert,
     FlatList,
-    Image,
     Pressable,
     StyleSheet,
     Text,

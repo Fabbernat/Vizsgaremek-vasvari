@@ -3,7 +3,6 @@ import { router } from "expo-router";
 import { useRef, useState } from "react";
 import {
     Animated,
-    Image,
     KeyboardAvoidingView,
     Platform,
     Pressable,
