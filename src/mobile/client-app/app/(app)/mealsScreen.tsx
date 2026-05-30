@@ -259,13 +259,11 @@ function MealCard({ item, index, onAddToCart }: MealCardProps) {
         ]).start();
     }, [fade, index, slide]);
 
-    const handleAddToCart = (item: Meal) => {
-        if (item.restaurant_id !== undefined) {
-            addToGuestCart(item, quantity);
-            onAddToCart(item.name, quantity);
-            setQuantity(1);
-        }
-    };
+    const handleAddToCart = (item: MealItem) => {
+  addToGuestCart(item as Meal, quantity);
+  onAddToCart(item.name, quantity);
+  setQuantity(1);
+};
 
     return (
         <Animated.View
@@ -308,12 +306,8 @@ function MealCard({ item, index, onAddToCart }: MealCardProps) {
                 </View>
 
                 <Pressable
-                    onPress={() => {
-                        if (item.restaurant_id !== undefined) {
-                            handleAddToCart(item as Meal);
-                        }
-                    }}
-                    style={({ pressed }) => [styles.cartBtn, pressed && styles.btnPressed]}
+                  onPress={() => handleAddToCart(item as Meal)}
+                  style={({ pressed }) => [styles.cartBtn, pressed && styles.btnPressed]}
                 >
                     <Text style={styles.cartBtnText}>+ Kosárba</Text>
                 </Pressable>
