@@ -379,10 +379,7 @@ export default function MealsScreen() {
       </Pressable>
 
       <View style={styles.brandRow}>
-        <Image
-          source={require("../../assets/mine/icons/royal-delivery-logo.png")}
-          style={styles.crown}
-        />
+        
         <Text style={styles.brandName}>Royal Delivery</Text>
       </View>
 

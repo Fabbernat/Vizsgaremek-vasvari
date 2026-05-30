@@ -684,20 +684,19 @@ const filteredRestaurants = restaurants.filter((restaurant) => {
       contentContainerStyle={styles.content}
     >
       <Pressable onPress={() => router.back()} style={styles.backBtn}>
-        <Text style={styles.backText}>← Back</Text>
+        <Text style={styles.backText}>← Vissza</Text>
       </Pressable>
 
       <View style={styles.hero}>
-        <Text style={styles.eyebrow}>Restaurants</Text>
-        <Text style={styles.heading}>Choose a restaurant</Text>
+        <Text style={styles.eyebrow}>Éttermek</Text>
+        <Text style={styles.heading}>Válassz éttermet</Text>
         <Text style={styles.subheading}>
-          Browse meals grouped by restaurant. Tap a restaurant filter to focus
-          on one menu.
+          Nézd meg az éttermekhez tartozó menüket. Kattints egy étteremre a menü fókuszálásához.
         </Text>
       </View>
 
       <TextInput
-        placeholder="Search restaurants..."
+        placeholder="Éttermek keresése..."
         placeholderTextColor={COLORS.muted}
         value={searchQuery}
         onChangeText={setSearchQuery}
@@ -722,7 +721,7 @@ const filteredRestaurants = restaurants.filter((restaurant) => {
               selectedRestaurantId === null && styles.navChipTextActive,
             ]}
           >
-            All
+            Összes
           </Text>
         </Pressable>
 
@@ -749,8 +748,7 @@ const filteredRestaurants = restaurants.filter((restaurant) => {
       </ScrollView>
 
       <Text style={styles.resultText}>
-        Showing {filteredRestaurants.length} restaurant
-        {filteredRestaurants.length === 1 ? "" : "s"}
+        {filteredRestaurants.length} étterem található
       </Text>
 
       {filteredRestaurants.map((restaurant) => (
@@ -767,15 +765,15 @@ const filteredRestaurants = restaurants.filter((restaurant) => {
                 {restaurant.description}
               </Text>
               <Text style={styles.restaurantCount}>
-                {restaurant.meals.length} meals available
+                {restaurant.meals.length} étel található
               </Text>
             </View>
           </View>
 
           <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>{restaurant.name} menu</Text>
+            <Text style={styles.sectionTitle}>{restaurant.name} menü</Text>
             <Text style={styles.sectionMeta}>
-              {restaurant.meals.length} items
+              {restaurant.meals.length} étel
             </Text>
           </View>
 

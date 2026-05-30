@@ -62,10 +62,7 @@ export default function CartScreen() {
       </Pressable>
       {/* ── Brand header ── */}
       <View style={styles.brandRow}>
-        <Image
-          source={require("../../assets/mine/icons/royal-delivery-logo.png")}
-          style={styles.crown}
-        />
+        
       </View>
 
       {/* ── Page title + clear button ── */}

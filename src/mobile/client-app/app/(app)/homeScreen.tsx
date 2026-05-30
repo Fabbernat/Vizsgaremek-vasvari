@@ -344,10 +344,6 @@ export default function HomeScreen() {
         <Animated.View
           style={{ opacity: headerAnim, transform: [{ translateY: logoAnim }] }}
         >
-          <Image
-            source={require("../../assets/mine/icons/royal-delivery-logo.png")}
-            style={HomeScreenStyles.crown}
-          />
         </Animated.View>
         
       </View>
@@ -468,6 +464,18 @@ export default function HomeScreen() {
             </Pressable>
           </View>
         ) : (
+          <View>
+            <Pressable 
+            style={({ pressed }) => [
+              HomeScreenStyles.authBtn,
+              HomeScreenStyles.logoutBtn,
+              {
+                backgroundColor: colors.surface,
+                borderColor: colors.border,
+              },
+              pressed && HomeScreenStyles.btnPressed,
+            ]}
+            >Havi előfizetés vásárlása</Pressable>
           <Pressable
             onPress={logout}
             style={({ pressed }) => [
@@ -489,6 +497,7 @@ export default function HomeScreen() {
               Kijelentkezés
             </Text>
           </Pressable>
+          </View>
         )}
       </View>
     </View>

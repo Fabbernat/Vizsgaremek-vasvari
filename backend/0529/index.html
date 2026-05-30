@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Royal Delivery - Premium Rendelesi Rendszer</title>
+    <link href="https://jsdelivr.net" rel="stylesheet" />
+    <style>
+        :root {
+            --royal-blue: #0A1931;
+            --royal-gold: #996515;
+            --royal-light-gold: #D4AF37;
+            --royal-dark: #15305B;
+        }
+        body { background-color: #F8F9FA; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .navbar-royal { background-color: var(--royal-blue); border-bottom: 3px solid var(--royal-gold); }
+        .text-gold { color: var(--royal-light-gold); }
+        .btn-royal { background-color: var(--royal-gold); color: #FFFFFF; font-weight: 600; border: none; transition: 0.2s; }
+        .btn-royal:hover { background-color: #7A5010; color: #FFFFFF; }
+        .card-menu { border: none; border-radius: 8px; transition: transform 0.2s, box-shadow 0.2s; background: #FFFFFF; }
+        .card-menu:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .section-title { color: var(--royal-blue); font-weight: 700; border-left: 4px solid var(--royal-gold); padding-left: 10px; }
+        .nav-pills .nav-link.active { background-color: var(--royal-blue); color: var(--royal-light-gold); border: 1px solid var(--royal-gold); }
+        .nav-pills .nav-link { color: var(--royal-blue); font-weight: 600; margin-right: 10px; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-dark navbar-royal mb-4 shadow-sm">
+        <div class="container">
+            <span class="navbar-brand mb-0 h1 text-uppercase tracking-wider">Royal Delivery Application</span>
+        </div>
+    </nav>
+
+    <div class="container">
+        <ul class="nav nav-pills mb-4 justify-content-center" id="pills-tab" role="tablist">
+            <li class="nav-item">
+                <button class="nav-link active" id="pills-client-tab" data-bs-toggle="pill" data-bs-target="#pills-client" type="button">Etlap es Rendeles</button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link" id="pills-admin-tab" data-bs-toggle="pill" data-bs-target="#pills-admin" type="button" onclick="fetchOrdersFromServer()">Rendeleskovetes (Admin)</button>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="pills-tabContent">
+            <!-- VEEGHPONT 1: KLIENS INTEREFEESZ -->
+            <div class="tab-pane fade show active" id="pills-client" role="tabpanel">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <h4 class="section-title mb-4">Kinalatunk</h4>
+                        <div class="row" id="menuViewContainer"></div>
+                    </div>
+                    <div class="col-lg-4">
+                        <h4 class="section-title mb-4">Kosar</h4>
+                        <div class="card p-3 shadow-sm mb-4 border-0">
+                            <ul class="list-group list-group-flush mb-3" id="cartItemsList">
+                                <li class="list-group-item text-muted text-center py-3">A kosar jelenleg ures.</li>
+                            </ul>
+                            <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                                <span class="fw-bold">Vegosszeg:</span>
+                                <span class="fw-bold text-success fs-5" id="cartTotalDisplay">0 Ft</span>
+                            </div>
+                        </div>
+
+                        <h4 class="section-title mb-4">Szallitasi Adatok</h4>
+                        <div class="card p-3 shadow-sm border-0">
+                            <div class="mb-3">
+                                <label for="clientNameInput" class="form-label small text-muted">Megrendelo neve</label>
+                                <input type="text" class="form-control" id="clientNameInput" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="clientAddressInput" class="form-label small text-muted">Pontos cim</label>
+                                <input type="text" class="form-control" id="clientAddressInput" required>
+                            </div>
+                            <button class="btn btn-royal w-100 py-2 btn-lg" onclick="sendOrderToServer()">Rendeles Veglegesitese</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VEEGHPONT 2: ADMIN INTEREFEESZ -->
+            <div class="tab-pane fade" id="pills-admin" role="tabpanel">
+                <h4 class="section-title mb-4">Rendszerben levo rendelesek</h4>
+                <div class="card border-0 shadow-sm p-3">
+                    <div class="table-responsive">
+                        <table class="table table-striped align-middle">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Azonosito</th>
+                                    <th>Nev</th>
+                                    <th>Cim</th>
+                                    <th>Tetekek</th>
+                                    <th>Osszeg</th>
+                                    <th>Idobelyeg</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminOrdersTableBody">
+                                <tr><td colspan="6" class="text-center text-muted">Nincs megjelenitheto adat.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://jsdelivr.net"></script>
+    <script>
+        const BASE_API_URL = "http://localhost:3000/api";
+        let localMenuStorage = [];
+        let userCart = [];
+
+        // Adatlekeres a szerverrol (GET /api/menu)
+        async function fetchMenuFromServer() {
+            try {
+                const response = await fetch(`${BASE_API_URL}/menu`);
+                if (!response.ok) throw new Error("Hiba az adatok lekeresekor.");
+                localMenuStorage = await response.ok ? await response.json() : [];
+                renderMenuView();
+            } catch (error) {
+                console.error("Szerver kapcsolodasi hiba:", error);
+            }
+        }
+
+        function renderMenuView() {
+            const container = document.getElementById("menuViewContainer");
+            container.innerHTML = "";
+            localMenuStorage.forEach(item => {
+                container.innerHTML += `
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100 card-menu shadow-sm">
+                            <div class="card-body d-flex flex-column justify-content-between">
+                                <div>
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <h5 class="card-title fw-bold m-0" style="color: var(--royal-blue);">${item.name}</h5>
+                                        <span class="badge bg-secondary">${item.category}</span>
+                                    </div>
+                                    <p class="card-text text-muted small mb-3">${item.description}</p>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                                    <span class="fw-bold fs-5 text-dark">${item.price.toLocaleString()} Ft</span>
+                                    <button class="btn btn-royal btn-sm px-3" onclick="addItemToCart(${item.id})">Kosarba</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+            });
+        }
+
+        function addItemToCart(id) {
+            const selectedItem = localMenuStorage.find(item => item.id === id);
+            if (selectedItem) {
+                userCart.push(selectedItem);
+                refreshCartInterface();
+            }
+        }
+
+        function refreshCartInterface() {
+            const list = document.getElementById("cartItemsList");
+            const totalDisplay = document.getElementById("cartTotalDisplay");
+            list.innerHTML = "";
+
+            if (userCart.length === 0) {
+                list.innerHTML = `<li class="list-group-item text-muted text-center py-3">A kosar jelenleg ures.</li>`;
+                totalDisplay.innerText = "0 Ft";
+                return;
+            }
+
+            let totalValue = 0;
+            userCart.forEach(item => {
+                totalValue += item.price;
+                list.innerHTML += `
+                    <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                        <span class="small fw-semibold text-dark">${item.name}</span>
+                        <span class="text-muted small">${item.price.toLocaleString()} Ft</span>
+                    </li>`;
+            });
+            totalDisplay.innerText = `${totalValue.toLocaleString()} Ft`;
+        }
+
+        // Adatkuldes a szerverre (POST /api/orders)
+        async function sendOrderToServer() {
+            const nameInput = document.getElementById("clientNameInput").value;
+            const addressInput = document.getElementById("clientAddressInput").value;
+            
+            if (!nameInput.trim() || !addressInput.trim() || userCart.length === 0) {
+                alert("Kérjük, toltsön ki minden adatot es helyezzen elemet a kosárba.");
+                return;
+            }
+
+            const itemChain = userCart.map(item => item.name).join(", ");
+const totalSum = userCart.reduce((sum, item) => sum + item.price, 0);
+try {
+const response = await fetch(`${BASE_API_URL}/orders`, {
+method: "POST",
+headers: { "Content-Type": "application/json" },
+body: JSON.stringify({
+name: nameInput,
+address: addressInput,
+items: itemChain,
+total: totalSum
+})
+});
+const data = await response.json();
+if (response.ok && data.success) {
+alert("Rendelés sikeresen mentve. Azonosító: #" + data.orderId);
+userCart = [];
+refreshCartInterface();
+document.getElementById("clientNameInput").value = "";
+document.getElementById("clientAddressInput").value = "";
+} else {
+alert("Hiba: " + data.error);
+}
+} catch (error) {
+alert("Hiba történt a hálózati kommunikáció során.");
+}
+}
+// Rendelesek lekerese az admin feluletre (GET /api/orders)
+async function fetchOrdersFromServer() {
+try {
+const response = await fetch(`${BASE_API_URL}/orders`);
+const orders = await response.json();
+const tableBody = document.getElementById("adminOrdersTableBody");
+tableBody.innerHTML = "";
+if (orders.length === 0) {
+tableBody.innerHTML = `<tr><td colspan="6" class="text-center text-muted">Nincs beérkezett rendelés.</td></tr>`;
+return;
+}
+orders.forEach(order => {
+tableBody.innerHTML += `<tr> <td><strong>#${order.id}</strong></td> <td>${order.customer_name}</td> <td>${order.delivery_address}</td> <td><span class="text-muted small">${order.ordered_items}</span></td> <td class="fw-bold">${order.total_amount.toLocaleString()} Ft</td> <td class="small text-muted">${order.order_time}</td> </tr>`;
+});
+} catch (error) {
+console.error("Admin adatok lekérési hibája:", error);
+}
+}
+// Inicializalas az oldal betoltesekor
+fetchMenuFromServer();
+    </script>
