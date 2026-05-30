@@ -99,29 +99,35 @@ export default function LoginScreen() {
 
     // ── Real Supabase login (with signUp workaround) ──────────────────────────
     async function handleLogin(overrideEmail?: string, overridePassword?: string) {
-        const _email = overrideEmail ?? ((email !== undefined ? email : '') as string);
-        const _password = overridePassword ?? ((password !== undefined ? password : '') as string);
+  const _email = (overrideEmail ?? email).trim();
+  const _password = overridePassword ?? password;
 
-        setLoading(true);
+  setLoading(true);
 
-        const { error } = await supabase.auth.signInWithPassword({
-            email: _email,
-            password: _password,
-        });
+  try {
+    const { error } = await supabase.auth.signInWithPassword({
+      email: _email,
+      password: _password,
+    });
 
-        setLoading(false);
-
-        if (error) {
-            const friendlyError = error.message.includes('Invalid login credentials')
-                ? 'Hibás email vagy jelszó'
-                : error.message;
-            Toast.show({ type: 'error', text1: 'Sikertelen bejelentkezés', text2: friendlyError });
-        } else {
-            Toast.show({ type: 'success', text1: 'Üdvözlünk!', text2: 'Sikeres bejelentkezés' });
-            setGlobalIsLoggedIn(true);
-            router.push('/');
-        }
+    if (error) {
+      Toast.show({
+        type: 'error',
+        text1: 'Sikertelen bejelentkezés',
+        text2: error.message.includes('Invalid login credentials')
+          ? 'Hibás email vagy jelszó'
+          : error.message,
+      });
+      return;
     }
+
+    setGlobalIsLoggedIn(true);
+    Toast.show({ type: 'success', text1: 'Üdvözlünk!', text2: 'Sikeres bejelentkezés' });
+    router.replace('/');
+  } finally {
+    setLoading(false);
+  }
+}
 
     // ── Forgot password — sends reset email via Supabase ─────────────────────
     async function handleForgotPassword() {
@@ -146,24 +152,32 @@ export default function LoginScreen() {
 
     // ── Fill fields + auto-trigger real login after state settles ─────────────
     async function fillAndLogin() {
-    const testEmail = process.env.EXPO_PUBLIC_TEST_EMAIL;
-    const testPassword = process.env.EXPO_PUBLIC_TEST_PASSWORD;
+  const testEmail = process.env.EXPO_PUBLIC_TEST_EMAIL;
+  const testPassword = process.env.EXPO_PUBLIC_TEST_PASSWORD;
 
-    if (testEmail && testPassword) {
-        setEmail(testEmail);
-        setPassword(testPassword);
-        Toast.show({ type: 'info', text1: 'Teszt adatok betöltése sikeres' });
-        if (__DEV__) await supabase.auth.signUp({ email: testEmail, password: testPassword });
-        await handleLogin(testEmail, testPassword);
-    }
+  if (!testEmail || !testPassword) {
+    Toast.show({ type: 'error', text1: 'Hiányzó teszt adatok' });
+    return;
+  }
+
+  setEmail(testEmail);
+  setPassword(testPassword);
+  await handleLogin(testEmail, testPassword);
 }
 
     // ── Fake/bypass login — no Supabase call needed ───────────────────────────
     function handleQuickLogin() {
-        Toast.show({ type: 'success', text1: 'Teszt belépés', text2: 'Gyors login sikeres' });
-        setGlobalIsLoggedIn(true);
-        router.push('/');
-    }
+  setGlobalIsLoggedIn(true);
+  router.replace('/');
+
+  requestAnimationFrame(() => {
+    Toast.show({
+      type: 'success',
+      text1: 'Teszt belépés',
+      text2: 'Gyors login sikeres',
+    });
+  });
+}
 
     return (
         <KeyboardAvoidingView
@@ -196,6 +210,9 @@ export default function LoginScreen() {
                         value={email}
                         onChangeText={setEmail}
                         placeholder="Email cím"
+                        textContentType="emailAddress"
+                        autoComplete="email"
+                        keyboardType="email-address"
                         icon="✉️"
                     />
                     <AnimatedInput
@@ -203,6 +220,8 @@ export default function LoginScreen() {
                         onChangeText={setPassword}
                         placeholder="Jelszó"
                         secureTextEntry
+                        textContentType="password"
+                        autoComplete="password"   
                         icon="🔒"
                     />
 
