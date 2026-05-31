@@ -535,11 +535,9 @@ export const HomeScreenStyles = StyleSheet.create({
     flexShrink: 0,
   },
   iconBtn: {
-    backgroundColor: "#1c1a16",
-    borderRadius: 12,
+    backgroundColor: "#ffffff",
     padding: 8,
-    borderWidth: 1,
-    borderColor: "#2e2b22",
+    borderWidth: 0
   },
 
   /* Hero */

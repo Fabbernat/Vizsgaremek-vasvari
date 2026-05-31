@@ -1,13 +1,14 @@
 // client-app\app\_layout.tsx
 import Toast from 'react-native-toast-message';
 import { router, Slot } from 'expo-router';
-import { Animated, View, Image, Pressable } from 'react-native';
+import { Animated, View } from 'react-native';
 import { HomeScreenStyles } from './(app)/HomeScreen';
 import React, { useEffect, useRef } from 'react';
 import SettingsIconButton from './(app)/SettingsIconButton';
 import ProfileIconButton from './(app)/ProfileIconButton';
 import RestaurantsButton from './(app)/RestaurantsButton';
 import Cart from './(app)/CartIconButton';
+import HomeIconButton from './(app)/HomeIconButton';
 
 export default function RootLayout() {
     const headerAnim = useRef(new Animated.Value(0)).current;
@@ -34,19 +35,7 @@ export default function RootLayout() {
             <Animated.View style={{ opacity: headerAnim, transform: [{ translateY: logoAnim }] }}>
                 <View style={HomeScreenStyles.topActions}>
                     <View style={HomeScreenStyles.topBar}>
-                        <Pressable
-                            onPress={() => {
-                                // Navigate to home screen
-                                // In Expo Router, you can use the `useRouter` hook to navigate
-                                router.push('/');
-                            }}
-                        >
-                            <Image
-                                source={require('../assets/mine/icons/royal-delivery-logo.png')}
-                                style={HomeScreenStyles.crown}
-                            />
-                        </Pressable>
-
+                        <HomeIconButton style={HomeScreenStyles.iconBtn} />
                         <RestaurantsButton style={HomeScreenStyles.iconBtn} />
                         <Cart style={HomeScreenStyles.iconBtn} />
                         <ProfileIconButton style={HomeScreenStyles.iconBtn} />
