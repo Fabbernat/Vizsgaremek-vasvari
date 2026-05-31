@@ -473,12 +473,11 @@ export default function HomeScreen() {
               {
                 backgroundColor: colors.surface,
                 borderColor: colors.border,
-                color: colors.gold,
                 marginBottom: 12,
               },
               pressed && HomeScreenStyles.btnPressed,
             ]}
-            >Havi előfizetés vásárlása</Pressable>
+            ><Text style={{color: colors.gold}}>Havi előfizetés vásárlása</Text></Pressable>
           <Pressable
             onPress={logout}
             style={({ pressed }) => [
