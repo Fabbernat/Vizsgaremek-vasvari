@@ -522,22 +522,21 @@ export const HomeScreenStyles = StyleSheet.create({
 
   /* Top bar */
   topBar: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingTop: 16,
-    paddingBottom: 8,
-  },
+  flexDirection: "row",
+  alignItems: "center",
+  justifyContent: "center",
+  paddingTop: 16,
+  paddingBottom: 8,
+},
   topActions: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-    flexShrink: 0,
-  },
+  width: "100%",
+  alignItems: "center",
+},
   iconBtn: {
     backgroundColor: "#ffffff",
     padding: 8,
-    borderWidth: 0
+    borderWidth: 0,
+    marginTop: 4,
   },
 
   /* Hero */
