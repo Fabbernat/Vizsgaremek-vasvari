@@ -17,6 +17,7 @@ import {
 import Toast from "react-native-toast-message";
 import { supabase } from "../../supabase";
 import { setGlobalIsLoggedIn } from "@/stores/AuthStore";
+import type { TextInputProps } from 'react-native';
 
 const COLORS = {
   bg: "#0f0e0c",
@@ -37,6 +38,9 @@ function AnimatedInput({
   secureTextEntry = false,
   autoCapitalize = "none",
   icon,
+  showToggle = false,
+    ...textInputProps
+
 }: {
   value: string;
   onChangeText: (v: string) => void;
@@ -44,8 +48,10 @@ function AnimatedInput({
   secureTextEntry?: boolean;
   autoCapitalize?: "none" | "sentences";
   icon: string;
-}) {
-  const borderAnim = useRef(new Animated.Value(0)).current;
+  showToggle?: boolean;
+} & TextInputProps) {
+const borderAnim = useRef(new Animated.Value(0)).current;
+const [visible, setVisible] = useState(false);
 
   const handleFocus = () =>
     Animated.timing(borderAnim, { toValue: 1, duration: 200, useNativeDriver: false }).start();
@@ -61,17 +67,27 @@ function AnimatedInput({
     <Animated.View style={[styles.inputWrapper, { borderColor }]}>
       <Text style={styles.inputIcon}>{icon}</Text>
       <TextInput
-        value={value}
-        onChangeText={onChangeText}
-        placeholder={placeholder}
-        placeholderTextColor={COLORS.placeholder}
-        secureTextEntry={secureTextEntry}
-        autoCapitalize={autoCapitalize}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-        style={styles.input}
-      />
-      {value.length > 0 && <View style={styles.inputFilledDot} />}
+  value={value}
+  onChangeText={onChangeText}
+  placeholder={placeholder}
+  placeholderTextColor={COLORS.placeholder}
+  secureTextEntry={secureTextEntry && !visible}
+  autoCapitalize={autoCapitalize}
+  onFocus={handleFocus}
+  onBlur={handleBlur}
+  style={styles.input}
+  {...textInputProps}
+/>
+
+{showToggle ? (
+  <Pressable onPress={() => setVisible((v) => !v)} hitSlop={8}>
+    <Text style={styles.passwordToggle}>
+      {visible ? "🙈" : "👁"}
+    </Text>
+  </Pressable>
+) : (
+  value.length > 0 && <View style={styles.inputFilledDot} />
+)}
     </Animated.View>
   );
 }
@@ -150,8 +166,8 @@ const isStrongPassword = (pw: string) => {
   function fillAndRegister() {
     setUsername("teszt");
     setEmail("teszt@gmail.com");
-    setPassword("jelszo12");
-    setPasswordRepeat("jelszo12");
+    setPassword("jelszo123");
+    setPasswordRepeat("jelszo123");
     Toast.show({ type: "info", text1: "Teszt adatok betöltése sikeres" });
     // Delay szükséges, hogy a React state frissüljön handleRegister előtt
     setTimeout(handleRegister, 100);
@@ -201,19 +217,25 @@ const isStrongPassword = (pw: string) => {
               icon="✉️"
             />
             <AnimatedInput
-              value={password}
-              onChangeText={setPassword}
-              placeholder="Jelszó"
-              secureTextEntry
-              icon="🔒"
-            />
+  value={password}
+  onChangeText={setPassword}
+  placeholder="Jelszó"
+  secureTextEntry
+  showToggle
+  textContentType="newPassword"
+  autoComplete="password-new"
+  icon="🔒"
+/>
             <AnimatedInput
-              value={passwordRepeat}
-              onChangeText={setPasswordRepeat}
-              placeholder="Jelszó megerősítése"
-              secureTextEntry
-              icon="🔑"
-            />
+  value={passwordRepeat}
+  onChangeText={setPasswordRepeat}
+  placeholder="Jelszó megerősítése"
+  secureTextEntry
+  showToggle
+  textContentType="newPassword"
+  autoComplete="password-new"
+  icon="🔑"
+/>
 
             {email.length > 0 && !isValidEmail(email) && (
   <Text style={styles.errorText}>⚠️ Érvénytelen email cím</Text>
@@ -348,4 +370,9 @@ const styles = StyleSheet.create({
   loginRow: { flexDirection: "row", justifyContent: "center", alignItems: "center", marginTop: 28 },
   loginPrompt: { fontSize: 14, color: COLORS.muted },
   loginLink: { fontSize: 14, fontWeight: "700", color: COLORS.gold },
+  passwordToggle: {
+  fontSize: 18,
+  color: COLORS.gold,
+  paddingHorizontal: 4,
+},
 });

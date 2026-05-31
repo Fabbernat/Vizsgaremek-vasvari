@@ -473,6 +473,8 @@ export default function HomeScreen() {
               {
                 backgroundColor: colors.surface,
                 borderColor: colors.border,
+                color: colors.gold,
+                marginBottom: 12,
               },
               pressed && HomeScreenStyles.btnPressed,
             ]}

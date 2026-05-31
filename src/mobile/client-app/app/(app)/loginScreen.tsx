@@ -218,15 +218,15 @@ export default function LoginScreen() {
                         icon="✉️"
                     />
                     <AnimatedInput
-                    
-                      value={password}
-                      onChangeText={setPassword}
-                      placeholder="Jelszó"
-                      secureTextEntry
-                      textContentType="password"
-                      autoComplete="password"
-                      icon="🔒"
-                    />
+  value={password}
+  onChangeText={setPassword}
+  placeholder="Jelszó"
+  secureTextEntry
+  showToggle
+  textContentType="password"
+  autoComplete="password"
+  icon="🔒"
+/>
 
                     {/* Forgot password link */}
                     <Pressable
