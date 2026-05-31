@@ -1,6 +1,7 @@
 // client-app\(app)\app\(app)\loginScreen.tsx
 import { router } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
+import type { TextInputProps } from 'react-native';
 import {
     Alert,
     Animated,
@@ -29,49 +30,51 @@ const COLORS = {
 };
 
 function AnimatedInput({
-    value,
-    onChangeText,
-    placeholder,
-    secureTextEntry = false,
-    autoCapitalize = 'none',
-    icon,
+  value,
+  onChangeText,
+  placeholder,
+  secureTextEntry = false,
+  autoCapitalize = 'none',
+  icon,
+  showToggle = false,
+  ...textInputProps
 }: {
-    value: string;
-    onChangeText: (v: string) => void;
-    placeholder: string;
-    secureTextEntry?: boolean;
-    autoCapitalize?: 'none' | 'sentences';
-    icon: string;
-}) {
-    const borderAnim = useRef(new Animated.Value(0)).current;
+  value: string;
+  onChangeText: (v: string) => void;
+  placeholder: string;
+  secureTextEntry?: boolean;
+  autoCapitalize?: 'none' | 'sentences';
+  icon: string;
+  showToggle?: boolean;
+} & TextInputProps) {
+  const [visible, setVisible] = useState(false);
 
-    const handleFocus = () =>
-        Animated.timing(borderAnim, { toValue: 1, duration: 200, useNativeDriver: false }).start();
-    const handleBlur = () =>
-        Animated.timing(borderAnim, { toValue: 0, duration: 200, useNativeDriver: false }).start();
+  return (
+    <View style={styles.inputWrapper}>
+      <Text style={styles.inputIcon}>{icon}</Text>
 
-    const borderColor = borderAnim.interpolate({
-        inputRange: [0, 1],
-        outputRange: [COLORS.border, COLORS.gold],
-    });
+      <TextInput
+        value={value}
+        onChangeText={onChangeText}
+        placeholder={placeholder}
+        placeholderTextColor={COLORS.placeholder}
+        secureTextEntry={secureTextEntry && !visible}
+        autoCapitalize={autoCapitalize}
+        style={styles.input}
+        {...textInputProps}
+      />
 
-    return (
-        <Animated.View style={[styles.inputWrapper, { borderColor }]}>
-            <Text style={styles.inputIcon}>{icon}</Text>
-            <TextInput
-                value={value}
-                onChangeText={onChangeText}
-                placeholder={placeholder}
-                placeholderTextColor={COLORS.placeholder}
-                secureTextEntry={secureTextEntry}
-                autoCapitalize={autoCapitalize}
-                onFocus={handleFocus}
-                onBlur={handleBlur}
-                style={styles.input}
-            />
-            {value.length > 0 && <View style={styles.inputFilledDot} />}
-        </Animated.View>
-    );
+      {showToggle && (
+        <Pressable onPress={() => setVisible((v) => !v)}>
+          <Text style={styles.passwordToggle}>
+            {visible ? '🙈' : '👁'}
+          </Text>
+        </Pressable>
+      )}
+
+      {value.length > 0 && !showToggle && <View style={styles.inputFilledDot} />}
+    </View>
+  );
 }
 
 export default function LoginScreen() {
@@ -152,8 +155,8 @@ export default function LoginScreen() {
 
     // ── Fill fields + auto-trigger real login after state settles ─────────────
     async function fillAndLogin() {
-  const testEmail = process.env.EXPO_PUBLIC_TEST_EMAIL;
-  const testPassword = process.env.EXPO_PUBLIC_TEST_PASSWORD;
+  const testEmail = process.env.EXPO_PUBLIC_TEST_EMAIL ?? 'teszt@gmail.com';
+  const testPassword = process.env.EXPO_PUBLIC_TEST_PASSWORD ?? 'jelszo123';
 
   if (!testEmail || !testPassword) {
     Toast.show({ type: 'error', text1: 'Hiányzó teszt adatok' });
@@ -196,7 +199,6 @@ export default function LoginScreen() {
             >
                 {/* Brand */}
                 <View style={styles.brandRow}>
-                    
                     <Text style={styles.brandName}>Royal Delivery</Text>
                 </View>
 
@@ -216,13 +218,14 @@ export default function LoginScreen() {
                         icon="✉️"
                     />
                     <AnimatedInput
-                        value={password}
-                        onChangeText={setPassword}
-                        placeholder="Jelszó"
-                        secureTextEntry
-                        textContentType="password"
-                        autoComplete="password"   
-                        icon="🔒"
+                    
+                      value={password}
+                      onChangeText={setPassword}
+                      placeholder="Jelszó"
+                      secureTextEntry
+                      textContentType="password"
+                      autoComplete="password"
+                      icon="🔒"
                     />
 
                     {/* Forgot password link */}
@@ -382,4 +385,9 @@ const styles = StyleSheet.create({
     },
     registerPrompt: { fontSize: 14, color: COLORS.muted },
     registerLink: { fontSize: 14, fontWeight: '700', color: COLORS.gold },
+    passwordToggle: {
+  fontSize: 18,
+  color: COLORS.gold,
+  paddingHorizontal: 4,
+},
 });
