@@ -8,6 +8,7 @@ import {
     View,
     ViewStyle,
 } from "react-native";
+import { isSmallPhone } from "./HomeScreen";
 
 type Props = {
   style?: StyleProp<ViewStyle>;
@@ -20,7 +21,8 @@ export default function CartIconButton({ style }: Props) {
         onPress={() => router.push("/CartScreen")}
         style={({ pressed }) => [styles.button, pressed && styles.pressed]}
       >
-        <Ionicons name="cart-outline" size={26} color="#fff" />
+        <Ionicons name="cart-outline"   size={isSmallPhone ? 28 : 34}
+ color="#fff" />
       </Pressable>
     </View>
   );

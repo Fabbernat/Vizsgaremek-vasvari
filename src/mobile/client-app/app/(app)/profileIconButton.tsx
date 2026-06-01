@@ -2,6 +2,7 @@
 import { Pressable, View, StyleSheet, StyleProp, ViewStyle } from "react-native";
 import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+import { isSmallPhone } from "./HomeScreen";
 
 type Props = {
   style?: StyleProp<ViewStyle>;
@@ -17,7 +18,8 @@ export default function ProfileIconButton({ style }: Props) {
           pressed && styles.pressed,
         ]}
       >
-        <Ionicons name="person-outline" size={26} color="#fff" />
+        <Ionicons name="person-outline"   size={isSmallPhone ? 28 : 34}
+ color="#fff" />
       </Pressable>
     </View>
   );

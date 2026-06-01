@@ -7,6 +7,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { Pressable, StyleProp, StyleSheet, View, ViewStyle } from "react-native";
 import { useTheme } from "@/context/ThemeContext";
+import { isSmallPhone } from "./HomeScreen";
 
 type Props = {
   style?: StyleProp<ViewStyle>;
@@ -21,17 +22,18 @@ export default function SettingsIconButton({ style }: Props) {
 onPress={() => router.push("/(app)/SettingsScreen")}
         style={({ pressed }) => [
           styles.button,
-          { backgroundColor: colors.surface, borderColor: colors.border },
+          { backgroundColor: "#8b8b8b", borderColor: "#8b8b8b" },
           pressed && styles.pressed,
         ]}
       >
-        <Ionicons name="settings-outline" size={22} color={colors.muted} />
+        <Ionicons name="settings-outline"   size={isSmallPhone ? 18 : 22}
+ color="#fff" />
       </Pressable>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   wrapper: {
     alignItems: "center",
     justifyContent: "center",

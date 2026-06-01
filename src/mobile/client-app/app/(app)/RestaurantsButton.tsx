@@ -11,6 +11,7 @@ import {
   View,
   ViewStyle,
 } from "react-native";
+import { isSmallPhone } from "./HomeScreen";
 
 type Props = {
   style?: StyleProp<ViewStyle>;
@@ -26,7 +27,8 @@ export default function RestaurantsButton({ style }: Props) {
           pressed && styles.pressed,
         ]}
       >
-<Ionicons name="location-outline" size={30} color="#0f0e0c" />
+<Ionicons name="location-outline"   size={isSmallPhone ? 30 : 36}
+ color="#0f0e0c" />
         <Text style={styles.text}>Éttermek</Text>
       </Pressable>
     </View>

@@ -20,6 +20,7 @@ import {
 import { supabase } from "../../supabase";
 import { useGlobalAuth } from "@/stores/AuthStore";
 import { useTheme } from "@/context/ThemeContext";
+import { isSmallPhone } from "./HomeScreen";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Sub-components
@@ -72,7 +73,8 @@ function SettingRow({
         ) : null}
       </View>
       {right ?? (onPress ? (
-        <Ionicons name="chevron-forward" size={16} color={colors.muted} />
+        <Ionicons name="chevron-forward"   size={isSmallPhone ? 14 : 17}
+ color={colors.muted} />
       ) : null)}
     </Wrap>
   );
@@ -131,9 +133,6 @@ export default function SettingsScreen() {
       <Animated.View
         style={[styles.brandRow, { opacity: fadeAnim, transform: [{ translateY: slideAnim }] }]}
       >
-        <Image
-          style={styles.crown}
-        />
         <View>
           <Text style={[styles.brandName, { color: colors.gold }]}>Royal Delivery</Text>
           <Text style={[styles.brandSub, { color: colors.muted }]}>Beállítások</Text>

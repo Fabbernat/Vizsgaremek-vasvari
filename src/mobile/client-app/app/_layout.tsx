@@ -9,6 +9,7 @@ import ProfileIconButton from './(app)/ProfileIconButton';
 import RestaurantsButton from './(app)/RestaurantsButton';
 import Cart from './(app)/CartIconButton';
 import HomeIconButton from './(app)/HomeIconButton';
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function RootLayout() {
     const headerAnim = useRef(new Animated.Value(0)).current;
@@ -31,7 +32,7 @@ export default function RootLayout() {
     }, [headerAnim, logoAnim]);
 
     return (
-        <>
+  <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
             <Animated.View style={{ opacity: headerAnim, transform: [{ translateY: logoAnim }] }}>
                 <View style={HomeScreenStyles.topActions}>
                     <View style={HomeScreenStyles.topBar}>
@@ -45,6 +46,6 @@ export default function RootLayout() {
             </Animated.View>
             <Slot />
             <Toast />
-        </>
+        </SafeAreaView>
     );
 }

@@ -4,6 +4,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { router, Stack } from "expo-router";
 import { Pressable } from "react-native";
 import Toast from "react-native-toast-message";
+import { isSmallPhone } from "./HomeScreen";
 
 function HomeIcon() {
   return (
@@ -15,7 +16,8 @@ function HomeIcon() {
         marginRight: 8,
       })}
     >
-      <Ionicons name="home-outline" size={22} color="#f5f0e8" />
+      <Ionicons name="home-outline"   size={isSmallPhone ? 28 : 34}
+ color="#f5f0e8" />
     </Pressable>
   );
 }

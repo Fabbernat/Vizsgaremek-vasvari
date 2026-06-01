@@ -14,12 +14,15 @@ import {
   StyleSheet,
   Text,
   View,
+  Dimensions ,
 } from "react-native";
 
 import { getMealImage } from "@/constants/MealImages";
 import { Meal } from "@/models/meal";
 import Toast from "react-native-toast-message";
 import SkeletonMealCard from "./SkeletonMealCard";
+
+export const isSmallPhone = Dimensions.get("window").width < 380;
 
 const COLORS = {
   bg: "#0f0e0c",
@@ -521,11 +524,13 @@ export const HomeScreenStyles = StyleSheet.create({
 
   /* Top bar */
   topBar: {
-  flexDirection: "row",
-  alignItems: "center",
-  justifyContent: "center",
-  paddingTop: 16,
-  paddingBottom: 8,
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    alignItems: "center",
+    width: "100%",
+
+  paddingTop: 4,
+  paddingBottom: 4,
 },
   topActions: {
   width: "100%",
@@ -533,9 +538,9 @@ export const HomeScreenStyles = StyleSheet.create({
 },
   iconBtn: {
     backgroundColor: "#ffffff",
-    padding: 8,
+    padding: isSmallPhone ? 2 : 4,
     borderWidth: 0,
-    marginTop: 4,
+    marginTop: 0,
   },
 
   /* Hero */
