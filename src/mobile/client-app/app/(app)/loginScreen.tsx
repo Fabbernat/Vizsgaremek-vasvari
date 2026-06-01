@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { supabase } from '../../supabase';
-import { setGlobalIsLoggedIn } from '@/stores/AuthStore';
+import { setGlobalIsLoggedIn, setGlobalUsername } from '@/stores/AuthStore';
 
 const COLORS = {
     bg: '#0f0e0c',
@@ -30,51 +30,49 @@ const COLORS = {
 };
 
 function AnimatedInput({
-  value,
-  onChangeText,
-  placeholder,
-  secureTextEntry = false,
-  autoCapitalize = 'none',
-  icon,
-  showToggle = false,
-  ...textInputProps
+    value,
+    onChangeText,
+    placeholder,
+    secureTextEntry = false,
+    autoCapitalize = 'none',
+    icon,
+    showToggle = false,
+    ...textInputProps
 }: {
-  value: string;
-  onChangeText: (v: string) => void;
-  placeholder: string;
-  secureTextEntry?: boolean;
-  autoCapitalize?: 'none' | 'sentences';
-  icon: string;
-  showToggle?: boolean;
+    value: string;
+    onChangeText: (v: string) => void;
+    placeholder: string;
+    secureTextEntry?: boolean;
+    autoCapitalize?: 'none' | 'sentences';
+    icon: string;
+    showToggle?: boolean;
 } & TextInputProps) {
-  const [visible, setVisible] = useState(false);
+    const [visible, setVisible] = useState(false);
 
-  return (
-    <View style={styles.inputWrapper}>
-      <Text style={styles.inputIcon}>{icon}</Text>
+    return (
+        <View style={styles.inputWrapper}>
+            <Text style={styles.inputIcon}>{icon}</Text>
 
-      <TextInput
-        value={value}
-        onChangeText={onChangeText}
-        placeholder={placeholder}
-        placeholderTextColor={COLORS.placeholder}
-        secureTextEntry={secureTextEntry && !visible}
-        autoCapitalize={autoCapitalize}
-        style={styles.input}
-        {...textInputProps}
-      />
+            <TextInput
+                value={value}
+                onChangeText={onChangeText}
+                placeholder={placeholder}
+                placeholderTextColor={COLORS.placeholder}
+                secureTextEntry={secureTextEntry && !visible}
+                autoCapitalize={autoCapitalize}
+                style={styles.input}
+                {...textInputProps}
+            />
 
-      {showToggle && (
-        <Pressable onPress={() => setVisible((v) => !v)}>
-          <Text style={styles.passwordToggle}>
-            {visible ? '🙈' : '👁'}
-          </Text>
-        </Pressable>
-      )}
+            {showToggle && (
+                <Pressable onPress={() => setVisible((v) => !v)}>
+                    <Text style={styles.passwordToggle}>{visible ? '🙈' : '👁'}</Text>
+                </Pressable>
+            )}
 
-      {value.length > 0 && !showToggle && <View style={styles.inputFilledDot} />}
-    </View>
-  );
+            {value.length > 0 && !showToggle && <View style={styles.inputFilledDot} />}
+        </View>
+    );
 }
 
 export default function LoginScreen() {
@@ -102,35 +100,52 @@ export default function LoginScreen() {
 
     // ── Real Supabase login (with signUp workaround) ──────────────────────────
     async function handleLogin(overrideEmail?: string, overridePassword?: string) {
-  const _email = (overrideEmail ?? email).trim();
-  const _password = overridePassword ?? password;
+        const _email = (overrideEmail ?? email).trim();
+        const _password = overridePassword ?? password;
 
-  setLoading(true);
+        setLoading(true);
 
-  try {
-    const { error } = await supabase.auth.signInWithPassword({
-      email: _email,
-      password: _password,
-    });
+        try {
+            const { error } = await supabase.auth.signInWithPassword({
+                email: _email,
+                password: _password,
+            });
 
-    if (error) {
-      Toast.show({
-        type: 'error',
-        text1: 'Sikertelen bejelentkezés',
-        text2: error.message.includes('Invalid login credentials')
-          ? 'Hibás email vagy jelszó'
-          : error.message,
-      });
-      return;
+            if (error) {
+                Toast.show({
+                    type: 'error',
+                    text1: 'Sikertelen bejelentkezés',
+                    text2: error.message.includes('Invalid login credentials')
+                        ? 'Hibás email vagy jelszó'
+                        : error.message,
+                });
+                return;
+            }
+
+            const { data } = await supabase.auth.getUser();
+            console.log(data.user);
+
+            setGlobalUsername(
+                data.user?.user_metadata?.username ?? data.user?.email ?? 'root_user',
+            );
+
+            setGlobalIsLoggedIn(true);
+
+            Toast.show({
+                type: 'success',
+                text1: 'Üdvözlünk!',
+                text2: 'Sikeres bejelentkezés',
+            });
+
+            router.replace('/');
+
+            setGlobalIsLoggedIn(true);
+            Toast.show({ type: 'success', text1: 'Üdvözlünk!', text2: 'Sikeres bejelentkezés' });
+            router.replace('/');
+        } finally {
+            setLoading(false);
+        }
     }
-
-    setGlobalIsLoggedIn(true);
-    Toast.show({ type: 'success', text1: 'Üdvözlünk!', text2: 'Sikeres bejelentkezés' });
-    router.replace('/');
-  } finally {
-    setLoading(false);
-  }
-}
 
     // ── Forgot password — sends reset email via Supabase ─────────────────────
     async function handleForgotPassword() {
@@ -153,34 +168,34 @@ export default function LoginScreen() {
         }
     }
 
-    // ── Fill fields + auto-trigger real login after state settles ─────────────
-    async function fillAndLogin() {
-  const testEmail = process.env.EXPO_PUBLIC_TEST_EMAIL ?? 'teszt@gmail.com';
-  const testPassword = process.env.EXPO_PUBLIC_TEST_PASSWORD ?? 'jelszo123';
+    {/* Csak kitölti a mezőket */}
+    function fillAndLogin() {
+    const testEmail = process.env.EXPO_PUBLIC_TEST_EMAIL ?? 'teszt@gmail.com';
+    const testPassword = process.env.EXPO_PUBLIC_TEST_PASSWORD ?? 'jelszo123';
 
-  if (!testEmail || !testPassword) {
-    Toast.show({ type: 'error', text1: 'Hiányzó teszt adatok' });
-    return;
-  }
+    setEmail(testEmail);
+    setPassword(testPassword);
 
-  setEmail(testEmail);
-  setPassword(testPassword);
-  await handleLogin(testEmail, testPassword);
+    Toast.show({
+        type: 'success',
+        text1: 'Teszt adatok betöltve',
+        text2: 'Módosíthatod őket bejelentkezés előtt',
+    });
 }
 
     // ── Fake/bypass login — no Supabase call needed ───────────────────────────
     function handleQuickLogin() {
-  setGlobalIsLoggedIn(true);
-  router.replace('/');
+        setGlobalIsLoggedIn(true);
+        router.replace('/');
 
-  requestAnimationFrame(() => {
-    Toast.show({
-      type: 'success',
-      text1: 'Teszt belépés',
-      text2: 'Gyors login sikeres',
-    });
-  });
-}
+        requestAnimationFrame(() => {
+            Toast.show({
+                type: 'success',
+                text1: 'Teszt belépés',
+                text2: 'Gyors login sikeres',
+            });
+        });
+    }
 
     return (
         <KeyboardAvoidingView
@@ -218,15 +233,15 @@ export default function LoginScreen() {
                         icon="✉️"
                     />
                     <AnimatedInput
-  value={password}
-  onChangeText={setPassword}
-  placeholder="Jelszó"
-  secureTextEntry
-  showToggle
-  textContentType="password"
-  autoComplete="password"
-  icon="🔒"
-/>
+                        value={password}
+                        onChangeText={setPassword}
+                        placeholder="Jelszó"
+                        secureTextEntry
+                        showToggle
+                        textContentType="password"
+                        autoComplete="password"
+                        icon="🔒"
+                    />
 
                     {/* Forgot password link */}
                     <Pressable
@@ -386,8 +401,8 @@ const styles = StyleSheet.create({
     registerPrompt: { fontSize: 14, color: COLORS.muted },
     registerLink: { fontSize: 14, fontWeight: '700', color: COLORS.gold },
     passwordToggle: {
-  fontSize: 18,
-  color: COLORS.gold,
-  paddingHorizontal: 4,
-},
+        fontSize: 18,
+        color: COLORS.gold,
+        paddingHorizontal: 4,
+    },
 });

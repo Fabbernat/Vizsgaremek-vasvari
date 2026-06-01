@@ -96,6 +96,7 @@ export default function SettingsScreen() {
   useEffect(() => {
     if (isLoggedIn) {
       supabase.auth.getUser().then(({ data }) => {
+        console.log(data.user);
         setUserEmail(data.user?.email ?? null);
       });
     }

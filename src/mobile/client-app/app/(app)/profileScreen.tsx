@@ -16,6 +16,7 @@ import Orders from "./Orders";
 import { router } from "expo-router";
 import Toast from "react-native-toast-message";
 import { getGlobalUsername, setGlobalUsername } from "@/stores/AuthStore";
+import { supabase } from "../../supabase";
 
 const COLORS = {
   bg: "#0f0e0c",
@@ -120,6 +121,21 @@ export default function ProfileScreen() {
       Animated.spring(slideAnim, { toValue: 0, tension: 60, friction: 9, useNativeDriver: true }),
     ]).start();
   }, [fadeAnim, slideAnim]);
+
+  useEffect(() => {
+  async function loadUser() {
+    const { data } = await supabase.auth.getUser();
+    console.log(data.user);
+
+    setCurrentUsername(
+      data.user?.user_metadata?.username ??
+      data.user?.email ??
+      "root_user"
+    );
+  }
+
+  loadUser();
+}, []);
 
   // ── Felhasználónév módosítása ─────────────────────────────────────────────
   async function modifyUsername() {

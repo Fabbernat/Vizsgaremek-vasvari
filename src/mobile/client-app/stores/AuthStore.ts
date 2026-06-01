@@ -22,7 +22,7 @@ export function useGlobalAuth() {
   return { isLoggedIn, setIsLoggedIn: setGlobalIsLoggedIn };
 }
 
-let globalUsername = "Kiss Anna";
+let globalUsername = "root_user";
 
 export function getGlobalUsername(): string {
   return globalUsername;

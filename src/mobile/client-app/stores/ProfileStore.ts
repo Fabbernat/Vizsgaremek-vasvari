@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 
 // ── Globális state (modul-szintű, navigáción átél) ────────────────────────────
-let globalUsername = "Kiss Anna";
+let globalUsername = "root_user";
 let globalAvatarUri = "";
 const listeners = new Set<() => void>();
 
