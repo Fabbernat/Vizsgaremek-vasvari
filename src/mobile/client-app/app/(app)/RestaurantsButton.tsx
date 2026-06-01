@@ -26,7 +26,7 @@ export default function RestaurantsButton({ style }: Props) {
           pressed && styles.pressed,
         ]}
       >
-        <Ionicons name="restaurant-outline" size={20} color="#0f0e0c" />
+<Ionicons name="location-outline" size={30} color="#0f0e0c" />
         <Text style={styles.text}>Éttermek</Text>
       </Pressable>
     </View>
@@ -45,7 +45,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     gap: 8,
 
-    minWidth: 118,
     height: 44,
     paddingHorizontal: 16,
 
@@ -62,7 +61,6 @@ const styles = StyleSheet.create({
   text: {
     color: "#0f0e0c",
     fontSize: 14,
-    fontWeight: "800",
   },
 
   pressed: {
